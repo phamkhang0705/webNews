@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3B3A0A4E-3244-46D5-8762-C6D6FF098226}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>webNews.Domain</RootNamespace>
+    <AssemblyName>webNews.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.8\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack, Version=4.5.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.4.5.12\lib\net45\ServiceStack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Client, Version=4.5.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Client.4.5.12\lib\net45\ServiceStack.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Common, Version=4.5.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Common.4.5.12\lib\net45\ServiceStack.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Interfaces.4.5.12\lib\portable-wp80+sl5+net45+win8+wpa81+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.OrmLite, Version=4.5.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.OrmLite.4.5.12\lib\net45\ServiceStack.OrmLite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.OrmLite.SqlServer, Version=4.5.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.OrmLite.SqlServer.4.5.10\lib\net45\ServiceStack.OrmLite.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=4.5.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Text.4.5.12\lib\net45\ServiceStack.Text.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Banner.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DomainModule.cs" />
+    <Compile Include="Entities\HomePageInfo.cs" />
+    <Compile Include="Entities\Medium.cs" />
+    <Compile Include="Entities\MenuFE.cs" />
+    <Compile Include="Entities\News.cs" />
+    <Compile Include="Entities\ProjectCategory.cs" />
+    <Compile Include="Entities\NewsCategory.cs" />
+    <Compile Include="Language.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LanguageCategory.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Media.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MenuFE.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="News.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewsCategory.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrmLite.SP.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrmLite.SP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Page.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Project.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectCategory.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\ISystemRepository.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="Repositories\RoleManagement\IRoleManagementRepository.cs" />
+    <Compile Include="Repositories\RoleManagement\RoleManagementRepository.cs" />
+    <Compile Include="Repositories\RoleManage\IRoleManageRepository.cs" />
+    <Compile Include="Repositories\RoleManage\RoleManageRepository.cs" />
+    <Compile Include="Repositories\SystemRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Route.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Security_Function.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Security_Permission.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Security_Role.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Security_RoleFunctionPermision.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Security_UserPermission.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Security_UserRole.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Security_VwRoleService.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Service.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\ISystemService.cs" />
+    <Compile Include="Services\RoleManagement\IRoleManagementService.cs" />
+    <Compile Include="Services\RoleManagement\RoleManagementService.cs" />
+    <Compile Include="Services\RoleManage\IRoleManageService.cs" />
+    <Compile Include="Services\RoleManage\RoleManageService.cs" />
+    <Compile Include="Services\Service.cs" />
+    <Compile Include="Services\SystemService.cs" />
+    <Compile Include="System_Menu.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="System_User.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Temp_Code.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="USER.cs" />
+    <Compile Include="Vw_Core_User.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vw_UserInfo.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebNewsDbConnectionFactory.cs" />
+    <Compile Include="OrmLite.Poco.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OrmLite.SP.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OrmLite.SP.cs</LastGenOutput>
+    </Content>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="OrmLite.Core.ttinclude" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OrmLite.Poco.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OrmLite.Poco.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\webNews.Models\webNews.Models.csproj">
+      <Project>{854d1f5a-aee4-4d32-8f26-6869a820203c}</Project>
+      <Name>webNews.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\webNews.Shared\webNews.Shared.csproj">
+      <Project>{d5b73ffd-8b69-431b-9b51-66a279980bbb}</Project>
+      <Name>webNews.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

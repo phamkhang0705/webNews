@@ -1,0 +1,61 @@
+﻿@using webNews.Language.Language
+@using webNews.Security
+@{
+    ViewBag.Title = "Danh sách quyền";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+
+@section Scripts
+{
+    <script src="~/Scripts/Admin/PermissionManage/Ctrl.js"></script>
+}
+<h1 class="page-header">
+    Danh sách quyền
+</h1>
+
+<div class="main-content">
+    <input type="hidden" id="txtPerAdd" value="@(CheckAuthorizer.Authorize(Permission.ADD) ? 1 : 0)" />
+    <input type="hidden" id="txtPerEdit" value="@(CheckAuthorizer.Authorize(Permission.EDIT) ?1:0)" />
+    <input type="hidden" id="txtPerDelete" value="@(CheckAuthorizer.Authorize(Permission.DELETE) ?1:0)" />
+    <div class="page-action">
+        <button id="btnOpenAdd" class="btn btn-primary btn-page-action" type="submit" title="@(Resource.Btn_Add_Lang)"><i class="fa fa-plus-square-o"></i>@(Resource.Btn_Add_Lang)</button>
+        <button id="btnOpenSearch" class="btn btn-primary btn-page-action" type="submit" title="@(Resource.Btn_Search)"><i class="fa fa-search"></i>@(Resource.Btn_Search)</button>
+    </div>
+    <div class="table">
+        <table id="table"> </table>
+    </div>
+
+
+    <div class="modal fade popup-search" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="xSearchModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">@Resource.Search_Lang</h4>
+                </div>
+                <div class="modal-body clearfix">
+                    <form id="formSearch" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">Tên quyền</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" id="keywordToSearch" name="keywordToSearch">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnSearchSubmit" class="btn btn-primary" type="button"><i class="fa fa-search"></i>@(Resource.Btn_Search)</button>
+                    <button id="btnSearchRefresh" class="btn btn-primary" type="button"><i class="fa fa-refresh"></i>@(Resource.Btn_Reset_Lang)</button>
+                    <button type="button" class="btn " data-dismiss="modal"><i class=" fa fa-reply"></i> @(Resource.Btn_Close_Lang)</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="box-detail">
+
+    </div>
+</div>
+

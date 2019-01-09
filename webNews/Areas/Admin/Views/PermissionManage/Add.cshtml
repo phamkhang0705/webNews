@@ -1,0 +1,54 @@
+﻿@using System.Web.Mvc.Html
+@using webNews.Language.Language
+@using webNews.HtmlHelpers
+@model webNews.Areas.Admin.Models.PermissionIndexModel
+<script src="~/Assets/Admin/Validate/jquery.validate.min.js"></script>
+<script src="~/Assets/Admin/Validate/jquery.validate.unobtrusive.min.js"></script>
+@{
+    var add = Model.Action == "Add";
+    var view = Model.Action == "View";
+    var edit = Model.Action == "Edit";
+    var popupTitle = Model.Action == "Add" ? Resource.Btn_Add_Lang : Model.Action == "View" ? Resource.View_Lang : Resource.Btn_Edit_Lang;
+}
+<div class="modal fade popup-add" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="xSearchModal">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">@popupTitle</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <form id="formDetail" name="formDetail" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                    @Html.HiddenFor(x => x.Item.Id)
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Item.PermissionName)</label>
+                        <div class="col-xs-10">
+                            @Html.ValidationHtmlMessageFor(model => model.Item.PermissionName, "", new { @class = "field-validation-valid" })
+                            @Html.TextBoxFor(x => x.Item.PermissionName, new { @class = "form-control", @id = "txtOerName" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Item.Description)</label>
+                        <div class="col-xs-10">
+                            @Html.ValidationHtmlMessageFor(model => model.Item.Description, "", new { @class = "field-validation-valid" })
+                            @Html.TextAreaFor(x => x.Item.Description, new { @class = "form-control", @id = "txtContent" })
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                @if (!view)
+                {
+                    if (add)
+                    {
+                        <button id="btnAdd" class="btn btn-primary" type="button"><i class="fa fa-check"></i> @(Resource.Btn_Save_Lang)</button>
+                    }
+                    if (edit)
+                    {
+                        <button id="btnEdit" class="btn btn-primary" type="button"><i class="fa fa-check"></i> @(Resource.Btn_Edit_Lang)</button>
+                    }
+                }
+                <button type="button" class="btn btn-df" data-dismiss="modal"><i class="fa fa-reply"></i> @Resource.Btn_Close_Lang</button>
+            </div>
+        </div>
+    </div>
+</div>

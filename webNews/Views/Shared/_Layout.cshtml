@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title - ThueDoTot</title>
+    @Styles.Render("~/Theme/css")
+
+
+</head>
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <!-- left menu -->
+        <div class="col-md-3 left_col">
+            @RenderPage("_LeftMenuPartial.cshtml")
+        </div>
+        <!-- /left menu -->
+        <!-- top navigation -->
+        <div class="top_nav">
+            @RenderPage("_TopMenuPartial.cshtml")
+        </div>
+        <!-- /top navigation -->
+        <!-- page content -->
+        <div class="right_col" role="main">
+            @RenderBody()
+        </div>
+        <!-- /page content -->
+        <!-- footer content -->
+        <footer>
+            <div class="pull-right">
+                Copy right <a href=""></a>
+            </div>
+            <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+    </div>
+</div>
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Theme/lib")
+        <script src="~/Scripts/Common/Service.js"></script>
+    <script src="~/Scripts/Common/language-vi.js"></script>
+    <script src="~/Scripts/HomePage/Ctrl.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,37 @@
+﻿.btn.btn-primary.btn-in-table.btn-view-table,
+.btn.btn-primary.btn-in-table.btn-edit-table,
+.btn.btn-primary.btn-in-table.btn-delete-table {
+    padding: 2px 2px 2px 8px !important;
+}
+
+.table {
+    table-layout: fixed !important;
+}
+
+.fixed-table-body {
+    overflow-y: hidden;
+    height: 100%;
+}
+
+.fixed-table-container > .fixed-table-header {
+    display: none !important;
+}
+
+.fixed-table-body table {
+    margin-top: 0 !important;
+}
+
+.table thead tr th {
+    text-align: center !important;
+    word-wrap: break-word;
+    vertical-align: center;
+}
+
+.table tbody tr td {
+    word-wrap: break-word;
+    vertical-align: center;
+}
+
+.table thead {
+    color: #337ab7;
+}

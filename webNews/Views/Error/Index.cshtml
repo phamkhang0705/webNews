@@ -1,0 +1,27 @@
+﻿@{ 
+    ViewBag.Title = "Lỗi";
+}
+
+@using webNews.Language.Language
+<div class="row">
+    <!-----start-logo--------->
+    <div class="logo">
+        <div class="error-page-wrap">
+            <article class="error-page gradient">
+                <hgroup>
+                    <h1>@ViewBag.errorCode</h1>
+                </hgroup>
+            </article>
+        </div>
+        <span><img src="/Assets/Admin/images/signalError.png" />@ViewBag.ErrorMsg</span>
+    </div>
+    <!-----end-logo--------->
+    <!-----start-search-bar-section--------->
+    <div class="buttom">
+        <div class="seach_bar">
+            <p>@Resource.Youcangoto_Lang <span><a href="/">home</a></span></p>
+            <!-----start-sear-box--------->
+        </div>
+    </div>
+    <!-----end-sear-bar--------->
+</div>

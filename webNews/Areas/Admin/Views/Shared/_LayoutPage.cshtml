@@ -1,0 +1,250 @@
+﻿@*@using webNews.Models.Common;
+@using webNews.Areas.Admin.Models;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Theme/plugins/images/favicon.png">
+    <title>@ViewBag.Title - CMS System</title>
+
+    @Styles.Render("~/Content/css/theme");
+    <!-- animation CSS -->
+    <link href="~/Theme/css/animate.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/Theme/css/style.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="~/Theme/css/colors/default.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Menu CSS -->
+    <link href="~/Scripts/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="~/Scripts/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+</head>
+
+<body class="fix-header">
+    <!-- ============================================================== -->
+    <!-- Preloader -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Wrapper -->
+    <!-- ============================================================== -->
+    <div id="wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        @RenderPage("_TopMenuPartial.cshtml")
+        <!-- End Top Navigation -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        @RenderPage("_LeftMenuPartial.cshtml")
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+
+                <div class="row bg-title">
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <ol class="breadcrumb" style="float: left;">
+                            @{
+                                List<Breadcrumb> breadcrumbs = new List<Breadcrumb>();
+                                if (ViewBag.breadcrumb != null)
+                                {
+                                    breadcrumbs = ViewBag.breadcrumb as List<Breadcrumb>;
+                                }
+                                foreach (var item in breadcrumbs)
+                                {
+                                    if (item.Active)
+                                    {
+                                        <li><a class="@(item.Active ? "active" : "")">@item.Title</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="@item.Url" class="@(item.Active ? "active" : "")">@item.Title</a></li>
+                                    }
+
+                                }
+                            }
+                        </ol>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <button class="right-side-toggle waves-effect waves-light btn-info btn-circle pull-right m-l-20"><i class="ti-settings text-white"></i></button>
+
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <div class="row bg-title" style="display: none">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title">@ViewBag.Title</h4>
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <button class="right-side-toggle waves-effect waves-light btn-info btn-circle pull-right m-l-20"><i class="ti-settings text-white"></i></button>
+                        <ol class="breadcrumb">
+                            @{
+                                foreach (var item in breadcrumbs)
+                                {
+                                    if (item.Active)
+                                    {
+                                        <li><a class="@(item.Active ? "active" : "")">@item.Title</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="@item.Url" class="@(item.Active ? "active" : "")">@item.Title</a></li>
+                                    }
+
+                                }
+                            }
+                        </ol>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+
+
+                @RenderBody()
+                <!-- ============================================================== -->
+                <!-- start right sidebar -->
+                <!-- ============================================================== -->
+                <div class="right-sidebar">
+                    <div class="slimscrollright">
+                        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
+                        <div class="r-panel-body">
+                            <ul id="themecolors" class="m-t-20">
+                                <li><b>With Light sidebar</b></li>
+                                <li><a href="javascript:void(0)" data-theme="default" class="default-theme">1</a></li>
+                                <li><a href="javascript:void(0)" data-theme="green" class="green-theme">2</a></li>
+                                <li><a href="javascript:void(0)" data-theme="gray" class="yellow-theme">3</a></li>
+                                <li><a href="javascript:void(0)" data-theme="blue" class="blue-theme">4</a></li>
+                                <li><a href="javascript:void(0)" data-theme="purple" class="purple-theme">5</a></li>
+                                <li><a href="javascript:void(0)" data-theme="megna" class="megna-theme">6</a></li>
+                                <li class="full-width"><b>With Dark sidebar</b></li>
+                                <li><a href="javascript:void(0)" data-theme="default-dark" class="default-dark-theme">7</a></li>
+                                <li><a href="javascript:void(0)" data-theme="green-dark" class="green-dark-theme">8</a></li>
+                                <li><a href="javascript:void(0)" data-theme="gray-dark" class="yellow-dark-theme">9</a></li>
+                                <li><a href="javascript:void(0)" data-theme="blue-dark" class="blue-dark-theme">10</a></li>
+                                <li><a href="javascript:void(0)" data-theme="purple-dark" class="purple-dark-theme">11</a></li>
+                                <li><a href="javascript:void(0)" data-theme="megna-dark" class="megna-dark-theme working">12</a></li>
+                            </ul>
+                            <ul class="m-t-20 chatonline">
+                                <li><b>Chat option</b></li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="~/Theme/plugins/images/users/varun.jpg" alt="user-img" class="img-circle"> <span>Varun Dhavan <small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="~/Theme/plugins/images/users/genu.jpg" alt="user-img" class="img-circle"> <span>Genelia Deshmukh <small class="text-warning">Away</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="~/Theme/plugins/images/users/ritesh.jpg" alt="user-img" class="img-circle"> <span>Ritesh Deshmukh <small class="text-danger">Busy</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="~/Theme/plugins/images/users/arijit.jpg" alt="user-img" class="img-circle"> <span>Arijit Sinh <small class="text-muted">Offline</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="~/Theme/plugins/images/users/govinda.jpg" alt="user-img" class="img-circle"> <span>Govinda Star <small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="~/Theme/plugins/images/users/hritik.jpg" alt="user-img" class="img-circle"> <span>John Abraham<small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="~/Theme/plugins/images/users/john.jpg" alt="user-img" class="img-circle"> <span>Hritik Roshan<small class="text-success">online</small></span></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"><img src="~/Theme/plugins/images/users/pawandeep.jpg" alt="user-img" class="img-circle"> <span>Pwandeep rajan <small class="text-success">online</small></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- end right sidebar -->
+                <!-- ============================================================== -->
+            </div>
+
+            <!-- /.container-fluid -->
+            <footer class="footer text-center"> 2018 &copy; Hope </footer>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+
+    @Scripts.Render("~/bundles/theme")
+
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>*@
+
+
+@using webNews.Models.Common;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title - English Center</title>
+    @Styles.Render("~/Theme/css")
+
+</head>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <!-- left menu -->
+            <div class="col-md-3 left_col">
+                @RenderPage("_LeftMenuPartial.cshtml")
+            </div>
+            <!-- /left menu -->
+            <!-- top navigation -->
+            <div class="top_nav">
+                @RenderPage("_TopMenuPartial.cshtml")
+            </div>
+            <!-- /top navigation -->
+            <!-- page content -->
+            <div class="right_col" role="main">
+                @RenderBody()
+            </div>
+            <!-- /page content -->
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                    Copy right <a href="https://alibaba.center.com">Alibaba English Center</a>
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Theme/lib")
+
+    <script src="~/Scripts/Common/language-vi.js"></script>
+    <script src="~/Scripts/Common/Service.js"></script>
+    <script src="~/Scripts/HomePage/Ctrl.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
