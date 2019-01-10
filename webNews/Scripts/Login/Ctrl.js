@@ -3,7 +3,7 @@ $(document).ready(function () {
     setupValidate();
     ResetCapChar();
     $("#btnLogin").click(function () {
-
+        
         loginToSystem();
     });
     $("#btnResetCapCha").click(function () {

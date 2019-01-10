@@ -22,7 +22,7 @@
             }),
             Sv.BootstrapTableColumn("string", {
                 title: 'Tên nhóm quyền',
-                field: 'Name',
+                field: 'RoleName',
                 align: "left"
             }),
             Sv.BootstrapTableColumn("string", {
@@ -106,7 +106,7 @@
 
     this.GetFormSearchData = function () {
         var obj = {};
-        obj.Name = $('#txtName').val();
+        obj.Name = $('#txtRoleName').val();
         return obj;
     }
 

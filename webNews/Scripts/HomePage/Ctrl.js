@@ -1,5 +1,5 @@
 ﻿$(".btnClick")
     .on("click",
-        function () {
+        function() {
             window.location.href = "/Admin/Login";
         });

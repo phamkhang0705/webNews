@@ -195,13 +195,13 @@ namespace webNews.Domain.Repositories
                     {
                         var roleUsers = db.Select<Security_UserRole>(p => p.UserId == user.Id).Select(p => p.RoleId ?? 0);
 
-                        //var listRole2 = db.Select<Security_Role>(p => roleUsers.Contains(p.Id));
+                        var listRole2 = db.Select<Security_Role>(p => roleUsers.Contains((int)p.Id));
                         var userInfor = db.Select<Vw_UserInfo>().SingleOrDefault(_ => _.UserId == user.Id);
 
                         response.ResponseCode = "01";
                         response.ExtraInfos = user.ToJson();
                         response.ExtendInfor = userInfor.ToJson();
-                        //response.ResponseMessage = listRole2.ToJson();
+                        response.ResponseMessage = listRole2.ToJson();
                         return response;
                     }
                     else

@@ -255,6 +255,18 @@ namespace webNews
                        "~/Scripts/bootstrap-switch.min.js",
                         "~/Scripts/app.js"
                 ));
+
+            bundles.Add(new ScriptBundle("~/bundles/RoleManagement").Include(
+           "~/Scripts/inputmask/jquery.inputmask.bundle.js",
+           "~/Scripts/jquery-validate/jquery.validate.js",
+           "~/Scripts/bootstrap-table/bootstrap-table.js",
+           "~/Scripts/bootbox/bootbox.min.js",
+           "~/Scripts/bootstrap-datetimepicker/moment-with-locales.min.js",
+           "~/Scripts/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js",
+           "~/Scripts/jquery.validate.min.js",
+           "~/Scripts/Common/Service.js",
+           "~/Scripts/Admin/RoleManagement/RoleManagement.js"
+           ));
             // BundleTable.EnableOptimizations = true;
         }
     }
