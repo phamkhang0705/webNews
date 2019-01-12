@@ -32,7 +32,7 @@ namespace webNews.Domain.Services.RoleManagement
             {
                 limit = (pageIndex / pageSize);
             }
-            if(!string.IsNullOrEmpty(search.Name)) query.Where(x => x.RoleName.ToLower().Contains(search.Name.ToLower()));
+            if(!string.IsNullOrEmpty(search.RoleName)) query.Where(x => x.RoleName.ToLower().Contains(search.RoleName.ToLower()));
             return _roleManagementRepository.Paging(query, limit, pageSize);
         }
 

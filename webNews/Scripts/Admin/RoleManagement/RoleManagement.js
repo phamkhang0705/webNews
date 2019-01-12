@@ -106,7 +106,7 @@
 
     this.GetFormSearchData = function () {
         var obj = {};
-        obj.Name = $('#txtRoleName').val();
+        obj.RoleName = $('#txtRoleName').val();
         return obj;
     }
 

@@ -15,11 +15,11 @@ using ServiceStack;
 namespace webNews.Domain.Entities
 {
 	[Alias("Security_UserRole")]
-    public partial class Security_UserRole : IHasId<long> 
+    public partial class Security_UserRole : IHasId<int> 
     {
         [Alias("Id")]
         [AutoIncrement]
-        public long Id { get; set; }
+        public int Id { get; set; }
         public int? UserId { get; set; }
         public int? RoleId { get; set; }
     }
