@@ -1,22 +1,21 @@
 ﻿using NLog;
 using System;
 using System.Web.Mvc;
-using webNews.Domain.Entities;
-using webNews.Domain.Services.RoleManagement;
+using webNews.Domain.Services.UserManagement;
 using webNews.Language.Language;
-using webNews.Models.RoleManagement;
+using webNews.Models.UserManagement;
 using webNews.Security;
 
 namespace webNews.Areas.Admin.Controllers
 {
-    public class RoleManagementController : BaseController
+    public class UserManagementController : BaseController
     {
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
-        private readonly IRoleManagementService _roleManagementService;
+        private readonly IUserManagementService _userManagementService;
 
-        public RoleManagementController(IRoleManagementService roleManagementService)
+        public UserManagementController(IUserManagementService userManagementService)
         {
-            _roleManagementService = roleManagementService;
+            _userManagementService = userManagementService;
         }
 
         // GET: Admin/RoleManagement
@@ -32,13 +31,13 @@ namespace webNews.Areas.Admin.Controllers
         #region GetData
 
         [HttpPost]
-        public ActionResult GetData(SearchRoleModel search, int pageIndex, int pageSize)
+        public ActionResult GetData(SearchUserModel search, int pageIndex, int pageSize)
         {
             if (!CheckAuthorizer.Authorize(Permission.VIEW))
                 return RedirectToAction("Index", "Login");
             try
             {
-                var data = _roleManagementService.Search(search, pageIndex, pageSize);
+                var data = _userManagementService.GetList(search, pageIndex, pageSize);
                 var total = data.Total;
                 return Json(new
                 {
@@ -61,21 +60,19 @@ namespace webNews.Areas.Admin.Controllers
         {
             try
             {
-                var model = new Models.RoleManagement.RoleManagementModel()
+                var model = new UserModel()
                 {
                     Action = action
                 };
                 if (id > 0)
                 {
-                    var role = _roleManagementService.GetRole(id);
-                    if (role != null)
+                    var user = _userManagementService.GetUserById(id);
+                    if (user != null)
                     {
-                        model.Id = role.Id;
-                        model.RoleName = role.RoleName;
-                        model.Description = role.Description;
+                        model.FullName = user.UserName;
                     }
                 }
-                return PartialView("_roleDetail", model);
+                return PartialView("_userDetail", model);
             }
             catch (Exception ex)
             {
@@ -94,7 +91,7 @@ namespace webNews.Areas.Admin.Controllers
         #region Create
 
         [HttpPost]
-        public ActionResult Create(Security_Role model)
+        public ActionResult Create(UserModel model)
         {
             if (!CheckAuthorizer.Authorize(Permission.ADD))
                 return RedirectToAction("Index", "Login");
@@ -102,7 +99,7 @@ namespace webNews.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var rs = _roleManagementService.Create(model);
+                    var rs = _userManagementService.Create(model);
                     return Json(new
                     {
                         Status = rs.ResponseCode,
@@ -131,14 +128,14 @@ namespace webNews.Areas.Admin.Controllers
 
         #region [Update]
 
-        public ActionResult Update(Security_Role model)
+        public ActionResult Update(UserModel model)
         {
             if (!CheckAuthorizer.Authorize(Permission.EDIT)) return RedirectToAction("Index", "Login");
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var rs = _roleManagementService.Update(model);
+                    var rs = _userManagementService.Update(model);
                     return Json(new
                     {
                         Status = rs.ResponseCode,

@@ -130,6 +130,8 @@
     <Compile Include="Repositories\RoleManage\IRoleManageRepository.cs" />
     <Compile Include="Repositories\RoleManage\RoleManageRepository.cs" />
     <Compile Include="Repositories\SystemRepository.cs" />
+    <Compile Include="Repositories\UserManagement\IUserManagementRepository.cs" />
+    <Compile Include="Repositories\UserManagement\UserManagementRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Route.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
@@ -166,6 +168,8 @@
     <Compile Include="Services\RoleManage\RoleManageService.cs" />
     <Compile Include="Services\Service.cs" />
     <Compile Include="Services\SystemService.cs" />
+    <Compile Include="Services\UserManagement\IUserManagementService.cs" />
+    <Compile Include="Services\UserManagement\UserManagementService.cs" />
     <Compile Include="System_Menu.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>

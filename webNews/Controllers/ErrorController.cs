@@ -59,5 +59,10 @@ namespace webNews.Controllers
                 return View();
             }
         }
+
+        public ActionResult Permission()
+        {
+            return View();
+        }
     }
 }

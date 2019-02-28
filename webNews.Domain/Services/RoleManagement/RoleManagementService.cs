@@ -1,11 +1,11 @@
-﻿using webNews.Domain.Repositories;
-using webNews.Domain.Repositories.RoleManagement;
-using webNews.Models;
-using webNews.Models.RoleManagement;
-using ServiceStack.OrmLite;
+﻿using ServiceStack.OrmLite;
 using System.Collections.Generic;
 using System.Linq;
 using webNews.Domain.Entities;
+using webNews.Domain.Repositories;
+using webNews.Domain.Repositories.RoleManagement;
+using webNews.Models;
+using webNews.Models.RoleManagement;
 
 namespace webNews.Domain.Services.RoleManagement
 {
@@ -24,7 +24,7 @@ namespace webNews.Domain.Services.RoleManagement
         {
             var query = db.From<Security_Role>();
             int limit = 0;
-            if(pageIndex == 0 || pageIndex < pageSize)
+            if (pageIndex == 0 || pageIndex < pageSize)
             {
                 limit = 0;
             }
@@ -32,7 +32,7 @@ namespace webNews.Domain.Services.RoleManagement
             {
                 limit = (pageIndex / pageSize);
             }
-            if(!string.IsNullOrEmpty(search.RoleName)) query.Where(x => x.RoleName.ToLower().Contains(search.RoleName.ToLower()));
+            if (!string.IsNullOrEmpty(search.RoleName)) query.Where(x => x.RoleName.ToLower().Contains(search.RoleName.ToLower()));
             return _roleManagementRepository.Paging(query, limit, pageSize);
         }
 
@@ -40,7 +40,7 @@ namespace webNews.Domain.Services.RoleManagement
         {
             var rs = _roleManagementRepository.Create(model);
             var response = new CoreMessageResponse();
-            if(rs > 0)
+            if (rs > 0)
             {
                 response.ResponseCode = "01";
                 response.ResponseMessage = "Thêm mới nhóm quyền thành công";
@@ -57,7 +57,7 @@ namespace webNews.Domain.Services.RoleManagement
         {
             var rs = _roleManagementRepository.Update(model);
             var response = new CoreMessageResponse();
-            if(rs > 0)
+            if (rs > 0)
             {
                 response.ResponseCode = "01";
                 response.ResponseMessage = "Cập nhật nhóm quyền thành công";
@@ -86,6 +86,11 @@ namespace webNews.Domain.Services.RoleManagement
                 Text = x.Id.ToString()
             }).ToList();
             return res;
+        }
+
+        public Security_Role GetRole(int id)
+        {
+            return _roleManagementRepository.GetRole(id);
         }
     }
 }

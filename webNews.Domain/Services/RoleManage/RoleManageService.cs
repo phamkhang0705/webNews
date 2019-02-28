@@ -9,6 +9,7 @@ namespace webNews.Domain.Services.RoleManage
     public class RoleManageService : Service<Security_Role>, IRoleManageService
     {
         private readonly IRoleManageRepository _roleManageRepository;
+
         public RoleManageService(IRepository<Security_Role> repository, IRoleManageRepository roleManageRepository) : base(repository)
         {
             _roleManageRepository = roleManageRepository;

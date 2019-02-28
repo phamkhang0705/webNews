@@ -6,9 +6,11 @@ using ServiceStack.OrmLite.SqlServer;
 using webNews.Domain.Repositories;
 using webNews.Domain.Repositories.RoleManage;
 using webNews.Domain.Repositories.RoleManagement;
+using webNews.Domain.Repositories.UserManagement;
 using webNews.Domain.Services;
 using webNews.Domain.Services.RoleManage;
 using webNews.Domain.Services.RoleManagement;
+using webNews.Domain.Services.UserManagement;
 
 namespace webNews.Domain
 {
@@ -28,8 +30,8 @@ namespace webNews.Domain
             builder.RegisterType<SystemService>().As<ISystemService>();
             builder.RegisterType<UserRepository>().As<IUserRepository>();
 
-            //builder.RegisterType<UserManagementRepository>().As<IUserManagementRepository>();
-            //builder.RegisterType<UserManagementService>().As<IUserManagementService>();
+            builder.RegisterType<UserManagementRepository>().As<IUserManagementRepository>();
+            builder.RegisterType<UserManagementService>().As<IUserManagementService>();
 
             builder.RegisterType<RoleManageRepository>().As<IRoleManageRepository>();
             builder.RegisterType<RoleManageService>().As<IRoleManageService>();

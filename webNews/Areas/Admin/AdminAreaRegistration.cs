@@ -23,7 +23,7 @@ namespace webNews.Areas.Admin
             context.MapRoute(
                "Admin_DashBoard",
                "Admin/{controller}/{action}/{id}",
-               new { controller = "DashBoard", action = "Index", id = UrlParameter.Optional }
+               new { controller = "Login", action = "Index", id = UrlParameter.Optional }
            );
         }
 

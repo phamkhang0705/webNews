@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.SessionState;
-using webNews.Domain;
 using webNews.Domain.Entities;
-using System.Web.Caching;
-using static System.String;
-using System.Threading;
-using System;
 
 namespace webNews.Security
 {
@@ -163,11 +159,11 @@ namespace webNews.Security
                 {
                     if (item.Area == "")
                     {
-                        menu += Format("<li><a href='/" + item.Controller + "'>" + "&nbsp;&nbsp;" + item.Text + "</a></li>");
+                        menu += "<li><a href='/" + item.Controller + "'>" + "&nbsp;&nbsp;" + item.Text + "</a></li>";
                     }
                     else
                     {
-                        menu += Format("<li><a href='/" + item.Area + "/" + item.Controller + "'>" + "&nbsp;&nbsp;" + item.Text + "</a></li>");
+                        menu += "<li><a href='/" + item.Area + "/" + item.Controller + "'>" + "&nbsp;&nbsp;" + item.Text + "</a></li>";
                     }
                 }
             }
@@ -218,6 +214,7 @@ namespace webNews.Security
             return 1;
         }
     }
+
     public enum MenuLevel
     {
         Second = 1,

@@ -20,19 +20,34 @@ namespace webNews.Domain.Entities
         [Alias("UserId")]
         [AutoIncrement]
         public long Id { get; set; }
+        [Required]
         public string UserName { get; set; }
+        [Required]
         public string Password { get; set; }
         public string Email { get; set; }
         public string Description { get; set; }
         public int? Status { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        [Required]
+        public DateTime CreatedDate { get; set; }
+        [Required]
         public string CreatedBy { get; set; }
-        public int? CraetedById { get; set; }
-        public DateTime? UpdatedDate { get; set; }
+        [Required]
+        public int CreatedById { get; set; }
+        [Required]
+        public DateTime UpdatedDate { get; set; }
+        [Required]
         public string UpdatedBy { get; set; }
-        public int? UpdatedById { get; set; }
+        [Required]
+        public int UpdatedById { get; set; }
+        [Required]
         public string Salt { get; set; }
         public int? LoginFailedCount { get; set; }
+        [Required]
+        public string FullName { get; set; }
+        public string Tel { get; set; }
+        public string Image { get; set; }
+        public int? UserType { get; set; }
+        public short? UserRole { get; set; }
     }
 
 }

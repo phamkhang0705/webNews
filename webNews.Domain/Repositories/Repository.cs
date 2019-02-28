@@ -1,9 +1,9 @@
-﻿using System;
+﻿using NLog;
+using ServiceStack.OrmLite;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using webNews.Models;
-using NLog;
-using ServiceStack.OrmLite;
 
 namespace webNews.Domain.Repositories
 {
@@ -34,6 +34,7 @@ namespace webNews.Domain.Repositories
                 return default(T);
             }
         }
+
         public T GetById(decimal id)
         {
             try
@@ -49,7 +50,7 @@ namespace webNews.Domain.Repositories
                 return default(T);
             }
         }
-       
+
         public async Task<List<T>> GetAllAsync()
         {
             try
@@ -88,7 +89,7 @@ namespace webNews.Domain.Repositories
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    return await db.InsertAsync<T>(model,true);
+                    return await db.InsertAsync<T>(model, true);
                 }
             }
             catch (Exception ex)
@@ -97,13 +98,14 @@ namespace webNews.Domain.Repositories
                 return -1;
             }
         }
+
         public async Task<bool> CreateAsync(List<T> model)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                     await db.InsertAllAsync(model);
+                    await db.InsertAllAsync(model);
                     return true;
                 }
             }
@@ -133,7 +135,7 @@ namespace webNews.Domain.Repositories
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="query">VD: db.From|Store| </param>
         /// <param name="pageIndex"></param>
@@ -146,7 +148,7 @@ namespace webNews.Domain.Repositories
                 using (var db = _connectionFactory.Open())
                 {
                     //Get total items
-                    var total = (int) db.Count(query);
+                    var total = (int)db.Count(query);
                     if (pageIndex != -1 && pageSize != -1)
                     {
                         query.Skip(pageIndex * pageSize).Take(pageSize);
@@ -225,7 +227,7 @@ namespace webNews.Domain.Repositories
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    return db.Insert<T>(model,true);
+                    return db.Insert<T>(model, true);
                 }
             }
             catch (Exception ex)
@@ -234,13 +236,14 @@ namespace webNews.Domain.Repositories
                 return -1;
             }
         }
+
         public bool Create(List<T> model)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                     db.InsertAll(model);
+                    db.InsertAll(model);
                     return true;
                 }
             }
@@ -295,7 +298,6 @@ namespace webNews.Domain.Repositories
             }
         }
 
-
-        #endregion
+        #endregion WORK WITH DATABASE
     }
 }

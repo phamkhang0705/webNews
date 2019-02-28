@@ -34,9 +34,9 @@
                 title: "Thao tác",
                 align: "Center",
                 width: '80px',
-                formatter: function (value, data, index) {//
+                formatter: function (value, data, index) {
                     var str = "";
-                    if (base.$perEdit == 1) {
+                    if (base.$perEdit === "1") {
                         str += "<button data-code='%s' class='OpenEditItem btn btn-primary btn-in-table' title='Sửa'><i class='fa fa-pencil-square-o'></i></button>";
                     }
                     return str;
@@ -62,7 +62,7 @@
         base.$table.bootstrapTable('refreshOptions', {
             responseHandler: function (res) {
                 base.$searchModal.modal("hide");
-                if (res.total == 0) {
+                if (res.total === 0) {
                     base.$table.bootstrapTable('removeAll');
                 }
                 return {
@@ -80,7 +80,7 @@
     this.SubmitServer = function (action, id) {
         var $form = $("#formDetail").on();
         var url = "/RoleManagement/Create";
-        if (action == "Edit") {
+        if (action === "Edit") {
             url = "/RoleManagement/Update";
         }
         if ($form.valid(true)) {
@@ -89,7 +89,7 @@
                 Data: base.GetFormData()
             },
                 function (rs) {
-                    if (rs.Status == "01") {
+                    if (rs.Status === "01") {
                         Dialog.Alert(rs.Message, Dialog.Success);
                         base.$boxDetails.find("#modalDetails").modal("hide");
                         base.LoadTableSearch();
@@ -111,6 +111,8 @@
     }
 
 }
+
+
 $(document).ready(function () {
     var unit = new Unit();
     Sv.SetupDateTime($("#sFromDate"), $("#sToDate"));
@@ -133,7 +135,6 @@ $(document).ready(function () {
         unit.LoadTableSearch();
         Sv.ResetForm($("#formSearch"), $("#sFromDate"), $("#sToDate"));
     });
-
     unit.$btnOpenAdd.click(function () {
         var url = "/Admin/RoleManagement/ShowModal";
         var model = {
@@ -144,7 +145,6 @@ $(document).ready(function () {
             unit.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
         });
     });
-
     unit.$boxDetails.on('click', 'button#btnAdd', function (e) {
         e.preventDefault();
         unit.SubmitServer("Add", 0);

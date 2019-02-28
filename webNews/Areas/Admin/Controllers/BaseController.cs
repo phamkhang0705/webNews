@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -8,22 +9,21 @@ using System.Web;
 using System.Web.Mvc;
 using webNews.Language.Language;
 using webNews.Models.Common;
-using NLog;
 using webNews.Security;
-using webNews.Domain.Services;
 
 namespace webNews.Areas.Admin.Controllers
 {
-
-    [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
+    //[OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
     public class BaseController : Controller
     {
         private static readonly Logger Log = LogManager.GetLogger("BaseController");
 
         #region Cons
+
         public static string DateFormat = "dd/MM/yyyy";
         public static string DateTimeFormat = "dd/MM/yyyy HH:mm:ss";
-        #endregion
+
+        #endregion Cons
 
         public int PageLength
         {
@@ -32,13 +32,14 @@ namespace webNews.Areas.Admin.Controllers
 
         public string BranchCode
         {
-            get { return (string) Session[Constant.SessionKey.BranchCode]; }
+            get { return (string)Session[Constant.SessionKey.BranchCode]; }
         }
 
         public string Domain
         {
             get { return (string)Session[Constant.SessionKey.Domain]; }
         }
+
         public int StoreId
         {
             get
@@ -64,14 +65,17 @@ namespace webNews.Areas.Admin.Controllers
         {
             get { return System.Configuration.ConfigurationManager.AppSettings["dirUpload"]; }
         }
+
         public static string UrlViewFileUpload
         {
             get { return ConfigurationManager.AppSettings["DirViewFile"]; }
         }
+
         public static string UrlDefault
         {
             get { return "/Content/Uploads/TransFile"; }
         }
+
         public string ControlerName
         {
             get
@@ -83,8 +87,8 @@ namespace webNews.Areas.Admin.Controllers
 
         public BaseController()
         {
-
         }
+
         public static string ControllerName
         {
             get
@@ -142,12 +146,13 @@ namespace webNews.Areas.Admin.Controllers
                 Log.Error("Validate file Erro " + ex);
                 return false;
             }
-
         }
+
         public static string GetViewFileUrl()
         {
             return ConfigurationManager.AppSettings["UrlViewFile"];
         }
+
         public void UploadFile(HttpPostedFileBase file, string path, string fileName)
         {
             try
@@ -168,15 +173,12 @@ namespace webNews.Areas.Admin.Controllers
             {
                 Log.Error("Upload File is error: " + ex);
             }
-
         }
 
         public static string GetSafeFileName(string extension)
         {
             var random = new Random();
             return Guid.NewGuid().ToString().Replace("-", "") + random.Next(0, 10000).ToString("00000") + extension;
-
-
         }
 
         public static void DeleteFile(string path)
@@ -191,7 +193,6 @@ namespace webNews.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-
             }
         }
 
@@ -209,8 +210,8 @@ namespace webNews.Areas.Admin.Controllers
                 if (!CheckAuthorizer.Authorize(Permission.VIEW))
                     filterContext.Result = RedirectToAction("Permission", "Error", new { Area = "Admin" });
             }
-
         }
+
         public JsonResult CheckPermission(string permission)
         {
             Permission p;
@@ -219,24 +220,31 @@ namespace webNews.Areas.Admin.Controllers
                 case "ADD":
                     p = Permission.ADD;
                     break;
+
                 case "DELETE":
                     p = Permission.DELETE;
                     break;
+
                 case "VIEW":
                     p = Permission.VIEW;
                     break;
+
                 case "EDIT":
                     p = Permission.EDIT;
                     break;
+
                 case "XAC_NHAN":
                     p = Permission.XAC_NHAN;
                     break;
+
                 case "EXPORT":
                     p = Permission.EXPORT;
                     break;
+
                 case "RESETPIN":
                     p = Permission.RESETPIN;
                     break;
+
                 default:
                     p = Permission.OTHER;
 
@@ -274,5 +282,6 @@ namespace webNews.Areas.Admin.Controllers
             return errorMessages;
         }
     }
-    #endregion
+
+    #endregion Check Validate
 }

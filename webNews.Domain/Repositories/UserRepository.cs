@@ -6,7 +6,9 @@ using webNews.Models.User;
 using NLog;
 using ServiceStack;
 using ServiceStack.OrmLite;
+using webNews.Domain;
 using webNews.Domain.Entities;
+using webNews.Domain.Repositories.UserManagement;
 
 namespace webNews.Domain.Repositories
 {

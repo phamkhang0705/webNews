@@ -1,8 +1,7 @@
-﻿using webNews.Models;
-using webNews.Models.Common;
-using webNews.Models.RoleManagement;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using webNews.Domain.Entities;
+using webNews.Models;
+using webNews.Models.RoleManagement;
 
 namespace webNews.Domain.Services.RoleManagement
 {
@@ -17,5 +16,7 @@ namespace webNews.Domain.Services.RoleManagement
         List<Security_Role> GetAllRole();
 
         List<SelectListModel> GetAllPermission();
+
+        Security_Role GetRole(int id);
     }
 }

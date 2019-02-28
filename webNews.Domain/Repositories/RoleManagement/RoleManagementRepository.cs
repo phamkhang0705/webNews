@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ServiceStack.OrmLite;
 using webNews.Domain.Entities;
 
@@ -17,6 +18,23 @@ namespace webNews.Domain.Repositories.RoleManagement
             using(var db = _connectionFactory.Open())
             {
                 return db.Select<Security_Permission>();
+            }
+        }
+
+        public Security_Role GetRole(int id)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<Security_Role>().Where(x => x.Id == id);
+                    var list = db.Single(query);
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
     }

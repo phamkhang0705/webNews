@@ -1,0 +1,105 @@
+﻿@using webNews.Domain
+@using webNews.Language.Language
+@using webNews.Models
+<div class="modal fade popup-add" id="addModal" tabindex="-1" role="dialog" aria-labelledby="xSearchModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="titleFormAddEdit" class="modal-title">@Resource.Btn_Add_Lang</h4>
+            </div>
+            <form id="formAddEdit" class="form-horizontal">
+                <div class="modal-body clearfix fix-overflow">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label required">@Resource.FullName_Lang </label>
+                            <div class="col-xs-8">
+                                <input type="text" name="CustomerName" id="txtFullName" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label required">@Resource.User_name_Lang </label>
+                            <div class="col-xs-8">
+                                <input type="text" name="UserName" id="txtUserName" maxlength="200" class="form-control">
+                            </div>
+                        </div>
+                        <input type="text" name="CusProfileID" id="txtCusProfileID" class="form-control hidden">
+                        <input type="text" name="UserID" id="txtUserID" class="form-control hidden">
+                        <input type="text" name="CustomerID" id="txtCustomerID" class="form-control hidden">
+                        <input type="text" name="TypeAction" id="txtTypeAction" class="form-control hidden">
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">@Resource.Address_Lang </label>
+                            <div class="col-xs-8">
+                                <input type="text" name="txtAddress" id="txtAddress" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">@Resource.PhoneNumber_Lang</label>
+                            <div class="col-xs-8">
+                                <input type="text" name="Mobile" id="txtMobile" maxlength="20" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">@Resource.Status_Lang</label>
+                            <div class="col-xs-8">
+                                @Html.DropDownList("Status", ViewBag.lstStatus as IEnumerable<SelectListModel>, new { @class = "form-control", @id = "Status", @name = "Status" })
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">@Resource.Email_Lang</label>
+                            <div class="col-xs-8">
+                                <input type="text" name="Email" id="txtEmail" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-12">
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">@Resource.Permission_name_Lang </label>
+                            <div class="col-xs-10">
+                                <div style="overflow: scroll;height: 200px;">
+                                    <table class="table">
+                                        <tr>
+                                            <td width="10%">#</td>
+                                            <td>@Resource.Permission_name_Lang</td>
+                                            <td width="10%">Grant</td>
+                                        </tr>
+                                        @{
+                                            var listItem = ViewBag.listRole as List<ROLE>;
+                                            for (int i = 0; i < listItem.Count(); i++)
+                                            {
+                                                int j = @i + 1;
+                                                ROLE item = listItem[i];
+                                                <tr>
+                                                    <td>@j</td>
+                                                    <td>@item.Name</td>
+                                                    <td><input type="checkbox" name="GroupPermison" data-input="@item.Id"></td>
+                                                </tr>
+                                            }
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnAcctionSave" type="button" class="btn btn-primary"><i class="fa fa-check"></i>@(Resource.Btn_Save_Lang)</button>
+                    <button id="btnAcctionCancel" type="button" class="btn " data-dismiss="modal"><i class=" fa fa-reply"></i> @(Resource.Btn_Close_Lang)</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

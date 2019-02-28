@@ -10,11 +10,9 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using webNews.Controllers;
 using webNews.Domain;
-using webNews.Shared;
-using webNews.Services.SecurityService;
 using webNews.Domain.Services;
-using System.Threading;
-using System.Globalization;
+using webNews.Services.SecurityService;
+using webNews.Shared;
 
 namespace webNews
 {
@@ -75,12 +73,10 @@ namespace webNews
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-
         }
 
         protected void Session_Start(object sender, EventArgs e)
         {
-
         }
 
         protected void Session_End(object sender, EventArgs e)
