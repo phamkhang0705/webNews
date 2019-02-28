@@ -210,8 +210,7 @@ namespace webNews.Security
             if (HttpContext.Current == null) return null;
             if (HttpContext.Current.Session["userInfor"] == null) return null;
             var infor = (Vw_UserInfo)HttpContext.Current.Session["userInfor"];
-            //return infor.RoleId;
-            return 1;
+            return infor.UserRole;
         }
     }
 
