@@ -86,8 +86,8 @@ namespace webNews.Domain.Repositories.UserManagement
 
                             db.Insert(new Security_UserRole()
                             {
-                                UserId = (int)userId,
-                                RoleId = 1
+                                UserId = Int32.Parse(userId.ToString()),
+                                RoleId = user.UserRole
                             });
 
                             trans.Commit();

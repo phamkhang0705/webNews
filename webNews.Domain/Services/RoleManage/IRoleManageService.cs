@@ -20,6 +20,6 @@ namespace webNews.Domain.Services.RoleManage
 
         bool UpdateRole(Security_Role role, string functionAndPermission);
 
-        List<SelectListModel> GetSelectRole();
+        List<SelectListModel> GetListRole();
     }
 }

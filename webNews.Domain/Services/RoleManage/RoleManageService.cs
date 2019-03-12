@@ -50,9 +50,9 @@ namespace webNews.Domain.Services.RoleManage
             return _roleManageRepository.UpdateRole(role, functionAndPermission);
         }
 
-        public List<SelectListModel> GetSelectRole()
+        public List<SelectListModel> GetListRole()
         {
-            return _roleManageRepository.GetSelectRole();
+            return _roleManageRepository.GetListRole();
         }
     }
 }

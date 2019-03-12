@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace webNews.Models.UserManagement
@@ -53,12 +54,19 @@ namespace webNews.Models.UserManagement
         public bool? Isfirst { get; set; }
         public string Title { get; set; }
         public string Salt { get; set; }
-        public int Status { get; set; }
+        public int? Status { get; set; }
 
         public string BranchName { get; set; }
         public string RoleName { get; set; }
 
         public List<SelectListModel> ListRole { get; set; }
         public List<SelectListModel> ListStatus { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public int CreatedById { get; set; }
+        public DateTime UpdatedDate { get; set; }
+        public string UpdatedBy { get; set; }
+        public int UpdatedById { get; set; }
     }
 }

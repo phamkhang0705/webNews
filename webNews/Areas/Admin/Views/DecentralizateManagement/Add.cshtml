@@ -1,0 +1,133 @@
+﻿@using webNews.Language.Language
+@{
+    var roleName = "";
+    var roleId = "0";
+    var action = Resource.Detail_Lang;
+
+    var disabled = "";
+    var disabledName = "disabled";
+    var displayButtonSave = "";
+    bool isView = false;
+    if (Model != null)
+    {
+
+        if (Model.Action == "View")
+        {
+            action = Resource.Detail_Lang;
+            disabled = "disabled";
+            isView = true;
+            displayButtonSave = "None";
+        }
+        else
+        {
+            if (Model.Action == "Add")
+            {
+                disabledName = "";
+                action = "Thêm mới";
+            }
+            else
+            {
+                action = Resource.Edit_Lang;
+            }
+
+        }
+        roleId = Model.Role.Id.ToString();
+        roleName = Model.Role.RoleName;
+    }
+
+}
+<div class="modal fade popup-add" id="addModal" tabindex="-1" role="dialog" aria-labelledby="xSearchModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@action</h4>
+            </div>
+            <div class="modal-body fix-overflow clearfix">
+                <form id="formAddRoleService" class="form-horizontal" style="">
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="Id" name="Id" value="@roleId">
+                        <label class="col-xs-2 control-label required" style="text-align: left">Tên nhóm quyền</label>
+                        <div class="col-xs-10">
+                            <input type="text" placeholder="Tên nhóm quyền" class="form-control" id="RoleName" name="RoleName" value="@roleName" @*@disabledName*@>
+                        </div>
+                    </div>
+                    <div class="table-responsive" style="width: 100%; max-height: 400px; overflow-y: scroll;">
+                        @if (Model != null && Model.ListPermissions != null)
+                        {
+                            <table class="table table-fixed" id="tblFunction">
+                                <thead>
+                                    <tr>
+                                        <th class="col-sm-5" style="text-align: left; vertical-align: middle">
+                                            @Resource.Permission_name_Lang
+                                        </th>
+                                        <th class="col-sm-1">
+                                            Tất cả
+                                        </th>
+                                        @foreach (var oMark in Model.ListPermissions)
+                                        {
+                                            <th class="col-sm-1">@oMark.PermissionName</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var oFunction in Model.ListFunctions)
+                                    {
+                                        var isShow = true;
+                                        if (isView)
+                                        {
+                                            isShow = false;
+                                            if (Model.ListMarked != null)
+                                            {
+                                                foreach (var oMark in Model.ListMarked)
+                                                {
+                                                    if ((oMark.FunctionID == oFunction.Id))
+                                                    {
+                                                        isShow = true;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        if (isShow)
+                                        {
+                                            <tr>
+                                                <td class="col-sm-5" style="text-align: left; vertical-align: middle;">
+                                                    @oFunction.FunctionName
+                                                </td>
+                                                <td class="col-sm-1">
+                                                    <input type="checkbox" class="form-control" style="height: 18px" value="@oFunction.Id" isfunction="1" @disabled />
+                                                </td>
+                                                @foreach (var oPermission in Model.ListPermissions)
+                                                {
+                                                    var isMark = "";
+                                                    if (Model.ListMarked != null)
+                                                    {
+                                                        foreach (var oMark in Model.ListMarked)
+                                                        {
+                                                            if ((oMark.FunctionID == oFunction.Id) && (oMark.PermissionID == oPermission.Id))
+                                                            {
+                                                                isMark = "checked";
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    <td class="col-sm-1"> <input type="checkbox" class="form-control" style="height: 18px" @isMark value="@oPermission.Id" ispermission="1" functionvalue="@oFunction.Id" @disabled /></td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        }
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnUpdateSubmit" class="btn btn-primary" type="button" style='display: @displayButtonSave'><i class="fa fa-check"></i>@(Resource.Btn_Save_Lang)</button>
+                <button type="button" class="btn " data-dismiss="modal"><i class=" fa fa-reply"></i> @(Resource.Btn_Close_Lang)</button>
+            </div>
+        </div>
+    </div>
+</div>

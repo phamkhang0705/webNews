@@ -54,8 +54,6 @@
     <Compile Include="UserManagement\SearchUserModel.cs" />
     <Compile Include="User\UserSearchModel.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="News\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

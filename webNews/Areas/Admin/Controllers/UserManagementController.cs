@@ -1,8 +1,11 @@
 ﻿using NLog;
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
+using webNews.Domain.Services.RoleManage;
 using webNews.Domain.Services.UserManagement;
 using webNews.Language.Language;
+using webNews.Models;
 using webNews.Models.UserManagement;
 using webNews.Security;
 
@@ -12,10 +15,12 @@ namespace webNews.Areas.Admin.Controllers
     {
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         private readonly IUserManagementService _userManagementService;
+        private readonly IRoleManageService _roleManageService;
 
-        public UserManagementController(IUserManagementService userManagementService)
+        public UserManagementController(IUserManagementService userManagementService, IRoleManageService roleManageService)
         {
             _userManagementService = userManagementService;
+            _roleManageService = roleManageService;
         }
 
         // GET: Admin/RoleManagement
@@ -47,7 +52,7 @@ namespace webNews.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                _log.Error("GetData RoleManagement error : " + ex);
+                _log.Error("GetData UserManagementController error : " + ex);
                 return null;
             }
         }
@@ -64,15 +69,36 @@ namespace webNews.Areas.Admin.Controllers
                 {
                     Action = action
                 };
+                model.ListRole = _roleManageService.GetListRole();
+                model.ListStatus = new List<SelectListModel>
+                {
+                    new SelectListModel
+                    {
+                        Value = 1,
+                        Text = "Hoạt động"
+                    },
+                    new SelectListModel
+                    {
+                        Value = 0,
+                        Text = "Tài khoản khoá"
+                    }
+                };
                 if (id > 0)
                 {
                     var user = _userManagementService.GetUserById(id);
                     if (user != null)
                     {
                         model.FullName = user.UserName;
+                        model.UserName = user.UserName;
+                        model.FullName = user.FullName;
+                        model.Email = user.Email;
+                        model.Tel = user.Tel;
+                        model.Status = user.Status;
+                        model.UserId = user.UserId;
+                        model.UserRole = user.UserRole.Value;
                     }
                 }
-                return PartialView("_userDetail", model);
+                return PartialView("_ptvDetail", model);
             }
             catch (Exception ex)
             {
@@ -99,6 +125,10 @@ namespace webNews.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    model.CreatedBy = UserName;
+                    model.CreatedById = Int32.Parse(UserId);
+                    model.UpdatedBy = UserName;
+                    model.UpdatedById = Int32.Parse(UserId);
                     var rs = _userManagementService.Create(model);
                     return Json(new
                     {

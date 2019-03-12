@@ -14,23 +14,24 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("System_Menu")]
-    public partial class System_Menu : IHasId<int> 
+	[Alias("DanhMucSanPham")]
+    public partial class DanhMucSanPham : IHasId<int> 
     {
-        [Alias("MenuId")]
+        [Alias("Id")]
         [AutoIncrement]
         public int Id { get; set; }
-        public int? ParentId { get; set; }
-        public string Controller { get; set; }
-        public string AliasUrl { get; set; }
-        public int? Permission { get; set; }
-        public string Text { get; set; }
-        public int? MenuLevel { get; set; }
-        public string Action { get; set; }
-        public int? MenuOrder { get; set; }
+        public int? GroupId { get; set; }
+        public int? OrderTypeId { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public int? FromAge { get; set; }
+        public int? ToAge { get; set; }
+        public int? Status { get; set; }
         public string Description { get; set; }
-        public bool? ShowMenu { get; set; }
-        public string Area { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public int? CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public int? UpdatedBy { get; set; }
     }
 
 }

@@ -13,6 +13,6 @@ namespace webNews.Domain.Repositories.RoleManage
         List<Security_Permission> GetListPermissions();
         Security_Role GetRole(int id);
         bool UpdateRole(Security_Role role, string functionAndPermission);
-        List<SelectListModel> GetSelectRole();
+        List<SelectListModel> GetListRole();
     }
 }

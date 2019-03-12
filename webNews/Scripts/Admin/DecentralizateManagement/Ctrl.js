@@ -37,7 +37,7 @@ var RoleService = function () {
                 }
             }),
             Sv.BootstrapTableColumn("string", {
-                field: 'Name',
+                field: 'RoleName',
                 title: "Nhóm quyền",
                 width: '400px'
             }),
@@ -65,7 +65,7 @@ var RoleService = function () {
                             Sv.ChecPermission("DELETE", function () {
                                 Dialog.ConfirmCustom("Bạn có chắc chắn xóa quyền không!", "Bạn có chắc chắn xóa quyền không!", function () {
                                     Sv.AjaxPost({
-                                        Url: "/Admin/RoleManage/DeleteRole",
+                                        Url: "/Admin/DecentralizateManagement/DeleteRole",
                                         Data: { id: row.Id }
                                     }, function (rs) {
                                         Dialog.Alert(rs.Message, (rs.Status == "01" ? Dialog.Success : Dialog.Error), (rs.Status == "01" ? Dialog.Success : Dialog.Error), function () {
@@ -105,7 +105,7 @@ var RoleService = function () {
             action: action
         }
         Sv.AjaxPost({
-            Url: "/Admin/RoleManage/BindPupop",
+            Url: "/Admin/DecentralizateManagement/BindPupop",
             Data: model
         }, function (rs) {
             if (rs.Status === "00") {
@@ -127,7 +127,7 @@ var RoleService = function () {
         var $form = $("#formAddRoleService");
         if ($form.valid()) {
             Sv.AjaxPost({
-                Url: "/Admin/RoleManage/UpdateRole",
+                Url: "/Admin/DecentralizateManagement/UpdateRole",
                 Data: base.GetFormRoleServiceData()
             }, function (rs) {
                 Dialog.Alert(rs.Message, (rs.Status == "01" ? Dialog.Success : Dialog.Error), (rs.Status == "01" ? Dialog.Success : Dialog.Error), function () {
@@ -177,8 +177,8 @@ var RoleService = function () {
             },
             messages: {
                 RoleName: {
-                    required: language.RoleManage.RoleName_Required,
-                    maxlength: language.RoleManage.RoleName_Maxlength
+                    required: language.DecentralizateManagement.RoleName_Required,
+                    maxlength: language.DecentralizateManagement.RoleName_Maxlength
 
                 }
             }
@@ -264,7 +264,7 @@ $(document).ready(function () {
     $searchModel = $("#keywordToSearch").val();
     servicePayment.$table.bootstrapTable(Sv.BootstrapTableOption1(
         {
-            url: "/Admin/RoleManage/Search",
+            url: "/Admin/DecentralizateManagement/Search",
             queryParams: function (p) {
                 return {
                     offset: p.offset,

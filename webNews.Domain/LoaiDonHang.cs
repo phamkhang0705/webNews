@@ -14,15 +14,15 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("Security_Function")]
-    public partial class Security_Function : IHasId<int> 
+	[Alias("LoaiDonHang")]
+    public partial class LoaiDonHang : IHasId<int> 
     {
         [Alias("Id")]
         [AutoIncrement]
         public int Id { get; set; }
-        public string FunctionCode { get; set; }
-        public string FunctionName { get; set; }
-        public string IDINSYSTEM { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 
 }

@@ -49,16 +49,16 @@ var Unit = function () {
                 width: '150px',
                 field: 'FullName',
             }),
-            Sv.BootstrapTableColumn("string", {
-                title: 'Chi nhánh',
-                field: 'BranchName',
-                width: '150px'
-            }),
-            Sv.BootstrapTableColumn("string", {
-                title: 'Chức danh',
-                field: 'RoleName',
-                width: '150px'
-            }),
+//            Sv.BootstrapTableColumn("string", {
+//                title: 'Điện thoại',
+//                field: 'Tel',
+//                width: '150px'
+//            }),
+//            Sv.BootstrapTableColumn("string", {
+//                title: 'Chức danh',
+//                field: 'RoleName',
+//                width: '150px'
+//            }),
             Sv.BootstrapTableColumn("string", {
                 title: 'Email',
                 field: 'Email',
@@ -66,17 +66,17 @@ var Unit = function () {
             }),
              Sv.BootstrapTableColumn("string", {
                  title: 'Số điện thoại',
-                 filed: 'Tel',
+                 field: 'Tel',
                  align: "left",
                  width: '100px'
              }),
            Sv.BootstrapTableColumn("string", {
-               filed: 'Active',
+               filed: 'Status',
                align: "left",
                width: '150px',
                title: 'Trạng thái',
                formatter: function (value, row, index) {
-                   if (row.Active == 1) {
+                   if (row.Status == 1) {
                        return 'Hoạt động';
                    }
                    else {

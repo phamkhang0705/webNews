@@ -191,7 +191,7 @@ namespace webNews.Domain.Repositories.RoleManage
             }
         }
 
-        public List<SelectListModel> GetSelectRole()
+        public List<SelectListModel> GetListRole()
         {
             try
             {

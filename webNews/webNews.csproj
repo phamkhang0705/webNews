@@ -266,6 +266,7 @@
     <Compile Include="Areas\Admin\Controllers\BranchManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\ConfigManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DecentralizateManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\IndexController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleManagementController.cs" />
@@ -320,6 +321,37 @@
     <Content Include="Assets\Admin\Validate\jquery.validate.min.js" />
     <Content Include="Assets\Admin\Validate\jquery.validate.unobtrusive.min.js" />
     <Content Include="Assets\Lib\bootbox.min.js" />
+    <Content Include="Content\avatar\a10.png" />
+    <Content Include="Content\avatar\a11.png" />
+    <Content Include="Content\avatar\a12.png" />
+    <Content Include="Content\avatar\a13.png" />
+    <Content Include="Content\avatar\a14.png" />
+    <Content Include="Content\avatar\a2.png" />
+    <Content Include="Content\avatar\a3.png" />
+    <Content Include="Content\avatar\a4.png" />
+    <Content Include="Content\avatar\a5.png" />
+    <Content Include="Content\avatar\a6.png" />
+    <Content Include="Content\avatar\a7.png" />
+    <Content Include="Content\avatar\a8.png" />
+    <Content Include="Content\avatar\a9.png" />
+    <Content Include="Content\avatar\avartar2.jpg" />
+    <Content Include="Content\avatar\avatar.png" />
+    <Content Include="Content\avatar\avatar1.ico" />
+    <Content Include="Content\avatar\avatar10.jpg" />
+    <Content Include="Content\avatar\avatar11.jpg" />
+    <Content Include="Content\avatar\avatar12.jpg" />
+    <Content Include="Content\avatar\avatar13.png" />
+    <Content Include="Content\avatar\avatar14.png" />
+    <Content Include="Content\avatar\avatar15.png" />
+    <Content Include="Content\avatar\avatar16.jpg" />
+    <Content Include="Content\avatar\avatar17.png" />
+    <Content Include="Content\avatar\avatar3.png" />
+    <Content Include="Content\avatar\avatar4.jpg" />
+    <Content Include="Content\avatar\avatar5.png" />
+    <Content Include="Content\avatar\avatar6.jpg" />
+    <Content Include="Content\avatar\avatar7.ico" />
+    <Content Include="Content\avatar\avatar8.ico" />
+    <Content Include="Content\avatar\avatar9.jpg" />
     <Content Include="Content\bootstrap-switch.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -327,6 +359,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\checkbox3.min.css" />
     <Content Include="Content\flexslider.css" />
+    <Content Include="Content\images\img.jpg" />
     <Content Include="Content\multi-select.css" />
     <Content Include="Content\select2.min.css" />
     <Content Include="favicon.ico" />
@@ -335,7 +368,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\Admin\PermissionManage\Ctrl.js" />
     <Content Include="Scripts\Admin\RoleManagement\RoleManagement.js" />
-    <Content Include="Scripts\Admin\RoleManage\Ctrl.js" />
+    <Content Include="Scripts\Admin\DecentralizateManagement\Ctrl.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -362,6 +395,8 @@
     <Content Include="Areas\Admin\Views\UserManagement\Index.cshtml" />
     <Content Include="Areas\Admin\Views\UserManagement\Search.cshtml" />
     <Content Include="Areas\Admin\Views\UserManagement\_ptvDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\DecentralizateManagement\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DecentralizateManagement\Add.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -2315,11 +2350,10 @@
     <Content Include="Scripts\ckfinder\plugins\fileeditor\codemirror\LICENSE" />
     <Content Include="Scripts\ckfinder\userfiles\.htaccess" />
     <Content Include="Views\Error\Permission.cshtml" />
+    <None Include="Properties\PublishProfiles\test.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\avatar\" />
-    <Folder Include="Content\images\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>

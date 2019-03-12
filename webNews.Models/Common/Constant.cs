@@ -9,6 +9,7 @@ namespace webNews.Models.Common
             public static string Domain = "Domain";
             public static string BranchCode = "BranchCode";
             public static string UserName = "UserName";
+            public static string UserId = "UserId";
             public static string UserNameFullName = "UserNameFullName";
             public static string UserRole = "UserRole";
             public static string StoreId = "StoreId";

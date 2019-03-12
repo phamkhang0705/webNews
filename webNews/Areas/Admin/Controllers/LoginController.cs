@@ -43,7 +43,7 @@ namespace webNews.Areas.Admin.Controllers
         {
             username = username.Trim();
             password = password.Trim();
-            var captchar = Session["Captcha"].ToString();
+            //var captchar = Session["Captcha"].ToString();
             //if (string.IsNullOrWhiteSpace(captchar) || captchar.ToLower().Trim() != capchar.ToLower().Trim())
             //{
             //    var rs = new
@@ -94,7 +94,7 @@ namespace webNews.Areas.Admin.Controllers
                     {
                         var branchCode = string.Empty;
                         Session[Constant.SessionKey.UserName] = user.UserName;
-
+                        Session[Constant.SessionKey.UserId] = user.Id.ToString();
                         return Json(new { result = rs }, JsonRequestBehavior.AllowGet);
                     }
                     else

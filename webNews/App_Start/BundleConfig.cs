@@ -166,7 +166,7 @@ namespace webNews
                       "~/Theme/vendors/Jquery/jquery-1.11.3.min.js"
                 ));
 
-            bundles.Add(new StyleBundle("~/Theme/css").Include(
+            bundles.Add(new StyleBundle("~/Themecss/css").Include(
                       //<!-- Bootstrap -->
                       "~/Theme/vendors/bootstrap/css/bootstrap.min.css",
                       //<!-- Font Awesome -->
@@ -196,7 +196,7 @@ namespace webNews
                            "~/Content/Site.css"
                 ));
 
-            bundles.Add(new ScriptBundle("~/Theme/lib").Include(
+            bundles.Add(new ScriptBundle("~/Themelib/lib").Include(
                       //Jquery
                       "~/Theme/vendors/Jquery/jquery-1.12.4.js",
                       //<!-- Bootstrap -->
@@ -267,7 +267,7 @@ namespace webNews
            "~/Scripts/Common/Service.js",
            "~/Scripts/Admin/RoleManagement/RoleManagement.js"
            ));
-            // BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

@@ -82,6 +82,12 @@
     <Compile Include="Banner.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="DanhMucSanPham.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc_Nhom.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="DomainModule.cs" />
     <Compile Include="Entities\HomePageInfo.cs" />
     <Compile Include="Entities\Medium.cs" />
@@ -89,10 +95,19 @@
     <Compile Include="Entities\News.cs" />
     <Compile Include="Entities\ProjectCategory.cs" />
     <Compile Include="Entities\NewsCategory.cs" />
+    <Compile Include="File.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Gia.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="Language.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="LanguageCategory.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LoaiDonHang.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Media.cs">
@@ -101,10 +116,16 @@
     <Compile Include="MenuFE.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Navbar.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="News.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="NewsCategory.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NhomSanPham.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="OrmLite.SP.cs">
@@ -170,6 +191,9 @@
     <Compile Include="Services\SystemService.cs" />
     <Compile Include="Services\UserManagement\IUserManagementService.cs" />
     <Compile Include="Services\UserManagement\UserManagementService.cs" />
+    <Compile Include="sysdiagrams.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="System_Menu.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
@@ -177,6 +201,9 @@
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Temp_Code.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Unit.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="USER.cs" />

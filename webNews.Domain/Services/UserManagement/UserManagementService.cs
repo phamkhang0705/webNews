@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using System;
+using NLog;
 using webNews.Domain.Entities;
 using webNews.Domain.Repositories;
 using webNews.Domain.Repositories.UserManagement;
@@ -50,10 +51,19 @@ namespace webNews.Domain.Services.UserManagement
             var user = new System_User
             {
                 UserName = model.UserName,
-                
+                FullName = model.FullName,
+                UserRole = model.UserRole,
                 Status = model.Status,
                 Password = model.Password,
-                Email = model.Email
+                Email = model.Email,
+                Tel=model.Tel,
+                CreatedBy = model.CreatedBy,
+                CreatedDate = DateTime.Now,
+                CreatedById = model.CreatedById,
+                UpdatedBy = model.UpdatedBy,
+                UpdatedById = model.UpdatedById,
+                UpdatedDate = DateTime.Now
+                
             };
             user.Password = "123456";
             //user.Password = new Random().Next(0, 999999).ToString("000000");
@@ -100,18 +110,20 @@ namespace webNews.Domain.Services.UserManagement
                 response.ResponseMessage = "Người dùng không tồn tại!";
                 return response;
             }
-//            user.FullName = model.FullName;
+            user.CreatedDate = new DateTime();
+            user.UpdatedDate= new DateTime();
+            user.FullName = model.FullName;
             user.Status = model.Status;
             user.Email = model.Email;
-//            user.Tel = model.Tel;
-//            user.UserRole = model.UserRole;
+            user.Tel = model.Tel;
+            user.UserRole = model.UserRole;
 
             var update = _userManageRepository.UpdateUser(user);
 
             if (update)
             {
                 response.ResponseCode = "01";
-                response.ResponseMessage = "Update người dùng thành công";
+                response.ResponseMessage = "Cập nhật người dùng thành công";
             }
             return response;
         }

@@ -56,6 +56,11 @@ namespace webNews.Areas.Admin.Controllers
             get { return (string)Session[Constant.SessionKey.UserName]; }
         }
 
+        public string UserId
+        {
+            get { return (string)Session[Constant.SessionKey.UserId]; }
+        }
+
         public static int TimeOut
         {
             get { return int.Parse(System.Configuration.ConfigurationManager.AppSettings["JsonServiceClientTimeOut"]); }
