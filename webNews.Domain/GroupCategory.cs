@@ -14,8 +14,8 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("DanhMuc_Nhom")]
-    public partial class DanhMuc_Nhom : IHasId<int> 
+	[Alias("GroupCategory")]
+    public partial class GroupCategory : IHasId<int> 
     {
         [Alias("Id")]
         [AutoIncrement]

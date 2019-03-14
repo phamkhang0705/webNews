@@ -46,6 +46,9 @@
     <Compile Include="Common\HandlerPassword.cs" />
     <Compile Include="CoreMessageResponse.cs" />
     <Compile Include="Filter.cs" />
+    <Compile Include="CategoryManagement\SearchCategoryModel.cs" />
+    <Compile Include="OrderTypeManagement\SearchOrderTypeModel.cs" />
+    <Compile Include="GroupManagement\SearchGroupModel.cs" />
     <Compile Include="MessageResult.cs" />
     <Compile Include="PagingObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

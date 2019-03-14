@@ -82,10 +82,7 @@
     <Compile Include="Banner.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
-    <Compile Include="DanhMucSanPham.cs">
-      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DanhMuc_Nhom.cs">
+    <Compile Include="Category.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="DomainModule.cs" />
@@ -98,16 +95,16 @@
     <Compile Include="File.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
-    <Compile Include="Gia.cs">
+    <Compile Include="Group.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GroupCategory.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Language.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="LanguageCategory.cs">
-      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
-    </Compile>
-    <Compile Include="LoaiDonHang.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Media.cs">
@@ -125,7 +122,7 @@
     <Compile Include="NewsCategory.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
-    <Compile Include="NhomSanPham.cs">
+    <Compile Include="OrderType.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="OrmLite.SP.cs">
@@ -136,12 +133,23 @@
     <Compile Include="Page.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Price.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="Project.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="ProjectCategory.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\CategoryManagement\CategoryRepository.cs" />
+    <Compile Include="Repositories\CategoryManagement\ICategoryRepository.cs" />
+    <Compile Include="Repositories\PriceManagement\IPriceRepository.cs" />
+    <Compile Include="Repositories\PriceManagement\PriceRepository.cs" />
+    <Compile Include="Repositories\OrderTypeManagement\OrderTypeRepository.cs" />
+    <Compile Include="Repositories\OrderTypeManagement\IOrderTypeRepository.cs" />
+    <Compile Include="Repositories\GroupManagement\GroupManagementRepository.cs" />
+    <Compile Include="Repositories\GroupManagement\IGroupRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\ISystemRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
@@ -181,6 +189,14 @@
     <Compile Include="Service.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Services\CategoryManagement\CategoryManagementService.cs" />
+    <Compile Include="Services\CategoryManagement\ICategoryManagementService.cs" />
+    <Compile Include="Services\PriceManagement\IPriceManagementService.cs" />
+    <Compile Include="Services\PriceManagement\PriceManagementService.cs" />
+    <Compile Include="Services\OrderTypeManagement\OrderTypeManagementService.cs" />
+    <Compile Include="Services\OrderTypeManagement\IOrderTypeManagementService.cs" />
+    <Compile Include="Services\GroupManagement\IGroupManagementService.cs" />
+    <Compile Include="Services\GroupManagement\GroupManagementService.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\ISystemService.cs" />
     <Compile Include="Services\RoleManagement\IRoleManagementService.cs" />

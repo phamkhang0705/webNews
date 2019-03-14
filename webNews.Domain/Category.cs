@@ -14,15 +14,24 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("LoaiDonHang")]
-    public partial class LoaiDonHang : IHasId<int> 
+	[Alias("Category")]
+    public partial class Category : IHasId<int> 
     {
         [Alias("Id")]
         [AutoIncrement]
         public int Id { get; set; }
+        public int? GroupId { get; set; }
+        public int? OrderTypeId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
+        public int? FromAge { get; set; }
+        public int? ToAge { get; set; }
+        public int? Status { get; set; }
         public string Description { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public int? CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public int? UpdatedBy { get; set; }
     }
 
 }

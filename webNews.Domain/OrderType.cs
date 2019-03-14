@@ -14,15 +14,16 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("Gia")]
-    public partial class Gium : IHasId<int> 
+	[Alias("OrderType")]
+    public partial class OrderType : IHasId<int> 
     {
         [Alias("Id")]
         [AutoIncrement]
         public int Id { get; set; }
-        public int? CategoryId { get; set; }
-        public int? OrderTypeId { get; set; }
-        public double? Price { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int? Status { get; set; }
     }
 
 }
