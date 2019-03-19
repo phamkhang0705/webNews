@@ -10,9 +10,9 @@ namespace webNews.Domain.Services.GroupManagement
 
         bool CheckExist(string userName);
 
-        CoreMessageResponse CreateGroup(GroupModel model);
+        CoreMessageResponse CreateGroup(Group model);
 
-        CoreMessageResponse UpdateGroup(GroupModel model);
+        CoreMessageResponse UpdateGroup(Group model);
 
         bool Delete(int id);
 

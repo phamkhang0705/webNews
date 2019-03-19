@@ -14,16 +14,15 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("Price")]
-    public partial class Price : IHasId<int> 
+	[Alias("ProductPrice")]
+    public partial class ProductPrice : IHasId<int> 
     {
         [Alias("Id")]
         [AutoIncrement]
         public int Id { get; set; }
         public int? CategoryId { get; set; }
         public int? OrderTypeId { get; set; }
-        [Alias("Price")]
-        public double? _Price { get; set; }
+        public double? Price { get; set; }
     }
 
 }

@@ -1,4 +1,5 @@
-﻿using webNews.Domain.Entities;
+﻿using System.Collections.Generic;
+using webNews.Domain.Entities;
 using webNews.Models;
 using webNews.Models.CategoryManagement;
 
@@ -10,9 +11,9 @@ namespace webNews.Domain.Services.CategoryManagement
 
         bool CheckExist(string userName);
 
-        CoreMessageResponse CreateCategory(CategoryModel model);
+        CoreMessageResponse CreateCategory(Category category, List<GroupCategory> groupCategories, List<ProductPrice> productPrices, List<FileAttach> files);
 
-        CoreMessageResponse UpdateCategory(CategoryModel model);
+        CoreMessageResponse UpdateCategory(Category category, List<GroupCategory> groupCategories, List<ProductPrice> productPrices, List<FileAttach> files);
 
         bool Delete(int id);
 

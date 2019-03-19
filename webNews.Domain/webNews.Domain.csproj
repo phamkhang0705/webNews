@@ -92,7 +92,7 @@
     <Compile Include="Entities\News.cs" />
     <Compile Include="Entities\ProjectCategory.cs" />
     <Compile Include="Entities\NewsCategory.cs" />
-    <Compile Include="File.cs">
+    <Compile Include="FileAttach.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Group.cs">
@@ -133,7 +133,7 @@
     <Compile Include="Page.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
-    <Compile Include="Price.cs">
+    <Compile Include="ProductPrice.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Project.cs">
@@ -142,14 +142,18 @@
     <Compile Include="ProjectCategory.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repositories\CategoryManagement\CategoryRepository.cs" />
-    <Compile Include="Repositories\CategoryManagement\ICategoryRepository.cs" />
-    <Compile Include="Repositories\PriceManagement\IPriceRepository.cs" />
-    <Compile Include="Repositories\PriceManagement\PriceRepository.cs" />
+    <Compile Include="Repositories\CategoryManagement\CategoryManagementRepository.cs" />
+    <Compile Include="Repositories\CategoryManagement\ICategoryManagementRepository.cs" />
+    <Compile Include="Repositories\GroupCategoryManagement\GroupCategoryRepository.cs" />
+    <Compile Include="Repositories\GroupCategoryManagement\IGroupCategoryRepository.cs" />
+    <Compile Include="Repositories\FileAttachManagement\IFileAttachManagementRepository.cs" />
+    <Compile Include="Repositories\FileAttachManagement\FileAttachManagementRepository.cs" />
+    <Compile Include="Repositories\ProductPriceManagement\IProductPriceRepository.cs" />
+    <Compile Include="Repositories\ProductPriceManagement\ProductPriceRepository.cs" />
     <Compile Include="Repositories\OrderTypeManagement\OrderTypeRepository.cs" />
     <Compile Include="Repositories\OrderTypeManagement\IOrderTypeRepository.cs" />
     <Compile Include="Repositories\GroupManagement\GroupManagementRepository.cs" />
-    <Compile Include="Repositories\GroupManagement\IGroupRepository.cs" />
+    <Compile Include="Repositories\GroupManagement\IGroupManagementRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\ISystemRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />

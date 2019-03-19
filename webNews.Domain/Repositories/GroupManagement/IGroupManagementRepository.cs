@@ -4,7 +4,7 @@ using webNews.Domain.Entities;
 
 namespace webNews.Domain.Repositories.GroupManagement
 {
-    public interface IGroupRepository : IRepository<Group>
+    public interface IGroupManagementRepository : IRepository<Group>
     {
         PagingObject<Group> GetList(SearchGroupModel filter, int pageIndex, int pageSize);
 

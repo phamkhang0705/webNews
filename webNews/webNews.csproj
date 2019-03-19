@@ -269,8 +269,11 @@
     <Compile Include="Areas\Admin\Controllers\DecentralizateManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\IndexController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GroupManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserManagementController.cs" />
+    <Compile Include="Areas\Admin\Models\Group\GroupModel.cs" />
+    <Compile Include="Areas\Admin\Models\Category\CategoryModel.cs" />
     <Compile Include="Areas\Admin\Models\Login\LoginModel.cs" />
     <Compile Include="Areas\Admin\Models\RoleManagement\RoleManagementModel.cs" />
     <Compile Include="Areas\Admin\Models\SecurityModel.cs" />
@@ -367,6 +370,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\Admin\PermissionManage\Ctrl.js" />
+    <Content Include="Scripts\Admin\GroupManagement\GroupManagement.js" />
     <Content Include="Scripts\Admin\RoleManagement\RoleManagement.js" />
     <Content Include="Scripts\Admin\DecentralizateManagement\Ctrl.js" />
     <Content Include="ApplicationInsights.config">
@@ -397,6 +401,9 @@
     <Content Include="Areas\Admin\Views\UserManagement\_ptvDetail.cshtml" />
     <Content Include="Areas\Admin\Views\DecentralizateManagement\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DecentralizateManagement\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\GroupManagement\_groupDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\GroupManagement\_groupSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\GroupManagement\Index.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

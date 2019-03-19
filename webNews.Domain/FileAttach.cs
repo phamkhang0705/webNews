@@ -14,8 +14,8 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("File")]
-    public partial class File : IHasId<int> 
+	[Alias("FileAttach")]
+    public partial class FileAttach : IHasId<int> 
     {
         [Alias("Id")]
         [AutoIncrement]

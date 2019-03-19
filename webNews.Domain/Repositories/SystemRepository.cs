@@ -286,62 +286,62 @@ namespace webNews.Domain.Repositories
             }
         }
 
-        //public string CodeGen(ObjectType objectType, string name = "Z", int number = 10)
-        //{
-        //    try
-        //    {
-        //        using(var db = _connectionFactory.Open())
-        //        {
-        //            var code = db.SingleById<TEMP_CODE>(1);
+        public string CodeGen(ObjectType objectType, string name = "Z", int number = 6)
+        {
+            try
+            {
+                using(var db = _connectionFactory.Open())
+                {
+                    var code = db.SingleById<Temp_Code>(1);
 
-        //            int id = 0;
-        //            var retryCount = 0;
-        //            do
-        //            {
-        //                switch(objectType)
-        //                {
-        //                    case ObjectType.Staff:
-        //                        id = code.Staff++;
-        //                        name = PrefixType.Store;
-        //                        break;
+                    int id = 0;
+                    var retryCount = 0;
+                    do
+                    {
+                        switch(objectType)
+                        {
+                            case ObjectType.Group:
+                                id = code.Group++;
+                                name = PrefixType.Group;
+                                break;
 
-        //                    default:
-        //                        id = code.OtherPerson++;
-        //                        name = PrefixType.OtherPerson;
-        //                        break;
-        //                }
+//                            default:
+//                                id = code.OtherPerson++;
+//                                name = PrefixType.OtherPerson;
+//                                break;
+                        }
 
-        //                if(id != 0)
-        //                {
-        //                    try
-        //                    {
-        //                        number = Constant.LengthCode.LengthCountChar;
-        //                        db.Update(code);
-        //                        return @"" + name + id.ToString("D" + number);
-        //                    }
-        //                    catch(OptimisticConcurrencyException ex)
-        //                    {
-        //                        retryCount++;
-        //                        _logger.Info("Get Code error DbUpdateConcurrencyException: " + ex.Message);
-        //                        code = db.SingleById<TEMP_CODE>(1);
-        //                    }
-        //                    catch(Exception ex)
-        //                    {
-        //                        retryCount++;
-        //                        _logger.Info("Get Code error DbUpdateConcurrencyException: " + ex.Message);
-        //                        code = db.SingleById<TEMP_CODE>(1);
-        //                        _logger.Error(ex);
-        //                    }
-        //                }
-        //            } while(retryCount < 3 || id == 0);
-        //        }
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //    }
+                        if(id != 0)
+                        {
+                            try
+                            {
+                                number = Constant.LengthCode.LengthCountChar;
+                                db.Update(code);
+                                return @"" + name + id.ToString("D" + number);
+                            }
+                            catch(OptimisticConcurrencyException ex)
+                            {
+                                retryCount++;
+                                _logger.Info("Get Code error DbUpdateConcurrencyException: " + ex.Message);
+                                code = db.SingleById<Temp_Code>(1);
+                            }
+                            catch(Exception ex)
+                            {
+                                retryCount++;
+                                _logger.Info("Get Code error DbUpdateConcurrencyException: " + ex.Message);
+                                code = db.SingleById<Temp_Code>(1);
+                                _logger.Error(ex);
+                            }
+                        }
+                    } while(retryCount < 3 || id == 0);
+                }
+            }
+            catch(Exception ex)
+            {
+            }
 
-        //    return "AUTOGEN";
-        //}
+            return "AUTOGEN";
+        }
 
         public async Task<PagingObject<T>> PagingAsync<T>(SqlExpression<T> query, int? pageIndex = null, int? pageSize = null)
         {

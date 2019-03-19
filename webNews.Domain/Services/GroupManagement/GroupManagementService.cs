@@ -11,9 +11,9 @@ namespace webNews.Domain.Services.GroupManagement
     public class GroupManagementService : Service<Group>, IGroupManagementService
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private readonly IGroupRepository _groupRepository;
+        private readonly IGroupManagementRepository _groupRepository;
 
-        public GroupManagementService(IGroupRepository groupRepository, IRepository<Group> repository) : base(repository)
+        public GroupManagementService(IGroupManagementRepository groupRepository, IRepository<Group> repository) : base(repository)
         {
             _groupRepository = groupRepository;
         }
@@ -28,7 +28,7 @@ namespace webNews.Domain.Services.GroupManagement
             return _groupRepository.CheckExist(userName);
         }
 
-        public CoreMessageResponse CreateGroup(GroupModel model)
+        public CoreMessageResponse CreateGroup(Group model)
         {
             var response = new CoreMessageResponse
             {
@@ -67,7 +67,7 @@ namespace webNews.Domain.Services.GroupManagement
             return response;
         }
 
-        public CoreMessageResponse UpdateGroup(GroupModel model)
+        public CoreMessageResponse UpdateGroup(Group model)
         {
             var response = new CoreMessageResponse
             {

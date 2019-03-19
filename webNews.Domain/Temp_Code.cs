@@ -18,14 +18,14 @@ namespace webNews.Domain.Entities
     public partial class Temp_Code : IHasId<int> 
     {
         [Alias("Id")]
-        [Required]
+        [AutoIncrement]
         public int Id { get; set; }
         [Required]
-        public int BackendUser { get; set; }
-        [Required]
-        public int Agent { get; set; }
-        [Required]
         public byte[] RowVersion { get; set; }
+        [Required]
+        public int Group { get; set; }
+        [Required]
+        public int Category { get; set; }
     }
 
 }

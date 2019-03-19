@@ -1,32 +1,28 @@
 ﻿using NLog;
 using webNews.Domain.Entities;
 using webNews.Domain.Repositories;
-using webNews.Domain.Repositories.PriceManagement;
+using webNews.Domain.Repositories.ProductPriceManagement;
 using webNews.Models;
 
 namespace webNews.Domain.Services.PriceManagement
 {
-    public class PriceManagementService : Service<Price>, IPriceManagementService
+    public class PriceManagementService : Service<ProductPrice>, IPriceManagementService
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private readonly IUserRepository _userRepository;
-        private readonly ISystemRepository _systemRepository;
-        private readonly IPriceRepository _PriceRepository;
+        private readonly IProductPriceRepository _priceRepository;
 
-        public PriceManagementService(ISystemRepository systemRepository, IPriceRepository userManageRepository, IUserRepository userRepository, IRepository<Price> repository) : base(repository)
+        public PriceManagementService(IProductPriceRepository priceRepository, IRepository<ProductPrice> repository) : base(repository)
         {
-            _PriceRepository = userManageRepository;
-            _systemRepository = systemRepository;
-            _userRepository = userRepository;
+            _priceRepository = priceRepository;
         }
 
-        public CoreMessageResponse CreatePrice(Price model)
+        public CoreMessageResponse CreatePrice(ProductPrice model)
         {
             var response = new CoreMessageResponse
             {
                 ResponseCode = "00"
             };
-            var isInsert = _PriceRepository.Create(model);
+            var isInsert = _priceRepository.Create(model);
 
             if (isInsert > 0)
             {
@@ -41,13 +37,13 @@ namespace webNews.Domain.Services.PriceManagement
             return response;
         }
 
-        public CoreMessageResponse UpdatePrice(Price model)
+        public CoreMessageResponse UpdatePrice(ProductPrice model)
         {
             var response = new CoreMessageResponse
             {
                 ResponseCode = "00"
             };
-            var price = _PriceRepository.GetById(model.Id);
+            var price = _priceRepository.GetById(model.Id);
 
             if (price == null)
             {
@@ -55,9 +51,9 @@ namespace webNews.Domain.Services.PriceManagement
                 return response;
             }
 
-            price._Price = model._Price;
+            price.Price = model.Price;
 
-            var update = _PriceRepository.UpdatePrice(price);
+            var update = _priceRepository.UpdatePrice(price);
 
             if (update)
             {
@@ -69,12 +65,12 @@ namespace webNews.Domain.Services.PriceManagement
 
         public bool Delete(int id)
         {
-            return _PriceRepository.Delete(id);
+            return _priceRepository.Delete(id);
         }
 
-        public Price GetUserById(int id)
+        public ProductPrice GetProductById(int id)
         {
-            return _PriceRepository.GetById(id);
+            return _priceRepository.GetById(id);
         }
     }
 }

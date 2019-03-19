@@ -10,9 +10,9 @@ namespace webNews.Domain.Repositories.OrderTypeManagement
 
         bool CheckExist(string code);
 
-        bool CreateOrderType(OrderType OrderType);
+        bool CreateOrderType(OrderType orderType);
 
-        bool UpdateOrderType(OrderType OrderType);
+        bool UpdateOrderType(OrderType orderType);
 
         bool Delete(int id);
 

@@ -1,22 +1,23 @@
 ﻿using NLog;
 using ServiceStack.OrmLite;
 using System;
+using System.Collections.Generic;
 using webNews.Domain.Entities;
 
-namespace webNews.Domain.Repositories.PriceManagement
+namespace webNews.Domain.Repositories.FileAttachManagement
 {
-    public class PriceRepository : Repository<Price>, IPriceRepository
+    public class FileAttachManagementRepository : Repository<FileAttach>, IFileAttachManagementRepository
     {
         private readonly IWebNewsDbConnectionFactory _connectionFactory;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public PriceRepository(IWebNewsDbConnectionFactory connectionFactory)
+        public FileAttachManagementRepository(IWebNewsDbConnectionFactory connectionFactory)
             : base(connectionFactory)
         {
             _connectionFactory = connectionFactory;
         }
 
-        public bool CreatePrice(Price Price)
+        public bool CreateFile(List<FileAttach> files)
         {
             try
             {
@@ -24,7 +25,7 @@ namespace webNews.Domain.Repositories.PriceManagement
                 {
                     try
                     {
-                        db.Insert(Price, true);
+                        db.Insert(files, true);
                         return true;
                     }
                     catch (Exception e)
@@ -40,7 +41,7 @@ namespace webNews.Domain.Repositories.PriceManagement
             }
         }
 
-        public bool UpdatePrice(Price Price)
+        public bool UpdateFile(List<FileAttach> files)
         {
             try
             {
@@ -48,7 +49,7 @@ namespace webNews.Domain.Repositories.PriceManagement
                 {
                     try
                     {
-                        db.Update(Price);
+                        db.Update(files);
                         return true;
                     }
                     catch (Exception e)
@@ -64,14 +65,27 @@ namespace webNews.Domain.Repositories.PriceManagement
             }
         }
 
-        public bool Delete(int id)
+        public bool Delete(int? cateId = null, int? productId = null, int? groupId = null)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var check = db.Delete<Price>(_ => _.Id == id);
-                    if (check > 0) return true;
+                    if (cateId != null)
+                    {
+                        var check = db.Delete<FileAttach>(_ => _.CategoryId == cateId);
+                        if (check > 0) return true;
+                    }
+                    if (productId != null)
+                    {
+                        var check = db.Delete<FileAttach>(_ => _.ProductId == productId);
+                        if (check > 0) return true;
+                    }
+                    if (groupId != null)
+                    {
+                        var check = db.Delete<FileAttach>(_ => _.GroupId == groupId);
+                        if (check > 0) return true;
+                    }
                     return false;
                 }
             }

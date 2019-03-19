@@ -9,7 +9,7 @@ using webNews.Models.GroupManagement;
 
 namespace webNews.Domain.Repositories.GroupManagement
 {
-    public class GroupManagementRepository : Repository<Group>, IGroupRepository
+    public class GroupManagementRepository : Repository<Group>, IGroupManagementRepository
     {
         private readonly IWebNewsDbConnectionFactory _connectionFactory;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();

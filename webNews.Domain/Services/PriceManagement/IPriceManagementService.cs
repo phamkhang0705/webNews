@@ -3,13 +3,11 @@ using webNews.Models;
 
 namespace webNews.Domain.Services.PriceManagement
 {
-    public interface IPriceManagementService : IService<Price>
+    public interface IPriceManagementService : IService<ProductPrice>
     {
-        
+        CoreMessageResponse CreatePrice(ProductPrice model);
 
-        CoreMessageResponse CreatePrice(Price model);
-
-        CoreMessageResponse UpdatePrice(Price model);
+        CoreMessageResponse UpdatePrice(ProductPrice model);
 
         bool Delete(int id);
     }

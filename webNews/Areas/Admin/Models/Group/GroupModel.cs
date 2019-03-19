@@ -1,19 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using webNews.Domain.Entities;
 
-namespace webNews.Models.GroupManagement
+namespace webNews.Areas.Admin.Models.Group
 {
-    public class SearchGroupModel
-    {
-        public int Id { get; set; }
-        public string  Code { get; set; }
-        public string Name { get; set; }
-        public int Status { get; set; }
-    }
-
     public class GroupModel
     {
         public int Id { get; set; }
