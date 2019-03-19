@@ -1,6 +1,8 @@
 ﻿using NLog;
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
+using webNews.Common;
 using webNews.Domain.Entities;
 using webNews.Domain.Services.GroupManagement;
 using webNews.Language.Language;
@@ -13,10 +15,12 @@ namespace webNews.Areas.Admin.Controllers
     {
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         private readonly IGroupManagementService _groupManagementService;
+        private readonly IConstantService _constantService;
 
         public GroupManagementController(IGroupManagementService groupManagementService)
         {
             _groupManagementService = groupManagementService;
+            _constantService = new ConstantService();
         }
 
         // GET: Admin/GroupManagement
@@ -63,7 +67,8 @@ namespace webNews.Areas.Admin.Controllers
             {
                 var model = new webNews.Areas.Admin.Models.Group.GroupModel()
                 {
-                    Action = action
+                    Action = action,
+                    ListStatus = _constantService.ListStatus()
                 };
                 if (id > 0)
                 {
@@ -74,6 +79,7 @@ namespace webNews.Areas.Admin.Controllers
                         model.Code = group.Code;
                         model.Name = group.Name;
                         model.Description = group.Description;
+                        model.Status = group.Status;
                     }
                 }
                 return PartialView("_groupDetail", model);
@@ -103,11 +109,12 @@ namespace webNews.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    model.CreatedBy = Authentication.GetCurrentUser().Id;
                     var rs = _groupManagementService.CreateGroup(model);
                     return Json(new
                     {
                         Status = "01",
-                        Message = "Them moi nhom san pham thanh cong"
+                        Message = "Thêm mới nhóm sản phẩm thành công"
                     }, JsonRequestBehavior.AllowGet);
                 }
                 var error = CheckValidate();
@@ -139,11 +146,12 @@ namespace webNews.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var rs = _groupManagementService.Update(model);
+                    model.UpdatedBy = Authentication.GetCurrentUser().Id;
+                    var rs = _groupManagementService.UpdateGroup(model);
                     return Json(new
                     {
                         Status = "01",
-                        Message = "Cap nhat nhom san pham thanh cong"
+                        Message = "Cập nhật nhóm sản phẩm"
                     }, JsonRequestBehavior.AllowGet);
                 }
 

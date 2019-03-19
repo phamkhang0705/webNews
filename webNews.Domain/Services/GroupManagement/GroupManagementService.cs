@@ -47,6 +47,7 @@ namespace webNews.Domain.Services.GroupManagement
                 Name = model.Name,
                 Code = model.Code,
                 Status = model.Status,
+                Description = model.Description,
                 CreatedBy = model.CreatedBy,
                 CreatedDate = DateTime.Now,
                 UpdatedBy = model.UpdatedBy,
@@ -85,6 +86,7 @@ namespace webNews.Domain.Services.GroupManagement
             group.UpdatedBy = model.UpdatedBy;
             group.Name = model.Name;
             group.Status = model.Status;
+            group.Description = model.Description;
 
             var update = _groupRepository.UpdateGroup(group);
 

@@ -277,8 +277,11 @@
     <Compile Include="Areas\Admin\Models\Login\LoginModel.cs" />
     <Compile Include="Areas\Admin\Models\RoleManagement\RoleManagementModel.cs" />
     <Compile Include="Areas\Admin\Models\SecurityModel.cs" />
+    <Compile Include="Common\Common.cs" />
+    <Compile Include="Common\ConstantService.cs" />
     <Compile Include="Common\ExportFile.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
+    <Compile Include="Common\IConstantService.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />

@@ -21,8 +21,12 @@
                 }
             }),
             Sv.BootstrapTableColumn("string", {
+                title: 'Mã nhóm',
+                field: 'Code',
+                align: "left"
+            }),Sv.BootstrapTableColumn("string", {
                 title: 'Tên nhóm',
-                field: 'RoleName',
+                field: 'Name',
                 align: "left"
             }),
             Sv.BootstrapTableColumn("string", {
@@ -51,6 +55,7 @@
                             Sv.BindPopup(url, model, function (rs) {
                                 base.$boxDetails.html(rs);
                                 base.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
+                                base.OpentDisable();
                             });
                         });
                     }
@@ -58,6 +63,12 @@
             })];
         return obj;
     }
+
+    this.OpentDisable = function () {
+        var $form = $("#modalDetails").on();
+        $form.find("input[id='txtCode']").prop('disabled', true);
+    }
+
     this.LoadTableSearch = function () {
         base.$table.bootstrapTable('refreshOptions', {
             responseHandler: function (res) {
@@ -106,6 +117,7 @@
 
     this.GetFormSearchData = function () {
         var obj = {};
+        obj.COde = $('#txtCode').val();
         obj.Name = $('#txtName').val();
         return obj;
     }
