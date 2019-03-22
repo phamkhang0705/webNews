@@ -1,6 +1,7 @@
 ﻿using NLog;
 using ServiceStack.OrmLite;
 using System;
+using System.Collections.Generic;
 using webNews.Domain.Entities;
 
 namespace webNews.Domain.Repositories.ProductPriceManagement
@@ -79,6 +80,22 @@ namespace webNews.Domain.Repositories.ProductPriceManagement
             {
                 _logger.Error(e, "DB connection error");
                 return false;
+            }
+        }
+
+        public List<Vw_CategoryPrice> GetCategoryPrices(int cateId)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    return db.Select<Vw_CategoryPrice>(_ => _.CategoryId == cateId);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new List<Vw_CategoryPrice>();
             }
         }
     }

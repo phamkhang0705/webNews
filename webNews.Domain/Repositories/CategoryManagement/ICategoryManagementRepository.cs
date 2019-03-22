@@ -7,7 +7,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
 {
     public interface ICategoryManagementRepository : IRepository<Category>
     {
-        PagingObject<Category> GetList(SearchCategoryModel filter, int pageIndex, int pageSize);
+        PagingObject<Vw_Category> GetList(SearchCategoryModel filter, int pageIndex, int pageSize);
 
         bool CheckExist(string code);
 
@@ -17,8 +17,9 @@ namespace webNews.Domain.Repositories.CategoryManagement
 
         bool Delete(int id);
 
-        Category GetById(int id);
+        Vw_Category GetCateById(int id);
 
-        Category GetByCode(string code);
+        Vw_Category GetByCode(string code);
+        List<GroupCategory> GetGroupCategories(int cateId);
     }
 }

@@ -15,6 +15,8 @@ using webNews.Domain.Repositories.UserManagement;
 using webNews.Domain.Services;
 using webNews.Domain.Services.CategoryManagement;
 using webNews.Domain.Services.GroupManagement;
+using webNews.Domain.Services.OrderTypeManagement;
+using webNews.Domain.Services.PriceManagement;
 using webNews.Domain.Services.RoleManage;
 using webNews.Domain.Services.RoleManagement;
 using webNews.Domain.Services.UserManagement;
@@ -47,13 +49,12 @@ namespace webNews.Domain
             builder.RegisterType<RoleManagementService>().As<IRoleManagementService>();
 
             builder.RegisterType<ProductPriceRepository>().As<IProductPriceRepository>();
-            //            builder.RegisterType<ProductPriceService>().As<IProductPriceService>();
+            builder.RegisterType<PriceManagementService>().As<IPriceManagementService>();
 
             builder.RegisterType<GroupCategoryRepository>().As<IGroupCategoryRepository>();
-            //            builder.RegisterType<GroupCategoryService>().As<IGroupCategoryService>();
 
             builder.RegisterType<OrderTypeRepository>().As<IOrderTypeRepository>();
-            //            builder.RegisterType<OrderTypeService>().As<IOrderTypeService>();
+            builder.RegisterType<OrderTypeManagementService>().As<IOrderTypeManagementService>();
 
             builder.RegisterType<GroupManagementRepository>().As<IGroupManagementRepository>();
             builder.RegisterType<GroupManagementService>().As<IGroupManagementService>();

@@ -20,7 +20,7 @@ namespace webNews.Domain.Services.CategoryManagement
             _categoryRepository = categoryRepository;
         }
 
-        public PagingObject<Category> GetList(SearchCategoryModel filter, int pageIndex, int pageSize)
+        public PagingObject<Vw_Category> GetList(SearchCategoryModel filter, int pageIndex, int pageSize)
         {
             return _categoryRepository.GetList(filter, pageIndex, pageSize);
         }
@@ -36,38 +36,38 @@ namespace webNews.Domain.Services.CategoryManagement
             {
                 ResponseCode = "00"
             };
-//            var check = _categoryRepository.GetByCode(model.Code);
-//
-//            if (check != null)
-//            {
-//                response.ResponseMessage = "Mã danh mục đã tồn tại!";
-//                return response;
-//            }
-//
-//            var cate = new Category()
-//            {
-//                Name = model.Name,
-//                Code = model.Code,
-//                Status = model.Status,
-//                FromAge = model.FromAge,
-//                ToAge = model.ToAge,
-//                Description = model.Description,
-//                CreatedBy = model.CreatedBy,
-//                CreatedDate = DateTime.Now,
-//                UpdatedBy = model.UpdatedBy,
-//                UpdatedDate = DateTime.Now
-//            };
-//            var isInsert = _categoryRepository.CreateCategory(cate);
-//
-//            if (isInsert)
-//            {
-//                response.ResponseCode = "01";
-//                response.ResponseMessage = "Thêm danh mục thành công";
-//            }
-//            else
-//            {
-//                response.ResponseMessage = "Thêm danh mục thất bại";
-//            }
+            var check = _categoryRepository.GetByCode(category.Code);
+
+            if (check != null)
+            {
+                response.ResponseMessage = "Mã danh mục đã tồn tại!";
+                return response;
+            }
+
+            var cate = new Category()
+            {
+                Name = category.Name,
+                Code = category.Code,
+                Status = category.Status,
+                FromAge = category.FromAge,
+                ToAge = category.ToAge,
+                Description = category.Description,
+                CreatedBy = category.CreatedBy,
+                CreatedDate = DateTime.Now,
+                UpdatedBy = category.UpdatedBy,
+                UpdatedDate = DateTime.Now
+            };
+            var isInsert = _categoryRepository.CreateCategory(cate,groupCategories,productPrices,files);
+
+            if (isInsert)
+            {
+                response.ResponseCode = "01";
+                response.ResponseMessage = "Thêm danh mục thành công";
+            }
+            else
+            {
+                response.ResponseMessage = "Thêm danh mục thất bại";
+            }
 
             return response;
         }
@@ -78,26 +78,24 @@ namespace webNews.Domain.Services.CategoryManagement
             {
                 ResponseCode = "00"
             };
-//            var category = _categoryRepository.GetById(model.Id);
-//
-//            if (category == null)
-//            {
-//                response.ResponseMessage = "Danh mục không tồn tại!";
-//                return response;
-//            }
-//
-//            category.UpdatedDate = new DateTime();
-//            category.UpdatedBy = model.UpdatedBy;
-//            category.Name = model.Name;
-//            category.Status = model.Status;
-//            
-//            var update = _categoryRepository.UpdateCategory(category);
-//
-//            if (update)
-//            {
-//                response.ResponseCode = "01";
-//                response.ResponseMessage = "Cập nhật danh mục thành công";
-//            }
+            var cate = _categoryRepository.GetById(category.Id);
+
+            if (cate == null)
+            {
+                response.ResponseMessage = "Danh mục không tồn tại!";
+                return response;
+            }
+
+            cate.UpdatedDate = new DateTime();
+            cate.UpdatedBy = cate.UpdatedBy;
+            
+            var update = _categoryRepository.UpdateCategory(cate,groupCategories,productPrices,files);
+
+            if (update)
+            {
+                response.ResponseCode = "01";
+                response.ResponseMessage = "Cập nhật danh mục thành công";
+            }
             return response;
         }
 
@@ -106,14 +104,19 @@ namespace webNews.Domain.Services.CategoryManagement
             return _categoryRepository.Delete(id);
         }
 
-        public Category GetUserById(int id)
+        public Vw_Category GetCateById(int id)
         {
-            return _categoryRepository.GetById(id);
+            return _categoryRepository.GetCateById(id);
         }
 
-        public Category GetByCode(string code)
+        public Vw_Category GetByCode(string code)
         {
             return _categoryRepository.GetByCode(code);
+        }
+
+        public List<GroupCategory> GetGroupCategories(int cateId)
+        {
+            return _categoryRepository.GetGroupCategories(cateId);
         }
     }
 }

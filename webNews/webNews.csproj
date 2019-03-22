@@ -267,6 +267,7 @@
     <Compile Include="Areas\Admin\Controllers\ConfigManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\DecentralizateManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CategoryManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\IndexController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\GroupManagementController.cs" />
@@ -372,6 +373,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\Admin\CategoryManagement\CategoryManagement.js" />
     <Content Include="Scripts\Admin\PermissionManage\Ctrl.js" />
     <Content Include="Scripts\Admin\GroupManagement\GroupManagement.js" />
     <Content Include="Scripts\Admin\RoleManagement\RoleManagement.js" />
@@ -407,6 +409,9 @@
     <Content Include="Areas\Admin\Views\GroupManagement\_groupDetail.cshtml" />
     <Content Include="Areas\Admin\Views\GroupManagement\_groupSearch.cshtml" />
     <Content Include="Areas\Admin\Views\GroupManagement\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryManagement\_categoryDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryManagement\_categorySearch.cshtml" />
+    <Content Include="Areas\Admin\Views\CategoryManagement\Index.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

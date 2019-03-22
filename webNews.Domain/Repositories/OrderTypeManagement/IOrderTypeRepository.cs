@@ -1,4 +1,5 @@
-﻿using webNews.Models;
+﻿using System.Collections.Generic;
+using webNews.Models;
 using webNews.Models.OrderTypeManagement;
 using webNews.Domain.Entities;
 
@@ -19,5 +20,7 @@ namespace webNews.Domain.Repositories.OrderTypeManagement
         OrderType GetById(int id);
 
         OrderType GetByCode(string code);
+
+        List<OrderType> GetAllOrderTypes();
     }
 }

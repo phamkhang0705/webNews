@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Web.Mvc;
 using webNews.Common;
 using webNews.Domain.Entities;
@@ -30,7 +31,9 @@ namespace webNews.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Login");
             if (!CheckAuthorizer.Authorize(Permission.VIEW))
                 return RedirectToAction("Permission", "Error");
-            return View();
+            dynamic model = new ExpandoObject();
+            model.ListStatus = _constantService.ListStatus();
+            return View(model);
         }
 
         #region GetData

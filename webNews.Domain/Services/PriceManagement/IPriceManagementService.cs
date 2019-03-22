@@ -1,4 +1,5 @@
-﻿using webNews.Domain.Entities;
+﻿using System.Collections.Generic;
+using webNews.Domain.Entities;
 using webNews.Models;
 
 namespace webNews.Domain.Services.PriceManagement
@@ -10,5 +11,7 @@ namespace webNews.Domain.Services.PriceManagement
         CoreMessageResponse UpdatePrice(ProductPrice model);
 
         bool Delete(int id);
+
+        List<Vw_CategoryPrice> GetCategoryPrices(int cateId);
     }
 }

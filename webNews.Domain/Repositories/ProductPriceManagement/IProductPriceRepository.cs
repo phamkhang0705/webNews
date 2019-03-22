@@ -1,4 +1,5 @@
-﻿using webNews.Domain.Entities;
+﻿using System.Collections.Generic;
+using webNews.Domain.Entities;
 
 namespace webNews.Domain.Repositories.ProductPriceManagement
 {
@@ -9,5 +10,7 @@ namespace webNews.Domain.Repositories.ProductPriceManagement
         bool UpdatePrice(ProductPrice Price);
 
         bool Delete(int id);
+
+        List<Vw_CategoryPrice> GetCategoryPrices(int cateId);
     }
 }

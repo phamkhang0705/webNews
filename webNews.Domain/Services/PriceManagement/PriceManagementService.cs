@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using System.Collections.Generic;
+using NLog;
 using webNews.Domain.Entities;
 using webNews.Domain.Repositories;
 using webNews.Domain.Repositories.ProductPriceManagement;
@@ -71,6 +72,11 @@ namespace webNews.Domain.Services.PriceManagement
         public ProductPrice GetProductById(int id)
         {
             return _priceRepository.GetById(id);
+        }
+
+        public List<Vw_CategoryPrice> GetCategoryPrices(int cateId)
+        {
+            return _priceRepository.GetCategoryPrices(cateId);
         }
     }
 }

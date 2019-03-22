@@ -448,6 +448,97 @@ var Service = function () {
 
         return base.JoinObject(obj, option);
     }
+    this.AjaxPostDemo = function (option, fnSuccess, fnError) {
+        if (option.Data) {
+            option.Data.append("__RequestVerificationToken", $("input[name=__RequestVerificationToken]").val());
+        }
+        else {
+            var data = new FormData();
+            data.append("__RequestVerificationToken", $("input[name=__RequestVerificationToken]").val());
+            option.Data = data;
+        }
+        if (option.CheckAuthen != false) {
+            base.CheckAuthen({
+                Url: "/Admin/Index/CheckAuthen",
+            }, function (rs) {
+                if (!rs.IsAuthen) {
+                    Dialog.Alert(language.SessionTimeout, Dialog.Error, "Session Timedout", function () {
+                        window.location = "/Admin/login?ReturnUrl=" + window.location.href;
+                    });
+                } else {
+                    $.ajax({
+                        url: option.Url,
+                        type: 'Post',
+                        //contentType: false,
+                        //mimeType: false,
+                        ////contentType: 'multipart/form-data',
+                        ////mimeType: 'multipart/form-data',
+                        //processData: false,
+                        enctype: 'multipart/form-data',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: option.Data,
+                        dataType: 'json',
+
+                        beforeSend: function () {
+                            base.RequestStart();
+                        },
+                        async: (option.async == undefined ? true : option.async),
+                        complete: function () {
+                            base.RequestEnd();
+                        },
+                        success: function (rs) {
+                            if (typeof fnSuccess === "function")
+                                fnSuccess(rs);
+                        },
+                        error: function (e) {
+                            if (!fnError)
+                                Dialog.Alert(language.Message_Error, Dialog.Error);
+                            if (typeof fnError === "function")
+                                fnError(e);
+                        }
+                    });
+                }
+            }, function (e) {
+            });
+        } else {
+            $.ajax({
+                url: option.Url,
+                type: 'Post',
+                //contentType: false,
+                //mimeType: false,
+                ////contentType: 'multipart/form-data',
+                ////mimeType: 'multipart/form-data',
+                //processData: false,
+                enctype: 'multipart/form-data',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: option.Data,
+                dataType: 'json',
+
+                beforeSend: function () {
+                    base.RequestStart();
+                },
+                async: (option.async == undefined ? true : option.async),
+                complete: function () {
+                    base.RequestEnd();
+                },
+                success: function (rs) {
+                    if (typeof fnSuccess === "function")
+                        fnSuccess(rs);
+                },
+                error: function (e) {
+                    if (!fnError)
+                        Dialog.Alert(language.Message_Error, Dialog.Error);
+                    if (typeof fnError === "function")
+                        fnError(e);
+                }
+            });
+        }
+    }
+
     this.BootstrapTableOption = function (option) {
 
         var obj = {

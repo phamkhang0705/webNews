@@ -172,5 +172,23 @@ namespace webNews.Domain.Repositories.OrderTypeManagement
                 return new OrderType();
             }
         }
+
+        public List<OrderType> GetAllOrderTypes()
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    return db.Select<OrderType>(x => x.Status == 1);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new List<OrderType>();
+            }
+        }
+
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using webNews.Domain.Entities;
+﻿using System.Collections.Generic;
+using webNews.Domain.Entities;
 using webNews.Models;
 using webNews.Models.GroupManagement;
 
@@ -19,5 +20,7 @@ namespace webNews.Domain.Services.GroupManagement
         Group GetUserById(int id);
 
         Group GetByCode(string code);
+
+        List<Group> GetAllGroups();
     }
 }

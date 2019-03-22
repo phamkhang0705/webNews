@@ -4,9 +4,9 @@
 @{
     /**/
 
-    ViewBag.Title = "QUẢN LÝ NHÓM SẢN PHẨM";
+    ViewBag.Title = "QUẢN LÝ DANH MỤC SẢN PHẨM";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
-    var caption = MvcHtmlString.Create("Quản lý nhóm sản phẩm");
+    var caption = MvcHtmlString.Create("Quản lý danh mục sản phẩm");
 }
 <h2 class="page-header">@caption</h2>
 <div class="main-content">
@@ -21,7 +21,7 @@
         <input type="hidden" id="txtPerDelete" value="@(CheckAuthorizer.Authorize(Permission.DELETE) ? 1 : 0)" />
     </div>
     <div id="modalSearch">
-        @RenderPage("_groupSearch.cshtml")
+        @RenderPage("_categorySearch.cshtml")
     </div>
     <div class="table">
         <table id="table"></table>
@@ -31,5 +31,5 @@
 
 @section Scripts
 {
-    <script src="~/Scripts/Admin/GroupManagement/GroupManagement.js"></script>
+    <script src="~/Scripts/Admin/CategoryManagement/CategoryManagement.js"></script>
 }

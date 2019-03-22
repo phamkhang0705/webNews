@@ -1,5 +1,6 @@
 ﻿@using webNews.Domain
 @using webNews.Language.Language
+@using webNews.Domain.Entities;
 
 <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="xModal">
     <div class="modal-dialog modal-lg" role="document">
@@ -31,16 +32,38 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-2 control-label">Mã nhóm</label>
+                        <label class="col-xs-2 control-label">Mã danh mục</label>
                         <div class="col-xs-4">
-                            <input type="text" class="form-control input-sm" name="Code" id="txtCode" />
+                            <input type="text" class="form-control input-sm" name="Code" id="txtCode"/>
                         </div>
-                        <label class="col-xs-2 control-label">Tên nhóm</label>
+                        <label class="col-xs-2 control-label">Tên danh mục</label>
                         <div class="col-xs-4">
-                            <input type="text" class="form-control input-sm" name="Name" id="txtName" />
+                            <input type="text" class="form-control input-sm" name="Name" id="txtName"/>
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-xs-2 control-label">Từ tuổi</label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control input-sm" name="FromAge" id="txtFromAge" />
+                        </div>
+                        <label class="col-xs-2 control-label">Đến tuổi</label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control input-sm" name="ToAge" id="txtToAge" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">Nhóm</label>
+                        <div class="col-xs-4">
+                            <select class="form-control input-sm" name="GroupId" id="txtGroupId" multiple="multiple">
+@*                                <option value="-1">Tất cả</option>*@
+                                @foreach (Group item in Model.ListGroups)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+
                         <label class="col-xs-2 control-label">Trạng thái</label>
                         <div class="col-xs-4">
                             <select class="form-control input-sm" name="Status" id="txtStatus">
@@ -51,6 +74,7 @@
                             </select>
                         </div>
                     </div>
+
                 </form>
             </div>
             <div class="modal-footer">

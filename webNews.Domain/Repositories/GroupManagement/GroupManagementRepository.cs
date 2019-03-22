@@ -172,5 +172,22 @@ namespace webNews.Domain.Repositories.GroupManagement
                 return new Group();
             }
         }
+
+        public List<Group> GetAllGroups()
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var check = db.Select<Group>(_ => _.Status==1);
+                    return check;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new List<Group>();
+            }
+        }
     }
 }

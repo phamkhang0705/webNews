@@ -1,5 +1,6 @@
 ﻿using NLog;
 using System;
+using System.Collections.Generic;
 using webNews.Domain.Entities;
 using webNews.Domain.Repositories;
 using webNews.Domain.Repositories.GroupManagement;
@@ -111,6 +112,11 @@ namespace webNews.Domain.Services.GroupManagement
         public Group GetByCode(string code)
         {
             return _groupRepository.GetByCode(code);
+        }
+
+        public List<Group> GetAllGroups()
+        {
+            return _groupRepository.GetAllGroups();
         }
     }
 }

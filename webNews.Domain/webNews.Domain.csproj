@@ -227,6 +227,12 @@
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="USER.cs" />
+    <Compile Include="Vw_Category.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vw_CategoryPrice.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="Vw_Core_User.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>

@@ -20,13 +20,13 @@ namespace webNews.Domain.Repositories.CategoryManagement
             _connectionFactory = connectionFactory;
         }
 
-        public PagingObject<Category> GetList(SearchCategoryModel filter, int pageIndex, int pageSize)
+        public PagingObject<Vw_Category> GetList(SearchCategoryModel filter, int pageIndex, int pageSize)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var query = db.From<Category>();
+                    var query = db.From<Vw_Category>();
                     if (!string.IsNullOrEmpty(filter.Name))
                     {
                         query.Where(_ => _.Code.Contains(filter.Name));
@@ -35,10 +35,17 @@ namespace webNews.Domain.Repositories.CategoryManagement
                     {
                         query.Where(_ => _.Code == filter.Code);
                     }
+                    if (filter.GroupId != null)
+                    {
+                        if (filter.GroupId.Count > 0)
+                        {
+                            query.Where(_ => _.Code == filter.Code);
+                        }
+                    }
                     //More filter
                     var total = (int)db.Count(query);
                     query.Skip(pageIndex * pageSize).Take(pageSize);
-                    return new PagingObject<Category>
+                    return new PagingObject<Vw_Category>
                     {
                         Total = (int)total,
                         DataList = db.Select(query)
@@ -47,10 +54,10 @@ namespace webNews.Domain.Repositories.CategoryManagement
             }
             catch (Exception e)
             {
-                return new PagingObject<Category>
+                return new PagingObject<Vw_Category>
                 {
                     Total = 0,
-                    DataList = new List<Category>()
+                    DataList = new List<Vw_Category>()
                 };
             }
         }
@@ -206,37 +213,37 @@ namespace webNews.Domain.Repositories.CategoryManagement
             }
         }
 
-        public Category GetById(int id)
+        public Vw_Category GetCateById(int id)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var check = db.Single<Category>(_ => _.Id == id);
+                    var check = db.Single<Vw_Category>(_ => _.Id == id);
                     return check;
                 }
             }
             catch (Exception e)
             {
                 _logger.Error(e, "DB connection error");
-                return new Category();
+                return new Vw_Category();
             }
         }
 
-        public Category GetByCode(string code)
+        public Vw_Category GetByCode(string code)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var check = db.Single<Category>(_ => _.Code == code);
+                    var check = db.Single<Vw_Category>(_ => _.Code == code);
                     return check;
                 }
             }
             catch (Exception e)
             {
                 _logger.Error(e, "DB connection error");
-                return new Category();
+                return new Vw_Category();
             }
         }
 
