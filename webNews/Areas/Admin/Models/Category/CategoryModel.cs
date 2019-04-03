@@ -11,7 +11,7 @@ namespace webNews.Areas.Admin.Models.Category
 
         [Display(Name = "Mã nhóm")]
         [Required(ErrorMessage = "Vui lòng nhập mã nhóm")]
-        public int GroupId { get; set; }
+        public string GroupId { get; set; }
         [Display(Name = "Mã danh mục")]
         [StringLength(10, ErrorMessage = "Mã danh mục tối đa 10 ký tự")]
         [Required(ErrorMessage = "Vui lòng nhập mã danh mục")]
@@ -43,6 +43,8 @@ namespace webNews.Areas.Admin.Models.Category
         public string groupids { get; set; }
         public string groupnames { get; set; }
         public string files { get; set; }
+
+        public string[] lstFiles { get; set; }
 
         public List<SelectListItem> ListStatus { get; set; }
         public List<OrderType> ListOrderTypes { get; set; }

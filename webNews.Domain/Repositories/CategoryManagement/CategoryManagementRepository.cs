@@ -80,25 +80,27 @@ namespace webNews.Domain.Repositories.CategoryManagement
             }
         }
 
-        public bool CreateCategory(Category category, List<GroupCategory> groupCategories, List<ProductPrice> productPrices, List<FileAttach> files)
+        public bool CreateCategory(Category category, string[] groupCategories, List<ProductPrice> productPrices, List<string> files)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    using (var trans = db.BeginTransaction())
+                    using (var trans = db.OpenTransaction())
                     {
                         try
                         {
                             var cateId = (int)db.Insert(category, true);
-                            if (groupCategories.Count > 0)
+                            if (groupCategories.Length > 0)
                             {
                                 foreach (var groupCategory in groupCategories)
                                 {
-                                    groupCategory.CategoryId = cateId;
-                                    db.Insert(groupCategory);
+                                    db.Insert(new GroupCategory()
+                                    {
+                                        CategoryId = cateId,
+                                        GroupId = Int32.Parse(groupCategory)
+                                    });
                                 }
-                                db.Insert(groupCategories);
                             }
                             if (productPrices.Count > 0)
                             {
@@ -113,8 +115,11 @@ namespace webNews.Domain.Repositories.CategoryManagement
                             {
                                 foreach (var file in files)
                                 {
-                                    file.CategoryId = cateId;
-                                    db.Insert(file);
+                                    db.Insert(new FileAttach()
+                                    {
+                                        CategoryId = cateId,
+                                        Url = file
+                                    });
                                 }
                             }
 
@@ -136,31 +141,64 @@ namespace webNews.Domain.Repositories.CategoryManagement
             }
         }
 
-        public bool UpdateCategory(Category category, List<GroupCategory> groupCategories, List<ProductPrice> productPrices, List<FileAttach> files)
+        public bool UpdateCategory(Category category, string[] groupCategories, List<ProductPrice> productPrices, List<string> files,List<FileAttach> listFiles)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    using (var trans = db.BeginTransaction())
+                    using (var trans = db.OpenTransaction())
                     {
                         try
                         {
                             db.Update(category);
-                            if (groupCategories.Count > 0)
+                            if (groupCategories.Length > 0)
                             {
                                 db.Delete<GroupCategory>(x => x.CategoryId == category.Id);
-                                db.Insert(groupCategories);
+                                foreach (var groupCategory in groupCategories)
+                                {
+                                    db.Insert(new GroupCategory()
+                                    {
+                                        CategoryId = category.Id,
+                                        GroupId = Int32.Parse(groupCategory)
+                                    });
+                                }
+                                
                             }
                             if (productPrices.Count > 0)
                             {
                                 db.Delete<ProductPrice>(x => x.CategoryId == category.Id);
-                                db.Insert(productPrices);
+                                foreach (var productPrice in productPrices)
+                                {
+                                    productPrice.CategoryId = category.Id;
+                                    db.Insert(productPrice);
+                                }
+                            }
+
+                            if (listFiles!=null)
+                            {
+                                var listId = listFiles.Select(x => x.Id).ToList();
+
+                                var listFile = db.Select<FileAttach>(x => x.CategoryId == category.Id);
+                                foreach (var fileAttach in listFile)
+                                {
+                                    if (!listId.Contains(fileAttach.Id))
+                                    {
+                                        db.Delete<FileAttach>(x=>x.Id==fileAttach.Id);
+                                    }
+                                }
                             }
                             if (files.Count > 0)
                             {
-                                db.Delete<FileAttach>(x => x.CategoryId == category.Id);
-                                db.Insert(files);
+                                foreach (var file in files)
+                                {
+                                    db.Insert(new FileAttach()
+                                    {
+                                        CategoryId = category.Id,
+                                        Url = file
+                                    });
+                                }
+                                
                             }
                             trans.Commit();
                             return true;

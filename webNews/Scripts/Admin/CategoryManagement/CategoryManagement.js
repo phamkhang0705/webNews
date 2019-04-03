@@ -83,7 +83,6 @@
                                 base.$boxDetails.html(rs);
                                 base.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
                                 base.SetupAmountMask();
-                                base.FileAction();
 
                                 var groupIds = model.groupids.split(',');
                                 $('#formDetail #txtStatus').val(model.status).select2();
@@ -141,53 +140,95 @@
         });
     }
     base.GetFormData = function () {
-        var data = $('#formDetail').serializeArray();
+        var form = $('#formDetail').on();
+        var obj = {};
+        obj.Id = form.find('#txtId').val();
+        obj.Code = form.find('#txtCode').val();
+        obj.Name = form.find('#txtName').val();
+        obj.GroupId = form.find('#txtGroupId').val();
+        obj.FromAge = form.find('#txtFromAge').val();
+        obj.ToAge = form.find('#txtToAge').val();
+        obj.Description = form.find('#txtDescription').val();
+        obj.Status = form.find('#txtStatus').val();
+        var prices = $('#formDetail').find('#divPrice .price');
+        var lstPrices = [];
+        for (var i = 0; i < prices.length; i++) {
+            var price = {};
+            price.OrderTypeId = prices.eq(i).attr('id');
+            price.Code = prices.eq(i).attr('name');
+            price.Price = prices.eq(i).val();
+            lstPrices.push(price);
+        }
 
-        var dataForm = {};
-        $(data).each(function (index, obj) {
-            dataForm[obj.name] = obj.value;
-        });
+        var images = $('#formDetail').find('.div-image .img-preview');
+        var lstImages = [];
+        for (var i = 0; i < images.length; i++) {
+            var image = {};
+            image.Id = images.eq(i).attr('id');
+            lstImages.push(image);
+        }
 
-        return dataForm;
+        obj.prices = JSON.stringify(lstPrices);
+        obj.ListFiles = lstImages.length > 0 ? JSON.stringify(lstImages) : [];
+        return obj;
     }
     //-- them sua xoa
 
     this.SubmitServer = function (action, id) {
         var $form = $("#formDetail").on();
-        var formData = new window.FormData($('#formDetail')[0]);
-        var length = $form.find("input[name='UploadFile']").length;
-        var files;
-        for (var i = 0; i < length; i++) {
-            files = $form.find("input[name='UploadFile']")[i].files;
-            formData.append("lstfiles" + i, files[0]);
-        }
-        var dataForm = base.GetFormData();
-        for (var key in dataForm) {
-            formData.append(key, dataForm[key]);
-        }
-        var url = "/CategoryManagement/Create";
-        if (action === "Edit") {
-            url = "/CategoryManagement/Update";
-        }
-        if ($form.valid(true)) {
-            $.ajax({
-                url: url,
-                type: 'Post',
-                beforeSend: function () { },
-                success: function (rs) {
-                    if (rs.Status === "01") {
-                        Dialog.Alert(rs.Message, Dialog.Success);
-                        base.$boxDetails.find("#modalDetails").modal("hide");
-                        base.LoadTableSearch();
-                    } else {
-                        Dialog.Alert(rs.Message, Dialog.Error);
+        if ($form.valid()) {
+            var formData = new FormData();
+            var dataForm = base.GetFormData();
+            formData.append("Id", dataForm.Id);
+            formData.append("Code", dataForm.Code);
+            formData.append("Name", dataForm.Name);
+            formData.append("Status", dataForm.Status);
+            formData.append("Description", dataForm.Description);
+            formData.append("GroupId", dataForm.GroupId);
+            formData.append("FromAge", dataForm.FromAge);
+            formData.append("ToAge", dataForm.ToAge);
+            formData.append("prices", dataForm.prices);
+            formData.append("ListFiles", dataForm.ListFiles);
+            var length = $form.find("input[name='UploadFile']").length;
+            var files;
+            for (var i = 0; i < length; i++) {
+                files = $form.find("input[name='UploadFile']")[i].files;
+                if (action === "add") {
+                    if (files.length === 0) {
+                        Dialog.Alert("Vui lòng chọn ảnh", Dialog.Error);
+                        return;
                     }
-                },
-                data: formData,
-                cache: false,
-                contentType: false,
-                dataType: "json",
-                processData: false
+                } else {
+                    if (dataForm.ListFiles.length === 0) {
+                        if (files.length === 0) {
+                            Dialog.Alert("Vui lòng chọn ảnh", Dialog.Error);
+                            return;
+                        }
+                    }
+                }
+                formData.append("lstfiles" + i, files[0]);
+            }
+
+
+            var url = "/CategoryManagement/Create";
+            if (action === "Edit") {
+                url = "/CategoryManagement/Update";
+            }
+
+            Sv.AjaxPostDemo({
+                Url: url,
+                Data: formData
+            }, function (rs) {
+                if (rs.Status === "01") {
+                    Dialog.Alert(rs.Message, Dialog.Success);
+                    base.$boxDetails.find("#modalDetails").modal("hide");
+                    base.OpentDisable();
+                    base.LoadTableSearch();
+                } else {
+                    Dialog.Alert(rs.Message, Dialog.Error);
+                }
+            }, function () {
+                Dialog.Alert(language.Message_Error, Dialog.Error);
             });
         }
     }
@@ -202,40 +243,16 @@
         obj.ToAge = $('#txtToAge').val();
         return obj;
     }
-
-    this.FileAction = function () {
-        var $form = $("#modalDetails").on();
-        $form.on('click', '#btnAddFile', function (e) {
-            var index = $form.find('.div-file').last().attr('index');
-            index = parseInt(index);
-            var _index = parseInt(index) + 1;
-            var str = $('#divFile-1').html();
-            var str1 = '<div class="col-xs-12 col-md-12 no-padding div-file" style="margin-top:5px" index="' + _index + '" id="divFile-' + _index + '">' + str + '</div>';
-            $(str1).insertAfter($form.find('.div-file').last());
-            $form.find('.div-file').each(function (index, element) {
-                $(this).find('#btnDelete').removeClass('hidden');
-            });
-        });
-
-        $form.on('click', '#btnDelete', function (e) {
-            var $this = $(this);
-            var divParent = $this.parent().parent();
-            divParent.remove();
-            unit.RefreshIndex(".div-file");
-            if ($form.find('.div-file').length === 1) {
-                $form.find('.div-file').find('#btnDelete').addClass('hidden');
-            }
-        });
-    }
-
     this.RefreshIndex = function (selector) {
-        var parent = $(selector).parent();
+        var $form = $("#formDetail").on();
+        var parent = $form.find('.parent');
         parent.find(selector).each(function (i, e) {
             $(this).attr('index', i + 1);
             var id = $(this).attr('id');
             $(this).attr('id', id.split('-')[0] + "-" + (i + 1));
         });
     };
+
 }
 
 
@@ -275,7 +292,7 @@ $(document).ready(function () {
             unit.$boxDetails.html(rs);
             unit.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
             unit.SetupAmountMask();
-            unit.FileAction();
+
             $('#formDetail #txtStatus').val('-1').select2();
             $('#formDetail #txtGroupId').select2();
         });
@@ -288,5 +305,36 @@ $(document).ready(function () {
     unit.$boxDetails.on('click', 'button#btnEdit', function (e) {
         e.preventDefault();
         unit.SubmitServer("Edit", 0);
+    });
+
+
+
+    unit.$boxDetails.on('click', '#btnAddFile', function (e) {
+        var $form = $('#formDetail').on();
+        var index = $form.find('.div-file').last().attr('index');
+        index = parseInt(index);
+        var _index = parseInt(index) + 1;
+        var str = $('#divFile-1').html();
+        var str1 = '<div class="col-xs-12 col-md-12 no-padding div-file" style="margin-top:5px" index="' + _index + '" id="divFile-' + _index + '">' + str + '</div>';
+        $(str1).insertAfter($form.find('.div-file').last());
+        $form.find('.div-file').each(function (index, element) {
+            $(this).find('#btnDelete').removeClass('hidden');
+        });
+    });
+
+    unit.$boxDetails.on('click', '#btnDelete', function (e) {
+        var $form = $('#formDetail').on();
+        var $this = $(this);
+        var divParent = $this.parent().parent();
+        divParent.remove();
+        unit.RefreshIndex(".div-file");
+        if ($form.find('.parent .div-file').length === 1) {
+            $form.find('.parent .div-file').find('#btnDelete').addClass('hidden');
+        }
+    });
+    unit.$boxDetails.on('click', '#btnDeleteImg', function (e) {
+        var $this = $(this);
+        var divParent = $this.parent().parent();
+        divParent.remove();
     });
 });

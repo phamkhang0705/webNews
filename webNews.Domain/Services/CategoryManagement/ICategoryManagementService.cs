@@ -11,9 +11,9 @@ namespace webNews.Domain.Services.CategoryManagement
 
         bool CheckExist(string userName);
 
-        CoreMessageResponse CreateCategory(Category category, List<GroupCategory> groupCategories, List<ProductPrice> productPrices, List<FileAttach> files);
+        CoreMessageResponse CreateCategory(Category category, string[] groupCategories, List<ProductPrice> productPrices, List<string> files);
 
-        CoreMessageResponse UpdateCategory(Category category, List<GroupCategory> groupCategories, List<ProductPrice> productPrices, List<FileAttach> files);
+        CoreMessageResponse UpdateCategory(Category category, string[] groupCategories, List<ProductPrice> productPrices, List<string> files,List<FileAttach> listFiles);
 
         bool Delete(int id);
 

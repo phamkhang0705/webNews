@@ -11,9 +11,9 @@ namespace webNews.Domain.Repositories.CategoryManagement
 
         bool CheckExist(string code);
 
-        bool CreateCategory(Category category,List<GroupCategory> groupCategories,List<ProductPrice> productPrices, List<FileAttach> files);
+        bool CreateCategory(Category category, string[] groupCategories,List<ProductPrice> productPrices, List<string> files);
 
-        bool UpdateCategory(Category category, List<GroupCategory> groupCategories, List<ProductPrice> productPrices, List<FileAttach> files);
+        bool UpdateCategory(Category category, string[] groupCategories, List<ProductPrice> productPrices, List<string> files,List<FileAttach> listFiles);
 
         bool Delete(int id);
 

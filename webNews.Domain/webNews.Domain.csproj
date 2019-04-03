@@ -85,6 +85,18 @@
     <Compile Include="Category.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Customer.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerDetail.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerLevel.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="District.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="DomainModule.cs" />
     <Compile Include="Entities\HomePageInfo.cs" />
     <Compile Include="Entities\Medium.cs" />
@@ -133,6 +145,9 @@
     <Compile Include="Page.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Product.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="ProductPrice.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
@@ -140,6 +155,15 @@
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="ProjectCategory.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Promotion.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PromotionUsed.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Province.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\CategoryManagement\CategoryManagementRepository.cs" />
@@ -195,6 +219,8 @@
     </Compile>
     <Compile Include="Services\CategoryManagement\CategoryManagementService.cs" />
     <Compile Include="Services\CategoryManagement\ICategoryManagementService.cs" />
+    <Compile Include="Services\FileAttachManagement\IFileAttachManagementService.cs" />
+    <Compile Include="Services\FileAttachManagement\FileAttachManagementService.cs" />
     <Compile Include="Services\PriceManagement\IPriceManagementService.cs" />
     <Compile Include="Services\PriceManagement\PriceManagementService.cs" />
     <Compile Include="Services\OrderTypeManagement\OrderTypeManagementService.cs" />
@@ -237,6 +263,9 @@
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Vw_UserInfo.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ward.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="WebNewsDbConnectionFactory.cs" />

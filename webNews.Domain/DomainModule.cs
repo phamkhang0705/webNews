@@ -14,6 +14,7 @@ using webNews.Domain.Repositories.RoleManagement;
 using webNews.Domain.Repositories.UserManagement;
 using webNews.Domain.Services;
 using webNews.Domain.Services.CategoryManagement;
+using webNews.Domain.Services.FileAttachManagement;
 using webNews.Domain.Services.GroupManagement;
 using webNews.Domain.Services.OrderTypeManagement;
 using webNews.Domain.Services.PriceManagement;
@@ -63,7 +64,7 @@ namespace webNews.Domain
             builder.RegisterType<CategoryManagementService>().As<ICategoryManagementService>();
 
             builder.RegisterType<FileAttachManagementRepository>().As<IFileAttachManagementRepository>();
-            //            builder.RegisterType<FileAttachManagementService>().As<IFileAttachManagementService>();
+            builder.RegisterType<FileAttachManagementService>().As<IFileAttachManagementService>();
 
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerDependency();
             builder.RegisterGeneric(typeof(Service<>)).As(typeof(IService<>)).InstancePerDependency();

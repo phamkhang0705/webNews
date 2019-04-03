@@ -95,5 +95,34 @@ namespace webNews.Domain.Repositories.FileAttachManagement
                 return false;
             }
         }
+
+        public List<FileAttach> GetFileAttaches(int? cateId = null, int? productId = null, int? groupId = null)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    if (cateId != null)
+                    {
+                        return db.Select<FileAttach>(_ => _.CategoryId == cateId);
+                        
+                    }
+                    if (productId != null)
+                    {
+                        return db.Select<FileAttach>(_ => _.ProductId == productId);
+                    }
+                    if (groupId != null)
+                    {
+                        return db.Select<FileAttach>(_ => _.GroupId == groupId);
+                    }
+                    return db.Select<FileAttach>();
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new List<FileAttach>();
+            }
+        }
     }
 }

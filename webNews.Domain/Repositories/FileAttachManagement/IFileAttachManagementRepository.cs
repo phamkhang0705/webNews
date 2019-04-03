@@ -10,5 +10,7 @@ namespace webNews.Domain.Repositories.FileAttachManagement
         bool UpdateFile(List<FileAttach> files);
 
         bool Delete(int? cateId = null, int? productId = null, int? groupId = null);
+
+        List<FileAttach> GetFileAttaches(int? cateId = null, int? productId = null, int? groupId = null);
     }
 }

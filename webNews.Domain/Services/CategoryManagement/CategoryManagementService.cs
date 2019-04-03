@@ -30,7 +30,7 @@ namespace webNews.Domain.Services.CategoryManagement
             return _categoryRepository.CheckExist(userName);
         }
 
-        public CoreMessageResponse CreateCategory(Category category, List<GroupCategory> groupCategories, List<ProductPrice> productPrices, List<FileAttach> files)
+        public CoreMessageResponse CreateCategory(Category category, string[] groupCategories, List<ProductPrice> productPrices, List<string> files)
         {
             var response = new CoreMessageResponse
             {
@@ -57,6 +57,7 @@ namespace webNews.Domain.Services.CategoryManagement
                 UpdatedBy = category.UpdatedBy,
                 UpdatedDate = DateTime.Now
             };
+
             var isInsert = _categoryRepository.CreateCategory(cate,groupCategories,productPrices,files);
 
             if (isInsert)
@@ -72,7 +73,7 @@ namespace webNews.Domain.Services.CategoryManagement
             return response;
         }
 
-        public CoreMessageResponse UpdateCategory(Category category, List<GroupCategory> groupCategories, List<ProductPrice> productPrices, List<FileAttach> files)
+        public CoreMessageResponse UpdateCategory(Category category, string[] groupCategories, List<ProductPrice> productPrices, List<string> files, List<FileAttach> listFiles)
         {
             var response = new CoreMessageResponse
             {
@@ -86,10 +87,10 @@ namespace webNews.Domain.Services.CategoryManagement
                 return response;
             }
 
-            cate.UpdatedDate = new DateTime();
+            cate.UpdatedDate = DateTime.Now;
             cate.UpdatedBy = cate.UpdatedBy;
             
-            var update = _categoryRepository.UpdateCategory(cate,groupCategories,productPrices,files);
+            var update = _categoryRepository.UpdateCategory(cate,groupCategories,productPrices,files, listFiles);
 
             if (update)
             {
