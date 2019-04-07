@@ -41,24 +41,16 @@ namespace webNews.Models.UserManagement
         [Display(Name = "Email")]
         [Required(ErrorMessage = "Email không được để trống")]
         public string Email { get; set; }
-        public bool? IsSoftware { get; set; }
-        public bool? IsWebsite { get; set; }
         public string Image { get; set; }
 
         [Display(Name = "Trạng thái")]
         public bool? Active { get; set; }
-        public string BranchCode { get; set; }
-        public string Domain { get; set; }
-        public decimal? NationalId { get; set; }
-        public string ProvinceCode { get; set; }
-        public bool? Isfirst { get; set; }
-        public string Title { get; set; }
+        
         public string Salt { get; set; }
         public int? Status { get; set; }
-
-        public string BranchName { get; set; }
-        public string RoleName { get; set; }
-
+        
+        [Display(Name="Mô tả")]
+        public string Description { get; set; }
         public List<SelectListModel> ListRole { get; set; }
         public List<SelectListModel> ListStatus { get; set; }
 

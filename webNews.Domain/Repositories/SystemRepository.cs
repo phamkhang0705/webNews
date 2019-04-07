@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using webNews.Models;
 using NLog;
@@ -293,16 +294,16 @@ namespace webNews.Domain.Repositories
                 using(var db = _connectionFactory.Open())
                 {
                     var code = db.SingleById<Temp_Code>(1);
-
+                    var dateTime = DateTime.Now.ToString("yyyyMMdd");
                     int id = 0;
                     var retryCount = 0;
                     do
                     {
                         switch(objectType)
                         {
-                            case ObjectType.Group:
-                                id = code.Group++;
-                                name = PrefixType.Group;
+                            case ObjectType.Customer:
+                                id = code.Customer++;
+                                name = PrefixType.Customer+ dateTime;
                                 break;
 
 //                            default:
@@ -480,6 +481,64 @@ namespace webNews.Domain.Repositories
             catch (Exception ex)
             {
                 _logger.Info("Get medias error", ex, ex.Message, ex.StackTrace);
+
+                return null;
+            }
+        }
+
+        public List<Province> GetProvinces()
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<Province>();
+                    return db.Select(query);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info("Get Province error", ex, ex.Message, ex.StackTrace);
+
+                return null;
+            }
+        }
+
+        public List<District> GetDistricts(string provinceId)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<District>();
+                    query.Where(x => x.provinceid == provinceId.ToString());
+                    return db.Select(query);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info("Get Districts error", ex, ex.Message, ex.StackTrace);
+
+                return null;
+            }
+        }
+
+        public List<Ward> GetWards(string districtId)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<Ward>();
+                    query.Where(x => x.districtid == districtId.ToString());
+                    return db.Select(query);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info("Get Wards error", ex, ex.Message, ex.StackTrace);
 
                 return null;
             }

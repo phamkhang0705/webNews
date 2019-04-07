@@ -264,6 +264,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BranchManageController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CustomerManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\ConfigManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\DecentralizateManagementController.cs" />
@@ -273,6 +275,8 @@
     <Compile Include="Areas\Admin\Controllers\GroupManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserManagementController.cs" />
+    <Compile Include="Areas\Admin\Models\Customer\CustomerModel.cs" />
+    <Compile Include="Areas\Admin\Models\Product\ProductModel.cs" />
     <Compile Include="Areas\Admin\Models\Group\GroupModel.cs" />
     <Compile Include="Areas\Admin\Models\Category\CategoryModel.cs" />
     <Compile Include="Areas\Admin\Models\Login\LoginModel.cs" />
@@ -373,6 +377,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\Admin\CustomerManagement\CustomerManagement.js" />
+    <Content Include="Scripts\Admin\ProductManagement\ProductManagement.js" />
     <Content Include="Scripts\Admin\CategoryManagement\CategoryManagement.js" />
     <Content Include="Scripts\Admin\PermissionManage\Ctrl.js" />
     <Content Include="Scripts\Admin\GroupManagement\GroupManagement.js" />
@@ -412,6 +418,12 @@
     <Content Include="Areas\Admin\Views\CategoryManagement\_categoryDetail.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryManagement\_categorySearch.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryManagement\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductManagement\_productDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductManagement\_productSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductManagement\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerManagement\_customerDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerManagement\_customerSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerManagement\Index.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

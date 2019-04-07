@@ -21,11 +21,7 @@ namespace webNews.Domain.Entities
         [AutoIncrement]
         public int Id { get; set; }
         [Required]
-        public byte[] RowVersion { get; set; }
-        [Required]
-        public int Group { get; set; }
-        [Required]
-        public int Category { get; set; }
+        public int Customer { get; set; }
     }
 
 }

@@ -16,7 +16,8 @@
 	string UseSpecificNamedConnection = ""; //if not null: Will use name provided as NamedConnection and AddNamedConnection = true, else ConnectionStringName is used as default NamedConnection
     // Read schema
 	var tables = LoadTables(MakeSingular);
-
+	tables["sysdiagrams"].Ignore = true;
+	tables["TEMP_CODE"]["RowVersion"].Ignore = true;	
 
 /*
 	// Tweak Schema

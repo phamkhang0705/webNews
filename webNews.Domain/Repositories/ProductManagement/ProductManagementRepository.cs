@@ -5,47 +5,44 @@ using System.Collections.Generic;
 using System.Linq;
 using webNews.Domain.Entities;
 using webNews.Models;
-using webNews.Models.CategoryManagement;
+using webNews.Models.ProductManagement;
 
-namespace webNews.Domain.Repositories.CategoryManagement
+namespace webNews.Domain.Repositories.ProductManagement
 {
-    public class CategoryManagementRepository : Repository<Category>, ICategoryManagementRepository
+    public class ProductManagementRepository : Repository<Product>, IProductManagementRepository
     {
         private readonly IWebNewsDbConnectionFactory _connectionFactory;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public CategoryManagementRepository(IWebNewsDbConnectionFactory connectionFactory)
+        public ProductManagementRepository(IWebNewsDbConnectionFactory connectionFactory)
             : base(connectionFactory)
         {
             _connectionFactory = connectionFactory;
         }
 
-        public PagingObject<Vw_Category> GetList(SearchCategoryModel filter, int pageIndex, int pageSize)
+        public PagingObject<Vw_Product> GetList(SearchProductModel filter, int pageIndex, int pageSize)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var query = db.From<Vw_Category>();
+                    var query = db.From<Vw_Product>();
                     if (!string.IsNullOrEmpty(filter.Name))
                     {
-                        query.Where(_ => _.Code.Contains(filter.Name));
+                        query.Where(_ => _.ProductName.Contains(filter.Name));
                     }
                     if (!string.IsNullOrEmpty(filter.Code))
                     {
-                        query.Where(_ => _.Code == filter.Code);
+                        query.Where(_ => _.ProductCode == filter.Code);
                     }
-                    if (filter.GroupId != null)
+                    if (filter.CategoryId != null)
                     {
-                        if (filter.GroupId.Count > 0)
-                        {
-                            query.Where(_ => _.groupids.Contains(filter.GroupId.ToString()));
-                        }
+                        query.Where(_ => _.CategoryId == filter.CategoryId);
                     }
                     //More filter
                     var total = (int)db.Count(query);
                     query.Skip(pageIndex * pageSize).Take(pageSize);
-                    return new PagingObject<Vw_Category>
+                    return new PagingObject<Vw_Product>
                     {
                         Total = (int)total,
                         DataList = db.Select(query)
@@ -54,10 +51,10 @@ namespace webNews.Domain.Repositories.CategoryManagement
             }
             catch (Exception e)
             {
-                return new PagingObject<Vw_Category>
+                return new PagingObject<Vw_Product>
                 {
                     Total = 0,
-                    DataList = new List<Vw_Category>()
+                    DataList = new List<Vw_Product>()
                 };
             }
         }
@@ -68,7 +65,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var check = db.Single<Category>(_ => _.Code == code);
+                    var check = db.Single<Product>(_ => _.ProductCode == code);
                     if (check != null) return true;
                     return false;
                 }
@@ -80,7 +77,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
             }
         }
 
-        public bool CreateCategory(Category category, string[] groupCategories, List<ProductPrice> productPrices, List<string> files)
+        public bool CreateProduct(Product product, List<string> files)
         {
             try
             {
@@ -90,26 +87,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
                     {
                         try
                         {
-                            var cateId = (int)db.Insert(category, true);
-                            if (groupCategories.Length > 0)
-                            {
-                                foreach (var groupCategory in groupCategories)
-                                {
-                                    db.Insert(new GroupCategory()
-                                    {
-                                        CategoryId = cateId,
-                                        GroupId = Int32.Parse(groupCategory)
-                                    });
-                                }
-                            }
-                            if (productPrices.Count > 0)
-                            {
-                                foreach (var productPrice in productPrices)
-                                {
-                                    productPrice.CategoryId = cateId;
-                                    db.Insert(productPrice);
-                                }
-                            }
+                            var productId = (int)db.Insert(product, true);
 
                             if (files.Count > 0)
                             {
@@ -117,7 +95,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
                                 {
                                     db.Insert(new FileAttach()
                                     {
-                                        CategoryId = cateId,
+                                        ProductId = productId,
                                         Url = file
                                     });
                                 }
@@ -141,7 +119,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
             }
         }
 
-        public bool UpdateCategory(Category category, string[] groupCategories, List<ProductPrice> productPrices, List<string> files,List<FileAttach> listFiles)
+        public bool UpdateProduct(Product product, List<string> files, List<FileAttach> listFiles)
         {
             try
             {
@@ -151,40 +129,18 @@ namespace webNews.Domain.Repositories.CategoryManagement
                     {
                         try
                         {
-                            db.Update(category);
-                            if (groupCategories.Length > 0)
-                            {
-                                db.Delete<GroupCategory>(x => x.CategoryId == category.Id);
-                                foreach (var groupCategory in groupCategories)
-                                {
-                                    db.Insert(new GroupCategory()
-                                    {
-                                        CategoryId = category.Id,
-                                        GroupId = Int32.Parse(groupCategory)
-                                    });
-                                }
-                                
-                            }
-                            if (productPrices.Count > 0)
-                            {
-                                db.Delete<ProductPrice>(x => x.CategoryId == category.Id);
-                                foreach (var productPrice in productPrices)
-                                {
-                                    productPrice.CategoryId = category.Id;
-                                    db.Insert(productPrice);
-                                }
-                            }
+                            db.Update(product);
 
-                            if (listFiles!=null)
+                            if (listFiles != null)
                             {
                                 var listId = listFiles.Select(x => x.Id).ToList();
 
-                                var listFile = db.Select<FileAttach>(x => x.CategoryId == category.Id);
+                                var listFile = db.Select<FileAttach>(x => x.ProductId == product.Id);
                                 foreach (var fileAttach in listFile)
                                 {
                                     if (!listId.Contains(fileAttach.Id))
                                     {
-                                        db.Delete<FileAttach>(x=>x.Id==fileAttach.Id);
+                                        db.Delete<FileAttach>(x => x.Id == fileAttach.Id);
                                     }
                                 }
                             }
@@ -194,11 +150,10 @@ namespace webNews.Domain.Repositories.CategoryManagement
                                 {
                                     db.Insert(new FileAttach()
                                     {
-                                        CategoryId = category.Id,
+                                        ProductId = product.Id,
                                         Url = file
                                     });
                                 }
-                                
                             }
                             trans.Commit();
                             return true;
@@ -228,11 +183,9 @@ namespace webNews.Domain.Repositories.CategoryManagement
                     {
                         try
                         {
-                            db.Delete<GroupCategory>(x => x.CategoryId == id);
-                            db.Delete<ProductPrice>(x => x.CategoryId == id);
-                            db.Delete<FileAttach>(x => x.CategoryId == id);
+                            db.Delete<FileAttach>(x => x.ProductId == id);
 
-                            db.Delete<Category>(_ => _.Id == id);
+                            db.Delete<Product>(_ => _.Id == id);
                             trans.Commit();
                             return true;
                         }
@@ -251,54 +204,37 @@ namespace webNews.Domain.Repositories.CategoryManagement
             }
         }
 
-        public Vw_Category GetCateById(int id)
+        public Vw_Product GetProductById(int id)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var check = db.Single<Vw_Category>(_ => _.Id == id);
+                    var check = db.Single<Vw_Product>(_ => _.Id == id);
                     return check;
                 }
             }
             catch (Exception e)
             {
                 _logger.Error(e, "DB connection error");
-                return new Vw_Category();
+                return new Vw_Product();
             }
         }
 
-        public Vw_Category GetByCode(string code)
+        public Vw_Product GetByCode(string code)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var check = db.Single<Vw_Category>(_ => _.Code == code);
+                    var check = db.Single<Vw_Product>(_ => _.ProductCode == code);
                     return check;
                 }
             }
             catch (Exception e)
             {
                 _logger.Error(e, "DB connection error");
-                return new Vw_Category();
-            }
-        }
-
-        public List<GroupCategory> GetGroupCategories(int cateId)
-        {
-            try
-            {
-                using (var db = _connectionFactory.Open())
-                {
-                    var data = db.Select<GroupCategory>(_ => _.CategoryId == cateId);
-                    return data;
-                }
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "DB connection error");
-                return new List<GroupCategory>();
+                return new Vw_Product();
             }
         }
     }

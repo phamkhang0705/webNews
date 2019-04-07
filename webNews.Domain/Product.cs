@@ -20,7 +20,7 @@ namespace webNews.Domain.Entities
         [Alias("Id")]
         [AutoIncrement]
         public int Id { get; set; }
-        public int? CategotyId { get; set; }
+        public int? CategoryId { get; set; }
         public string ProductCode { get; set; }
         public string ProductName { get; set; }
         public int? Quantity { get; set; }

@@ -4,20 +4,24 @@ using ServiceStack.OrmLite.SqlServer;
 using System.Configuration;
 using webNews.Domain.Repositories;
 using webNews.Domain.Repositories.CategoryManagement;
+using webNews.Domain.Repositories.CustomerManagement;
 using webNews.Domain.Repositories.FileAttachManagement;
 using webNews.Domain.Repositories.GroupCategoryManagement;
 using webNews.Domain.Repositories.GroupManagement;
 using webNews.Domain.Repositories.OrderTypeManagement;
+using webNews.Domain.Repositories.ProductManagement;
 using webNews.Domain.Repositories.ProductPriceManagement;
 using webNews.Domain.Repositories.RoleManage;
 using webNews.Domain.Repositories.RoleManagement;
 using webNews.Domain.Repositories.UserManagement;
 using webNews.Domain.Services;
 using webNews.Domain.Services.CategoryManagement;
+using webNews.Domain.Services.CustomerManagement;
 using webNews.Domain.Services.FileAttachManagement;
 using webNews.Domain.Services.GroupManagement;
 using webNews.Domain.Services.OrderTypeManagement;
 using webNews.Domain.Services.PriceManagement;
+using webNews.Domain.Services.ProductManagement;
 using webNews.Domain.Services.RoleManage;
 using webNews.Domain.Services.RoleManagement;
 using webNews.Domain.Services.UserManagement;
@@ -65,6 +69,12 @@ namespace webNews.Domain
 
             builder.RegisterType<FileAttachManagementRepository>().As<IFileAttachManagementRepository>();
             builder.RegisterType<FileAttachManagementService>().As<IFileAttachManagementService>();
+
+            builder.RegisterType<ProductManagementRepository>().As<IProductManagementRepository>();
+            builder.RegisterType<ProductManagementService>().As<IProductManagementService>();
+
+            builder.RegisterType<CustomerManagementRepository>().As<ICustomerManagementRepository>();
+            builder.RegisterType<CustomerManagementService>().As<ICustomerManagementService>();
 
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerDependency();
             builder.RegisterGeneric(typeof(Service<>)).As(typeof(IService<>)).InstancePerDependency();

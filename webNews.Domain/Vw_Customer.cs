@@ -14,19 +14,32 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("Customer")]
-    public partial class Customer : IHasId<int> 
+	[Alias("Vw_Customer")]
+    public partial class Vw_Customer 
     {
-        [Alias("Id")]
-        [AutoIncrement]
+        [Required]
         public int Id { get; set; }
         public string CustomerCode { get; set; }
         public string CustomerName { get; set; }
         public int? Status { get; set; }
-        public int? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public int? CreatedBy { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public string Facebook { get; set; }
+        public string Description { get; set; }
+        public string ProvinceId { get; set; }
+        public string DistrictId { get; set; }
+        public string WardId { get; set; }
+        [Required]
+        public string ProvinceName { get; set; }
+        [Required]
+        public string DistrictName { get; set; }
+        [Required]
+        public string Wardname { get; set; }
+        public string Address { get; set; }
     }
 
 }

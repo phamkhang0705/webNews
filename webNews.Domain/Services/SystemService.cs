@@ -6,6 +6,7 @@ using webNews.Models;
 using NLog;
 using ServiceStack.OrmLite;
 using webNews.Domain.Entities;
+using webNews.Models.Common;
 
 namespace webNews.Domain.Services
 {
@@ -93,6 +94,27 @@ namespace webNews.Domain.Services
         public News GetNews(int id, int type)
         {
             return _systemRepository.GetNews(id, type);
+        }
+
+        public List<Province> GetProvinces()
+        {
+            return _systemRepository.GetProvinces();
+        }
+
+        public List<District> GetDistricts(string provinceId)
+        {
+            return _systemRepository.GetDistricts(provinceId);
+        }
+
+        public List<Ward> GetWards(string districtId)
+        {
+            return _systemRepository.GetWards(districtId);
+        }
+
+
+        public string CodeGen(ObjectType objectType, string name = "Z", int number = 10)
+        {
+            return _systemRepository.CodeGen(objectType, name, number);
         }
     }
 }

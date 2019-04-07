@@ -1,0 +1,106 @@
+﻿@using webNews.Language.Language
+@using webNews.HtmlHelpers
+@model webNews.Areas.Admin.Models.Customer.CustomerModel
+@{
+    var add = Model.Action == "Add";
+    var edit = Model.Action == "Edit";
+    var popupTitle = Model.Action == "Add" ? "Thêm mới" : "Cập nhật";
+    var disabled = edit ? "disabled" : "";
+}
+<script src="~/Assets/Admin/Validate/jquery.validate.min.js"></script>
+<script src="~/Assets/Admin/Validate/jquery.validate.unobtrusive.min.js"></script>
+<div class="modal fade" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="xModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@popupTitle</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <form id="formDetail" name="formDetail" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                    @Html.HiddenFor(x => x.Id, new { @id = "txtId" })
+                    
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.CustomerCode)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.CustomerCode, "", new { @class = "field-validation-valid" })
+                            @Html.TextBoxFor(x => x.CustomerCode, new { @class = "form-control input-sm ", @id = "txtCustomerCode", @placeholder = "Mã khách hàng" })
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.CustomerName)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.CustomerName, "", new { @class = "field-validation-valid" })
+                            @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control input-sm", @id = "txtCustomerName", @placeholder = "Tên khách hàng" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Phone)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Phone, "", new { @class = "field-validation-valid" })
+                            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control input-sm", @id = "txtPhone", @placeholder = "Số điện thoại" })
+                        </div><label class="col-xs-2 control-label">@Html.LabelFor(x => x.Email)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Phone, "", new { @class = "field-validation-valid" })
+                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control input-sm", @id = "txtEmail", @placeholder = "Email" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Facebook)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Facebook, "", new {@class = "field-validation-valid"})
+                            @Html.TextBoxFor(x => x.Facebook, new {@class = "form-control input-sm amount-mask", @id = "txtFacebook", @placeholder = "Facebook"})
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.ProvinceId)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.ProvinceId, "", new {@class = "field-validation-valid"})
+                            @Html.DropDownListFor(x => x.ProvinceId, new SelectList(Model.ListProvinces, "Id", "name"),"Tất cả", new {@class = "form-control input-sm", @id = "txtProvinceId"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.DistrictId)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.DistrictId, "", new { @class = "field-validation-valid" })
+                            <select name="DistrictId" id="txtDistrictId" class="form-control"></select>
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.ProvinceId)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.WardId, "", new { @class = "field-validation-valid" })
+                            <select name="WardId" id="txtWardId" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Address)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Address, "", new {@class = "field-validation-valid"})
+                            @Html.TextBoxFor(x => x.Address, new {@class = "form-control input-sm", @id = "txtAddress", @placeholder = "Nhập địa chỉ"})
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Status)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Status, "", new {@class = "field-validation-valid"})
+                            @Html.DropDownListFor(x => x.Status, new SelectList(Model.ListStatus, "Value", "Text"), new {@class = "form-control input-sm", @id = "txtStatus"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Description)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Description, "", new { @class = "field-validation-valid" })
+                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control input-sm", @id = "txtDescription", @placeholder = "Nhập mô tả" })
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                @if (add)
+                {
+                    <button id="btnAdd" class="btn btn-primary" type="button"><i class="fa fa-check"></i> @(Resource.Btn_Save_Lang)</button>
+                }
+                else
+                    if (edit)
+                {
+                    <button id="btnEdit" class="btn btn-primary" type="button"><i class="fa fa-check"></i> @(Resource.Btn_Edit_Lang)</button>
+                }
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-reply"></i>@Resource.Btn_Close_Lang</button>
+            </div>
+        </div>
+    </div>
+</div>

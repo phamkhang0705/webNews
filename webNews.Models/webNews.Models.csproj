@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomerManagement\SearchCustomerModel.cs" />
+    <Compile Include="ProductManagement\SearchProductModel.cs" />
     <Compile Include="Common\BootstrapTableParams.cs" />
     <Compile Include="Common\Constant.cs" />
     <Compile Include="Common\HandlerPassword.cs" />

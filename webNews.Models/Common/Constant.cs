@@ -21,7 +21,7 @@ namespace webNews.Models.Common
 
         public static class LengthCode
         {
-            public static int LengthCountChar = 10;
+            public static int LengthCountChar = 5;
         }
         public static class LogoTemplate
         {
@@ -60,9 +60,7 @@ namespace webNews.Models.Common
 
     public enum ObjectType
     {
-        Group=1,
-        Category=2,
-        User=3
+        Customer=1
     }
 
     public class PaymentType
@@ -95,9 +93,7 @@ namespace webNews.Models.Common
 
     public class PrefixType
     {
-        public const string Group = "GROUP";
-        public const string Category = "CATEGORY";
-        public const string User = "USER";
+        public const string Customer = "KH";
 
     }
 

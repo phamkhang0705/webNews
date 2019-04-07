@@ -22,9 +22,9 @@ namespace webNews.Domain.Entities
         public int Id { get; set; }
         public int? CustomerId { get; set; }
         public string Facebook { get; set; }
-        public int? ProvinceId { get; set; }
-        public int? DistrictId { get; set; }
-        public int? WardId { get; set; }
+        public string ProvinceId { get; set; }
+        public string DistrictId { get; set; }
+        public string WardId { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }

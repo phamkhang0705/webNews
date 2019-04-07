@@ -945,7 +945,7 @@ var Service = function () {
 
     this.SetupDateAndSetDefaultNotMaxDate = function (input, defaultDate) {
         input.datetimepicker({
-            format: "DD/MM/YYYY HH:mm",
+            format: "DD-MM-YYYY HH:mm:ss",
             showTodayButton: true,
             showClose: true,
             defaultDate: defaultDate

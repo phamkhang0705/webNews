@@ -119,5 +119,10 @@ namespace webNews.Domain.Services.CategoryManagement
         {
             return _categoryRepository.GetGroupCategories(cateId);
         }
+
+        public List<Category> GetAllCategories()
+        {
+            return _categoryRepository.GetAll();
+        }
     }
 }

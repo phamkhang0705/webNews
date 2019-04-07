@@ -18,9 +18,9 @@ namespace webNews.Domain.Services.FileAttachManagement
             _fileAttachManagementRepository = fileAttachManagementRepository;
         }
 
-        public List<FileAttach> GetFileAttach(int cateId)
+        public List<FileAttach> GetFileAttach(int? cateId = null, int? productId = null, int? groupId = null)
         {
-            return _fileAttachManagementRepository.GetFileAttaches(cateId);
+            return _fileAttachManagementRepository.GetFileAttaches(cateId,productId,groupId);
         }
     }
 }

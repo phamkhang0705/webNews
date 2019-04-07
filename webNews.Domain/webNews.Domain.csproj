@@ -137,6 +137,11 @@
     <Compile Include="OrderType.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="OrmLite.Poco1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="OrmLite.SP.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -172,6 +177,10 @@
     <Compile Include="Repositories\GroupCategoryManagement\IGroupCategoryRepository.cs" />
     <Compile Include="Repositories\FileAttachManagement\IFileAttachManagementRepository.cs" />
     <Compile Include="Repositories\FileAttachManagement\FileAttachManagementRepository.cs" />
+    <Compile Include="Repositories\CustomerManagement\ICustomerManagementRepository.cs" />
+    <Compile Include="Repositories\CustomerManagement\CustomerManagementRepository.cs" />
+    <Compile Include="Repositories\ProductManagement\IProductManagementRepository.cs" />
+    <Compile Include="Repositories\ProductManagement\ProductManagementRepository.cs" />
     <Compile Include="Repositories\ProductPriceManagement\IProductPriceRepository.cs" />
     <Compile Include="Repositories\ProductPriceManagement\ProductPriceRepository.cs" />
     <Compile Include="Repositories\OrderTypeManagement\OrderTypeRepository.cs" />
@@ -217,6 +226,10 @@
     <Compile Include="Service.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Services\CustomerManagement\ICustomerManagementService.cs" />
+    <Compile Include="Services\CustomerManagement\CustomerManagementService.cs" />
+    <Compile Include="Services\ProductManagement\ProductManagementService.cs" />
+    <Compile Include="Services\ProductManagement\IProductManagementService.cs" />
     <Compile Include="Services\CategoryManagement\CategoryManagementService.cs" />
     <Compile Include="Services\CategoryManagement\ICategoryManagementService.cs" />
     <Compile Include="Services\FileAttachManagement\IFileAttachManagementService.cs" />
@@ -237,9 +250,6 @@
     <Compile Include="Services\SystemService.cs" />
     <Compile Include="Services\UserManagement\IUserManagementService.cs" />
     <Compile Include="Services\UserManagement\UserManagementService.cs" />
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
-    </Compile>
     <Compile Include="System_Menu.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
@@ -260,6 +270,12 @@
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Vw_Core_User.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vw_Customer.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vw_Product.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Vw_UserInfo.cs">
@@ -296,7 +312,7 @@
   <ItemGroup>
     <Content Include="OrmLite.Poco.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OrmLite.Poco.cs</LastGenOutput>
+      <LastGenOutput>OrmLite.Poco1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

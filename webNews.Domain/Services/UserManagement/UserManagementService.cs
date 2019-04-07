@@ -62,6 +62,8 @@ namespace webNews.Domain.Services.UserManagement
                 CreatedById = model.CreatedById,
                 UpdatedBy = model.UpdatedBy,
                 UpdatedById = model.UpdatedById,
+                UserType = 1,
+                Description = model.Description,
                 UpdatedDate = DateTime.Now
                 
             };
@@ -71,17 +73,7 @@ namespace webNews.Domain.Services.UserManagement
             _logger.Info("Pass: " + user.Password);//ghi tạm xem password
             user.Salt = CryptUtils.RamdonStringForSalt();
             user.Password = user.ToHashValue(user.Password);
-
-//            var staff = new STAFF
-//            {
-//                Code = _systemRepository.CodeGen(ObjectType.Staff, PrefixType.Staff),
-//                Active = model.Active ?? true,
-//                Email = model.Email,
-//                BranchCode = model.BranchCode,
-//                Domain = model.Domain,
-//                FullName = model.FullName
-//            };
-
+            
             var isInsert = _userManageRepository.Create(user);
 
             if (isInsert)
@@ -117,6 +109,7 @@ namespace webNews.Domain.Services.UserManagement
             user.Email = model.Email;
             user.Tel = model.Tel;
             user.UserRole = model.UserRole;
+            user.Description = model.Description;
 
             var update = _userManageRepository.UpdateUser(user);
 
