@@ -85,6 +85,9 @@
     <Compile Include="Category.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="CategoryDetail.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="Customer.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
@@ -111,6 +114,12 @@
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="GroupCategory.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceImport.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceImportDetail.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Language.cs">
@@ -171,8 +180,14 @@
     <Compile Include="Province.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\CategoryDetailManagement\CategoryDetailManagementRepository.cs" />
+    <Compile Include="Repositories\CategoryDetailManagement\ICategoryDetailManagementRepository.cs" />
     <Compile Include="Repositories\CategoryManagement\CategoryManagementRepository.cs" />
     <Compile Include="Repositories\CategoryManagement\ICategoryManagementRepository.cs" />
+    <Compile Include="Repositories\InvoiceImportManagement\IInvoiceImportRepository.cs" />
+    <Compile Include="Repositories\InvoiceImportManagement\InvoiceImportRepository.cs" />
+    <Compile Include="Repositories\PromotionManagement\PromotionManagementRepository.cs" />
+    <Compile Include="Repositories\PromotionManagement\IPromotionManagementRepository.cs" />
     <Compile Include="Repositories\GroupCategoryManagement\GroupCategoryRepository.cs" />
     <Compile Include="Repositories\GroupCategoryManagement\IGroupCategoryRepository.cs" />
     <Compile Include="Repositories\FileAttachManagement\IFileAttachManagementRepository.cs" />
@@ -226,6 +241,12 @@
     <Compile Include="Service.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Services\CategoryDetailManagement\CategoryDetailManagementService.cs" />
+    <Compile Include="Services\CategoryDetailManagement\ICategoryDetailManagementService.cs" />
+    <Compile Include="Services\InvoiceImportManagement\IInvoiceImportService.cs" />
+    <Compile Include="Services\InvoiceImportManagement\InvoiceImportService.cs" />
+    <Compile Include="Services\PromotionManagement\PromotionManagementService.cs" />
+    <Compile Include="Services\PromotionManagement\IPromotionManagementService.cs" />
     <Compile Include="Services\CustomerManagement\ICustomerManagementService.cs" />
     <Compile Include="Services\CustomerManagement\CustomerManagementService.cs" />
     <Compile Include="Services\ProductManagement\ProductManagementService.cs" />
@@ -266,6 +287,9 @@
     <Compile Include="Vw_Category.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Vw_CategoryDetail.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="Vw_CategoryPrice.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
@@ -275,7 +299,13 @@
     <Compile Include="Vw_Customer.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Vw_InvoiceImport.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="Vw_Product.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vw_Promotion.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Vw_UserInfo.cs">

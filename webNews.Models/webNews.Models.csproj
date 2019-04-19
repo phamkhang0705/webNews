@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InvoiceImportManagement\InvoiceImportModel.cs" />
+    <Compile Include="PromotionManagement\SearchPromotionModel.cs" />
     <Compile Include="CustomerManagement\SearchCustomerModel.cs" />
     <Compile Include="ProductManagement\SearchProductModel.cs" />
     <Compile Include="Common\BootstrapTableParams.cs" />

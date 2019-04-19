@@ -24,6 +24,8 @@ namespace webNews.Domain.Entities
         public string PromotionName { get; set; }
         public int? Status { get; set; }
         public string Description { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? UpdatedBy { get; set; }

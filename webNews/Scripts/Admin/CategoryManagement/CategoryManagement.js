@@ -19,6 +19,15 @@
                 formatter: function (value, row, index) {
                     return Sv.BootstrapTableSTT(base.$table, index);
                 }
+            }), Sv.BootstrapTableColumn("string", {
+                title: 'Avatar',
+                field: 'Avatar',
+                align: "center",
+                formatter: function (value, row, index) {
+                    var url = row.Avatar.split("\\").pop(-1);
+                    str = '<img class="img-preview" src="/Content/Cate/' + url + '" title="e" alt="" width="100" height="100" style="margin-bottom: 10px" />';
+                    return str;
+                }
             }),
             Sv.BootstrapTableColumn("string", {
                 title: 'Mã danh mục',
@@ -39,24 +48,20 @@
                 title: 'Đến tuổi',
                 field: 'ToAge'
             }),
-            Sv.BootstrapTableColumn("string", {
-                title: 'Mô tả',
-                field: 'Description',
-                align: "left"
-            }), Sv.BootstrapTableColumn("string", {
-                filed: 'Status',
-                align: "left",
-                width: '150px',
-                title: 'Trạng thái',
-                formatter: function (value, row, index) {
-                    if (row.Status === 1) {
-                        return 'Hoạt động';
-                    }
-                    else {
-                        return 'Ngừng hoạt động';
-                    }
-                }
-            }),
+              Sv.BootstrapTableColumn("string", {
+                  filed: 'Status',
+                  align: "left",
+                  width: '150px',
+                  title: 'Trạng thái',
+                  formatter: function (value, row, index) {
+                      if (row.Status === 1) {
+                          return 'Hoạt động';
+                      }
+                      else {
+                          return 'Ngừng hoạt động';
+                      }
+                  }
+              }),
             Sv.BootstrapTableColumn("String", {
                 title: "Thao tác",
                 align: "Center",
@@ -85,7 +90,7 @@
                                 base.SetupAmountMask();
 
                                 var groupIds = model.groupids.split(',');
-                                $('#formDetail #txtStatus').val(model.status).select2();
+//                                $('#formDetail #txtStatus').val(model.status).select2();
                                 $('#formDetail #txtGroupId').val(groupIds).select2();
                                 base.OpentDisable();
                             });
@@ -142,13 +147,19 @@
     base.GetFormData = function () {
         var form = $('#formDetail').on();
         var obj = {};
+        var description = CKEDITOR.instances['txtDescription'].getData();
+        var infor = CKEDITOR.instances['txtMoreInformation'].getData();
         obj.Id = form.find('#txtId').val();
         obj.Code = form.find('#txtCode').val();
         obj.Name = form.find('#txtName').val();
         obj.GroupId = form.find('#txtGroupId').val();
+        obj.AgeType = form.find('#txtAgeType').val();
         obj.FromAge = form.find('#txtFromAge').val();
         obj.ToAge = form.find('#txtToAge').val();
-        obj.Description = form.find('#txtDescription').val();
+        //        obj.Description = form.find('#txtDescription').val();
+        obj.Description = description;
+        obj.MoreInformation = form.find('#txtMoreInformation').val();
+        obj.MoreInformation = infor;
         obj.Status = form.find('#txtStatus').val();
         var prices = $('#formDetail').find('#divPrice .price');
         var lstPrices = [];
@@ -184,7 +195,9 @@
             formData.append("Name", dataForm.Name);
             formData.append("Status", dataForm.Status);
             formData.append("Description", dataForm.Description);
+            formData.append("MoreInformation", dataForm.MoreInformation);
             formData.append("GroupId", dataForm.GroupId);
+            formData.append("AgeType", dataForm.AgeType);
             formData.append("FromAge", dataForm.FromAge);
             formData.append("ToAge", dataForm.ToAge);
             formData.append("prices", dataForm.prices);
@@ -208,13 +221,10 @@
                 }
                 formData.append("lstfiles" + i, files[0]);
             }
-
-
             var url = "/CategoryManagement/Create";
             if (action === "Edit") {
                 url = "/CategoryManagement/Update";
             }
-
             Sv.AjaxPostDemo({
                 Url: url,
                 Data: formData
@@ -232,7 +242,6 @@
             });
         }
     }
-
     this.GetFormSearchData = function () {
         var obj = {};
         obj.GroupId = $('#txtGroupId').val();
@@ -252,10 +261,7 @@
             $(this).attr('id', id.split('-')[0] + "-" + (i + 1));
         });
     };
-
 }
-
-
 $(document).ready(function () {
     var unit = new Unit();
     Sv.SetupDateTime($("#sFromDate"), $("#sToDate"));
@@ -266,14 +272,10 @@ $(document).ready(function () {
                 search: unit.GetFormSearchData(),
                 pageIndex: p.offset,
                 pageSize: p.limit
-
             };
         },
         columns: unit.Columns()
     }));
-
-
-
     unit.$btnOpenSearch.click(function () {
         unit.$searchModal.modal({ backdrop: "static" });
     });
@@ -293,10 +295,9 @@ $(document).ready(function () {
             unit.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
             unit.SetupAmountMask();
 
-            $('#formDetail #txtStatus').val('-1').select2();
+//            $('#formDetail #txtStatus').val('-1').select2();
             $('#formDetail #txtGroupId').select2();
         });
-
     });
     unit.$boxDetails.on('click', 'button#btnAdd', function (e) {
         e.preventDefault();
@@ -306,9 +307,6 @@ $(document).ready(function () {
         e.preventDefault();
         unit.SubmitServer("Edit", 0);
     });
-
-
-
     unit.$boxDetails.on('click', '#btnAddFile', function (e) {
         var $form = $('#formDetail').on();
         var index = $form.find('.div-file').last().attr('index');
@@ -321,7 +319,6 @@ $(document).ready(function () {
             $(this).find('#btnDelete').removeClass('hidden');
         });
     });
-
     unit.$boxDetails.on('click', '#btnDelete', function (e) {
         var $form = $('#formDetail').on();
         var $this = $(this);

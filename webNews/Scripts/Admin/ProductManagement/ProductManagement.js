@@ -19,6 +19,15 @@
                 formatter: function (value, row, index) {
                     return Sv.BootstrapTableSTT(base.$table, index);
                 }
+            }), Sv.BootstrapTableColumn("string", {
+                title: 'Avatar',
+                field: 'Avatar',
+                align: "center",
+                formatter: function (value, row, index) {
+                    var url = row.Avatar.split("\\").pop(-1);
+                    str = '<img class="img-preview" src="/Content/Product/' + url + '" title="e" alt="" width="100" height="100" style="margin-bottom: 10px" />';
+                    return str;
+                }
             }),
             Sv.BootstrapTableColumn("string", {
                 title: 'Mã sản phẩm',
@@ -45,14 +54,16 @@
                 title: 'Số lượng',
                 field: 'Quantity',
                 align: "right"
-            }),Sv.BootstrapTableColumn("string", {
-                title: 'Ngày kiểm tra',
-                field: 'CheckDate',
-                align: "center",
-                formatter: function (value) {
-                    return value !== null ? moment(new Date(parseInt(value.slice(6, -2)))).format('DD/MM/YYYY HH:mm:ss') : "";
-                }
-            }),Sv.BootstrapTableColumn("string", {
+            })
+//            , Sv.BootstrapTableColumn("string", {
+//                title: 'Ngày kiểm tra',
+//                field: 'CheckDate',
+//                align: "center",
+//                formatter: function (value) {
+//                    return value !== null ? moment(new Date(parseInt(value.slice(6, -2)))).format('DD/MM/YYYY HH:mm:ss') : "";
+//                }
+//            })
+            , Sv.BootstrapTableColumn("string", {
                 title: 'Tình trạng',
                 field: 'Description',
                 align: "left"
@@ -101,7 +112,7 @@
                                 base.SetupAmountMask();
                                 Sv.SetupDateAndSetDefaultNotMaxDate($('#divCheckDate'), row.CheckDate);
                                 
-                                $('#formDetail #txtStatus').val(model.status).select2();
+//                                $('#formDetail #txtStatus').val(model.status).select2();
                                 $('#formDetail #txtCategoryId').val(model.categoryId).select2();
                                 base.OpentDisable();
                             });
@@ -153,13 +164,14 @@
     base.GetFormData = function () {
         var form = $('#formDetail').on();
         var obj = {};
+        var solution = CKEDITOR.instances['txtSolution'].getData();
         obj.Id = form.find('#txtId').val();
         obj.ProductCode = form.find('#txtProductCode').val();
         obj.ProductName = form.find('#txtProductName').val();
         obj.CategoryId = form.find('#txtCategoryId').val();
         obj.Description = form.find('#txtDescription').val();
-        obj.Solution = form.find('#txtSolution').val();
-        obj.Inventory = form.find('#txtInventory').val();
+        obj.Solution = solution;
+//        obj.Inventory = form.find('#txtInventory').val();
         obj.Quantity = form.find('#txtQuantity').val();
         obj.CheckDate = form.find('#txtCheckDate').val();
         obj.Status = form.find('#txtStatus').val();
@@ -188,7 +200,7 @@
             formData.append("Status", dataForm.Status);
             formData.append("Description", dataForm.Description);
             formData.append("Solution", dataForm.Solution);
-            formData.append("Inventory", dataForm.Inventory);
+//            formData.append("Inventory", dataForm.Inventory);
             formData.append("Quantity", dataForm.Quantity);
             formData.append("CheckDate", dataForm.CheckDate);
             formData.append("ListFiles", dataForm.ListFiles);
@@ -267,7 +279,6 @@ $(document).ready(function () {
                 search: unit.GetFormSearchData(),
                 pageIndex: p.offset,
                 pageSize: p.limit
-
             };
         },
         columns: unit.Columns()
@@ -281,7 +292,7 @@ $(document).ready(function () {
     unit.$btnSearchSubmit.click(function () {
         unit.LoadTableSearch();
         Sv.ResetForm($("#formSearch"), $("#sFromDate"), $("#sToDate"));
-        $('#formSearch #txtStatus').val('-1').trigger('change');
+//        $('#formSearch #txtStatus').val('-1').trigger('change');
         $('#formSearch #txtCategoryId').val('-1').trigger('change');
     });
     unit.$btnOpenAdd.click(function () {

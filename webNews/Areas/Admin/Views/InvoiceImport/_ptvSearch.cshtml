@@ -1,0 +1,58 @@
+﻿@using webNews.Language.Language
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="xModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@Resource.Search_Lang</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <form id="formSearch" name="formSearch" class="form-horizontal" method="post" accept-charset="utf-8">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 col-md-2 control-label">Từ ngày</label>
+                        <div class="col-sm-4 col-md-4">
+                            <div class="input-group input-group-sm input-date" id="divFromDate">
+                                <input type="text" id="txtFDate" name="d1"
+                                       class="form-control input-sm datemask">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <label class="col-sm-2 col-md-2 control-label">Đến ngày</label>
+                        <div class="col-sm-4 col-md-4">
+                            <div class="input-group input-group-sm input-date" id="divToDate">
+                                <input type="text" id="txtTDate" name="d1"
+                                       class="form-control input-sm datemask">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">Mã phiếu nhập</label>
+                        <div class="col-xs-4">
+                            <input type="text" name="importCode" id="txtSearchCode" class="form-control input-sm" placeholder="Nhập mã phiếu" />
+                        </div>
+                        <label class="col-xs-2 control-label">Trạng thái</label>
+                        <div class="col-xs-4">
+                            <select type="text" name="Active" id="txtSearchActive" class="form-control input-sm">
+                                <option value="-1">Tất cả</option>
+                                <option value="0">Phiếu tạm</option>
+                                <option value="2">Đã hủy</option>
+                                <option value="1">Đã nhập hàng</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSearchSubmit" class="btn btn-primary" type="button"><i class="fa fa-search"></i>@(Resource.Search_Lang)</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-reply"></i>@Resource.Btn_Close_Lang</button>
+            </div>
+        </div>
+    </div>
+</div>

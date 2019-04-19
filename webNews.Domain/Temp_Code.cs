@@ -20,8 +20,12 @@ namespace webNews.Domain.Entities
         [Alias("Id")]
         [AutoIncrement]
         public int Id { get; set; }
+        public string Date { get; set; }
         [Required]
         public int Customer { get; set; }
+        public int? InvoiceImport { get; set; }
+        public int? InvoiceOutport { get; set; }
+        public int? InvoiceRental { get; set; }
     }
 
 }

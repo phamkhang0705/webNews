@@ -22,25 +22,7 @@ namespace webNews.Controllers
         public static string DateTimeFormat = "dd/MM/yyyy HH:mm:ss";
         #endregion
 
-        public string BranchCode
-        {
-            get { return (string)Session[Constant.SessionKey.BranchCode]; }
-        }
-
-        public string Domain
-        {
-            get { return (string)Session[Constant.SessionKey.Domain]; }
-        }
-        public int StoreId
-        {
-            get
-            {
-                if (Session[Constant.SessionKey.StoreId] == null)
-                    return -1;
-                else
-                    return (int)Session[Constant.SessionKey.StoreId];
-            }
-        }
+        
 
         public string UserName
         {

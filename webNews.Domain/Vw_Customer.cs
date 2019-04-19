@@ -33,12 +33,9 @@ namespace webNews.Domain.Entities
         public string ProvinceId { get; set; }
         public string DistrictId { get; set; }
         public string WardId { get; set; }
-        [Required]
         public string ProvinceName { get; set; }
-        [Required]
         public string DistrictName { get; set; }
-        [Required]
-        public string Wardname { get; set; }
+        public string WardName { get; set; }
         public string Address { get; set; }
     }
 

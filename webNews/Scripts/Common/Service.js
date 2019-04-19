@@ -668,7 +668,8 @@ var Service = function () {
                 align = "left";
                 className = "row-string";
                 formatFn = function (value) {
-                    return value ? value : "";
+                    value = value != undefined ? value : "";
+                    return value.length>=20 ? value.substring(0,20)+'...' : value;
                 }
                 break;
         }

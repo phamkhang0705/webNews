@@ -22,10 +22,12 @@ namespace webNews.Domain.Entities
         public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
+        public int? AgeType { get; set; }
         public int? FromAge { get; set; }
         public int? ToAge { get; set; }
         public int? Status { get; set; }
         public string Description { get; set; }
+        public string MoreInformation { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

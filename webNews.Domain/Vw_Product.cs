@@ -25,7 +25,6 @@ namespace webNews.Domain.Entities
         public int? Quantity { get; set; }
         public int? Inventory { get; set; }
         public int? Status { get; set; }
-        public DateTime? CheckDate { get; set; }
         public string Description { get; set; }
         public string Solution { get; set; }
         public int? CreatedBy { get; set; }
@@ -35,6 +34,7 @@ namespace webNews.Domain.Entities
         public string CategoryCode { get; set; }
         public string CategoryName { get; set; }
         public string files { get; set; }
+        public string Avatar { get; set; }
     }
 
 }

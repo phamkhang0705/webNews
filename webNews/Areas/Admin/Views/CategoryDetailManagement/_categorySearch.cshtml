@@ -1,0 +1,65 @@
+﻿@using webNews.Domain
+@using webNews.Language.Language
+@using webNews.Domain.Entities;
+
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="xModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@Resource.Search_Lang</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <form id="formSearch" name="formSearch" class="form-horizontal" method="post" accept-charset="utf-8">
+                    <div class="form-group hidden">
+                        <label class="col-xs-2 control-label"></label>
+                        <div class="col-xs-4">
+                            <div class="input-group" id="sFromDate">
+                                <input type="text" placeholder="" class="form-control datemask" name="sFromDate">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <label class="col-xs-2 control-label"></label>
+                        <div class="col-xs-4">
+                            <div class="input-group" id="sToDate">
+                                <input type="text" placeholder="" class="form-control datemask" name="sToDate">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">Danh mục</label>
+                        <div class="col-xs-4">
+                            <select class="form-control input-sm" name="CategoryId" id="txtCategoryId" multiple="multiple">
+                                @foreach (Category item in Model.ListCategory)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">Mã danh mục</label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control input-sm" name="Code" id="txtCode"/>
+                        </div>
+                        <label class="col-xs-2 control-label">Tên danh mục</label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control input-sm" name="Name" id="txtName"/>
+                        </div>
+                    </div>
+
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSearchSubmit" class="btn btn-primary" type="button"><i class="fa fa-search"></i>@(Resource.Search_Lang)</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-reply"></i>@Resource.Btn_Close_Lang</button>
+            </div>
+        </div>
+    </div>
+</div>

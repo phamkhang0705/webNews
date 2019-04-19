@@ -35,7 +35,7 @@ namespace webNews.Domain.Repositories.ProductManagement
                     {
                         query.Where(_ => _.ProductCode == filter.Code);
                     }
-                    if (filter.CategoryId != null)
+                    if (filter.CategoryId != -1)
                     {
                         query.Where(_ => _.CategoryId == filter.CategoryId);
                     }

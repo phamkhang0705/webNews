@@ -3,25 +3,31 @@ using ServiceStack.OrmLite;
 using ServiceStack.OrmLite.SqlServer;
 using System.Configuration;
 using webNews.Domain.Repositories;
+using webNews.Domain.Repositories.CategoryDetailManagement;
 using webNews.Domain.Repositories.CategoryManagement;
 using webNews.Domain.Repositories.CustomerManagement;
 using webNews.Domain.Repositories.FileAttachManagement;
 using webNews.Domain.Repositories.GroupCategoryManagement;
 using webNews.Domain.Repositories.GroupManagement;
+using webNews.Domain.Repositories.InvoiceImportManagement;
 using webNews.Domain.Repositories.OrderTypeManagement;
 using webNews.Domain.Repositories.ProductManagement;
 using webNews.Domain.Repositories.ProductPriceManagement;
+using webNews.Domain.Repositories.PromotionManagement;
 using webNews.Domain.Repositories.RoleManage;
 using webNews.Domain.Repositories.RoleManagement;
 using webNews.Domain.Repositories.UserManagement;
 using webNews.Domain.Services;
+using webNews.Domain.Services.CategoryDetailManagement;
 using webNews.Domain.Services.CategoryManagement;
 using webNews.Domain.Services.CustomerManagement;
 using webNews.Domain.Services.FileAttachManagement;
 using webNews.Domain.Services.GroupManagement;
+using webNews.Domain.Services.InvoiceImportManagement;
 using webNews.Domain.Services.OrderTypeManagement;
 using webNews.Domain.Services.PriceManagement;
 using webNews.Domain.Services.ProductManagement;
+using webNews.Domain.Services.PromotionManagement;
 using webNews.Domain.Services.RoleManage;
 using webNews.Domain.Services.RoleManagement;
 using webNews.Domain.Services.UserManagement;
@@ -67,6 +73,9 @@ namespace webNews.Domain
             builder.RegisterType<CategoryManagementRepository>().As<ICategoryManagementRepository>();
             builder.RegisterType<CategoryManagementService>().As<ICategoryManagementService>();
 
+            builder.RegisterType<CategoryDetailManagementRepository>().As<ICategoryDetailManagementRepository>();
+            builder.RegisterType<CategoryDetailManagementService>().As<ICategoryDetailManagementService>();
+
             builder.RegisterType<FileAttachManagementRepository>().As<IFileAttachManagementRepository>();
             builder.RegisterType<FileAttachManagementService>().As<IFileAttachManagementService>();
 
@@ -75,6 +84,12 @@ namespace webNews.Domain
 
             builder.RegisterType<CustomerManagementRepository>().As<ICustomerManagementRepository>();
             builder.RegisterType<CustomerManagementService>().As<ICustomerManagementService>();
+
+            builder.RegisterType<PromotionManagementRepository>().As<IPromotionManagementRepository>();
+            builder.RegisterType<PromotionManagementService>().As<IPromotionManagementService>();
+
+            builder.RegisterType<InvoiceImportRepository>().As<IInvoiceImportRepository>();
+            builder.RegisterType<InvoiceImportService>().As<IInvoiceImportService>();
 
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerDependency();
             builder.RegisterGeneric(typeof(Service<>)).As(typeof(IService<>)).InstancePerDependency();

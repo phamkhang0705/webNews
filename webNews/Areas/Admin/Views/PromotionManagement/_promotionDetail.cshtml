@@ -1,0 +1,91 @@
+﻿@using webNews.Language.Language
+@using webNews.HtmlHelpers
+@model webNews.Areas.Admin.Models.Promotion.PromotionModel
+@{
+    var add = Model.Action == "Add";
+    var edit = Model.Action == "Edit";
+    var popupTitle = Model.Action == "Add" ? "Thêm mới" : "Cập nhật";
+    var disabled = edit ? "disabled" : "";
+}
+<script src="~/Assets/Admin/Validate/jquery.validate.min.js"></script>
+<script src="~/Assets/Admin/Validate/jquery.validate.unobtrusive.min.js"></script>
+<div class="modal fade" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="xModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@popupTitle</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <form id="formDetail" name="formDetail" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                    @Html.HiddenFor(x => x.Id, new { @id = "txtId" })
+
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.PromotionCode)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.PromotionCode, "", new { @class = "field-validation-valid" })
+                            @Html.TextBoxFor(x => x.PromotionCode, new { @class = "form-control input-sm ", @id = "txtPromotionCode", @placeholder = "Mã khuyến mại" })
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.PromotionName)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.PromotionName, "", new { @class = "field-validation-valid" })
+                            @Html.TextBoxFor(x => x.PromotionName, new { @class = "form-control input-sm", @id = "txtPromotionName", @placeholder = "Tên khuyến mại" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.FromDate)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.FromDate, "", new { @class = "field-validation-valid" })
+
+                            <div class="input-group input-group-sm input-date" id="divFromDate">
+                                <input type="text" id="txtFromDate" name="FromDate"
+                                       class="form-control input-sm datemask">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.ToDate)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.ToDate, "", new { @class = "field-validation-valid" })
+                            <div class="input-group input-group-sm input-date" id="divToDate">
+                                <input type="text" id="txtToDate" name="ToDate"
+                                       class="form-control input-sm datemask">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Description)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Description, "", new { @class = "field-validation-valid" })
+                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control input-sm", @id = "txtDescription", @placeholder = "Nhập mô tả" })
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Status)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Status, "", new { @class = "field-validation-valid" })
+                            @Html.DropDownListFor(x => x.Status, new SelectList(Model.ListStatus, "Value", "Text"), new { @class = "form-control input-sm", @id = "txtStatus" })
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                @if (add)
+                {
+                    <button id="btnAdd" class="btn btn-primary" type="button"><i class="fa fa-check"></i> @(Resource.Btn_Save_Lang)</button>
+                }
+                else
+                    if (edit)
+                {
+                    <button id="btnEdit" class="btn btn-primary" type="button"><i class="fa fa-check"></i> @(Resource.Btn_Edit_Lang)</button>
+                }
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-reply"></i>@Resource.Btn_Close_Lang</button>
+            </div>
+        </div>
+    </div>
+</div>

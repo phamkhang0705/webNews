@@ -1,0 +1,211 @@
+﻿@using webNews.Language.Language
+@using webNews.Models
+@using webNews.Security
+@{
+    ViewBag.Title = "NHẬP HÀNG";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+<h2 class="page-header">Nhập hàng</h2>
+<div class="main-content">
+
+    <div class="col-xs-12 col-sm-12 col-md-12 no-padding">
+
+        <div class="col-lg-8 col-md-8 col-sm-8 no-padding">
+            <div class="col-md-5 col-xs-5 ui-widget">
+                <input type="text" id="txtSearchProduct" class="form-control input-sm" autocomplete="false" placeholder="@Resource.ChooseProduct_Lang" />
+            </div>
+            <div class="table" style="padding-top: 66px">
+                <table id="table"></table>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="x_content">
+
+                <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab1" class="nav nav-tabs bar_tabs left" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#add_tab_content11" id="add_tab1" role="tab" data-toggle="tab" aria-controls="add_tab1" aria-expanded="true">Thông tin</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#add_tab_content22" role="tab" id="add_tab2" data-toggle="tab" aria-controls="add_tab2" aria-expanded="false">Chi tiết</a>
+                        </li>
+                    </ul>
+                    <form id="formDetail1" name="formDetail1" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                        <div id="myTabContent2" class="tab-content">
+
+                            @*Tab 1 content*@
+                            <div role="tabpanel" class="tab-pane fade active in" id="add_tab_content11" aria-labelledby="add_tab1-tab">
+                                @*pannel 1. Basic infor*@
+                                <div class="x_panel">
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Mã phiếu</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="Code" class="form-control input-sm" id="txtImportCode" placeholder="@Resource.CodeAutoGen_Lang" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Nhà cung cấp</label>
+                                        <div class="col-xs-8">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control input-sm" id="providerSelect" placeholder="@Resource.ChooseProvider_Lang" />
+                                                <span class="input-group-btn">
+                                                    <button id="btnAddProvider" class="btn btn-primary" type="button" title="+">+</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="selectedProvider" style="display: none">
+                                        <label class="col-xs-4 control-label"></label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="ProviderCode" class="form-control input-sm hidden" id="ProviderCode" placeholder="@Resource.ChooseProvider_Lang" />
+                                            <label type="text" name="ProviderName" class="control-label" id="txtProviderName"></label>
+
+                                            <button class='delete btn btn-primary btn-in-table' id="deleteProvider" type="button" title='Xóa nhà cung cấp'><i class='fa fa-remove'></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Tổng số lượng</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="TotalQuantity" disabled="disabled" value="0" class="form-control input-sm input-right" id="txtTotalQuantity" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Tổng tiền hàng</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="TotalMoney" disabled="disabled" value="0" class="form-control input-sm input-right" id="txtTotalMoney" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Chiết khấu</label>
+                                        <div class="col-xs-3">
+                                            <select class="form-control input-sm" name="DiscountType" id="txtDiscounType">
+                                                <option value="0">Tiền</option>
+                                                <option value="1">Phần trăm</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-5" id="typeMoney">
+                                            <input type="text" class="form-control input-sm input-right" id="txtDiscount0" value="0" />
+                                        </div>
+
+                                        <div class="col-xs-5 input-group input-group-sm" style="display: none;" id="typePercent">
+                                            <input type="text" class="form-control input-sm input-right" id="txtDiscount1" value="0" />
+                                            <span class="input-group-addon">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">VAT</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="VAT" class="form-control input-sm input-right" value="0" id="txtVAT" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Tổng tiền</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="SumMonney" class="form-control input-sm input-right" value="0" disabled="disabled" id="txtSalePrice" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Thanh toán</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="PaidMoney" class="form-control input-sm input-right" value="0" id="txtPayMoney" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Nợ lại</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="RemainMoney" class="form-control input-sm input-right" value="0" disabled="disabled" id="txtRemainMoney" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label"></label>
+                                        <div class="col-xs-8">
+                                            <label>
+                                                <input type="checkbox" id="chkAddToProvider" />
+                                                Cộng vào tài khoản NCC
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="float: right">
+                                        <button class="btn btn-primary btnComplete" type="button" title="@(Resource.Btn_Complete_Lang)">@(Resource.Btn_Complete_Lang)</button>
+                                        <button class="btn btn-primary btnTempSave" type="button" title="@(Resource.Btn_Temp_Save_Lang)">@(Resource.Btn_Temp_Save_Lang)</button>
+                                        <button class="btn btn-primary btnBack" type="button" title="@(Resource.Btn_Back_Lang)">@(Resource.Btn_Back_Lang)</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*Tab 2 content*@
+                            <div role="tabpanel" class="tab-pane fade" id="add_tab_content22" aria-labelledby="add_tab2-tab">
+                                <div class="x_panel">
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Trạng thái</label>
+                                        <div class="col-xs-8">
+                                            <label class="col-xs-4 control-label">Lưu tạm</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Phương thức thanh toán</label>
+                                        <div class="col-xs-8">
+                                            <select class="form-control input-sm" name="PayMethod" id="txtMethodPayment">
+                                                <option value="0">Tiền mặt</option>
+                                                <option value="1">Chuyển khoản</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="grAccount" style="display: none;">
+                                        <label class="col-xs-4 control-label">Tài khoản</label>
+                                        <div class="col-xs-8">
+                                            <select class="form-control input-sm" name="BankCode" id="txtBankAccount">
+@*                                                @foreach (SelectListModel bank in Model.Banks)*@
+@*                                                {*@
+@*                                                    <option value="@bank.Name">@bank.Text</option>*@
+@*                                                }*@
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Người tạo</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" class="form-control input-sm" value="@Authentication.GetUserName()" name="UserName" id="txtCreateUser" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Ngày tạo</label>
+                                        <div class="col-xs-8">
+                                            <div class="input-group input-group-sm input-date" id="divCreateDate">
+                                                <input type="text" id="txtCreateDate" name="CreateDate"
+                                                       class="form-control input-sm datemask">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Ghi chú</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" class="form-control input-sm" id="txtNote" name="Note" placeholder="@Resource.Note_Lang" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="float: right">
+                                        <button id="btnComplete" class="btn btn-primary btnComplete" type="button" title="@(Resource.Btn_Complete_Lang)">@(Resource.Btn_Complete_Lang)</button>
+                                        <button id="btnTempSave" class="btn btn-primary btnTempSave" type="button" title="@(Resource.Btn_Temp_Save_Lang)">@(Resource.Btn_Temp_Save_Lang)</button>
+                                        <button id="btnBack" class="btn btn-primary btnBack" type="button" title="@(Resource.Btn_Back_Lang)">@(Resource.Btn_Back_Lang)</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="box-detail"></div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/Admin/InvoiceImport/InvoiceAdd.js"></script>
+}

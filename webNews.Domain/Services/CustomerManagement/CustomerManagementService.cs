@@ -53,7 +53,8 @@ namespace webNews.Domain.Services.CustomerManagement
                 CustomerName = customer.CustomerName,
                 Status = customer.Status,
                 CreatedBy = customer.CreatedBy,
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                CustomerType = (int)CustomerType.Customer
             };
             var cusDetail = new CustomerDetail()
             {

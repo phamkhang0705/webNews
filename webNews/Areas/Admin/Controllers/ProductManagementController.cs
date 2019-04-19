@@ -104,8 +104,7 @@ namespace webNews.Areas.Admin.Controllers
                         model.Id = pro.Id;
                         model.ProductCode = pro.ProductCode;
                         model.ProductName = pro.ProductName;
-                        model.CheckDate = pro.CheckDate;
-                        model.Inventory = pro.Inventory;
+//                        model.Inventory = pro.Inventory;
                         model.Quantity = pro.Quantity;
                         model.Description = pro.Description;
                         model.Solution = pro.Solution;
@@ -154,8 +153,7 @@ namespace webNews.Areas.Admin.Controllers
                         Description = fc["Description"],
                         Solution = fc["Solution"],
                         Quantity = Int32.Parse(fc["Quantity"]),
-                        Inventory = Int32.Parse(fc["Inventory"]),
-                        CheckDate = DateTime.ParseExact(fc["CheckDate"], "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+//                        Inventory = Int32.Parse(fc["Inventory"]),
                         Status = Int32.Parse(fc["Status"]),
                         UpdatedDate = DateTime.Now,
                         UpdatedBy = Authentication.GetCurrentUser().Id,
@@ -271,8 +269,7 @@ namespace webNews.Areas.Admin.Controllers
                         Description = fc["Description"],
                         Solution = fc["Solution"],
                         Quantity = Int32.Parse(fc["Quantity"]),
-                        Inventory = Int32.Parse(fc["Inventory"]),
-                        CheckDate = DateTime.ParseExact(fc["CheckDate"], "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+//                        Inventory = Int32.Parse(fc["Inventory"]),
                         Status = Int32.Parse(fc["Status"]),
                         UpdatedDate = DateTime.Now,
                         UpdatedBy = Authentication.GetCurrentUser().Id,

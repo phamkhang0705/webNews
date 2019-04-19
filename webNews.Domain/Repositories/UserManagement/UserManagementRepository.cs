@@ -44,7 +44,7 @@ namespace webNews.Domain.Repositories.UserManagement
                     };
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return new PagingObject<Vw_Core_User>
                 {

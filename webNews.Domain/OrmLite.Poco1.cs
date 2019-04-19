@@ -27,7 +27,7 @@
 // 
 //     Connection String Name: `WebNews`
 //     Provider:               `System.Data.SqlClient`
-//     Connection String:      `Data Source=.;Initial Catalog=web_news;Integrated Security=True`
+//     Connection String:      `Data Source=KAANGKUN;Initial Catalog=web_news;Integrated Security=True;Persist Security Info=True;User ID=sa;Password=123456`
 //     Schema:                 ``
 //     Include Views:          `True`
 

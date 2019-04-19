@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -294,6 +295,12 @@ namespace webNews.Domain.Repositories
                 using(var db = _connectionFactory.Open())
                 {
                     var code = db.SingleById<Temp_Code>(1);
+                    var date = DateTime.ParseExact(code.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
+                    var currentDate = DateTime.Now;
+                    if (date.Date == currentDate)
+                    {
+                        code.Customer = 1;
+                    }
                     var dateTime = DateTime.Now.ToString("yyyyMMdd");
                     int id = 0;
                     var retryCount = 0;

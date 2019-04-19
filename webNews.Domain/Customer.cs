@@ -23,6 +23,7 @@ namespace webNews.Domain.Entities
         public string CustomerCode { get; set; }
         public string CustomerName { get; set; }
         public int? Status { get; set; }
+        public int? CustomerType { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? UpdatedBy { get; set; }

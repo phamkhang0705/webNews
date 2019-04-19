@@ -1,14 +1,10 @@
 ﻿using NLog;
+using ServiceStack;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Dynamic;
 using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using ServiceStack;
 using webNews.Areas.Admin.Models.Category;
 using webNews.Common;
 using webNews.Domain.Entities;
@@ -34,9 +30,9 @@ namespace webNews.Areas.Admin.Controllers
         private readonly IGroupManagementService _groupManagementService;
         private readonly IFileAttachManagementService _fileService;
 
-        public CategoryManagementController(ICategoryManagementService categoryManagementService, 
-            IPriceManagementService priceService, 
-            IOrderTypeManagementService orderTypeManagementService, 
+        public CategoryManagementController(ICategoryManagementService categoryManagementService,
+            IPriceManagementService priceService,
+            IOrderTypeManagementService orderTypeManagementService,
             IGroupManagementService groupManagementService,
             IFileAttachManagementService fileService
             )
@@ -97,9 +93,10 @@ namespace webNews.Areas.Admin.Controllers
                 var model = new CategoryModel()
                 {
                     Action = action,
-                    ListStatus = _constantService.ListStatus(),
+                    ListStatus = _constantService.ListStatus(false),
                     ListOrderTypes = _orderTypeManagementService.GetAll(),
-                    ListGroups = _groupManagementService.GetAllGroups()
+                    ListGroups = _groupManagementService.GetAllGroups(),
+                    ListAgeType = _constantService.ListAgeType(false)
                 };
                 if (id > 0)
                 {
@@ -109,9 +106,11 @@ namespace webNews.Areas.Admin.Controllers
                         model.Id = cate.Id;
                         model.Code = cate.Code;
                         model.Name = cate.Name;
+                        model.AgeType = cate.AgeType;
                         model.FromAge = cate.FromAge;
                         model.ToAge = cate.ToAge;
                         model.Description = cate.Description;
+                        model.MoreInformation = cate.MoreInformation;
                         model.Status = cate.Status;
                         model.groupids = cate.groupids;
                         model.groupnames = cate.groupnames;
@@ -155,9 +154,11 @@ namespace webNews.Areas.Admin.Controllers
                         Id = Int32.Parse(fc["Id"]),
                         Code = fc["Code"],
                         Name = fc["Name"],
+                        AgeType = Int32.Parse(fc["AgeType"]),
                         FromAge = Int32.Parse(fc["FromAge"]),
                         ToAge = Int32.Parse(fc["ToAge"]),
                         Description = fc["Description"],
+                        MoreInformation = fc["MoreInformation"],
                         Status = Int32.Parse(fc["Status"]),
                         UpdatedDate = DateTime.Now,
                         UpdatedBy = Authentication.GetCurrentUser().Id,
@@ -235,7 +236,6 @@ namespace webNews.Areas.Admin.Controllers
                             Message = "Thêm mới danh mục sản phẩm không thành công!"
                         }, JsonRequestBehavior.AllowGet);
                     }
-
                 }
 
                 var error = CheckValidate();
@@ -259,6 +259,7 @@ namespace webNews.Areas.Admin.Controllers
         #endregion Create
 
         #region [Update]
+
         [HttpPost]
         public ActionResult Update(FormCollection fc)
         {
@@ -273,9 +274,11 @@ namespace webNews.Areas.Admin.Controllers
                         Id = Int32.Parse(fc["Id"]),
                         Code = fc["Code"],
                         Name = fc["Name"],
+                        AgeType = Int32.Parse(fc["AgeType"]),
                         FromAge = Int32.Parse(fc["FromAge"]),
                         ToAge = Int32.Parse(fc["ToAge"]),
                         Description = fc["Description"],
+                        MoreInformation = fc["MoreInformation"],
                         Status = Int32.Parse(fc["Status"]),
                         UpdatedDate = DateTime.Now,
                         UpdatedBy = Authentication.GetCurrentUser().Id,
@@ -300,10 +303,10 @@ namespace webNews.Areas.Admin.Controllers
                             return Json(err, JsonRequestBehavior.AllowGet);
                         }
                     }
-                    
+
                     var fileNameStr = "";
                     var pathStr = "";
-                    
+
                     if (Request.Files.Count > 0)
                     {
                         //Đọc file
@@ -322,7 +325,7 @@ namespace webNews.Areas.Admin.Controllers
                             }
                             string fileName = Path.GetFileName(fileContent.FileName);
                             fileNameStr += !string.IsNullOrEmpty(fileName) ? fileName + "|" : "";
-                            pathStr += !string.IsNullOrEmpty(fileName) ?"/" + fileName + "|" : "";
+                            pathStr += !string.IsNullOrEmpty(fileName) ? "/" + fileName + "|" : "";
                             if (fileContent.ContentLength > 0 && !string.IsNullOrEmpty(fileContent.FileName))
                             {
                                 bool folderExists = Directory.Exists(Server.MapPath(string.Format("{0}", "~/Content/Cate/")));
@@ -358,7 +361,6 @@ namespace webNews.Areas.Admin.Controllers
                             Message = "Cập nhật danh mục sản phẩm không thành công!"
                         }, JsonRequestBehavior.AllowGet);
                     }
-                    
                 }
 
                 var error = CheckValidate();

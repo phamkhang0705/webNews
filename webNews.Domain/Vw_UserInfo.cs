@@ -18,7 +18,7 @@ namespace webNews.Domain.Entities
     public partial class Vw_UserInfo 
     {
         [AutoIncrement]
-        public long UserId { get; set; }
+        public int UserId { get; set; }
         [Required]
         public string UserName { get; set; }
         [Required]

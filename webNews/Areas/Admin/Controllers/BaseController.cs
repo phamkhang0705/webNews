@@ -29,27 +29,7 @@ namespace webNews.Areas.Admin.Controllers
         {
             get { return int.Parse(ConfigurationManager.AppSettings["pageLength"] ?? "5"); }
         }
-
-        public string BranchCode
-        {
-            get { return (string)Session[Constant.SessionKey.BranchCode]; }
-        }
-
-        public string Domain
-        {
-            get { return (string)Session[Constant.SessionKey.Domain]; }
-        }
-
-        public int StoreId
-        {
-            get
-            {
-                if (Session[Constant.SessionKey.StoreId] == null)
-                    return -1;
-                else
-                    return (int)Session[Constant.SessionKey.StoreId];
-            }
-        }
+        
 
         public string UserName
         {
