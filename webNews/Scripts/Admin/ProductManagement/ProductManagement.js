@@ -45,23 +45,16 @@
                 title: 'Tên danh mục',
                 field: 'CategoryName',
                 align: "left"
-            }), Sv.BootstrapTableColumn("NumberNull", {
-                title: 'Tồn kho',
-                field: 'Inventory',
-                align: "right"
-            }),
-            Sv.BootstrapTableColumn("NumberNull", {
-                title: 'Số lượng',
-                field: 'Quantity',
-                align: "right"
             })
-//            , Sv.BootstrapTableColumn("string", {
-//                title: 'Ngày kiểm tra',
-//                field: 'CheckDate',
-//                align: "center",
-//                formatter: function (value) {
-//                    return value !== null ? moment(new Date(parseInt(value.slice(6, -2)))).format('DD/MM/YYYY HH:mm:ss') : "";
-//                }
+//            , Sv.BootstrapTableColumn("NumberNull", {
+//                title: 'Tồn kho',
+//                field: 'Inventory',
+//                align: "right"
+//            }),
+//            Sv.BootstrapTableColumn("NumberNull", {
+//                title: 'Số lượng',
+//                field: 'Quantity',
+//                align: "right"
 //            })
             , Sv.BootstrapTableColumn("string", {
                 title: 'Tình trạng',

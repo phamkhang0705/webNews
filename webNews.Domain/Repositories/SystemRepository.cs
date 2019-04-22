@@ -297,11 +297,14 @@ namespace webNews.Domain.Repositories
                     var code = db.SingleById<Temp_Code>(1);
                     var date = DateTime.ParseExact(code.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
                     var currentDate = DateTime.Now;
-                    if (date.Date == currentDate)
+                    var dateTime = DateTime.Now.ToString("yyyyMMdd");
+                    if (date.Date != currentDate.Date)
                     {
                         code.Customer = 1;
+                        code.Supplier = 1;
+                        code.Date = dateTime;
                     }
-                    var dateTime = DateTime.Now.ToString("yyyyMMdd");
+                    
                     int id = 0;
                     var retryCount = 0;
                     do
@@ -312,11 +315,14 @@ namespace webNews.Domain.Repositories
                                 id = code.Customer++;
                                 name = PrefixType.Customer+ dateTime;
                                 break;
-
-//                            default:
-//                                id = code.OtherPerson++;
-//                                name = PrefixType.OtherPerson;
-//                                break;
+                            case ObjectType.Supplier:
+                                id = code.Supplier++;
+                                name = PrefixType.Supplier + dateTime;
+                                break;
+                                //                            default:
+                                //                                id = code.OtherPerson++;
+                                //                                name = PrefixType.OtherPerson;
+                                //                                break;
                         }
 
                         if(id != 0)

@@ -86,11 +86,13 @@ namespace webNews.Domain.Services.CategoryManagement
                 response.ResponseMessage = "Danh mục không tồn tại!";
                 return response;
             }
-
-            cate.UpdatedDate = DateTime.Now;
-            cate.UpdatedBy = cate.UpdatedBy;
+//            cate.AgeType = category.AgeType;
+//            cate.FromAge = category.FromAge;
+//            cate.ToAge = category.ToAge;
+//            cate.UpdatedDate = DateTime.Now;
+//            cate.UpdatedBy = cate.UpdatedBy;
             
-            var update = _categoryRepository.UpdateCategory(cate,groupCategories,productPrices,files, listFiles);
+            var update = _categoryRepository.UpdateCategory(category, groupCategories,productPrices,files, listFiles);
 
             if (update)
             {

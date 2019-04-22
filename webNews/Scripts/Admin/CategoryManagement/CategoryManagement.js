@@ -43,10 +43,28 @@
                 align: "left"
             }), Sv.BootstrapTableColumn("NumberNull", {
                 title: 'Từ tuổi',
-                field: 'FromAge'
+                field: 'FromAge',
+                formatter: function (value, row, index) {
+                    var ageType = "";
+                    if (row.AgeType === 1) {
+                        ageType = "Tháng";
+                    } else {
+                        ageType = "Tuổi";
+                    }
+                    return value + " " + ageType;
+                }
             }), Sv.BootstrapTableColumn("NumberNull", {
                 title: 'Đến tuổi',
-                field: 'ToAge'
+                field: 'ToAge',
+                formatter: function (value, row, index) {
+                    var ageType = "";
+                    if (row.AgeType === 1) {
+                        ageType = "Tháng";
+                    } else {
+                        ageType = "Tuổi";
+                    }
+                    return value + " " + ageType;
+                }
             }),
               Sv.BootstrapTableColumn("string", {
                   filed: 'Status',
@@ -90,7 +108,7 @@
                                 base.SetupAmountMask();
 
                                 var groupIds = model.groupids.split(',');
-//                                $('#formDetail #txtStatus').val(model.status).select2();
+                                //                                $('#formDetail #txtStatus').val(model.status).select2();
                                 $('#formDetail #txtGroupId').val(groupIds).select2();
                                 base.OpentDisable();
                             });
@@ -167,7 +185,7 @@
             var price = {};
             price.OrderTypeId = prices.eq(i).attr('id');
             price.Code = prices.eq(i).attr('name');
-            price.Price = prices.eq(i).val();
+            price.Price = prices.eq(i).val() ? prices.eq(i).val(): 0;
             lstPrices.push(price);
         }
 
@@ -295,7 +313,7 @@ $(document).ready(function () {
             unit.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
             unit.SetupAmountMask();
 
-//            $('#formDetail #txtStatus').val('-1').select2();
+            //            $('#formDetail #txtStatus').val('-1').select2();
             $('#formDetail #txtGroupId').select2();
         });
     });

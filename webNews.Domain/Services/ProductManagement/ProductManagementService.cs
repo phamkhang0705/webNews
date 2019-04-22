@@ -113,5 +113,10 @@ namespace webNews.Domain.Services.ProductManagement
         {
             return _productRepository.GetByCode(code);
         }
+
+        public List<Vw_Product> GetByName(string name)
+        {
+            return _productRepository.GetByName(name);
+        }
     }
 }

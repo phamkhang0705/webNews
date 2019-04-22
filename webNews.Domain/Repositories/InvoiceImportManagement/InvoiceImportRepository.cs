@@ -3,7 +3,10 @@ using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
 using webNews.Domain.Entities;
+using webNews.Models;
+using webNews.Models.CategoryManagement;
 using webNews.Models.Common;
+using webNews.Models.InvoiceImportManagement;
 
 namespace webNews.Domain.Repositories.InvoiceImportManagement
 {
@@ -17,6 +20,39 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
         {
             _systemRepository = systemRepository;
             _connectionFactory = connectionFactory;
+        }
+
+        public PagingObject<Vw_InvoiceImport> GetList(SearchInvoiceImport filter, int pageIndex, int pageSize)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<Vw_InvoiceImport>();
+                    
+                    if (!string.IsNullOrEmpty(filter.Code))
+                    {
+                        query.Where(_ => _.Code == filter.Code);
+                    }
+                    
+                    //More filter
+                    var total = (int)db.Count(query);
+                    query.Skip(pageIndex * pageSize).Take(pageSize);
+                    return new PagingObject<Vw_InvoiceImport>
+                    {
+                        Total = (int)total,
+                        DataList = db.Select(query)
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                return new PagingObject<Vw_InvoiceImport>
+                {
+                    Total = 0,
+                    DataList = new List<Vw_InvoiceImport>()
+                };
+            }
         }
 
         public List<InvoiceImport> GetInvoiceImport()
@@ -35,32 +71,6 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                 return new List<InvoiceImport>();
             }
         }
-
-        //        public async Task<List<PAYMENT>> GetInvoiceImportsHistoryAsync(string invoiceCode, int? isCompleted = null)
-        //        {
-        //            try
-        //            {
-        //                using (var db = _connectionFactory.Open())
-        //                {
-        //                    var query = db.From<PAYMENT>();
-        //                    if (!string.IsNullOrEmpty(invoiceCode))
-        //                    {
-        //                        query.Where(_ => _.InvoiceCode == invoiceCode);
-        //                    }
-        //                    if (isCompleted != null)
-        //                    {
-        //                        query.Where(_ => _.Payments_Active == isCompleted);
-        //                    }
-        //
-        //                    return await db.SelectAsync(query);
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                _logger.Error(ex, "Get payment error: " + ex.Message);
-        //                return null;
-        //            }
-        //        }
 
         public InvoiceImport GetInvoiceImportByCode(string invoiceCode)
         {

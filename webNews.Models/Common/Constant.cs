@@ -50,6 +50,7 @@
     public class PrefixType
     {
         public const string Customer = "KH";
+        public const string Supplier = "NCC";
         public const string InvoiceImport = "PN";
         public const string InvoiceOuport = "PX";
         public const string InvoiceRental = "PTHUE";

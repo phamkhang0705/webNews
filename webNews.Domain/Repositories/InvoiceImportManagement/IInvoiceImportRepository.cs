@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using webNews.Domain.Entities;
+using webNews.Models;
+using webNews.Models.CategoryManagement;
+using webNews.Models.InvoiceImportManagement;
 
 namespace webNews.Domain.Repositories.InvoiceImportManagement
 {
@@ -10,10 +13,10 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
         long UpdateStatusInvoice(string invoiceCode, int status, DateTime? date, string note = null);
 
         List<InvoiceImport> GetInvoiceImport();
+        PagingObject<Vw_InvoiceImport> GetList(SearchInvoiceImport filter, int pageIndex, int pageSize);
 
         InvoiceImport GetInvoiceByCode(string invoiceCode);
-
-        //        Task<List<PAYMENT>> GetInvoiceImportsHistoryAsync(string invoiceCode, int? isCompleted = null);
+        
         long UpdateInvoice(InvoiceImport model);
 
         long CreateInvoice(InvoiceImport model);

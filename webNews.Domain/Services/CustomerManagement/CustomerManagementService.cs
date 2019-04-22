@@ -51,10 +51,10 @@ namespace webNews.Domain.Services.CustomerManagement
             {
                 CustomerCode = customer.CustomerCode,
                 CustomerName = customer.CustomerName,
+                CustomerType = customer.CustomerType,
                 Status = customer.Status,
                 CreatedBy = customer.CreatedBy,
-                CreatedDate = DateTime.Now,
-                CustomerType = (int)CustomerType.Customer
+                CreatedDate = DateTime.Now
             };
             var cusDetail = new CustomerDetail()
             {
@@ -139,6 +139,11 @@ namespace webNews.Domain.Services.CustomerManagement
         public Vw_Customer GetByCode(string code)
         {
             return _customerRepository.GetByCode(code);
+        }
+
+        public List<Vw_Customer> GetByName(string name, int customerType = 1)
+        {
+            return _customerRepository.GetByName(name,customerType);
         }
     }
 }

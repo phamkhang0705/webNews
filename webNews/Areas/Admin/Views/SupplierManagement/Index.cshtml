@@ -1,11 +1,14 @@
 ﻿@using webNews.Language.Language
 @using webNews.Security
+@model dynamic
 @{
-    ViewBag.Title = "QUẢN LÝ NHẬP HÀNG";
+    /**/
+
+    ViewBag.Title = "QUẢN LÝ nhà cung cấp";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+    var caption = MvcHtmlString.Create("Quản lý nhà cung cấp");
 }
-@*@model dynamic*@
-<h2 class="page-header">Quản lý nhập hàng</h2>
+<h2 class="page-header">@caption</h2>
 <div class="main-content">
     <div class="page-action">
         @if (CheckAuthorizer.Authorize(Permission.ADD))
@@ -18,17 +21,15 @@
         <input type="hidden" id="txtPerDelete" value="@(CheckAuthorizer.Authorize(Permission.DELETE) ? 1 : 0)" />
     </div>
     <div id="modalSearch">
-        @RenderPage("_ptvSearch.cshtml")
+        @RenderPage("_supplierSearch.cshtml")
     </div>
-@*    <div id="modalHistory">*@
-@*        @RenderPage("_ptvHistotyPayment.cshtml")*@
-@*    </div>*@
-    <div class="table-responsive">
+    <div class="table">
         <table id="table"></table>
     </div>
     <div id="box-detail"></div>
 </div>
-@section scripts
+
+@section Scripts
 {
-    <script src="~/Scripts/Admin/InvoiceImport/InvoiceImport.js"></script>
+    <script src="~/Scripts/Admin/SupplierManagement/SupplierManagement.js"></script>
 }

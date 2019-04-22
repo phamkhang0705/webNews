@@ -2,8 +2,10 @@
 using System;
 using System.Dynamic;
 using System.Web.Mvc;
+using webNews.Domain.Services.CustomerManagement;
 using webNews.Domain.Services.InvoiceImportManagement;
 using webNews.Domain.Services.ProductManagement;
+using webNews.Models.Common;
 using webNews.Models.InvoiceImportManagement;
 using webNews.Security;
 
@@ -13,12 +15,15 @@ namespace webNews.Areas.Admin.Controllers
     {
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         private readonly IInvoiceImportService _importService;
-        //        private readonly IProductManagementService _productManagementService;
+        private readonly IProductManagementService _productManagementService;
+        private readonly ICustomerManagementService _customerManagementService;
 
         public InvoiceImportController(
-            IInvoiceImportService importService)
+            IInvoiceImportService importService,IProductManagementService productManagementService, ICustomerManagementService customerManagementService)
         {
             _importService = importService;
+            _productManagementService = productManagementService;
+            _customerManagementService  = customerManagementService;
         }
 
         // GET: Admin/InvoiceImport
@@ -28,8 +33,8 @@ namespace webNews.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Login");
             if (!CheckAuthorizer.Authorize(Permission.VIEW))
                 return RedirectToAction("Permission", "Error");
-            //            dynamic model = new ExpandoObject();
-            return View();
+            dynamic model = new ExpandoObject();
+            return View(model);
         }
 
         public ActionResult Add()
@@ -67,22 +72,43 @@ namespace webNews.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                _log.Error("Get all provider error : " + ex);
+                _log.Error("Get all product error : " + ex);
                 return null;
             }
         }
 
-        //        public ActionResult GetProductData(string productName)
-        //        {
-        //            var lData = _productManagementService.GetProductDataContact(Domain, 0);
-        //            if (!string.IsNullOrEmpty(productName))
-        //            {
-        //                lData =
-        //                    lData.Where(_ => _.ProductName != null && _.ProductName.ToLower().Contains(productName.ToLower()))
-        //                        .ToList();
-        //            }
-        //            return Json(lData, JsonRequestBehavior.AllowGet);
-        //        }
+        public ActionResult GetProductData(string productName)
+        {
+            if (!CheckAuthorizer.Authorize(Permission.VIEW))
+                return RedirectToAction("Index", "Login");
+            try
+            {
+                var lData = _productManagementService.GetByName(productName);
+                return Json(lData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Get GetProductData error : " + ex);
+                return null;
+            }
+        }
+
+        public ActionResult GetSupplierData(string supplierName)
+        {
+            if (!CheckAuthorizer.Authorize(Permission.VIEW))
+                return RedirectToAction("Index", "Login");
+            try
+            {
+                var lData = _customerManagementService.GetByName(supplierName,(int)CustomerType.Supplier);
+            return Json(lData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Get GetSupplierData error : " + ex);
+                return null;
+            }
+        }
+
         //
         //        public ActionResult GetHistoryData(string code, int pageIndex, int pageSize)
         //        {

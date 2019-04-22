@@ -24,12 +24,12 @@
                         <label class="col-xs-2 control-label">@Html.LabelFor(x => x.CustomerCode)</label>
                         <div class="col-xs-4">
                             @Html.ValidationHtmlMessageFor(model => model.CustomerCode, "", new { @class = "field-validation-valid" })
-                            @Html.TextBoxFor(x => x.CustomerCode, new { @class = "form-control input-sm ", @id = "txtCustomerCode", @placeholder = "Mã khách hàng" })
+                            @Html.TextBoxFor(x => x.CustomerCode, new { @class = "form-control input-sm ", @id = "txtCustomerCode", @placeholder = "Mã nhà cung cấp" })
                         </div>
                         <label class="col-xs-2 control-label">@Html.LabelFor(x => x.CustomerName)</label>
                         <div class="col-xs-4">
                             @Html.ValidationHtmlMessageFor(model => model.CustomerName, "", new { @class = "field-validation-valid" })
-                            @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control input-sm", @id = "txtCustomerName", @placeholder = "Tên khách hàng" })
+                            @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control input-sm", @id = "txtCustomerName", @placeholder = "Tên nhà cung cấp" })
                         </div>
                     </div>
                     <div class="form-group">

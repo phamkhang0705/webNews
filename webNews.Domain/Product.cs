@@ -25,6 +25,7 @@ namespace webNews.Domain.Entities
         public string ProductName { get; set; }
         public int? Quantity { get; set; }
         public int? Inventory { get; set; }
+        public double? PriceInput { get; set; }
         public int? Status { get; set; }
         public string Description { get; set; }
         public string Solution { get; set; }

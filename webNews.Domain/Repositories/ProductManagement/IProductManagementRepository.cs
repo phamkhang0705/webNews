@@ -21,6 +21,6 @@ namespace webNews.Domain.Repositories.ProductManagement
 
         Vw_Product GetByCode(string code);
 
-        //        List<GroupProduct> GetGroupCategories(int cateId);
+        List<Vw_Product> GetByName(string name);
     }
 }

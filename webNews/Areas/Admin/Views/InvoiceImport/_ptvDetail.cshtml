@@ -1,231 +1,231 @@
-﻿@using EnglishCenter.Language.Language
-@using EnglishCenter.Web.HtmlHelpers
-@model EnglishCenter.Web.Areas.Admin.Models.InvoiceImport.InvoiceImportModel
-@{
-    var add = Model.Action == "Add";
-    var edit = Model.Action == "Edit";
-    var popupTitle = "Thông tin phiếu nhập";
-}
-<script src="~/Assets/Admin/Validate/jquery.validate.min.js"></script>
-<script src="~/Assets/Admin/Validate/jquery.validate.unobtrusive.min.js"></script>
-<div class="modal fade" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="xModal">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">@popupTitle</h4>
-            </div>
-            <div class="modal-body clearfix">
-                <form id="formDetail" name="formDetail" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
-                    @Html.HiddenFor(x => x.Id)
-                    @Html.HiddenFor(x => x.Code)
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Code)</label>
-                        <div class="col-xs-4 control-label" style="text-align: left" id="txtInvoiceCode">
-                            @Model.Code
-                        </div>
-                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Status)</label>
-                        <div class="col-xs-4 control-label" style="text-align: left">
-                            @Model.Status
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Date)</label>
-                        <div class="col-xs-4">
-                            <div class="input-group input-group-sm input-date" id="divCreateDate">
-                                <input type="text" id="txtCreateDate" name="CreateDate"
-                                       class="form-control input-sm datemask">
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.BranchName)</label>
-                        <div class="col-xs-4 control-label" style="text-align: left">
-                            @Model.BranchName
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.ProviderName)</label>
-                        <div class="col-xs-4 control-label" style="text-align: left">
-                            @Model.ProviderName
-                        </div>
-                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.UserName)</label>
-                        <div class="col-xs-4 control-label" style="text-align: left">
-                            @Model.UserName
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Note)</label>
-                        <div class="col-xs-10">
-                            @Html.ValidationHtmlMessageFor(model => model.Note, "", new { @class = "field-validation-valid" })
-                            @Html.TextAreaFor(x => x.Note, new { @class = "form-control input-sm", @id = "txtNote", @rows = "3", @placeholder = "Nhập ghi chú" })
-                        </div>
-                    </div>
-
-                    <div class="table">
-                        <div class="bootstrap-table">
-                            <div class="fixed-table-toolbar"></div>
-                            <div class="fixed-table-container" style="padding-bottom: 0px;">
-                                <div class="fixed-table-header clearfix" style="display: none;">
-                                    <table></table>
-                                </div>
-                                <div class="fixed-table-body clearfix">
-                                    <div class="fixed-table-loading" style="top: 41px; display: none;">
-                                        <div class="ajaxInProgress">
-                                            <div class="loading-ct"><img src="/Assets/Admin/images/ajax-loader.gif">
-                                                <div>undefined</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <table id="table" class="table table-condensed" style="margin-top: 0px;">
-                                        <thead>
-                                        <tr>
-                                            <th class="row-string" style="text-align: center; vertical-align: middle; width: 50px; " data-field="0" tabindex="0">
-                                                <div class="th-inner ">STT</div>
-                                                <div class="fht-cell"></div>
-                                            </th>
-                                            <th class="row-string" style="text-align: center; vertical-align: middle; width: 120px; " data-field="Code" tabindex="0">
-                                                <div class="th-inner ">Mã hàng hóa</div>
-                                                <div class="fht-cell"></div>
-                                            </th>
-                                            <th class="row-string" style="text-align: center; vertical-align: middle; width: 120px; " data-field="CreateDate" tabindex="0">
-                                                <div class="th-inner ">Tên hàng hóa</div>
-                                                <div class="fht-cell"></div>
-                                            </th>
-                                            <th class="row-string" style="text-align: center; vertical-align: middle; width: 120px; " data-field="ProviderName" tabindex="0">
-                                                <div class="th-inner ">Đơn giá</div>
-                                                <div class="fht-cell"></div>
-                                            </th>
-                                            <th class="row-string" style="text-align: center; vertical-align: middle; width: 120px; " data-field="TotalQuantity" tabindex="0">
-                                                <div class="th-inner ">Số lượng</div>
-                                                <div class="fht-cell"></div>
-                                            </th>
-                                            <th class="row-string" style="text-align: center; vertical-align: middle; width: 120px; " data-field="TotalMonney" tabindex="0">
-                                                <div class="th-inner ">Thành tiền</div>
-                                                <div class="fht-cell"></div>
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @if (Model.InvoiceDetails != null && Model.InvoiceDetails.Count > 0)
-                                        {
-                                                
-                                            foreach (var detail in Model.InvoiceDetails)
-                                            {
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>@detail.ProductCode</td>
-                                                    <td>@detail.ProductName</td>
-                                                    <td>@detail.Price</td>
-                                                    <td>@detail.Quantity</td>
-                                                    <td>@detail.TotalMonney</td>
-                                                </tr>
-                                            }
-                                        }
-                                        else {
-                                            <tr class="no-records-found">
-                                                <td colspan="8">No matching records found</td>
-                                            </tr>
-                                        }
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="fixed-table-footer clearfix" style="display: none;">
-                                    <table>
-                                        <tbody>
-                                        <tr></tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="fixed-table-pagination " style="display: none;">
-                                    <div class="pull-left pagination-detail"><span class="pagination-info">Showing 1 to 0 of 0 rows</span><span class="page-list" style="display: none;"><span class="btn-group dropup"><button type="button" class="btn btn-default  dropdown-toggle" data-toggle="dropdown"><span class="page-size">15</span> <span class="caret"></span></button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li class="active"><a href="javascript:void(0)">15</a></li>
-                                            </ul>
-                                        </span> records per page</span>
-                                    </div>
-                                    <div class="pull-right pagination" style="display: none;">
-                                        <ul class="pagination">
-                                            <li class="page-first disabled"><a href="javascript:void(0)">«</a></li>
-                                            <li class="page-pre disabled"><a href="javascript:void(0)">‹</a></li>
-                                            <li class="page-next disabled"><a href="javascript:void(0)">›</a></li>
-                                            <li class="page-last disabled"><a href="javascript:void(0)">»</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-6">
-
-                        </div>
-                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.TotalMonney)</label>
-                        <div class="col-xs-4 control-label" style="text-align: left">
-                            @Model.TotalMonney
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-6">
-
-                        </div>
-                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Discount)</label>
-                        <div class="col-xs-4 control-label" style="text-align: left">
-                            @Model.Discount
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-6">
-
-                        </div>
-                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.VAT)</label>
-                        <div class="col-xs-4 control-label" style="text-align: left">
-                            @Model.VAT %
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-6">
-
-                        </div>
-                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.SumMonney)</label>
-                        <div class="col-xs-4 control-label" style="text-align: left">
-                            @Model.SumMonney
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-6">
-
-                        </div>
-                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.PaidMonney)</label>
-                        <div class="col-xs-4 control-label" style="text-align: left">
-                            @Model.PaidMonney
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-6">
-
-                        </div>
-                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.RemainMonney)</label>
-                        <div class="col-xs-4 control-label" style="text-align: left">
-                            @Model.RemainMonney
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button id="btnSave" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-check"></i> @(Resource.Btn_Save_Lang)</button>
-                <button id="btnPrint" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-print"></i> @(Resource.Btn_Print_Lang)</button>
-                <button id="btnRefund" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-reply-all"></i> @(Resource.Btn_Refund_Lang)</button>
-                <button id="btnReOpen" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-reply-all"></i> @(Resource.Btn_ReOpen_Lang)</button>
-                <button id="btnExport" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-sign-out"></i> @(Resource.Btn_ExportExcel_Lang)</button>
-                <button id="btnCancle" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-recycle"></i> @(Resource.Btn_Cancle_Lang)</button>
-                <button id="btnDelete" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-recycle"></i> @(Resource.Btn_Delete_Lang)</button>
-                <button id="btnClose" class="btn btn-primary" type="button"><i class="fa fa-close"></i> @(Resource.Btn_Close_Lang)</button>
-            </div>
-        </div>
-    </div>
-</div>
+﻿@*@using EnglishCenter.Language.Language*@
+@*@using EnglishCenter.Web.HtmlHelpers*@
+@*@model EnglishCenter.Web.Areas.Admin.Models.InvoiceImport.InvoiceImportModel*@
+@*@{*@
+@*    var add = Model.Action == "Add";*@
+@*    var edit = Model.Action == "Edit";*@
+@*    var popupTitle = "Thông tin phiếu nhập";*@
+@*}*@
+@*<script src="~/Assets/Admin/Validate/jquery.validate.min.js"></script>*@
+@*<script src="~/Assets/Admin/Validate/jquery.validate.unobtrusive.min.js"></script>*@
+@*<div class="modal fade" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="xModal">*@
+@*    <div class="modal-dialog modal-lg" role="document">*@
+@*        <div class="modal-content">*@
+@*            <div class="modal-header">*@
+@*                <button type="button" class="close" data-dismiss="modal">&times;</button>*@
+@*                <h4 class="modal-title">@popupTitle</h4>*@
+@*            </div>*@
+@*            <div class="modal-body clearfix">*@
+@*                <form id="formDetail" name="formDetail" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">*@
+@*                    @Html.HiddenFor(x => x.Id)*@
+@*                    @Html.HiddenFor(x => x.Code)*@
+@*                    <div class="form-group">*@
+@*                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Code)</label>*@
+@*                        <div class="col-xs-4 control-label" style="text-align: left" id="txtInvoiceCode">*@
+@*                            @Model.Code*@
+@*                        </div>*@
+@*                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Status)</label>*@
+@*                        <div class="col-xs-4 control-label" style="text-align: left">*@
+@*                            @Model.Status*@
+@*                        </div>*@
+@*                    </div>*@
+@*                    <div class="form-group">*@
+@*                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Date)</label>*@
+@*                        <div class="col-xs-4">*@
+@*                            <div class="input-group input-group-sm input-date" id="divCreateDate">*@
+@*                                <input type="text" id="txtCreateDate" name="CreateDate"*@
+@*                                       class="form-control input-sm datemask">*@
+@*                                <span class="input-group-addon">*@
+@*                                    <span class="glyphicon glyphicon-calendar"></span>*@
+@*                                </span>*@
+@*                            </div>*@
+@*                        </div>*@
+@*                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.BranchName)</label>*@
+@*                        <div class="col-xs-4 control-label" style="text-align: left">*@
+@*                            @Model.BranchName*@
+@*                        </div>*@
+@*                    </div>*@
+@**@
+@*                    <div class="form-group">*@
+@*                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.ProviderName)</label>*@
+@*                        <div class="col-xs-4 control-label" style="text-align: left">*@
+@*                            @Model.ProviderName*@
+@*                        </div>*@
+@*                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.UserName)</label>*@
+@*                        <div class="col-xs-4 control-label" style="text-align: left">*@
+@*                            @Model.UserName*@
+@*                        </div>*@
+@*                    </div>*@
+@*                    <div class="form-group">*@
+@*                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Note)</label>*@
+@*                        <div class="col-xs-10">*@
+@*                            @Html.ValidationHtmlMessageFor(model => model.Note, "", new { @class = "field-validation-valid" })*@
+@*                            @Html.TextAreaFor(x => x.Note, new { @class = "form-control input-sm", @id = "txtNote", @rows = "3", @placeholder = "Nhập ghi chú" })*@
+@*                        </div>*@
+@*                    </div>*@
+@**@
+@*                    <div class="table">*@
+@*                        <div class="bootstrap-table">*@
+@*                            <div class="fixed-table-toolbar"></div>*@
+@*                            <div class="fixed-table-container" style="padding-bottom: 0px;">*@
+@*                                <div class="fixed-table-header clearfix" style="display: none;">*@
+@*                                    <table></table>*@
+@*                                </div>*@
+@*                                <div class="fixed-table-body clearfix">*@
+@*                                    <div class="fixed-table-loading" style="top: 41px; display: none;">*@
+@*                                        <div class="ajaxInProgress">*@
+@*                                            <div class="loading-ct"><img src="/Assets/Admin/images/ajax-loader.gif">*@
+@*                                                <div>undefined</div>*@
+@*                                            </div>*@
+@*                                        </div>*@
+@*                                    </div>*@
+@*                                    <table id="table" class="table table-condensed" style="margin-top: 0px;">*@
+@*                                        <thead>*@
+@*                                        <tr>*@
+@*                                            <th class="row-string" style="text-align: center; vertical-align: middle; width: 50px; " data-field="0" tabindex="0">*@
+@*                                                <div class="th-inner ">STT</div>*@
+@*                                                <div class="fht-cell"></div>*@
+@*                                            </th>*@
+@*                                            <th class="row-string" style="text-align: center; vertical-align: middle; width: 120px; " data-field="Code" tabindex="0">*@
+@*                                                <div class="th-inner ">Mã hàng hóa</div>*@
+@*                                                <div class="fht-cell"></div>*@
+@*                                            </th>*@
+@*                                            <th class="row-string" style="text-align: center; vertical-align: middle; width: 120px; " data-field="CreateDate" tabindex="0">*@
+@*                                                <div class="th-inner ">Tên hàng hóa</div>*@
+@*                                                <div class="fht-cell"></div>*@
+@*                                            </th>*@
+@*                                            <th class="row-string" style="text-align: center; vertical-align: middle; width: 120px; " data-field="ProviderName" tabindex="0">*@
+@*                                                <div class="th-inner ">Đơn giá</div>*@
+@*                                                <div class="fht-cell"></div>*@
+@*                                            </th>*@
+@*                                            <th class="row-string" style="text-align: center; vertical-align: middle; width: 120px; " data-field="TotalQuantity" tabindex="0">*@
+@*                                                <div class="th-inner ">Số lượng</div>*@
+@*                                                <div class="fht-cell"></div>*@
+@*                                            </th>*@
+@*                                            <th class="row-string" style="text-align: center; vertical-align: middle; width: 120px; " data-field="TotalMonney" tabindex="0">*@
+@*                                                <div class="th-inner ">Thành tiền</div>*@
+@*                                                <div class="fht-cell"></div>*@
+@*                                            </th>*@
+@*                                        </tr>*@
+@*                                        </thead>*@
+@*                                        <tbody>*@
+@*                                        @if (Model.InvoiceDetails != null && Model.InvoiceDetails.Count > 0)*@
+@*                                        {*@
+@*                                                *@
+@*                                            foreach (var detail in Model.InvoiceDetails)*@
+@*                                            {*@
+@*                                                <tr>*@
+@*                                                    <td>1</td>*@
+@*                                                    <td>@detail.ProductCode</td>*@
+@*                                                    <td>@detail.ProductName</td>*@
+@*                                                    <td>@detail.Price</td>*@
+@*                                                    <td>@detail.Quantity</td>*@
+@*                                                    <td>@detail.TotalMonney</td>*@
+@*                                                </tr>*@
+@*                                            }*@
+@*                                        }*@
+@*                                        else {*@
+@*                                            <tr class="no-records-found">*@
+@*                                                <td colspan="8">No matching records found</td>*@
+@*                                            </tr>*@
+@*                                        }*@
+@*                                        </tbody>*@
+@*                                    </table>*@
+@*                                </div>*@
+@*                                <div class="fixed-table-footer clearfix" style="display: none;">*@
+@*                                    <table>*@
+@*                                        <tbody>*@
+@*                                        <tr></tr>*@
+@*                                        </tbody>*@
+@*                                    </table>*@
+@*                                </div>*@
+@*                                <div class="fixed-table-pagination " style="display: none;">*@
+@*                                    <div class="pull-left pagination-detail"><span class="pagination-info">Showing 1 to 0 of 0 rows</span><span class="page-list" style="display: none;"><span class="btn-group dropup"><button type="button" class="btn btn-default  dropdown-toggle" data-toggle="dropdown"><span class="page-size">15</span> <span class="caret"></span></button>*@
+@*                                            <ul class="dropdown-menu" role="menu">*@
+@*                                                <li class="active"><a href="javascript:void(0)">15</a></li>*@
+@*                                            </ul>*@
+@*                                        </span> records per page</span>*@
+@*                                    </div>*@
+@*                                    <div class="pull-right pagination" style="display: none;">*@
+@*                                        <ul class="pagination">*@
+@*                                            <li class="page-first disabled"><a href="javascript:void(0)">«</a></li>*@
+@*                                            <li class="page-pre disabled"><a href="javascript:void(0)">‹</a></li>*@
+@*                                            <li class="page-next disabled"><a href="javascript:void(0)">›</a></li>*@
+@*                                            <li class="page-last disabled"><a href="javascript:void(0)">»</a></li>*@
+@*                                        </ul>*@
+@*                                    </div>*@
+@*                                </div>*@
+@*                            </div>*@
+@*                        </div>*@
+@*                        <div class="clearfix"></div>*@
+@*                    </div>*@
+@*                    <div class="form-group">*@
+@*                        <div class="col-xs-6">*@
+@**@
+@*                        </div>*@
+@*                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.TotalMonney)</label>*@
+@*                        <div class="col-xs-4 control-label" style="text-align: left">*@
+@*                            @Model.TotalMonney*@
+@*                        </div>*@
+@*                    </div>*@
+@*                    <div class="form-group">*@
+@*                        <div class="col-xs-6">*@
+@**@
+@*                        </div>*@
+@*                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Discount)</label>*@
+@*                        <div class="col-xs-4 control-label" style="text-align: left">*@
+@*                            @Model.Discount*@
+@*                        </div>*@
+@*                    </div>*@
+@*                    <div class="form-group">*@
+@*                        <div class="col-xs-6">*@
+@**@
+@*                        </div>*@
+@*                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.VAT)</label>*@
+@*                        <div class="col-xs-4 control-label" style="text-align: left">*@
+@*                            @Model.VAT %*@
+@*                        </div>*@
+@*                    </div>*@
+@*                    <div class="form-group">*@
+@*                        <div class="col-xs-6">*@
+@**@
+@*                        </div>*@
+@*                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.SumMonney)</label>*@
+@*                        <div class="col-xs-4 control-label" style="text-align: left">*@
+@*                            @Model.SumMonney*@
+@*                        </div>*@
+@*                    </div>*@
+@*                    <div class="form-group">*@
+@*                        <div class="col-xs-6">*@
+@**@
+@*                        </div>*@
+@*                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.PaidMonney)</label>*@
+@*                        <div class="col-xs-4 control-label" style="text-align: left">*@
+@*                            @Model.PaidMonney*@
+@*                        </div>*@
+@*                    </div>*@
+@*                    <div class="form-group">*@
+@*                        <div class="col-xs-6">*@
+@**@
+@*                        </div>*@
+@*                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.RemainMonney)</label>*@
+@*                        <div class="col-xs-4 control-label" style="text-align: left">*@
+@*                            @Model.RemainMonney*@
+@*                        </div>*@
+@*                    </div>*@
+@**@
+@*                </form>*@
+@*            </div>*@
+@*            <div class="modal-footer">*@
+@*                <button id="btnSave" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-check"></i> @(Resource.Btn_Save_Lang)</button>*@
+@*                <button id="btnPrint" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-print"></i> @(Resource.Btn_Print_Lang)</button>*@
+@*                <button id="btnRefund" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-reply-all"></i> @(Resource.Btn_Refund_Lang)</button>*@
+@*                <button id="btnReOpen" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-reply-all"></i> @(Resource.Btn_ReOpen_Lang)</button>*@
+@*                <button id="btnExport" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-sign-out"></i> @(Resource.Btn_ExportExcel_Lang)</button>*@
+@*                <button id="btnCancle" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-recycle"></i> @(Resource.Btn_Cancle_Lang)</button>*@
+@*                <button id="btnDelete" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-recycle"></i> @(Resource.Btn_Delete_Lang)</button>*@
+@*                <button id="btnClose" class="btn btn-primary" type="button"><i class="fa fa-close"></i> @(Resource.Btn_Close_Lang)</button>*@
+@*            </div>*@
+@*        </div>*@
+@*    </div>*@
+@*</div>*@

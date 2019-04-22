@@ -37,47 +37,47 @@
                             @*Tab 1 content*@
                             <div role="tabpanel" class="tab-pane fade active in" id="add_tab_content11" aria-labelledby="add_tab1-tab">
                                 @*pannel 1. Basic infor*@
-                                <div class="x_panel">
+                                <div class="x_panel padding-lr-0">
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">Mã phiếu</label>
+                                        <label class="col-xs-4 control-label padding-lr-0">Mã phiếu</label>
                                         <div class="col-xs-8">
                                             <input type="text" name="Code" class="form-control input-sm" id="txtImportCode" placeholder="@Resource.CodeAutoGen_Lang" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">Nhà cung cấp</label>
+                                        <label class="col-xs-4 control-label padding-lr-0">Nhà cung cấp</label>
                                         <div class="col-xs-8">
                                             <div class="input-group">
-                                                <input type="text" class="form-control input-sm" id="providerSelect" placeholder="@Resource.ChooseProvider_Lang" />
-                                                <span class="input-group-btn">
-                                                    <button id="btnAddProvider" class="btn btn-primary" type="button" title="+">+</button>
-                                                </span>
+                                                <input type="text" class="form-control input-sm" id="supplierSelect" placeholder="@Resource.ChooseProvider_Lang" />
+@*                                                <span class="input-group-btn">*@
+@*                                                    <button id="btnAddsupplier" class="btn btn-primary" type="button" title="+">+</button>*@
+@*                                                </span>*@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group" id="selectedProvider" style="display: none">
+                                    <div class="form-group" id="selectedSupplier" style="display: none">
                                         <label class="col-xs-4 control-label"></label>
                                         <div class="col-xs-8">
-                                            <input type="text" name="ProviderCode" class="form-control input-sm hidden" id="ProviderCode" placeholder="@Resource.ChooseProvider_Lang" />
-                                            <label type="text" name="ProviderName" class="control-label" id="txtProviderName"></label>
+                                            <input type="text" name="SupplierCode" class="form-control input-sm hidden" id="SupplierCode" placeholder="@Resource.ChooseProvider_Lang" />
+                                            <label type="text" name="SupplierName" class="control-label" id="txtSupplierName"></label>
 
-                                            <button class='delete btn btn-primary btn-in-table' id="deleteProvider" type="button" title='Xóa nhà cung cấp'><i class='fa fa-remove'></i></button>
+                                            <button class='delete btn btn-primary btn-in-table' id="deleteSupplier" type="button" title='Xóa nhà cung cấp'><i class='fa fa-remove'></i></button>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">Tổng số lượng</label>
+                                        <label class="col-xs-4 control-label padding-lr-0">Tổng số lượng</label>
                                         <div class="col-xs-8">
                                             <input type="text" name="TotalQuantity" disabled="disabled" value="0" class="form-control input-sm input-right" id="txtTotalQuantity" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">Tổng tiền hàng</label>
+                                        <label class="col-xs-4 control-label padding-lr-0">Tổng tiền hàng</label>
                                         <div class="col-xs-8">
                                             <input type="text" name="TotalMoney" disabled="disabled" value="0" class="form-control input-sm input-right" id="txtTotalMoney" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-xs-4 control-label">Chiết khấu</label>
+                                        <label class="col-xs-4 control-label padding-lr-0">Chiết khấu</label>
                                         <div class="col-xs-3">
                                             <select class="form-control input-sm" name="DiscountType" id="txtDiscounType">
                                                 <option value="0">Tiền</option>
@@ -121,7 +121,7 @@
                                         <label class="col-xs-4 control-label"></label>
                                         <div class="col-xs-8">
                                             <label>
-                                                <input type="checkbox" id="chkAddToProvider" />
+                                                <input type="checkbox" id="chkAddToSUpplier" />
                                                 Cộng vào tài khoản NCC
                                             </label>
                                         </div>
@@ -136,7 +136,7 @@
 
                             @*Tab 2 content*@
                             <div role="tabpanel" class="tab-pane fade" id="add_tab_content22" aria-labelledby="add_tab2-tab">
-                                <div class="x_panel">
+                                <div class="x_panel padding-lr-0">
                                     <div class="form-group">
                                         <label class="col-xs-4 control-label">Trạng thái</label>
                                         <div class="col-xs-8">

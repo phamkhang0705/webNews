@@ -269,6 +269,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BranchManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryDetailManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SupplierManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\CustomerManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\InvoiceImportController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductManagementController.cs" />
@@ -386,6 +387,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\Admin\CategoryDetailManagement\CategoryDetailManagement.js" />
+    <Content Include="Scripts\Admin\SupplierManagement\SupplierManagement.js" />
     <Content Include="Scripts\Admin\CustomerManagement\CustomerManagement.js" />
     <Content Include="Scripts\Admin\InvoiceImport\InvoiceAdd.js" />
     <Content Include="Scripts\Admin\InvoiceImport\InvoiceImport.js" />
@@ -447,6 +449,9 @@
     <Content Include="Areas\Admin\Views\CategoryDetailManagement\_categoryDetail.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryDetailManagement\_categorySearch.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryDetailManagement\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SupplierManagement\_supplierDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\SupplierManagement\_supplierSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\SupplierManagement\Index.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

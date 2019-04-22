@@ -1,4 +1,5 @@
-﻿using webNews.Domain.Entities;
+﻿using System.Collections.Generic;
+using webNews.Domain.Entities;
 using webNews.Models;
 using webNews.Models.CustomerManagement;
 
@@ -19,5 +20,7 @@ namespace webNews.Domain.Repositories.CustomerManagement
         Vw_Customer GetCustomerById(int id);
 
         Vw_Customer GetByCode(string code);
+
+        List<Vw_Customer> GetByName(string name, int customerType = 1);
     }
 }

@@ -15,14 +15,14 @@ using webNews.Security;
 
 namespace webNews.Areas.Admin.Controllers
 {
-    public class CustomerManagementController : BaseController
+    public class SupplierManagementController : BaseController
     {
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         private readonly ICustomerManagementService _customerManagementService;
         private readonly IConstantService _constantService;
         private readonly ISystemService _systemService;
 
-        public CustomerManagementController(ICustomerManagementService customerManagementService, ISystemService systemService)
+        public SupplierManagementController(ICustomerManagementService customerManagementService, ISystemService systemService)
         {
             _customerManagementService = customerManagementService;
             _constantService = new ConstantService();
@@ -50,7 +50,7 @@ namespace webNews.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Login");
             try
             {
-                search.CustomerType = (int)CustomerType.Customer;
+                search.CustomerType = (int)CustomerType.Supplier;
                 var data = _customerManagementService.GetList(search, pageIndex, pageSize);
                 var total = data.Total;
                 return Json(new
@@ -103,9 +103,9 @@ namespace webNews.Areas.Admin.Controllers
                 }
                 else
                 {
-                    model.CustomerCode = _systemService.CodeGen(ObjectType.Customer);
+                    model.CustomerCode = _systemService.CodeGen(ObjectType.Supplier);
                 }
-                return PartialView("_CustomerDetail", model);
+                return PartialView("_supplierDetail", model);
             }
             catch (Exception ex)
             {
@@ -171,7 +171,7 @@ namespace webNews.Areas.Admin.Controllers
                 {
                     customer.CreatedBy = Authentication.GetUserId();
                     customer.CreatedDate = DateTime.Now;
-                    customer.CustomerType = (int)CustomerType.Customer;
+                    customer.CustomerType = (int) CustomerType.Supplier;
                     var rs = _customerManagementService.CreateCustomer(customer);
                     if (rs.ResponseCode == "01")
                     {

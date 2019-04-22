@@ -77,7 +77,7 @@ namespace webNews.Common
                 },
                 new SelectListItem()
                 {
-                    Value = "0",
+                    Value = "2",
                     Text = "Tuổi"
                 },
             };

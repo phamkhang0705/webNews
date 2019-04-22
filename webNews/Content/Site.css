@@ -4,21 +4,54 @@
     margin: 0;
     position: relative;
     vertical-align: middle;
-    width:100% !important;
+    width: 100% !important;
 }
-.text-right{ text-align: right;}
+
+.text-right {
+    text-align: right;
+}
 
 .fixed-table-header.clearfix {
     display: none !important;
 }
 
 .fixed-table-container {
-    margin-top: 30px !important;
+    margin-top: 50px !important;
 }
 
 .field-validation-error {
     color: red;
 }
+
 .fa {
     padding-right: 7px;
+}
+
+.fixed-table-body table thead {
+    background-color: #73879C;
+    color: #ffffff;
+}
+
+    .fixed-table-body table thead tr {
+        height: 50px;
+    }
+
+.fixed-table-loading {
+    display: none;
+}
+
+.ui-menu-item {
+    border-bottom: 1px solid #c7c7c7;
+    padding: 10px 10px 0 10px;
+    line-height: 25px;
+}
+
+    .ui-menu-item:hover, .ui-menu-item:focus {
+        background-color: #337ab7;
+        color: #ffffff;
+    }
+
+.padding-lr-0 {
+    padding-left: 0;
+    padding-right: 0;
 }

@@ -584,7 +584,7 @@ var Service = function () {
 
         var obj = {
             locale: 'vi',
-            classes: 'table table-condensed',
+            classes: 'table table-condensed table-hover table-bordered table-striped',
             pagination: true,
             height: 'auto',
             pageSize: 5,
@@ -670,6 +670,7 @@ var Service = function () {
                 formatFn = function (value) {
                     value = value != undefined ? value : "";
                     return value.length>=20 ? value.substring(0,20)+'...' : value;
+//                    return value;
                 }
                 break;
         }
@@ -1539,7 +1540,11 @@ $(document).ready(function () {
         //var p = $("body").css('padding-right');
         //console.log(p);
     });
-
+    $('body').on('hidden.bs.modal', function () {
+        if ($('.modal.in').length > 0) {
+            $('body').addClass('modal-open');
+        }
+    });
 });
 
 var Dialog = {

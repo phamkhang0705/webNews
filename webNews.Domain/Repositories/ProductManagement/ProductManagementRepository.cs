@@ -237,5 +237,22 @@ namespace webNews.Domain.Repositories.ProductManagement
                 return new Vw_Product();
             }
         }
+
+        public List<Vw_Product> GetByName(string name)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var check = db.Select<Vw_Product>(_ => _.ProductName.ToLower().Contains(name.ToLower()));
+                    return check;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new List<Vw_Product>();
+            }
+        }
     }
 }
