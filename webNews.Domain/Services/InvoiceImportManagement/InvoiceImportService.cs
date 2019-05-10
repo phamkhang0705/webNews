@@ -24,12 +24,12 @@ namespace webNews.Domain.Services.InvoiceImportManagement
             _systemRepository = systemRepository;
         }
 
-        public CoreMessageResponse CancleInvoice(string invoiceCode)
+        public CoreMessageResponse CancelInvoice(string invoiceCode)
         {
             try
             {
-                var isCancle = _importRepository.UpdateStatusInvoice(invoiceCode, (int)InvoiceStatus.Cancled, null);
-                if (isCancle == 1)
+                var isCancel = _importRepository.UpdateStatusInvoice(invoiceCode, (int)InvoiceStatus.Canceld, null);
+                if (isCancel == 1)
                 {
                     return new CoreMessageResponse
                     {
@@ -48,7 +48,7 @@ namespace webNews.Domain.Services.InvoiceImportManagement
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Cancle invoice error: " + ex.Message);
+                _logger.Error(ex, "Cancel invoice error: " + ex.Message);
                 return new CoreMessageResponse
                 {
                     ResponseCode = "00",
@@ -94,8 +94,8 @@ namespace webNews.Domain.Services.InvoiceImportManagement
         {
             try
             {
-                var isCancle = _importRepository.UpdateStatusInvoice(invoiceCode, status ?? -1, createDate, note);
-                if (isCancle == 1)
+                var isCancel = _importRepository.UpdateStatusInvoice(invoiceCode, status ?? -1, createDate, note);
+                if (isCancel == 1)
                 {
                     return new CoreMessageResponse
                     {
@@ -114,7 +114,7 @@ namespace webNews.Domain.Services.InvoiceImportManagement
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Cancle invoice error: " + ex.Message);
+                _logger.Error(ex, "Cancel invoice error: " + ex.Message);
                 return new CoreMessageResponse
                 {
                     ResponseCode = "00",
@@ -137,69 +137,57 @@ namespace webNews.Domain.Services.InvoiceImportManagement
                         ResponseMessage = "Cập nhật lỗi!"
                     };
                 }
-
                 //Insert InvoiceImport
-
-                invoice.ProviderCode = model.ProviderCode;
+                invoice.SupplierCode = model.SupplierCode;
                 invoice.TotalQuantity = model.TotalQuantity;
-                //                invoice.TotalMonney = model.TotalMoney;
+                invoice.TotalMoney = model.TotalMoney;
                 invoice.DiscountType = model.DiscountType;
                 invoice.Discount = model.Discount;
                 invoice.VAT = model.VAT;
-                //                invoice.SumMonney = model.SumMonney;
-                //                invoice.PaidMonney = model.PaidMoney;
-                //                invoice.RemainMonney = model.AddToProvider ? 0 : model.SumMonney - model.PaidMoney;
+                invoice.SumMoney = model.SumMoney;
+                invoice.PaidMoney = model.PaidMoney;
+                invoice.RemainMoney = model.SumMoney - model.PaidMoney;
                 invoice.PayMethod = model.PayMethod;
-                //                invoice.BankCode = model.BankCode;
+                invoice.BankCode = model.BankCode;
                 invoice.UserName = model.UserName;
-                //                invoice.CreateDate = DateTime.Now;
-                invoice.Date = model.CreateDate;
-                //Truong hợp trả NCC hết nợ hoặc đã add dư nợ NCC => phiếu đã hoàn thành
-                //                invoice.IsComplete = model.SumMonney - model.PaidMoney <= 0 || (model.AddToProvider ? true : false);
-                //                invoice.BranchCode = model.BranchCode;
+                invoice.CreatedDate = DateTime.Now;
+                invoice.Date = model.CreatedDate;
+                invoice.IsComplete = model.SumMoney - model.PaidMoney <= 0;
                 invoice.Active = model.Active;
-                //                invoice.StoreId = model.StoreId;
                 invoice.Note = model.Note;
-                //                invoice.Domain = model.Domain;
-                //                invoice.InvoiceImportDetails = new List<InvoiceImport_DETAIL>();
-
-                if (model.ProductItems != null)
+                invoice.InvoiceImportDetails = new List<InvoiceImportDetail>();
+                if (model.CategoryItems != null)
                 {
-                    //Insert InvoiceImportDetail
-                    foreach (var item in model.ProductItems)
+                    foreach (var item in model.CategoryItems)
                     {
                         var invoiceDetail = new InvoiceImportDetail()
                         {
-                            ProductCode = item.ProductCode,
+                            CategoryCode = item.Code,
                             Quantity = item.Quantity,
                             Price = item.PriceInput,
-                            //                            TotalMonney = item.TotalMoney,
-                            DateLimit = item.DateLimit,
-                            //                            Domain = model.Domain
+                            TotalMoney = item.TotalMoney,
+                            DateLimit = item.DateLimit
                         };
-
-                        //                        invoice.InvoiceImportDetails.Add(invoiceDetail);
+                        invoice.InvoiceImportDetails.Add(invoiceDetail);
                     }
                 }
 
-                //                invoice.Payment = new PAYMENT
-                //                {
-                //                    Payments_Code = _systemRepository.CodeGen(ObjectType.Payment, PrefixType.Payment),
-                //                    Payments_UserName = model.UserName,
-                //                    Payments_CreatDate = model.CreateDate,
-                //                    Payments_Method = model.PayMethod,
-                //                    Payments_Decription = model.Note,
-                //                    Payments_TotalMoney = model.PaidMoney,
-                //                    Payments_PersonType = (int)PersonType.Provider,
-                //                    Payments_Person = model.ProviderCode,
-                //                    Payments_Accounting = true,     //Default
-                //                    Payments_BankCode = model.BankCode,
-                //                    Payments_Active = 3,
-                //                    InvoiceCode = invoice.Code,
-                //                    Payments_BranchCode = model.BranchCode,
-                //                    Domain = model.Domain,
-                //                    RemainMonney = model.RemainMoney
-                //                };
+                invoice.Payment = new Payment()
+                {
+                    PaymentCode = _systemRepository.CodeGen(ObjectType.PaymentVoucher, PrefixType.PaymentVoucher),
+                    UserName = model.UserName,
+                    CreatedDate = model.CreatedDate,
+                    PaymentMethod = model.PayMethod,
+                    Description = model.Note,
+                    TotalMoney = model.PaidMoney,
+                    PersonType = (int)PersonType.Provider,
+                    Payments_Person = model.SupplierCode,
+                    BankCode = model.BankCode,
+                    Status = model.Active,
+                    InvoiceCode = invoice.Code,
+                    RemainMoney = model.RemainMoney,
+                    PaymentType = false
+                };
 
                 var res = _importRepository.UpdateInvoice(invoice);
                 if (res > 0)
@@ -234,75 +222,66 @@ namespace webNews.Domain.Services.InvoiceImportManagement
         {
             try
             {
-                //                var code = string.IsNullOrEmpty(model.Code) ? _systemRepository.CodeGen(ObjectType.InvoiceImport, PrefixType.InvoiceImport) : model.Code;
-                //                //Insert InvoiceImport
-                //                var invoice = new InvoiceImport
-                //                {
-                //                    Code = code,
-                //                    ProviderCode = model.ProviderCode,
-                //                    TotalQuantity = model.TotalQuantity,
-                //                    TotalMonney = model.TotalMoney,
-                //                    DiscountType = model.DiscountType,
-                //                    Discount = model.Discount,
-                //                    VAT = model.VAT,
-                //                    SumMonney = model.SumMonney,
-                //                    PaidMonney = model.PaidMoney,
-                //                    RemainMonney = model.AddToProvider ? 0 : model.SumMonney - model.PaidMoney,
-                //                    PayMethod = model.PayMethod,
-                //                    BankCode = model.BankCode,
-                //                    UserName = model.UserName,
-                //                    CreateDate = DateTime.Now,
-                //                    Date = model.CreateDate,
-                //                    //Truong hợp trả NCC hết nợ hoặc đã add dư nợ NCC => phiếu đã hoàn thành
-                //                    IsComplete = model.SumMonney - model.PaidMoney <= 0 || (model.AddToProvider ? true : false),
-                //                    BranchCode = model.BranchCode,
-                //                    Active = model.Active,
-                //                    StoreId = model.StoreId,
-                //                    Note = model.Note,
-                //                    Domain = model.Domain,
-                //                    Type = model.Type,
-                //                    InvoiceImportDetails = new List<InvoiceImport_DETAIL>()
-                //                };
-                //                invoice.Date = invoice.Date == DateTime.MinValue ? DateTime.Now : invoice.Date;
-                //                if (model.ProductItems != null)
-                //                {
-                //                    //Insert InvoiceImportDetail
-                //                    foreach (var item in model.ProductItems)
-                //                    {
-                //                        var invoiceDetail = new InvoiceImport_DETAIL
-                //                        {
-                //                            ProductCode = item.ProductCode,
-                //                            Quantity = item.Quantity,
-                //                            Price = item.PriceInput,
-                //                            TotalMonney = item.TotalMoney,
-                //                            Domain = model.Domain
-                //                        };
-                //                        if (item.DateLimit != DateTime.MinValue)
-                //                            invoiceDetail.DateLimit = item.DateLimit;
-                //                        invoice.InvoiceImportDetails.Add(invoiceDetail);
-                //                    }
-                //                }
-                //
-                //                invoice.Payment = new PAYMENT
-                //                {
-                //                    Payments_Code = _systemRepository.CodeGen(ObjectType.Payment, PrefixType.Payment),
-                //                    Payments_UserName = model.UserName,
-                //                    Payments_CreatDate = model.CreateDate,
-                //                    Payments_Method = model.PayMethod,
-                //                    Payments_Decription = model.Note,
-                //                    Payments_TotalMoney = model.PaidMoney,
-                //                    Payments_PersonType = (int)PersonType.Provider,
-                //                    Payments_Person = model.ProviderCode,
-                //                    Payments_Accounting = true,     //Default
-                //                    Payments_BankCode = model.BankCode,
-                //                    Payments_Active = model.Active,
-                //                    InvoiceCode = invoice.Code,
-                //                    Payments_BranchCode = model.BranchCode,
-                //                    Domain = model.Domain,
-                //                    RemainMonney = model.RemainMoney,
-                //                    Payments_Type = false
-                //                };
-                var invoice = new InvoiceImport();
+                var code = string.IsNullOrEmpty(model.Code) ? _systemRepository.CodeGen(ObjectType.InvoiceImport, PrefixType.InvoiceImport) : model.Code;
+                //Insert InvoiceImport
+                var invoice = new InvoiceImport
+                {
+                    Code = code,
+                    SupplierCode = model.SupplierCode,
+                    TotalQuantity = model.TotalQuantity,
+                    TotalMoney = model.TotalMoney,
+                    DiscountType = model.DiscountType,
+                    Discount = model.Discount,
+                    VAT = model.VAT,
+                    SumMoney = model.SumMoney,
+                    PaidMoney = model.PaidMoney,
+                    RemainMoney = model.SumMoney - model.PaidMoney,
+                    PayMethod = model.PayMethod,
+                    BankCode = model.BankCode,
+                    UserName = model.UserName,
+                    CreatedDate = DateTime.Now,
+                    CreatedBy = model.CreatedBy,
+                    Date = model.CreatedDate,
+                    Active = model.Active,
+                    Note = model.Note,
+                    Type = model.Type,
+                    InvoiceImportDetails = new List<InvoiceImportDetail>()
+                };
+                invoice.Date = invoice.Date == DateTime.MinValue ? DateTime.Now : invoice.Date;
+                if (model.CategoryItems != null)
+                {
+                    //Insert InvoiceImportDetail
+                    foreach (var item in model.CategoryItems)
+                    {
+                        var invoiceDetail = new InvoiceImportDetail()
+                        {
+                            CategoryCode = item.Code,
+                            Quantity = item.Quantity,
+                            Price = item.PriceInput,
+                            TotalMoney = item.TotalMoney,
+                        };
+                        invoice.InvoiceImportDetails.Add(invoiceDetail);
+                    }
+                }
+
+                invoice.Payment = new Payment()
+                {
+                    PaymentCode = _systemRepository.CodeGen(ObjectType.PaymentVoucher, PrefixType.PaymentVoucher),
+                    UserName = model.UserName,
+                    CreatedDate = DateTime.Now,
+                    PaymentMethod = model.PayMethod,
+                    Description = model.Note,
+                    TotalMoney = model.PaidMoney,
+                    PersonType = (int)PersonType.Provider,
+                    Payments_Person = model.SupplierCode,
+                    BankCode = model.BankCode,
+                    Status = model.Active,
+                    InvoiceCode = invoice.Code,
+                    RemainMoney = model.RemainMoney,
+                    PaymentType = false,
+                    CreatedBy = model.CreatedBy  
+                };
+
                 var res = _importRepository.CreateInvoice(invoice);
                 if (res > 0)
                 {
@@ -444,7 +423,7 @@ namespace webNews.Domain.Services.InvoiceImportManagement
         //            return  _systemRepository.Paging(query, pageIndex, pageSize);
         //        }
 
-        public InvoiceImport GetInvoiceImportByCode(string invoiceCode)
+        public Vw_InvoiceImport GetInvoiceImportByCode(string invoiceCode)
         {
             return _importRepository.GetInvoiceImportByCode(invoiceCode);
         }
@@ -461,6 +440,11 @@ namespace webNews.Domain.Services.InvoiceImportManagement
             }
             query.OrderByDescending(x => x.CreatedDate);
             return _systemRepository.Paging(query, pageIndex, pageSize);
+        }
+
+        public List<Vw_InvoiceImport_Detail> GetInvoiceDetails(int invoiceId)
+        {
+            return _importRepository.GetInvoiceDetails(invoiceId);
         }
     }
 }

@@ -303,7 +303,7 @@
         }
         function stripValidPositions(start, end, nocheck, strict) {
             var i, startPos = start;
-            for (getMaskSet().p = start, i = startPos; end > i; i++) void 0 !== getMaskSet().validPositions[i] && (nocheck === !0 || opts.canClearPosition(getMaskSet(), i, getLastValidPosition(), strict, opts) !== !1) && delete getMaskSet().validPositions[i];
+            for (getMaskSet().p = start, i = startPos; end > i; i++) void 0 !== getMaskSet().validPositions[i] && (nocheck === !0 || opts.CancelarPosition(getMaskSet(), i, getLastValidPosition(), strict, opts) !== !1) && delete getMaskSet().validPositions[i];
             for (i = startPos + 1; i <= getLastValidPosition(); ) {
                 for (;void 0 !== getMaskSet().validPositions[startPos]; ) startPos++;
                 var s = getMaskSet().validPositions[startPos];
@@ -1309,7 +1309,7 @@
             },
             ignorables: [ 8, 9, 13, 19, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 93, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123 ],
             isComplete: null,
-            canClearPosition: $.noop,
+            CancelarPosition: $.noop,
             postValidation: null,
             staticDefinitionSymbol: void 0,
             jitMasking: !1
@@ -2272,9 +2272,9 @@
                 }
                 return initialValue.toString();
             },
-            canClearPosition: function(maskset, position, lvp, strict, opts) {
-                var positionInput = maskset.validPositions[position].input, canClear = positionInput !== opts.radixPoint || null !== maskset.validPositions[position].match.fn && opts.decimalProtect === !1 || isFinite(positionInput) || position === lvp || positionInput === opts.groupSeparator || positionInput === opts.negationSymbol.front || positionInput === opts.negationSymbol.back;
-                if (canClear && isFinite(positionInput)) {
+            CancelarPosition: function(maskset, position, lvp, strict, opts) {
+                var positionInput = maskset.validPositions[position].input, Cancelar = positionInput !== opts.radixPoint || null !== maskset.validPositions[position].match.fn && opts.decimalProtect === !1 || isFinite(positionInput) || position === lvp || positionInput === opts.groupSeparator || positionInput === opts.negationSymbol.front || positionInput === opts.negationSymbol.back;
+                if (Cancelar && isFinite(positionInput)) {
                     var matchRslt, radixPos = $.inArray(opts.radixPoint, maskset.buffer), radixInjection = !1;
                     if (void 0 === maskset.validPositions[radixPos] && (maskset.validPositions[radixPos] = {
                         input: opts.radixPoint
@@ -2288,15 +2288,15 @@
                     for (var vp in maskset.validPositions) void 0 !== maskset.validPositions[vp].input && buffer.push(maskset.validPositions[vp].input);
                     if (radixInjection && delete maskset.validPositions[radixPos], radixPos > 0) {
                         var bufVal = buffer.join("");
-                        if (matchRslt = bufVal.match(opts.regex.integerNPart(opts))) if (radixPos >= position) if (0 === matchRslt[0].indexOf("0")) canClear = matchRslt.index !== position || "0" === opts.placeholder; else {
+                        if (matchRslt = bufVal.match(opts.regex.integerNPart(opts))) if (radixPos >= position) if (0 === matchRslt[0].indexOf("0")) Cancelar = matchRslt.index !== position || "0" === opts.placeholder; else {
                             var intPart = parseInt(matchRslt[0].replace(new RegExp(Inputmask.escapeRegex(opts.groupSeparator), "g"), "")), radixPart = parseInt(bufVal.split(opts.radixPoint)[1]);
                             10 > intPart && maskset.validPositions[position] && ("0" !== opts.placeholder || radixPart > 0) && (maskset.validPositions[position].input = "0", 
-                            maskset.p = opts.prefix.length + 1, canClear = !1);
+                            maskset.p = opts.prefix.length + 1, Cancelar = !1);
                         } else 0 === matchRslt[0].indexOf("0") && 3 === bufVal.length && (maskset.validPositions = {}, 
-                        canClear = !1);
+                        Cancelar = !1);
                     }
                 }
-                return canClear;
+                return Cancelar;
             },
             onKeyDown: function(e, buffer, caretPos, opts) {
                 var $input = $(this);
@@ -2660,9 +2660,9 @@
                 }
                 return initialValue.toString();
             },
-            canClearPosition: function(maskset, position, lvp, strict, opts) {
-                var positionInput = maskset.validPositions[position].input, canClear = positionInput !== opts.radixPoint || null !== maskset.validPositions[position].match.fn && opts.decimalProtect === !1 || isFinite(positionInput) || position === lvp || positionInput === opts.groupSeparator || positionInput === opts.negationSymbol.front || positionInput === opts.negationSymbol.back;
-                if (canClear && isFinite(positionInput)) {
+            CancelarPosition: function(maskset, position, lvp, strict, opts) {
+                var positionInput = maskset.validPositions[position].input, Cancelar = positionInput !== opts.radixPoint || null !== maskset.validPositions[position].match.fn && opts.decimalProtect === !1 || isFinite(positionInput) || position === lvp || positionInput === opts.groupSeparator || positionInput === opts.negationSymbol.front || positionInput === opts.negationSymbol.back;
+                if (Cancelar && isFinite(positionInput)) {
                     var matchRslt, radixPos = $.inArray(opts.radixPoint, maskset.buffer), radixInjection = !1;
                     if (void 0 === maskset.validPositions[radixPos] && (maskset.validPositions[radixPos] = {
                         input: opts.radixPoint
@@ -2676,15 +2676,15 @@
                     for (var vp in maskset.validPositions) void 0 !== maskset.validPositions[vp].input && buffer.push(maskset.validPositions[vp].input);
                     if (radixInjection && delete maskset.validPositions[radixPos], radixPos > 0) {
                         var bufVal = buffer.join("");
-                        if (matchRslt = bufVal.match(opts.regex.integerNPart(opts))) if (radixPos >= position) if (0 === matchRslt[0].indexOf("0")) canClear = matchRslt.index !== position || "0" === opts.placeholder; else {
+                        if (matchRslt = bufVal.match(opts.regex.integerNPart(opts))) if (radixPos >= position) if (0 === matchRslt[0].indexOf("0")) Cancelar = matchRslt.index !== position || "0" === opts.placeholder; else {
                             var intPart = parseInt(matchRslt[0].replace(new RegExp(Inputmask.escapeRegex(opts.groupSeparator), "g"), "")), radixPart = parseInt(bufVal.split(opts.radixPoint)[1]);
                             10 > intPart && maskset.validPositions[position] && ("0" !== opts.placeholder || radixPart > 0) && (maskset.validPositions[position].input = "0", 
-                            maskset.p = opts.prefix.length + 1, canClear = !1);
+                            maskset.p = opts.prefix.length + 1, Cancelar = !1);
                         } else 0 === matchRslt[0].indexOf("0") && 3 === bufVal.length && (maskset.validPositions = {}, 
-                        canClear = !1);
+                        Cancelar = !1);
                     }
                 }
-                return canClear;
+                return Cancelar;
             },
             onKeyDown: function(e, buffer, caretPos, opts) {
                 var $input = $(this);

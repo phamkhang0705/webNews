@@ -132,7 +132,7 @@
   <data name="Btn_Back_Lang" xml:space="preserve">
     <value>Trở lại</value>
   </data>
-  <data name="Btn_Cancle_Lang" xml:space="preserve">
+  <data name="Btn_Cancel_Lang" xml:space="preserve">
     <value>Hủy</value>
   </data>
   <data name="Btn_Close_Lang" xml:space="preserve">
@@ -178,7 +178,7 @@
     <value>Capchar lỗi!</value>
   </data>
   <data name="ChooseProduct_Lang" xml:space="preserve">
-    <value>Chọn sản phẩm(F2)</value>
+    <value>Chọn danh mục(F2)</value>
   </data>
   <data name="ChooseProvider_Lang" xml:space="preserve">
     <value>Chọn nhà cung cấp</value>

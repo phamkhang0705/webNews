@@ -16,6 +16,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
         PagingObject<Vw_InvoiceImport> GetList(SearchInvoiceImport filter, int pageIndex, int pageSize);
 
         InvoiceImport GetInvoiceByCode(string invoiceCode);
+        List<Vw_InvoiceImport_Detail> GetInvoiceDetails(int invoiceId);
         
         long UpdateInvoice(InvoiceImport model);
 
@@ -23,7 +24,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
 
         long Import(InvoiceImport model);
 
-        InvoiceImport GetInvoiceImportByCode(string invoiceCode);
+        Vw_InvoiceImport GetInvoiceImportByCode(string invoiceCode);
 
         long DeleteInvoice(string invoiceCode);
     }

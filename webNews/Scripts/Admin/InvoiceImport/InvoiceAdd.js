@@ -11,12 +11,12 @@ var isReopen = false;
 var recaculateInvoice = function () {
     discount = Sv.round($("#txtDiscount0").val());
     discountPercent = Sv.round($("#txtDiscount1").val());
-    totalQuantity = Sv.Sum(productSelect, "Quantity");
-    totalMoney = Sv.Sum(productSelect, "TotalMoney");
+    totalQuantity = Sv.Sum(categorySelect, "Quantity");
+    totalMoney = Sv.Sum(categorySelect, "TotalMoney");
     discountAmount = 0;
     VAT = Sv.round($("#txtVAT").val());
 
-    if (parseInt($("#txtDiscounType").val()) == 0) {
+    if (parseInt($("#txtDiscounType").val()) === 0) {
         $("#typeMoney").show();
         $("#typePercent").hide();
         discountAmount = discount;
@@ -42,7 +42,7 @@ var recaculateInvoice = function () {
     }
 }
 
-var init = function() {
+var init = function () {
     unit.$searchModal.find('#divFromDate').data("DateTimePicker").date(Sv.DefaultDate().FormDate);
 }
 
@@ -77,14 +77,14 @@ var Unit = function () {
             }),
 
             Sv.BootstrapTableColumn("string", {
-                title: 'Mã hàng hóa',
-                field: 'ProductCode',
+                title: 'Mã danh mục',
+                field: 'Code',
                 align: "center",
                 valign: "middle"
             }),
             Sv.BootstrapTableColumn("string", {
-                title: 'Tên hàng hóa',
-                field: 'ProductName',
+                title: 'Tên danh mục',
+                field: 'Name',
                 align: "center",
                 valign: "middle"
             }),
@@ -95,19 +95,19 @@ var Unit = function () {
                 valign: "middle",
                 formatter: function (value, row, index) {
                     var html = "";
-                    html = '<input class="form-control inputChange inputPrice" name="inputPrice" id="inputPrice' + row.ProductCode + '" style="text-align: right;" value="' + row.PriceInput + '"/>';
+                    html = '<input class="form-control inputChange inputPrice" name="inputPrice" id="inputPrice' + row.Code + '" style="text-align: right;" value="' + row.PriceInput + '"/>';
                     return html;
                 },
                 events: {
                     'keyup .inputChange': function (e, value, row) {
-                        var pro = productSelect.filter(function (p) {
-                            return p.ProductCode === row.ProductCode;
+                        var pro = categorySelect.filter(function (p) {
+                            return p.Code === row.Code;
                         });
                         if (pro != null && pro.length > 0) {
-                            pro[0].PriceInput = Sv.round($("#inputPrice" + row.ProductCode).val());
+                            pro[0].PriceInput = Sv.round($("#inputPrice" + row.Code).val());
                             pro[0].TotalMoney = Sv.round(pro[0].PriceInput * pro[0].Quantity);
                             recaculateInvoice();
-                            $("#totalMoney" + row.ProductCode).html(Sv.FormatMoney(pro[0].TotalMoney));
+                            $("#totalMoney" + row.Code).html(Sv.FormatMoney(pro[0].TotalMoney));
                         }
                     }
                 }
@@ -119,32 +119,32 @@ var Unit = function () {
                 valign: "middle",
                 formatter: function (value, row, index) {
                     var html = "";
-                    html = '<input class="form-control inputChange inputQuantity" name="inputQuantity" id="inputQuantity' + row.ProductCode + '" style="text-align: right;" value="' + row.Quantity + '"/>';
+                    html = '<input class="form-control inputChange inputQuantity" name="inputQuantity" id="inputQuantity' + row.Code + '" style="text-align: right;" value="' + row.Quantity + '"/>';
                     return html;
                 },
                 events: {
                     'keyup .inputChange': function (e, value, row) {
-                        var pro = productSelect.filter(function (p) {
-                            return p.ProductCode === row.ProductCode;
+                        var pro = categorySelect.filter(function (p) {
+                            return p.Code === row.Code;
                         });
                         if (pro != null && pro.length > 0) {
-                            pro[0].Quantity = Sv.round($("#inputQuantity" + row.ProductCode).val());
-                            pro[0].TotalMoney =Sv.round(pro[0].PriceInput * pro[0].Quantity);
+                            pro[0].Quantity = Sv.round($("#inputQuantity" + row.Code).val());
+                            pro[0].TotalMoney = Sv.round(pro[0].PriceInput * pro[0].Quantity);
                             recaculateInvoice();
-                            $("#totalMoney" + row.ProductCode).html(Sv.FormatMoney(pro[0].TotalMoney));
+                            $("#totalMoney" + row.Code).html(Sv.FormatMoney(pro[0].TotalMoney));
                         }
                     }
                 }
             }),
             Sv.BootstrapTableColumn("string", {
                 title: 'Tổng tiền',
-                field: 'TotalMonney',
+                field: 'TotalMoney',
                 align: "center",
                 valign: "middle",
                 formatter: function (value, item) {
                     var price = (item.PriceInput != null && item.PriceInput != undefined) ? item.PriceInput : 0;
                     var quantity = (item.Quantity != null && item.Quantity != undefined) ? item.Quantity : 0;
-                    var html = '<span id="totalMoney' + item.ProductCode + '">' + Sv.FormatMoney(Sv.round(price * quantity)) + '</span>';
+                    var html = '<span id="totalMoney' + item.Code + '">' + Sv.FormatMoney(Sv.round(price * quantity)) + '</span>';
                     return html;
                 }
             }),
@@ -158,14 +158,14 @@ var Unit = function () {
                         return html;
                     }, events: {
                         'click .delete': function (e, value, row) {
-                            for (var i = 0; i < productSelect.length; i++) {
-                                if (productSelect[i].ProductCode == row.ProductCode) {
-                                    productSelect.splice(i, 1);
+                            for (var i = 0; i < categorySelect.length; i++) {
+                                if (categorySelect[i].Code === row.Code) {
+                                    categorySelect.splice(i, 1);
                                     break;
                                 }
                             }
                             recaculateInvoice();
-                            unit.$table.bootstrapTable('load', productSelect);
+                            unit.$table.bootstrapTable('load', categorySelect);
                             $(".inputQuantity").number(true, 0);
                             $(".inputPrice").number(true, 0);
                         }
@@ -177,7 +177,7 @@ var Unit = function () {
     this.LoadTableSearch = function () {
         base.$table.bootstrapTable('refreshOptions', {
             responseHandler: function (res) {
-                base.$searchModal.modal("hide");ca
+                base.$searchModal.modal("hide");
                 if (res.total == 0) {
                     base.$table.bootstrapTable('removeAll');
                 }
@@ -191,20 +191,24 @@ var Unit = function () {
     base.GetFormData = function () {
         var data = {};
         data = Sv.getFormData($("#formDetail"));
-        data.DiscountType = parseInt($("#txtDiscounType").val()) == 0 ? false : true;
+        data.DiscountType = parseInt($("#txtDiscounType").val()) === "0" ? false : true;
         data.Active = active;
         data.TotalQuantity = totalQuantity;
         data.TotalMoney = totalMoney;
-        data.ProductItems = productSelect;
+        data.CategoryItems = categorySelect;
         data.Discount = data.DiscountType ? discount : discountPercent;
-        data.SumMonney = totalSalePrice;
+        data.SumMoney = totalSalePrice;
         data.PaidMoney = $("#txtPayMoney").val();
-        data.RemainMoney = Sv.round(data.SumMonney - data.PaidMoney);
+        data.RemainMoney = Sv.round(data.SumMoney - data.PaidMoney);
         data.AddTosupplier = $("#chkAddTosupplier").is(':checked');
-        data.supplierCode = $("#supplierCode").val();
+        data.SupplierCode = $("#txtSupplierCode").val();
         data.BankCode = $("#txtBankAccount").val();
         data.Code = $("#txtImportCode").val();
-        data.CreateDate = $("#txtCreateDate").val();
+        data.CreateDate = $("#txtCreatedDate").val();
+        data.VAT = $("#txtVAT").val();
+        data.Note = $("#txtNote").val();
+        data.PayMethod = $("#txtMethodPayment").val();
+        data.Type = $("#txtType").val();
 
         return data;
     }
@@ -229,24 +233,23 @@ var Unit = function () {
             url = "/InvoiceImport/Create";
             active = 0;
         }
-        if (productSelect.length < 1) {
+        if (categorySelect.length < 1) {
             Dialog.Alert("Bạn chưa chọn sản phẩm", Dialog.Error);
             return;
         }
-        else if ($("#supplierCode").val() == "" || $("#supplierCode").val() == null) {
+        else if ($("#txtSupplierCode").val() == "" || $("#txtSupplierCode").val() == null) {
             Dialog.Alert("Bạn chưa chọn nhà cung cấp", Dialog.Error);
             return;
         }
-
         Sv.Loading();
         Sv.AjaxPost({
-                Url: url,
-                Data: base.GetFormData()
-            },
+            Url: url,
+            Data: base.GetFormData()
+        },
             function (rs) {
                 Sv.EndLoading();
-                if (rs.Status == "01") {
-                    Dialog.Alert(rs.Message, Dialog.Success, "", function() {
+                if (rs.Status === "01") {
+                    Dialog.Alert(rs.Message, Dialog.Success, "", function () {
                         window.location.reload();
                     });
                 } else {
@@ -260,10 +263,10 @@ var Unit = function () {
     }
 
     this.validate = function () {
-        if (productSelect.length < 1) {
+        if (categorySelect.length < 1) {
             Dialog.Alert("Bạn chưa chọn sản phẩm", Dialog.Error);
         }
-        else if ($("#supplierCode").val() == "" || $("#supplierCode").val() == null) {
+        else if ($("#txtSupplierCode").val() == "" || $("#txtSupplierCode").val() == null) {
             Dialog.Alert("Bạn chưa chọn nhà cung cấp", Dialog.Error);
         }
         return true;
@@ -272,15 +275,17 @@ var Unit = function () {
 
 var unit = new Unit();
 
-var productSelect = [];
+var categorySelect = [];
 
 $(document).ready(function () {
     $('#divCreateDate').data("DateTimePicker").date(Sv.DefaultDate().Default);
     var loadTableSearch = function () {
-        unit.$table.bootstrapTable('load', productSelect);
+        unit.$table.bootstrapTable('load', categorySelect);
         $(".inputQuantity").number(true, 0);
         $(".inputPrice").number(true, 0);
     }
+    $("#txtSalePrice").attr("disabled", true);
+    $("#txtRemainMoney").attr("disabled", true);
 
     unit.$table.bootstrapTable(Sv.BootstrapTableOptionClient({
         queryParams: function (p) {
@@ -292,7 +297,7 @@ $(document).ready(function () {
             };
         },
         columns: unit.Columns(),
-        data: productSelect
+        data: categorySelect
     }));
 
 
@@ -306,18 +311,21 @@ $(document).ready(function () {
         function (data) {
             if (data != null) {
                 isReopen = true;
+                if (data.Active == 1) {
+                    $(".btnComplete").prop("disabled", true);
+                }
                 console.log(data);
                 $(".btnTempSave").attr("disabled", "disabled");
-                $("#selectedsupplier").show();
+                $("#selectedSupplier").show();
                 //Set data form
-                $("#supplierCode").val(data.supplierCode);
-                $("#txtsupplierName").html(data.supplierName);
+                $("#txtSupplierCode").val(data.SupplierCode);
+                $("#txtSupplierName").html(data.SupplierName);
 
                 $("#txtImportCode").val(data.Code);
                 $("#txtTotalQuantity").val(data.TotalQuantity);
-                $("#txtTotalMoney").val(data.TotalMonney);
+                $("#txtTotalMoney").val(data.TotalMoney);
                 $("#txtDiscounType").val(data.DiscountType);
-                if (data.DiscountType == 0) {
+                if (data.DiscountType === 0) {
                     $("#typeMoney").show();
                     $("#typePercent").hide();
                     $("#txtDiscount0").val(data.Discount);
@@ -327,30 +335,32 @@ $(document).ready(function () {
                     $("#txtDiscount1").val(data.Discount);
                 }
                 $("#txtVAT").val(data.VAT);
-                $("#txtSalePrice").val(data.SumMonney);
-                $("#txtPayMoney").val(data.PaidMonney);
-                $("#txtRemainMoney").val(data.RemainMonney);
-                $("#txtMethodPayment").val(data.PeymentMethod);
+                $("#txtSalePrice").val(data.SumMoney);
+                $("#txtPayMoney").val(data.PaidMoney);
+                $("#txtRemainMoney").val(data.RemainMoney);
+                $("#txtMethodPayment").val(data.PayMethod);
                 $("#txtBankAccount").val(data.BankAccount);
-                Sv.SetupDateAndSetDefault($('#divCreateDate'), data.CreateDate);
+                Sv.SetupDateAndSetDefault($('#divCreatedDate'), data.CreatedDate);
                 $("#txtNote").val(data.Note);
-                if (data.InvoiceDetails != null && data.InvoiceDetails != undefined) {
-                    for (var i = 0; i < data.InvoiceDetails.length; i++) {
+                if (data.InvoiceImportDetails != null && data.InvoiceImportDetails != undefined) {
+                    for (var i = 0; i < data.InvoiceImportDetails.length; i++) {
                         var pro = {};
-                        pro.ProductCode = data.InvoiceDetails[i].ProductCode;
-                        pro.ProductName = data.InvoiceDetails[i].ProductName;
-                        pro.PriceInput = data.InvoiceDetails[i].Price;
-                        pro.Quantity = data.InvoiceDetails[i].Quantity;
-                        pro.TotalMoney = data.InvoiceDetails[i].TotalMonney;
-
-                        productSelect.push(pro);
+                        pro.Code = data.InvoiceImportDetails[i].CategoryCode;
+                        pro.Name = data.InvoiceImportDetails[i].Name;
+                        pro.PriceInput = data.InvoiceImportDetails[i].Price;
+                        pro.Quantity = data.InvoiceImportDetails[i].Quantity;
+                        pro.TotalMoney = data.InvoiceImportDetails[i].TotalMoney;
+                        categorySelect.push(pro);
                     }
                 }
+                totalSalePrice = data.SumMoney;
+                totalQuantity = data.TotalQuantity;
+                totalMoney = data.TotalMoney;
+
+                $("#txtSalePrice").attr("disabled", true);
+                $("#txtRemainMoney").attr("disabled", true);
                 loadTableSearch();
-
             }
-
-
         },
         function () {
             Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
@@ -358,60 +368,62 @@ $(document).ready(function () {
     }
 
     //Auto complete input
-    $("#txtSearchProduct").autocomplete({
-            minLength: 0,
-            source: function (request, response) {
-                $.ajax({
-                    url: "/InvoiceImport/GetProductData",
-                    type: "POST",
-                    dataType: "json",
-                    data: { productName: $("#txtSearchProduct").val() },
-                    success: function (data) {
-                        response($.map(data,
-                            function (item) {
-                                return item;
-                            }));
+    $("#txtSearchCategory").autocomplete({
+        minLength: 0,
+        source: function (request, response) {
+            $.ajax({
+                url: "/InvoiceImport/GetCategoryData",
+                type: "POST",
+                dataType: "json",
+                data: { categoryName: $("#txtSearchCategory").val() },
+                success: function (data) {
+                    response($.map(data,
+                        function (item) {
+                            return item;
+                        }));
 
-                    }
-                });
-            },
-            response: function (event, ui) {
-                // ui.content is the array that's about to be sent to the response callback.
-                if (ui.content.length === 0) {
-                    $("#empty-message").text("No results found");
-                } else {
-                    $("#empty-message").empty();
                 }
-            },
-            focus: function (event, ui) {
-                $("#txtSearchProduct").val(ui.item.ProductName);
-                return false;
-            },
-            select: function (event, ui) {
-                $("#txtSearchProduct").val("");
-                var tmp = JSON.parse(JSON.stringify(ui.item));
-                tmp.Quantity = 1;
-                tmp.PriceInput = parseFloat(tmp.PriceInput);
-                tmp.TotalMoney = tmp.PriceInput * tmp.Quantity;
-
-                var check = productSelect.filter(function (p) {
-                    return p.ProductCode === tmp.ProductCode;
-                });
-                if (check != null && check.length == 1) {
-                    check[0].Quantity += tmp.Quantity;
-                    check[0].TotalMoney += tmp.TotalMoney;
-                }
-                else {
-                    productSelect.push(tmp);
-                }
-                //reCaculate bill invoice
-                recaculateInvoice();
-                loadTableSearch();
-                return false;
+            });
+        },
+        response: function (event, ui) {
+            // ui.content is the array that's about to be sent to the response callback.
+            if (ui.content.length === 0) {
+                $("#empty-message").text("No results found");
+            } else {
+                $("#empty-message").empty();
             }
-        })
+        },
+        focus: function (event, ui) {
+            $("#txtSearchCategory").val(ui.item.Name);
+            return false;
+        },
+        select: function (event, ui) {
+            $("#txtSearchCategory").val("");
+            var tmp = JSON.parse(JSON.stringify(ui.item));
+            var store = $('#txtType').val();
+            tmp.Quantity = 1;
+            tmp.PriceInput = store === "1" ? 0 : parseFloat(tmp.PriceInput);
+            tmp.TotalMoney = tmp.PriceInput * tmp.Quantity;
+
+            var check = categorySelect.filter(function (p) {
+                return p.Code === tmp.Code;
+            });
+            if (check != null && check.length == 1) {
+                check[0].Quantity += tmp.Quantity;
+                check[0].TotalMoney += tmp.TotalMoney;
+            }
+            else {
+                console.log(tmp);
+                categorySelect.push(tmp);
+            }
+            //reCaculate bill invoice
+            recaculateInvoice();
+            loadTableSearch();
+            return false;
+        }
+    })
         .data("ui-autocomplete")._renderItem = function (ul, item) {
-            var inner_html = '<p>' + item.ProductCode + " - " + item.ProductName + '</p>';
+            var inner_html = '<p>' + item.Code + " - " + item.Name + '</p>';
             return $("<li></li>")
                 .data("item.autocomplete", item)
                 .append(inner_html)
@@ -420,41 +432,41 @@ $(document).ready(function () {
         };
 
     $("#supplierSelect").autocomplete({
-            minLength: 0,
-            source: function (request, response) {
-                $.ajax({
-                    url: "/InvoiceImport/GetSupplierData",
-                    type: "POST",
-                    dataType: "json",
-                    data: { supplierName: $("#supplierSelect").val() },
-                    success: function (data) {
-                        response($.map(data,
-                            function (item) {
-                                return item;
-                            }));
+        minLength: 0,
+        source: function (request, response) {
+            $.ajax({
+                url: "/InvoiceImport/GetSupplierData",
+                type: "POST",
+                dataType: "json",
+                data: { supplierName: $("#supplierSelect").val() },
+                success: function (data) {
+                    response($.map(data,
+                        function (item) {
+                            return item;
+                        }));
 
-                    }
-                });
-            },
-            response: function (event, ui) {
-                // ui.content is the array that's about to be sent to the response callback.
-                if (ui.content.length === 0) {
-                    $("#empty-message").text("No results found");
-                } else {
-                    $("#empty-message").empty();
                 }
-            },
-            focus: function (event, ui) {
-                $("#supplierSelect").val(ui.item.CustomerName);
-                return false;
-            },
-            select: function (event, ui) {
-                $("#supplierCode").val(ui.item.CustomerCode);
-                $("#txtSupplierName").html(ui.item.CustomerName);
-                $("#selectedSupplier").show();
-                return false;
+            });
+        },
+        response: function (event, ui) {
+            // ui.content is the array that's about to be sent to the response callback.
+            if (ui.content.length === 0) {
+                $("#empty-message").text("No results found");
+            } else {
+                $("#empty-message").empty();
             }
-        })
+        },
+        focus: function (event, ui) {
+            $("#supplierSelect").val(ui.item.CustomerName);
+            return false;
+        },
+        select: function (event, ui) {
+            $("#txtSupplierCode").val(ui.item.CustomerCode);
+            $("#txtSupplierName").html(ui.item.CustomerName);
+            $("#selectedSupplier").show();
+            return false;
+        }
+    })
         .data("ui-autocomplete")._renderItem = function (ul, item) {
             var inner_html = '<p>' + item.CustomerCode + "<br>" + item.CustomerName + '</p>';
             return $("<li></li>")
@@ -498,7 +510,7 @@ $(document).ready(function () {
         recaculateInvoice();
     });
 
-    $("#txtMethodPayment").change(function() {
+    $("#txtMethodPayment").change(function () {
         if (parseInt($("#txtMethodPayment").val()) == 1) {
             $("#grAccount").show();
         } else {
@@ -506,8 +518,8 @@ $(document).ready(function () {
         }
     });
 
-    $("#txtSearchProduct").focusout(function () {
-        $("#txtSearchProduct").val("");
+    $("#txtSearchCategory").focusout(function () {
+        $("#txtSearchCategory").val("");
     });
     $("#supplierSelect").focusout(function () {
         $("#supplierSelect").val("");
@@ -526,7 +538,7 @@ $(document).ready(function () {
     });
 
     $("#deletesupplier").click(function () {
-        $("#supplierCode").val("");
+        $("#txtSupplierCode").val("");
         $("#txtsupplierName").val("");
         $("#selectedsupplier").hide();
     });
@@ -536,7 +548,7 @@ $(document).ready(function () {
         unit.SubmitServer("Complete", 0);
     });
     shortcut.add("F2", function () {
-        $("#txtSearchProduct").focus();
+        $("#txtSearchCategory").focus();
     });
 
     //Init only input number
@@ -554,65 +566,4 @@ $(document).ready(function () {
     unit.$btnBack.click(function () {
         window.location.href = "/Admin/InvoiceImport";
     });
-
-    //Add supplier
-    var Supplier = function() {
-        this.GetFormData = function () {
-            var data = {};
-            data.Id = $("#Id").val();
-            data.Domain = $("#Domain").val();
-            data.Code = $("#txtCode").val();
-            data.Name = $("#txtName").val();
-            data.Address = $("#txtAddress").val();
-            data.Tel = $("#txtPhone").val();
-            data.Active = $("#txtActive").val();
-            data.Fax = $("#txtFax").val();
-            data.Tax = $("#txtTax").val();
-            data.Email = $("#txtEmail").val();
-            data.Website = $("#txtWebsite").val();
-            data.Note = $("#txtNote").val();
-            data.Type = $("#txtsupplierType").val();
-            return data;
-        }
-
-        this.reloadDatasupplier = function() {
-
-        };
-
-        //-- them sua xoa
-        this.SubmitServer = function (action, id) {
-            var $form = $("#formDetail").on();
-            var _this = this;
-
-            if ($form.valid(true)) {
-                Sv.Loading();
-                Sv.AjaxPost({
-                    Url: "/supplier/Create",
-                        Data: this.GetFormData()
-                    },
-                    function (rs) {
-                        Sv.EndLoading();
-                        if (rs.Status == "01") {
-                            Dialog.Alert(rs.Message, Dialog.Success);
-                            unit.$boxDetails.find("#modalDetails").modal("hide");
-                            _this.reloadDatasupplier();
-                        } else {
-                            Dialog.Alert(rs.Message, Dialog.Error);
-                        }
-                    },
-                    function () {
-                        Sv.EndLoading();
-                        Dialog.Alert("Lỗi server", Dialog.Error);
-                    });
-            }
-        }
-    }
-
-    var supplier = new Supplier();
-
-    unit.$boxDetails.on('click', 'button#btnAdd', function (e) {
-        e.preventDefault();
-        supplier.SubmitServer("Add", 0);
-    });
-
 });

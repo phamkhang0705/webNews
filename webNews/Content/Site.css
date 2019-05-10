@@ -1,4 +1,8 @@
-﻿.select2-container {
+﻿* {
+    font-size: 12px;
+}
+
+.select2-container {
     box-sizing: border-box;
     display: inline-block;
     margin: 0;

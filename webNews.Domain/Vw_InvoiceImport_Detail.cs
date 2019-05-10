@@ -14,20 +14,17 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("CategoryDetail")]
-    public partial class CategoryDetail : IHasId<int> 
+	[Alias("Vw_InvoiceImport_Detail")]
+    public partial class Vw_InvoiceImport_Detail 
     {
-        [Alias("Id")]
-        [AutoIncrement]
+        [Required]
         public int Id { get; set; }
-        public int? CategoryId { get; set; }
+        public int? InvoiceImportId { get; set; }
+        public string CategoryCode { get; set; }
+        public string Name { get; set; }
         public int? Quantity { get; set; }
-        public string Description { get; set; }
-        public DateTime? UpdatedDate { get; set; }
-        public int? CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public int? UpdatedBy { get; set; }
-        public double? PriceInput { get; set; }
+        public double? Price { get; set; }
+        public double? TotalMoney { get; set; }
     }
 
 }

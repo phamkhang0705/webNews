@@ -28,5 +28,7 @@ namespace webNews.Domain.Services
         List<Province> GetProvinces();
         List<District> GetDistricts(string provinceId);
         List<Ward> GetWards(string districtId);
+
+        List<Bank> GetBanks(int status = 1);
     }
 }

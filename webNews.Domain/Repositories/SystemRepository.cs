@@ -99,7 +99,7 @@ namespace webNews.Domain.Repositories
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Info("Get news error", ex, ex.Message, ex.StackTrace);
 
@@ -115,7 +115,7 @@ namespace webNews.Domain.Repositories
                 {
                     var query = db.From<NewsCategory>();
                     //query = query.Where(x => x.Status == 1 && x.Type == filter.Type && (filter.Lang == "all" || x.Lang == filter.Lang));
-                    
+
                     return db.Select(query);
 
                 }
@@ -203,7 +203,7 @@ namespace webNews.Domain.Repositories
 
         public List<System_Menu> GetMenuUser()
         {
-            using(var db = _connectionFactory.Open())
+            using (var db = _connectionFactory.Open())
             {
                 var query = db.From<System_Menu>();
                 query = query.Where(x => x.ShowMenu == true && x.Area != "Admin");
@@ -213,7 +213,7 @@ namespace webNews.Domain.Repositories
 
         public List<Security_Function> GetListFunctions()
         {
-            using(var db = _connectionFactory.Open())
+            using (var db = _connectionFactory.Open())
             {
                 var query = db.From<Security_Function>();
                 return db.Select(query);
@@ -222,7 +222,7 @@ namespace webNews.Domain.Repositories
 
         public List<Security_Permission> GetListSecurity_Permission()
         {
-            using(var db = _connectionFactory.Open())
+            using (var db = _connectionFactory.Open())
             {
                 var query = db.From<Security_Permission>();
                 return db.Select(query);
@@ -233,7 +233,7 @@ namespace webNews.Domain.Repositories
         {
             try
             {
-                using(var db = _connectionFactory.Open())
+                using (var db = _connectionFactory.Open())
                 {
                     var queryRole = listRole.Select(x => x.Id);
                     var queryMark = db.From<Security_VwRoleService>().Where(e => Sql.In(e.RoleID, queryRole));
@@ -241,7 +241,7 @@ namespace webNews.Domain.Repositories
                     return listper;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error("MarkRole fail: " + ex.Message);
                 return null;
@@ -252,9 +252,9 @@ namespace webNews.Domain.Repositories
         {
             try
             {
-                using(var db = _connectionFactory.Open())
+                using (var db = _connectionFactory.Open())
                 {
-                    if(request.Id > 0)
+                    if (request.Id > 0)
                     {
                         db.Update(request);
                     }
@@ -265,7 +265,7 @@ namespace webNews.Domain.Repositories
                     return true;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error("Security_Permission_Update fail: " + ex.Message);
                 return false;
@@ -276,12 +276,12 @@ namespace webNews.Domain.Repositories
         {
             try
             {
-                using(var db = _connectionFactory.Open())
+                using (var db = _connectionFactory.Open())
                 {
                     return db.Delete<Security_Permission>(new { Id = id });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error("Security_Permission_Update fail: " + ex.Message);
                 return 0;
@@ -292,7 +292,7 @@ namespace webNews.Domain.Repositories
         {
             try
             {
-                using(var db = _connectionFactory.Open())
+                using (var db = _connectionFactory.Open())
                 {
                     var code = db.SingleById<Temp_Code>(1);
                     var date = DateTime.ParseExact(code.Date, "yyyyMMdd", CultureInfo.InvariantCulture);
@@ -302,22 +302,35 @@ namespace webNews.Domain.Repositories
                     {
                         code.Customer = 1;
                         code.Supplier = 1;
+                        code.InvoiceImport = 1;
                         code.Date = dateTime;
                     }
-                    
+
                     int id = 0;
                     var retryCount = 0;
                     do
                     {
-                        switch(objectType)
+                        switch (objectType)
                         {
                             case ObjectType.Customer:
                                 id = code.Customer++;
-                                name = PrefixType.Customer+ dateTime;
+                                name = PrefixType.Customer + dateTime;
                                 break;
                             case ObjectType.Supplier:
                                 id = code.Supplier++;
                                 name = PrefixType.Supplier + dateTime;
+                                break;
+                            case ObjectType.InvoiceImport:
+                                id = code.InvoiceImport++;
+                                name = PrefixType.InvoiceImport + dateTime;
+                                break;
+                            case ObjectType.ReceiveVoucher:
+                                id = code.ReceiveVoucher++;
+                                name = PrefixType.ReceiveVoucher + dateTime;
+                                break;
+                            case ObjectType.PaymentVoucher:
+                                id = code.PaymentVoucher++;
+                                name = PrefixType.PaymentVoucher + dateTime;
                                 break;
                                 //                            default:
                                 //                                id = code.OtherPerson++;
@@ -325,7 +338,7 @@ namespace webNews.Domain.Repositories
                                 //                                break;
                         }
 
-                        if(id != 0)
+                        if (id != 0)
                         {
                             try
                             {
@@ -333,13 +346,13 @@ namespace webNews.Domain.Repositories
                                 db.Update(code);
                                 return @"" + name + id.ToString("D" + number);
                             }
-                            catch(OptimisticConcurrencyException ex)
+                            catch (OptimisticConcurrencyException ex)
                             {
                                 retryCount++;
                                 _logger.Info("Get Code error DbUpdateConcurrencyException: " + ex.Message);
                                 code = db.SingleById<Temp_Code>(1);
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
                                 retryCount++;
                                 _logger.Info("Get Code error DbUpdateConcurrencyException: " + ex.Message);
@@ -347,10 +360,10 @@ namespace webNews.Domain.Repositories
                                 _logger.Error(ex);
                             }
                         }
-                    } while(retryCount < 3 || id == 0);
+                    } while (retryCount < 3 || id == 0);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
             }
 
@@ -361,15 +374,15 @@ namespace webNews.Domain.Repositories
         {
             try
             {
-                using(var db = _connectionFactory.Open())
+                using (var db = _connectionFactory.Open())
                 {
                     //Get total items
                     var total = (int)db.Count(query);
-                    if(pageIndex == 0 || pageIndex < pageSize)
+                    if (pageIndex == 0 || pageIndex < pageSize)
                         pageIndex = 0;
                     else
                         pageIndex = (pageIndex / pageSize);
-                    if(pageIndex != 0 && pageSize != 0)
+                    if (pageIndex != 0 && pageSize != 0)
                     {
                         query.Skip(pageIndex * pageSize).Take(pageSize);
                     }
@@ -382,7 +395,7 @@ namespace webNews.Domain.Repositories
                     };
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error("StackTrace " + ex.StackTrace + " message: " + ex.Message);
                 return null;
@@ -393,15 +406,15 @@ namespace webNews.Domain.Repositories
         {
             try
             {
-                using(var db = _connectionFactory.Open())
+                using (var db = _connectionFactory.Open())
                 {
                     //Get total items
                     var total = (int)db.Count(query);
-                    if(pageIndex == 0 || pageIndex < pageSize)
+                    if (pageIndex == 0 || pageIndex < pageSize)
                         pageIndex = 0;
                     else
                         pageIndex = (pageIndex / pageSize);
-                    if(pageIndex != 0 && pageSize != 0)
+                    if (pageIndex != 0 && pageSize != 0)
                     {
                         query.Skip(pageIndex * pageSize).Take(pageSize);
                     }
@@ -414,7 +427,7 @@ namespace webNews.Domain.Repositories
                     };
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error("StackTrace " + ex.StackTrace + " message: " + ex.Message);
                 return null;
@@ -425,7 +438,7 @@ namespace webNews.Domain.Repositories
         {
             try
             {
-                using(var db = _connectionFactory.Open())
+                using (var db = _connectionFactory.Open())
                 {
                     //Get total items
                     var total = list.Count;
@@ -437,7 +450,7 @@ namespace webNews.Domain.Repositories
                     };
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error("StackTrace " + ex.StackTrace + " message: " + ex.Message);
                 return null;
@@ -473,7 +486,7 @@ namespace webNews.Domain.Repositories
                 {
                     var news = db.Select<News>(x => x.Id == id && x.Type == type).FirstOrDefault();
 
-                    if(null != news)
+                    if (null != news)
                     {
                         //news.Categories = db.Select<NewsCategory>(x => x.Type == news.Type && x.Lang == news.Lang);
                         //var query = db.From<News>()
@@ -532,7 +545,6 @@ namespace webNews.Domain.Repositories
             catch (Exception ex)
             {
                 _logger.Info("Get Districts error", ex, ex.Message, ex.StackTrace);
-
                 return null;
             }
         }
@@ -554,6 +566,24 @@ namespace webNews.Domain.Repositories
                 _logger.Info("Get Wards error", ex, ex.Message, ex.StackTrace);
 
                 return null;
+            }
+        }
+
+        public List<Bank> GetBanks(int status = 1)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<Bank>().Where(x => x.Status == status);
+                    return db.Select(query);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info("Get Banks error", ex, ex.Message, ex.StackTrace);
+
+                return new List<Bank>();
             }
         }
     }

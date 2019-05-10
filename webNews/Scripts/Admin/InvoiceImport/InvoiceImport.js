@@ -6,7 +6,7 @@ var Unit = function () {
     this.$table2 = $("#deptImport");
 
     this.$btnSave = $("#btnSave");
-    this.$btnCancle = $("#btnCancle");
+    this.$btnCancel = $("#btnCancel");
     this.$btnRefund = $("#btnRefund");
     this.$btnReOpen = $("#btnReOpen");
     this.$btnPrint = $("#btnPrint");
@@ -44,17 +44,16 @@ var Unit = function () {
             }),
             Sv.BootstrapTableColumn("string", {
                 title: 'Ngày tạo',
-                field: 'CreateDate',
+                field: 'CreatedDate',
                 align: "center",
                 valign: "middle",
                 formatter: function (value) {
                     return moment(new Date(parseInt(value.slice(6, -2)))).format('DD/MM/YYYY HH:mm');
                 }
-
             }),
             Sv.BootstrapTableColumn("string", {
                 title: 'Nhà cung cấp',
-                field: 'ProviderName',
+                field: 'SupplierName',
                 align: "center",
                 valign: "middle"
             }),
@@ -69,7 +68,7 @@ var Unit = function () {
             }),
             Sv.BootstrapTableColumn("string", {
                 title: 'Tổng tiền',
-                field: 'TotalMonney',
+                field: 'TotalMoney',
                 align: "center",
                 valign: "middle",
                 formatter: function (value) {
@@ -82,14 +81,14 @@ var Unit = function () {
                 align: "center",
                 valign: "middle",
                 formatter: function (value, data, index) {
-                    if (data.Active == 0) {
+                    if (data.Active === 0) {
                         return "Phiếu tạm";
                     }
-                    else if (data.Active == 1) {
-                        return "Hoạt động";
+                    else if (data.Active === 1) {
+                        return "Đã duyệt";
                     }
                     else {
-                        return "Hủy phiếu";
+                        return "Đã hiếu";
                     }
                 }
             }),
@@ -97,13 +96,16 @@ var Unit = function () {
                 title: "Thao tác",
                 align: "Center",
                 width: '80px',
-                formatter: function (value, data, index) {//
+                formatter: function (value, row, index) {//
                     var str = "";
                     if (base.$perEdit == 1) {
                         str += "<button data-code='%s' class='OpenEditItem btn btn-primary btn-in-table' title='Chi tiết'><i class='fa fa-pencil-square-o'></i></button>";
                     }
-                    str += "<button data-code='%s' class='OpenHistoryItem btn btn-primary btn-in-table' title='Xem lịch sử thanh toán'><i class='fa fa-bar-chart'></i></button>";
-                    str += "<button data-code='%s' class='CancleItem btn btn-primary btn-in-table' title='Hủy bỏ phiếu'><i class='fa fa-close'></i></button>";
+                    //                    str += "<button data-code='%s' class='OpenHistoryItem btn btn-primary btn-in-table' title='Xem lịch sử thanh toán'><i class='fa fa-bar-chart'></i></button>";
+                    if (row.Active == 0) {
+                        str += "<button data-code='%s' class='CancelItem btn btn-primary btn-in-table' title='Hủy bỏ phiếu'><i class='fa fa-close'></i></button>";
+                    }
+
                     return str;
                 },
                 events: {
@@ -117,24 +119,25 @@ var Unit = function () {
                                 base.$boxDetails.html(rs);
                                 base.OpentDisable();
                                 base.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
-                                Sv.SetupDateAndSetDefault($('#divCreateDate'), row.Date);
-
+                                Sv.SetupDateAndSetDefault($('#divCreatedDate'), row.CreatedDate);
+                                base.$boxDetails.find("#txtCreatedDate").prop('disabled', true);
                                 if (row.Active == 0) {
                                     $("#btnReOpen").show();
                                     $("#btnDelete").show();
                                     $("#btnClose").show();
                                 }
                                 else if (row.Active == 1) {
-                                    $("#btnSave").show();
-                                    $("#btnPrint").show();
-                                    $("#btnRefund").show();
-                                    $("#btnExport").show();
-                                    $("#btnCancle").show();
+                                    //                                    $("#btnSave").show();
+                                    //                                    $("#btnPrint").show();
+                                    //                                    $("#btnRefund").show();
+                                    //                                    $("#btnExport").show();
+                                    //                                    $("#btnCancel").show();
                                     $("#btnClose").show();
-                                } else {
-                                    $("#btnExport").show();
-                                    $("#btnPrint").show();
                                 }
+                                //                                else {
+                                //                                    $("#btnExport").show();
+                                //                                    $("#btnPrint").show();
+                                //                                }
                             });
                         });
                     },
@@ -145,8 +148,8 @@ var Unit = function () {
                             base.LoadHistoryTable();
                         });
                     },
-                    'click .CancleItem': function (e, value, row, index) {
-                        var url = "/Admin/InvoiceImport/CancleInvoice";
+                    'click .CancelItem': function (e, value, row, index) {
+                        var url = "/Admin/InvoiceImport/CancelInvoice";
                         var msg = "Bạn có muốn hủy phiếu nhập này?";
                         if (row.Active == 0) {
                             url = "/Admin/InvoiceImport/Delete";
@@ -176,7 +179,7 @@ var Unit = function () {
                                             Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
                                         });
                                     });
-                        
+
                     }
                 }
             })];
@@ -396,14 +399,14 @@ $(document).ready(function () {
     unit.$boxDetails.on('click', 'button#btnSave', function (e) {
         e.preventDefault();
         Sv.AjaxPost({
-                Url: "/Admin/InvoiceImport/Update",
-                Data: {
-                    invoiceCode: $("#Code").val(),
-                    status: -1,
-                    date: $('#txtCreateDate').val(),
-                    note: $("#txtNote").val()
-                }
-            },
+            Url: "/Admin/InvoiceImport/Update",
+            Data: {
+                invoiceCode: $("#Code").val(),
+                status: -1,
+                date: $('#txtCreateDate').val(),
+                note: $("#txtNote").val()
+            }
+        },
             function (rs) {
                 if (rs.Status == "01") {
                     Dialog.Alert(rs.Message, Dialog.Success);
@@ -416,14 +419,14 @@ $(document).ready(function () {
                 Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
             });
     });
-    unit.$boxDetails.on('click', 'button#btnCancle', function (e) {
+    unit.$boxDetails.on('click', 'button#btnCancel', function (e) {
         e.preventDefault();
         Dialog.ConfirmCustom("",
                 "Bạn chắc chắn hủy hóa đơn này?",
                 function () {
                     Sv.Loading();
                     Sv.AjaxPost({
-                        Url: "/Admin/InvoiceImport/CancleInvoice",
+                        Url: "/Admin/InvoiceImport/CancelInvoice",
                         Data: { invoiceCode: $("#Code").val() }
                     },
                     function (rs) {
@@ -459,7 +462,7 @@ $(document).ready(function () {
     });
     unit.$boxDetails.on('click', 'button#btnExport', function (e) {
         e.preventDefault();
-        
+
     });
     unit.$boxDetails.on('click', 'button#btnDelete', function (e) {
         e.preventDefault();

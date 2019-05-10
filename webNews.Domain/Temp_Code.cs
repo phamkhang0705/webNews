@@ -32,6 +32,10 @@ namespace webNews.Domain.Entities
         public int InvoiceOutport { get; set; }
         [Required]
         public int InvoiceRental { get; set; }
+        [Required]
+        public int PaymentVoucher { get; set; }
+        [Required]
+        public int ReceiveVoucher { get; set; }
     }
 
 }

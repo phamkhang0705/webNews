@@ -14,20 +14,17 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("CategoryDetail")]
-    public partial class CategoryDetail : IHasId<int> 
+	[Alias("Bank")]
+    public partial class Bank : IHasId<int> 
     {
         [Alias("Id")]
         [AutoIncrement]
         public int Id { get; set; }
-        public int? CategoryId { get; set; }
-        public int? Quantity { get; set; }
-        public string Description { get; set; }
-        public DateTime? UpdatedDate { get; set; }
-        public int? CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public int? UpdatedBy { get; set; }
-        public double? PriceInput { get; set; }
+        public string BankCode { get; set; }
+        public string BankName { get; set; }
+        public string BankAccount { get; set; }
+        public string BankNote { get; set; }
+        public int? Status { get; set; }
     }
 
 }

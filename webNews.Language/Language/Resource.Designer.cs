@@ -19,7 +19,7 @@ namespace webNews.Language.Language {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resource {
@@ -108,9 +108,9 @@ namespace webNews.Language.Language {
         /// <summary>
         ///   Looks up a localized string similar to Hủy.
         /// </summary>
-        public static string Btn_Cancle_Lang {
+        public static string Btn_Cancel_Lang {
             get {
-                return ResourceManager.GetString("Btn_Cancle_Lang", resourceCulture);
+                return ResourceManager.GetString("Btn_Cancel_Lang", resourceCulture);
             }
         }
         
@@ -250,7 +250,7 @@ namespace webNews.Language.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Chọn sản phẩm(F2).
+        ///   Looks up a localized string similar to Chọn danh mục(F2).
         /// </summary>
         public static string ChooseProduct_Lang {
             get {

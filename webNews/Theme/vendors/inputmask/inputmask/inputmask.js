@@ -305,7 +305,7 @@
         }
         function stripValidPositions(start, end, nocheck, strict) {
             var i, startPos = start;
-            for (getMaskSet().p = start, i = startPos; end > i; i++) void 0 !== getMaskSet().validPositions[i] && (nocheck === !0 || opts.canClearPosition(getMaskSet(), i, getLastValidPosition(), strict, opts) !== !1) && delete getMaskSet().validPositions[i];
+            for (getMaskSet().p = start, i = startPos; end > i; i++) void 0 !== getMaskSet().validPositions[i] && (nocheck === !0 || opts.CancelarPosition(getMaskSet(), i, getLastValidPosition(), strict, opts) !== !1) && delete getMaskSet().validPositions[i];
             for (i = startPos + 1; i <= getLastValidPosition(); ) {
                 for (;void 0 !== getMaskSet().validPositions[startPos]; ) startPos++;
                 var s = getMaskSet().validPositions[startPos];
@@ -1311,7 +1311,7 @@
             },
             ignorables: [ 8, 9, 13, 19, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 93, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123 ],
             isComplete: null,
-            canClearPosition: $.noop,
+            CancelarPosition: $.noop,
             postValidation: null,
             staticDefinitionSymbol: void 0,
             jitMasking: !1

@@ -9,7 +9,7 @@ namespace webNews.Domain.Services.InvoiceImportManagement
 {
     public interface IInvoiceImportService : IService<InvoiceImport>
     {
-        CoreMessageResponse CancleInvoice(string invoiceCode);
+        CoreMessageResponse CancelInvoice(string invoiceCode);
 
         CoreMessageResponse DeleteInvoice(string invoiceCode);
 
@@ -21,10 +21,11 @@ namespace webNews.Domain.Services.InvoiceImportManagement
 
         CoreMessageResponse UpdateInvoice(InvoiceImportModel model);
 
-        InvoiceImport GetInvoiceImportByCode(string invoiceCode);
+        Vw_InvoiceImport GetInvoiceImportByCode(string invoiceCode);
 
 //        PagingObject<PAYMENT>> GetHistory(string invoiceCode, int pageIndex, int pageSize);
 
         PagingObject<Vw_InvoiceImport> Search(SearchInvoiceImport search, int pageIndex, int pageSize);
+        List<Vw_InvoiceImport_Detail> GetInvoiceDetails(int invoiceId);
     }
 }

@@ -14,27 +14,28 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("Product")]
-    public partial class Product : IHasId<int> 
+	[Alias("Payment")]
+    public partial class Payment : IHasId<int> 
     {
         [Alias("Id")]
         [AutoIncrement]
         public int Id { get; set; }
-        public int? CategoryId { get; set; }
-        public string ProductCode { get; set; }
-        public string ProductName { get; set; }
-        public int? Quantity { get; set; }
-        public int? Inventory { get; set; }
-        public double? PriceInput { get; set; }
-        public int? DiscountType { get; set; }
-        public double? Discount { get; set; }
-        public int? Status { get; set; }
+        public string PaymentCode { get; set; }
+        public int? PaymentMethod { get; set; }
+        public string UserName { get; set; }
+        public double? TotalMoney { get; set; }
+        public bool? PaymentType { get; set; }
+        public string InvoiceCode { get; set; }
+        public string BankCode { get; set; }
         public string Description { get; set; }
-        public string Solution { get; set; }
+        public int? Status { get; set; }
+        public double? RemainMoney { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public int? UpdatedBy { get; set; }
+        public int? UpdateBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
+        public int? PersonType { get; set; }
+        public string Payments_Person { get; set; }
     }
 
 }

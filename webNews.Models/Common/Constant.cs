@@ -25,7 +25,7 @@
     {
         Reject = 0,
         Active = 1,
-        Cancle = 2,
+        Cancel = 2,
         Waiting = 3,
         ApproveLv1 = 4,
         ApproveLv2 = 5
@@ -37,12 +37,19 @@
         Supplier = 2,
         InvoiceImport = 3,
         InvoiceOutport = 4,
-        InvoiceRental = 5
+        InvoiceRental = 5,
+        ReceiveVoucher=6,
+        PaymentVoucher=7
+    }
+
+    public enum PersonType
+    {
+        Provider=1
     }
 
     public enum InvoiceStatus
     {
-        Cancled = 2,
+        Canceld = 2,
         Active = 1,
         Draff = 0
     }
@@ -54,6 +61,8 @@
         public const string InvoiceImport = "PN";
         public const string InvoiceOuport = "PX";
         public const string InvoiceRental = "PTHUE";
+        public const string ReceiveVoucher = "PTHU";
+        public const string PaymentVoucher = "PCHI";
     }
 
 

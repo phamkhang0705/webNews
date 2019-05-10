@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using webNews.Domain.Entities;
 using webNews.Models;
-using webNews.Models.CategoryManagement;
 using webNews.Models.Common;
 using webNews.Models.InvoiceImportManagement;
 
@@ -29,12 +28,12 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                 using (var db = _connectionFactory.Open())
                 {
                     var query = db.From<Vw_InvoiceImport>();
-                    
+
                     if (!string.IsNullOrEmpty(filter.Code))
                     {
                         query.Where(_ => _.Code == filter.Code);
                     }
-                    
+
                     //More filter
                     var total = (int)db.Count(query);
                     query.Skip(pageIndex * pageSize).Take(pageSize);
@@ -72,13 +71,13 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
             }
         }
 
-        public InvoiceImport GetInvoiceImportByCode(string invoiceCode)
+        public Vw_InvoiceImport GetInvoiceImportByCode(string invoiceCode)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var query = db.From<InvoiceImport>();
+                    var query = db.From<Vw_InvoiceImport>();
                     if (!string.IsNullOrEmpty(invoiceCode))
                     {
                         query.Where(_ => _.Code == invoiceCode);
@@ -86,7 +85,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
 
                     var invoice = db.Single(query);
 
-                    //                    invoice.InvoiceDetails = db.SelectAsync<InvoiceImportDetail>(_ => _.Code == invoiceCode);
+                    //                    invoice.InvoiceDetails = db.Select<InvoiceImportDetail>(_ => _.Code == invoiceCode);
 
                     return invoice;
                 }
@@ -94,7 +93,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
             catch (Exception ex)
             {
                 _logger.Error(ex, "Get invoice error: " + ex.Message);
-                return null;
+                return new Vw_InvoiceImport();
             }
         }
 
@@ -119,6 +118,27 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
             }
         }
 
+        public List<Vw_InvoiceImport_Detail> GetInvoiceDetails(int invoiceId)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<Vw_InvoiceImport_Detail>();
+                    query.Where(_ => _.InvoiceImportId == invoiceId);
+
+                    var invoice = db.Select(query);
+
+                    return invoice;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Get invoice error: " + ex.Message);
+                return new List<Vw_InvoiceImport_Detail>();
+            }
+        }
+
         public long DeleteInvoice(string invoiceCode)
         {
             using (var db = _connectionFactory.Open())
@@ -129,17 +149,15 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                     {
                         var model = db.Single<InvoiceImport>(_ => _.Code == invoiceCode);
                         if (model == null) return -1;
-                        if (model.Active != (int)InvoiceStatus.Draff) return -1;   //Chỉ xóa phiếu tạm
-                                                                                   //                        model.InvoiceImportDetails =
-                                                                                   //                            db.Select<InvoiceImport_DETAIL>(_ => _.InvoiceImportId == model.Id);
-
-                        //                        foreach (var item in model.InvoiceImportDetails)
-                        //                        {
-                        //                            await db.DeleteAsync(item);
-                        //                        }
-                        //
-                        //                        await db.DeleteAsync(model);
-
+                        if (model.Active != (int)InvoiceStatus.Draff) return -1;
+                        //Chỉ xóa phiếu tạm
+                        model.InvoiceImportDetails =
+                            db.Select<InvoiceImportDetail>(_ => _.InvoiceImportId == model.Id);
+                        foreach (var item in model.InvoiceImportDetails)
+                        {
+                            db.Delete(item);
+                        }
+                        db.Delete(model);
                         trans.Commit();
                         return 1;
                     }
@@ -173,7 +191,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                     {
                         var model = db.Single<InvoiceImport>(_ => _.Code == invoiceCode);
                         if (model == null) return -1;
-                        if (model.Active == (int)InvoiceStatus.Cancled) return -1;   //Trạng thái phiếu đã hủy - Không update
+                        if (model.Active == (int)InvoiceStatus.Canceld) return -1;   //Trạng thái phiếu đã hủy - Không update
                         //Chỉ update ngày in với ghi chú - Không update trạng thái
                         if (status == -1)
                         {
@@ -182,9 +200,9 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                             //Update Invoice import
                             db.Update(model);
                         }
-                        else if (model.Active == (int)InvoiceStatus.Active && status == (int)InvoiceStatus.Cancled)//Update trạng thái phiếu nhập
+                        else if (model.Active == (int)InvoiceStatus.Active && status == (int)InvoiceStatus.Canceld)//Update trạng thái phiếu nhập
                         {
-                            model.Active = (int)InvoiceStatus.Cancled;
+                            model.Active = (int)InvoiceStatus.Canceld;
                             //Update Invoice import
                             db.Update(model);
 
@@ -196,10 +214,10 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                             //                            {
                             //                                foreach (var detail in model.InvoiceImportDetails)
                             //                                {
-                            //                                    var pro = await db.SingleAsync<PRODUCT>(_ => _.ProductCode == detail.ProductCode);
+                            //                                    var pro =  db.Single<PRODUCT>(_ => _.ProductCode == detail.ProductCode);
                             //                                    var proDetail =
-                            //                                        await
-                            //                                            db.SingleAsync<PRODUCT_DETAIL>(
+                            //                                        
+                            //                                            db.Single<PRODUCT_DETAIL>(
                             //                                                _ =>
                             //                                                    _.ProductCode == detail.ProductCode &&
                             //                                                    _.BranchCode == model.BranchCode && _.StoreId == model.StoreId);
@@ -214,7 +232,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                             //                                                          (detail.Quantity*detail.Price))/pro.Quantity;
                             //
                             //                                        pro.PriceInput = Math.Round((pro.PriceInput ?? 0) * 100) / 100;
-                            //                                        await db.UpdateAsync(pro);
+                            //                                         db.Update(pro);
                             //                                    }
                             //
                             //                                    if (proDetail != null)
@@ -226,7 +244,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                             //                                                          (detail.Quantity * detail.Price)) / proDetail.Quantity;
                             //
                             //                                        proDetail.PriceInput = Math.Round((proDetail.PriceInput ?? 0) * 100) / 100;
-                            //                                        await db.UpdateAsync(proDetail);
+                            //                                         db.Update(proDetail);
                             //
                             //                                    }
                             //                                }
@@ -279,94 +297,84 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                 {
                     try
                     {
-                        //                        #region Tạo thông tin phiếu nhập
-                        //
-                        //                        await db.UpdateAsync(model);
-                        //
-                        //                        if (model.InvoiceImportDetails != null)
-                        //                        {
-                        //                            db.Delete<InvoiceImport_DETAIL>(_ => _.InvoiceImportId == model.Id);
-                        //
-                        //                            foreach (var item in model.InvoiceImportDetails)
-                        //                            {
-                        //                                if (item.DateLimit == DateTime.MinValue)
-                        //                                    item.DateLimit = null;
-                        //
-                        //                                item.InvoiceImportId = model.Id;
-                        //                                await db.InsertAsync(item);
-                        //                            }
-                        //                        }
-                        //                        #endregion
-                        //
-                        //                        #region Trạng thái phiếu là hoạt đông - Update thông tin sản phẩm trong kho.  Tạo phiếu chi
-                        //
-                        //                        //Update product in store
-                        //                        if (model.Active != null && model.Active == (int)InvoiceStatus.Active && model.InvoiceImportDetails != null)
-                        //                        {
-                        //                            //Create payment invoice
-                        //                            await db.InsertAsync(model.Payment);
-                        //
-                        //                            //Update product and product detail
-                        //                            foreach (var detail in model.InvoiceImportDetails)
-                        //                            {
-                        //                                var pro = await db.SingleAsync<PRODUCT>(_ => _.ProductCode == detail.ProductCode);
-                        //                                var pro_detail = await db.SingleAsync<PRODUCT_DETAIL>(_ => _.ProductCode == detail.ProductCode && _.BranchCode == model.BranchCode && _.StoreId == model.StoreId);
-                        //
-                        //                                if (pro != null)
-                        //                                {
-                        //                                    if (pro.Quantity + detail.Quantity == 0) pro.PriceInput = 0;
-                        //                                    else {
-                        //                                        pro.PriceInput = (pro.Quantity * pro.PriceInput + detail.Quantity * detail.Price) / (pro.Quantity + detail.Quantity);
-                        //
-                        //                                        pro.PriceInput = Math.Round((pro.PriceInput ?? 0) * 100) / 100;
-                        //                                    }
-                        //                                    pro.Quantity = pro.Quantity + detail.Quantity;
-                        //                                    await db.UpdateAsync(pro);
-                        //                                }
-                        //
-                        //                                if (pro_detail != null)
-                        //                                {
-                        //                                    if (pro.Quantity + detail.Quantity == 0) pro.PriceInput = 0;
-                        //                                    else
-                        //                                    {
-                        //                                        pro_detail.PriceInput =
-                        //                                        (pro_detail.Quantity * pro_detail.PriceInput +
-                        //                                         detail.Quantity * detail.Price) / (pro_detail.Quantity + detail.Quantity);
-                        //
-                        //                                        pro_detail.PriceInput = Math.Round((pro_detail.PriceInput ?? 0) * 100) / 100;
-                        //                                    }
-                        //                                    pro_detail.Quantity = pro_detail.Quantity + detail.Quantity;
-                        //                                    await db.UpdateAsync(pro_detail);
-                        //
-                        //                                }
-                        //                                else
-                        //                                {
-                        //                                    await db.InsertAsync(new PRODUCT_DETAIL
-                        //                                    {
-                        //                                        ProductCode = pro.ProductCode,
-                        //                                        PriceInput = detail.Price,
-                        //                                        Quantity = detail.Quantity,
-                        //                                        StoreId = model.StoreId,
-                        //                                        Domain = model.Domain,
-                        //                                        BranchCode = model.BranchCode
-                        //                                    });
-                        //                                }
-                        //                            }
-                        //
-                        //                            //Update account provider
-                        //                            var provider = await db.SingleAsync<PROVIDER>(_ => _.Code == model.ProviderCode);
-                        //                            if (provider != null)
-                        //                            {
-                        //                                provider.MoneyIn += model.SumMonney;
-                        //                                provider.MoneyOut += model.PaidMonney;
-                        //                                provider.SumMoney += model.RemainMonney;    //Trên service đã check - Nếu không check vào "Cộng dư nợ" thì đã cho RemainMonney = 0
-                        //                                provider.UpdateLastest = DateTime.Now;
-                        //                                provider.Reason = $"Thanh toán hóa đơn {model.Code}:{DateTime.Now:dd-MM-yyyy}";
-                        //
-                        //                                await db.UpdateAsync(provider);
-                        //                            }
-                        //                        }
-                        //                        #endregion
+                        #region Tạo thông tin phiếu nhập
+
+                        db.Update(model);
+
+                        if (model.InvoiceImportDetails != null)
+                        {
+                            db.Delete<InvoiceImportDetail>(_ => _.InvoiceImportId == model.Id);
+
+                            foreach (var item in model.InvoiceImportDetails)
+                            {
+                                if (item.DateLimit == DateTime.MinValue)
+                                    item.DateLimit = null;
+                                item.InvoiceImportId = model.Id;
+                                 db.Insert(item);
+                            }
+                        }
+                        #endregion
+
+                        #region Trạng thái phiếu là hoạt đông - Update thông tin sản phẩm trong kho.  Tạo phiếu chi
+
+                        //Update product in store
+                        if (model.Active != null && model.Active == (int)InvoiceStatus.Active && model.InvoiceImportDetails != null)
+                        {
+                            //Create payment invoice
+                             db.Insert(model.Payment);
+
+                            //Update product and product detail
+                            foreach (var detail in model.InvoiceImportDetails)
+                            {
+                                if (model.Type == 1)
+                                {
+                                    for (var i = 0; i < detail.Quantity; i++)
+                                    {
+                                        var cate = db.Single<Category>(x => x.Code == detail.CategoryCode);
+                                        var pro = new Product()
+                                        {
+                                            CategoryId = cate.Id,
+                                            ProductCode = detail.CategoryCode,
+                                            ProductName = cate.Name,
+                                            Quantity = 1,
+                                            Inventory = 1,
+                                            PriceInput = detail.Price,
+                                            Status = 1,
+                                            Description = "",
+                                            CreatedBy = model.CreatedBy,
+                                            CreatedDate = DateTime.Now
+                                        };
+                                        db.Insert(pro);
+                                    }
+                                }
+                                if (model.Type == 2)
+                                {
+                                    var cate = db.Single<Category>(x => x.Code == detail.CategoryCode);
+                                    var cateDetail = db.Single<CategoryDetail>(_ => _.CategoryId == cate.Id);
+
+                                    if (cateDetail != null)
+                                    {
+                                        cateDetail.PriceInput = detail.Price;
+                                        cateDetail.Quantity = cateDetail.Quantity + detail.Quantity;
+                                        cateDetail.UpdatedBy = model.CreatedBy;
+                                        cateDetail.UpdatedDate = DateTime.Now;
+                                        db.Update(cateDetail);
+                                    }
+                                    else
+                                    {
+                                        cateDetail = new CategoryDetail()
+                                        {
+                                            CategoryId = cate.Id,
+                                            Quantity = detail.Quantity,
+                                            CreatedBy = model.CreatedBy,
+                                            CreatedDate = DateTime.Now
+                                        };
+                                        db.Insert(cateDetail);
+                                    }
+                                }
+                            }
+                        }
+                        #endregion
 
                         trans.Commit();
                         return 1;
@@ -389,90 +397,78 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                 {
                     try
                     {
-                        //                        #region Tạo thông tin phiếu nhập
-                        //                        var id = await db.InsertAsync(model, true);
-                        //
-                        //                        if (model.InvoiceImportDetails != null)
-                        //                        {
-                        //                            foreach (var item in model.InvoiceImportDetails)
-                        //                            {
-                        //                                if (item.DateLimit == DateTime.MinValue)
-                        //                                    item.DateLimit = null;
-                        //                                item.InvoiceImportId = id;
-                        //
-                        //                                await db.InsertAsync(item);
-                        //                            }
-                        //                        }
-                        //                        #endregion
-                        //
-                        //                        #region Trạng thái phiếu là hoạt đông - Update thông tin sản phẩm trong kho.  Tạo phiếu chi
-                        //
-                        //                        //Update product in store
-                        //                        if (model.Active != null && model.Active == (int)InvoiceStatus.Active && model.InvoiceImportDetails != null)
-                        //                        {
-                        //                            //Create payment invoice
-                        //                            await db.InsertAsync(model.Payment);
-                        //
-                        //                            //Update product and product detail
-                        //                            foreach (var detail in model.InvoiceImportDetails)
-                        //                            {
-                        //                                var pro = await db.SingleAsync<PRODUCT>(_ => _.ProductCode == detail.ProductCode);
-                        //                                var pro_detail = await db.SingleAsync<PRODUCT_DETAIL>(_ => _.ProductCode == detail.ProductCode && _.BranchCode == model.BranchCode && _.StoreId == model.StoreId);
-                        //
-                        //                                if (pro != null)
-                        //                                {
-                        //                                    if (pro.Quantity + detail.Quantity == 0) pro.PriceInput = 0;
-                        //                                    else {
-                        //                                        pro.PriceInput = (pro.Quantity * pro.PriceInput + detail.Quantity * detail.Price) / (pro.Quantity + detail.Quantity);
-                        //                                        pro.PriceInput = Math.Round((pro.PriceInput ?? 0) * 100) / 100;
-                        //                                    }
-                        //                                    pro.Quantity = pro.Quantity + detail.Quantity;
-                        //                                    await db.UpdateAsync(pro);
-                        //                                }
-                        //
-                        //                                if (pro_detail != null)
-                        //                                {
-                        //                                    if (pro_detail.Quantity + detail.Quantity == 0) pro.PriceInput = 0;
-                        //                                    else
-                        //                                    {
-                        //                                        pro_detail.PriceInput =
-                        //                                        (pro_detail.Quantity * pro_detail.PriceInput +
-                        //                                         detail.Quantity * detail.Price) / (pro_detail.Quantity + detail.Quantity);
-                        //                                        pro_detail.PriceInput = Math.Round((pro_detail.PriceInput ?? 0) * 100) / 100;
-                        //                                    }
-                        //                                    pro_detail.Quantity = pro_detail.Quantity + detail.Quantity;
-                        //                                    await db.UpdateAsync(pro_detail);
-                        //
-                        //                                }
-                        //                                else
-                        //                                {
-                        //                                    await db.InsertAsync(new PRODUCT_DETAIL
-                        //                                    {
-                        //                                        ProductCode = pro.ProductCode,
-                        //                                        PriceInput = detail.Price,
-                        //                                        Quantity = detail.Quantity,
-                        //                                        StoreId = model.StoreId,
-                        //                                        Domain = model.Domain,
-                        //                                        BranchCode = model.BranchCode
-                        //                                    });
-                        //                                }
-                        //                            }
-                        //
-                        //                            //Update account provider
-                        //                            var provider = await db.SingleAsync<PROVIDER>(_ => _.Code == model.ProviderCode);
-                        //                            if (provider != null)
-                        //                            {
-                        //                                provider.MoneyIn += model.SumMonney;
-                        //                                provider.MoneyOut += model.PaidMonney;
-                        //                                provider.SumMoney += model.RemainMonney;    //Trên service đã check - Nếu không check vào "Cộng dư nợ" thì đã cho RemainMonney = 0
-                        //                                provider.UpdateLastest = DateTime.Now;
-                        //                                provider.Reason = $"Thanh toán hóa đơn {model.Code}:{DateTime.Now:dd-MM-yyyy}";
-                        //
-                        //                                await db.UpdateAsync(provider);
-                        //                            }
-                        //
-                        //                        }
-                        //                        #endregion
+                        #region Tạo thông tin phiếu nhập
+
+                        var id = (int)db.Insert(model, true);
+
+                        if (model.InvoiceImportDetails != null)
+                        {
+                            foreach (var item in model.InvoiceImportDetails)
+                            {
+                                item.InvoiceImportId = id;
+                                db.Insert(item);
+                            }
+                        }
+
+                        #endregion Tạo thông tin phiếu nhập
+
+                        #region Trạng thái phiếu là hoàn thành - Update thông tin sản phẩm trong kho.  Tạo phiếu chi
+
+                        if (model.Active != null && model.Active == (int)InvoiceStatus.Active && model.InvoiceImportDetails != null)
+                        {
+                            db.Insert(model.Payment);
+                            foreach (var detail in model.InvoiceImportDetails)
+                            {
+                                if (model.Type == 1)
+                                {
+                                    for (var i = 0; i < detail.Quantity; i++)
+                                    {
+                                        var cate = db.Single<Category>(x => x.Code == detail.CategoryCode);
+                                        var pro = new Product()
+                                        {
+                                            CategoryId = cate.Id,
+                                            ProductCode = detail.CategoryCode,
+                                            ProductName = cate.Name,
+                                            Quantity = 1,
+                                            Inventory = 1,
+                                            PriceInput = detail.Price,
+                                            Status = 1,
+                                            Description = "",
+                                            CreatedBy = model.CreatedBy,
+                                            CreatedDate = DateTime.Now
+                                        };
+                                        db.Insert(pro);
+                                    }
+                                }
+                                if (model.Type == 2)
+                                {
+                                    var cate = db.Single<Category>(x => x.Code == detail.CategoryCode);
+                                    var cateDetail = db.Single<CategoryDetail>(_ => _.CategoryId == cate.Id);
+
+                                    if (cateDetail != null)
+                                    {
+                                        cateDetail.PriceInput = detail.Price;
+                                        cateDetail.Quantity = cateDetail.Quantity + detail.Quantity;
+                                        cateDetail.UpdatedBy = model.CreatedBy;
+                                        cateDetail.UpdatedDate = DateTime.Now;
+                                        db.Update(cateDetail);
+                                    }
+                                    else
+                                    {
+                                        cateDetail = new CategoryDetail()
+                                        {
+                                            CategoryId = cate.Id,
+                                            Quantity = detail.Quantity,
+                                            CreatedBy = model.CreatedBy,
+                                            CreatedDate = DateTime.Now
+                                        };
+                                        db.Insert(cateDetail);
+                                    }
+                                }
+                            }
+                        }
+
+                        #endregion Trạng thái phiếu là hoàn thành - Update thông tin sản phẩm trong kho.  Tạo phiếu chi
 
                         trans.Commit();
                         return 1;
@@ -494,7 +490,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                 try
                 {
                     //                        #region Tạo thông tin phiếu nhập
-                    //                        var id = await db.InsertAsync(model, true);
+                    //                        var id =  db.Insert(model, true);
                     //
                     //                        if (model.InvoiceImportDetails != null)
                     //                        {
@@ -504,7 +500,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                     //                                    item.DateLimit = null;
                     //                                item.InvoiceImportId = id;
                     //
-                    //                                await db.InsertAsync(item);
+                    //                                 db.Insert(item);
                     //                            }
                     //                        }
                     //                        #endregion
@@ -515,13 +511,13 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                     //                        if (model.Active != null && model.Active == (int)InvoiceStatus.Active && model.InvoiceImportDetails != null)
                     //                        {
                     //                            //Create payment invoice
-                    //                            await db.InsertAsync(model.Payment);
+                    //                             db.Insert(model.Payment);
                     //
                     //                            //Update product and product detail
                     //                            foreach (var detail in model.InvoiceImportDetails)
                     //                            {
-                    //                                var pro = await db.SingleAsync<PRODUCT>(_ => _.ProductCode == detail.ProductCode);
-                    //                                var pro_detail = await db.SingleAsync<PRODUCT_DETAIL>(_ => _.ProductCode == detail.ProductCode && _.BranchCode == model.BranchCode && _.StoreId == model.StoreId);
+                    //                                var pro =  db.Single<PRODUCT>(_ => _.ProductCode == detail.ProductCode);
+                    //                                var pro_detail =  db.Single<PRODUCT_DETAIL>(_ => _.ProductCode == detail.ProductCode && _.BranchCode == model.BranchCode && _.StoreId == model.StoreId);
                     //
                     //                                if (pro != null)
                     //                                {
@@ -532,7 +528,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                     //                                        pro.PriceInput = Math.Round((pro.PriceInput ?? 0) * 100) / 100;
                     //                                    }
                     //                                    pro.Quantity = pro.Quantity + detail.Quantity;
-                    //                                    await db.UpdateAsync(pro);
+                    //                                     db.Update(pro);
                     //                                }
                     //
                     //                                if (pro_detail != null)
@@ -546,12 +542,12 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                     //                                        pro_detail.PriceInput = Math.Round((pro_detail.PriceInput ?? 0) * 100) / 100;
                     //                                    }
                     //                                    pro_detail.Quantity = pro_detail.Quantity + detail.Quantity;
-                    //                                    await db.UpdateAsync(pro_detail);
+                    //                                     db.Update(pro_detail);
                     //
                     //                                }
                     //                                else
                     //                                {
-                    //                                    await db.InsertAsync(new PRODUCT_DETAIL
+                    //                                     db.Insert(new PRODUCT_DETAIL
                     //                                    {
                     //                                        ProductCode = pro.ProductCode,
                     //                                        PriceInput = detail.Price,
@@ -564,7 +560,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                     //                            }
                     //
                     //                            //Update account provider
-                    //                            var provider = await db.SingleAsync<PROVIDER>(_ => _.Code == model.ProviderCode);
+                    //                            var provider =  db.Single<PROVIDER>(_ => _.Code == model.ProviderCode);
                     //                            if (provider != null)
                     //                            {
                     //                                provider.MoneyIn += model.SumMonney;
@@ -573,7 +569,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                     //                                provider.UpdateLastest = DateTime.Now;
                     //                                provider.Reason = $"Thanh toán hóa đơn {model.Code}:{DateTime.Now:dd-MM-yyyy}";
                     //
-                    //                                await db.UpdateAsync(provider);
+                    //                                 db.Update(provider);
                     //                            }
                     //
                     //                        }

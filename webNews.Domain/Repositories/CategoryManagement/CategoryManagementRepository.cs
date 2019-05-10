@@ -141,7 +141,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
             }
         }
 
-        public bool UpdateCategory(Category category, string[] groupCategories, List<ProductPrice> productPrices, List<string> files,List<FileAttach> listFiles)
+        public bool UpdateCategory(Category category, string[] groupCategories, List<ProductPrice> productPrices, List<string> files, List<FileAttach> listFiles)
         {
             try
             {
@@ -163,7 +163,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
                                         GroupId = Int32.Parse(groupCategory)
                                     });
                                 }
-                                
+
                             }
                             if (productPrices.Count > 0)
                             {
@@ -175,7 +175,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
                                 }
                             }
 
-                            if (listFiles!=null)
+                            if (listFiles != null)
                             {
                                 var listId = listFiles.Select(x => x.Id).ToList();
 
@@ -184,7 +184,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
                                 {
                                     if (!listId.Contains(fileAttach.Id))
                                     {
-                                        db.Delete<FileAttach>(x=>x.Id==fileAttach.Id);
+                                        db.Delete<FileAttach>(x => x.Id == fileAttach.Id);
                                     }
                                 }
                             }
@@ -198,7 +198,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
                                         Url = file
                                     });
                                 }
-                                
+
                             }
                             trans.Commit();
                             return true;
@@ -299,6 +299,23 @@ namespace webNews.Domain.Repositories.CategoryManagement
             {
                 _logger.Error(e, "DB connection error");
                 return new List<GroupCategory>();
+            }
+        }
+
+        public List<Vw_Category> GetByName(string name)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var data = db.Select<Vw_Category>(_ => _.Name.ToLower().Contains(name.ToLower()));
+                    return data;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new List<Vw_Category>();
             }
         }
     }

@@ -21,5 +21,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
 
         Vw_Category GetByCode(string code);
         List<GroupCategory> GetGroupCategories(int cateId);
+
+        List<Vw_Category> GetByName(string name);
     }
 }

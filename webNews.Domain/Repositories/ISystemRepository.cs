@@ -31,11 +31,13 @@ namespace webNews.Domain.Repositories
         Task<PagingObject<T>> PagingAsync<T>(SqlExpression<T> query, int? pageIndex = null, int? pageSize = null);
         PagingObject<T> Paging<T>(SqlExpression<T> query, int? pageIndex = null, int? pageSize = null);
 
-            //List object
+        //List object
         PagingObject<T> Paging<T>(List<T> list, int? pageIndex = null, int? pageSize = null);
 
         List<Province> GetProvinces();
         List<District> GetDistricts(string provinceId);
         List<Ward> GetWards(string wardId);
+
+        List<Bank> GetBanks(int status = 1);
     }
 }

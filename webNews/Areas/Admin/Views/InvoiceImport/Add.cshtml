@@ -1,4 +1,5 @@
-﻿@using webNews.Language.Language
+﻿@using webNews.Domain.Entities
+@using webNews.Language.Language
 @using webNews.Models
 @using webNews.Security
 @{
@@ -7,17 +8,26 @@
 }
 <h2 class="page-header">Nhập hàng</h2>
 <div class="main-content">
-
     <div class="col-xs-12 col-sm-12 col-md-12 no-padding">
-
         <div class="col-lg-8 col-md-8 col-sm-8 no-padding">
-            <div class="col-md-5 col-xs-5 ui-widget">
-                <input type="text" id="txtSearchProduct" class="form-control input-sm" autocomplete="false" placeholder="@Resource.ChooseProduct_Lang" />
+            <div class="col-md-7 col-xs-7 ui-widget">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">Chọn kho thuê/bán</label>
+                    <div class="col-xs-8">
+                        <select class="form-control" id="txtType">
+                            <option value="1">Kho thuê</option>
+                            <option value="2">Kho bán</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="table" style="padding-top: 66px">
-                <table id="table"></table>
+                <div class="col-md-5 col-xs-5 ui-widget">
+                    <input type="text" id="txtSearchCategory" class="form-control input-sm" autocomplete="false" placeholder="@Resource.ChooseProduct_Lang"/>
+                </div>
+                <div class="table" style="padding-top: 66px">
+                    <table id="table"></table>
+                </div>
             </div>
-        </div>
 
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="x_content">
@@ -47,18 +57,13 @@
                                     <div class="form-group">
                                         <label class="col-xs-4 control-label padding-lr-0">Nhà cung cấp</label>
                                         <div class="col-xs-8">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control input-sm" id="supplierSelect" placeholder="@Resource.ChooseProvider_Lang" />
-@*                                                <span class="input-group-btn">*@
-@*                                                    <button id="btnAddsupplier" class="btn btn-primary" type="button" title="+">+</button>*@
-@*                                                </span>*@
-                                            </div>
+                                            <input type="text" class="form-control input-sm" id="supplierSelect" placeholder="@Resource.ChooseProvider_Lang" />
                                         </div>
                                     </div>
                                     <div class="form-group" id="selectedSupplier" style="display: none">
                                         <label class="col-xs-4 control-label"></label>
                                         <div class="col-xs-8">
-                                            <input type="text" name="SupplierCode" class="form-control input-sm hidden" id="SupplierCode" placeholder="@Resource.ChooseProvider_Lang" />
+                                            <input type="text" name="SupplierCode" class="form-control input-sm hidden" id="txtSupplierCode" placeholder="@Resource.ChooseProvider_Lang" />
                                             <label type="text" name="SupplierName" class="control-label" id="txtSupplierName"></label>
 
                                             <button class='delete btn btn-primary btn-in-table' id="deleteSupplier" type="button" title='Xóa nhà cung cấp'><i class='fa fa-remove'></i></button>
@@ -96,13 +101,13 @@
                                     <div class="form-group">
                                         <label class="col-xs-4 control-label">VAT</label>
                                         <div class="col-xs-8">
-                                            <input type="text" name="VAT" class="form-control input-sm input-right" value="0" id="txtVAT" />
+                                            <input type="text" name="VAT" class="form-control input-sm input-right discount-mask" value="0" id="txtVAT" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-xs-4 control-label">Tổng tiền</label>
                                         <div class="col-xs-8">
-                                            <input type="text" name="SumMonney" class="form-control input-sm input-right" value="0" disabled="disabled" id="txtSalePrice" />
+                                            <input type="text" name="SumMonney" class="form-control input-sm input-right" value="0" id="txtSalePrice" />
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -114,16 +119,7 @@
                                     <div class="form-group">
                                         <label class="col-xs-4 control-label">Nợ lại</label>
                                         <div class="col-xs-8">
-                                            <input type="text" name="RemainMoney" class="form-control input-sm input-right" value="0" disabled="disabled" id="txtRemainMoney" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-xs-4 control-label"></label>
-                                        <div class="col-xs-8">
-                                            <label>
-                                                <input type="checkbox" id="chkAddToSUpplier" />
-                                                Cộng vào tài khoản NCC
-                                            </label>
+                                            <input type="text" name="RemainMoney" class="form-control input-sm input-right" value="0" id="txtRemainMoney" />
                                         </div>
                                     </div>
                                     <div class="form-group" style="float: right">
@@ -156,10 +152,10 @@
                                         <label class="col-xs-4 control-label">Tài khoản</label>
                                         <div class="col-xs-8">
                                             <select class="form-control input-sm" name="BankCode" id="txtBankAccount">
-@*                                                @foreach (SelectListModel bank in Model.Banks)*@
-@*                                                {*@
-@*                                                    <option value="@bank.Name">@bank.Text</option>*@
-@*                                                }*@
+                                                @foreach (Bank bank in Model.ListBanks)
+                                                {
+                                                    <option value="@bank.BankAccount">@bank.BankCode-@bank.BankName</option>
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -173,7 +169,7 @@
                                         <label class="col-xs-4 control-label">Ngày tạo</label>
                                         <div class="col-xs-8">
                                             <div class="input-group input-group-sm input-date" id="divCreateDate">
-                                                <input type="text" id="txtCreateDate" name="CreateDate"
+                                                <input type="text" id="txtCreatedDate" name="CreateDate"
                                                        class="form-control input-sm datemask">
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
@@ -181,14 +177,12 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <label class="col-xs-4 control-label">Ghi chú</label>
                                         <div class="col-xs-8">
-                                            <input type="text" class="form-control input-sm" id="txtNote" name="Note" placeholder="@Resource.Note_Lang" />
+                                            <textarea type="text" class="form-control input-sm" id="txtNote" name="Note" placeholder="@Resource.Note_Lang" rows="7"></textarea>
                                         </div>
                                     </div>
-
                                     <div class="form-group" style="float: right">
                                         <button id="btnComplete" class="btn btn-primary btnComplete" type="button" title="@(Resource.Btn_Complete_Lang)">@(Resource.Btn_Complete_Lang)</button>
                                         <button id="btnTempSave" class="btn btn-primary btnTempSave" type="button" title="@(Resource.Btn_Temp_Save_Lang)">@(Resource.Btn_Temp_Save_Lang)</button>
@@ -197,6 +191,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="clearfix"></div>
                     </form>
                 </div>
             </div>

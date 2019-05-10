@@ -36,6 +36,8 @@ namespace webNews.Domain.Entities
         public string groupnames { get; set; }
         public string files { get; set; }
         public string Avatar { get; set; }
+        public int? Quantity { get; set; }
+        public double? PriceInput { get; set; }
     }
 
 }

@@ -126,5 +126,9 @@ namespace webNews.Domain.Services.CategoryManagement
         {
             return _categoryRepository.GetAll();
         }
+        public List<Vw_Category> GetByName(string name)
+        {
+            return _categoryRepository.GetByName(name);
+        }
     }
 }

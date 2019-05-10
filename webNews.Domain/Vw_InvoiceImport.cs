@@ -17,13 +17,13 @@ namespace webNews.Domain.Entities
 	[Alias("Vw_InvoiceImport")]
     public partial class Vw_InvoiceImport 
     {
-        [AutoIncrement]
+        [Required]
         public int Id { get; set; }
         public string Code { get; set; }
         public string UserName { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public string ProviderCode { get; set; }
+        public string SupplierCode { get; set; }
         public DateTime? Date { get; set; }
         public double? Discount { get; set; }
         public bool? DiscountType { get; set; }
@@ -35,9 +35,11 @@ namespace webNews.Domain.Entities
         public int? Active { get; set; }
         public string Note { get; set; }
         public int? PayMethod { get; set; }
-        public int? IsComplete { get; set; }
+        public bool? IsComplete { get; set; }
         public int? TotalQuantity { get; set; }
         public int? Type { get; set; }
+        public string BankCode { get; set; }
+        public string SupplierName { get; set; }
     }
 
 }

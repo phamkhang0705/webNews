@@ -40,6 +40,7 @@ namespace webNews.Domain.Entities
         public int? CategoryId { get; set; }
         public int? CategoryDetailId { get; set; }
         public string DescriptionDetail { get; set; }
+        public double? PriceInput { get; set; }
     }
 
 }

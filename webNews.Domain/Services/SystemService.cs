@@ -31,11 +31,11 @@ namespace webNews.Domain.Services
 
         public string ReplaceStringWithToken(Dictionary<string, string> tokens, string input)
         {
-            if(string.IsNullOrEmpty(input) || tokens == null || tokens.Count == 0) return input;
+            if (string.IsNullOrEmpty(input) || tokens == null || tokens.Count == 0) return input;
             var b = new StringBuilder(input);
-            foreach(var token in tokens)
+            foreach (var token in tokens)
             {
-                if(!b.ToString().Contains(token.Key)) continue;
+                if (!b.ToString().Contains(token.Key)) continue;
                 b.Replace(token.Key, token.Value);
             }
             return b.ToString();
@@ -50,7 +50,7 @@ namespace webNews.Domain.Services
         {
             return _systemRepository.Paging(query, pageIndex, pageSize);
         }
-        
+
         public PagingObject<T> Paging<T>(List<T> list, int? pageIndex = null, int? pageSize = null)
         {
             return _systemRepository.Paging(list, pageIndex, pageSize);
@@ -115,6 +115,11 @@ namespace webNews.Domain.Services
         public string CodeGen(ObjectType objectType, string name = "Z", int number = 10)
         {
             return _systemRepository.CodeGen(objectType, name, number);
+        }
+
+        public List<Bank> GetBanks(int status = 1)
+        {
+            return _systemRepository.GetBanks(status);
         }
     }
 }

@@ -79,6 +79,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bank.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="Banner.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
@@ -102,6 +105,7 @@
     </Compile>
     <Compile Include="DomainModule.cs" />
     <Compile Include="Entities\HomePageInfo.cs" />
+    <Compile Include="Entities\InvoiceImport.cs" />
     <Compile Include="Entities\Medium.cs" />
     <Compile Include="Entities\MenuFE.cs" />
     <Compile Include="Entities\News.cs" />
@@ -157,6 +161,9 @@
       <DependentUpon>OrmLite.SP.tt</DependentUpon>
     </Compile>
     <Compile Include="Page.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Payment.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Product.cs">
@@ -300,6 +307,9 @@
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Vw_InvoiceImport.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vw_InvoiceImport_Detail.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Vw_Product.cs">
