@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InvoiceOutputManagement\InvoiceOutputModel.cs" />
+    <Compile Include="PaymentVoucherManagement\PaymentVoucherModel.cs" />
     <Compile Include="InvoiceImportManagement\InvoiceImportModel.cs" />
     <Compile Include="PromotionManagement\SearchPromotionModel.cs" />
     <Compile Include="CustomerManagement\SearchCustomerModel.cs" />

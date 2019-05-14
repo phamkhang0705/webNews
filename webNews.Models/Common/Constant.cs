@@ -36,7 +36,7 @@
         Customer = 1,
         Supplier = 2,
         InvoiceImport = 3,
-        InvoiceOutport = 4,
+        InvoiceOutput = 4,
         InvoiceRental = 5,
         ReceiveVoucher=6,
         PaymentVoucher=7
@@ -59,7 +59,7 @@
         public const string Customer = "KH";
         public const string Supplier = "NCC";
         public const string InvoiceImport = "PN";
-        public const string InvoiceOuport = "PX";
+        public const string InvoiceOutput = "PX";
         public const string InvoiceRental = "PTHUE";
         public const string ReceiveVoucher = "PTHU";
         public const string PaymentVoucher = "PCHI";

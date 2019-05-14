@@ -111,7 +111,7 @@ var Unit = function () {
                 events: {
                     'click .OpenEditItem': function (e, value, row, index) {
                         Sv.ChecPermission("View", function () {
-                            var url = "/Admin/InvoiceImport/GetInvoiceDetail";
+                            var url = "/Admin/InvoiceOutput/GetInvoiceDetail";
                             var model = {
                                 id: row.Id, code: row.Code, action: "Edit"
                             };
@@ -149,10 +149,10 @@ var Unit = function () {
                         });
                     },
                     'click .CancelItem': function (e, value, row, index) {
-                        var url = "/Admin/InvoiceImport/CancelInvoice";
+                        var url = "/Admin/InvoiceOutput/CancelInvoice";
                         var msg = "Bạn có muốn hủy phiếu nhập này?";
                         if (row.Active == 0) {
-                            url = "/Admin/InvoiceImport/Delete";
+                            url = "/Admin/InvoiceOutput/Delete";
                             msg = "Bạn có muốn xóa phiếu nhập này?";
                         }
 
@@ -309,9 +309,9 @@ var Unit = function () {
     //-- them sua xoa
     this.SubmitServer = function (action, id) {
         var $form = $("#formDetail").on();
-        var url = "/InvoiceImport/Create";
+        var url = "/InvoiceOutput/Create";
         if (action == "Edit") {
-            url = "/InvoiceImport/Update";
+            url = "/InvoiceOutput/Update";
         }
         if ($form.valid(true)) {
             Sv.AjaxPost({
@@ -358,7 +358,7 @@ var unit = new Unit();
 $(document).ready(function () {
     Sv.SetupDateTime($("#divFromDate"), $("#divToDate"));
     unit.$table.bootstrapTable(Sv.BootstrapTableOption({
-        url: "/Admin/InvoiceImport/GetData",
+        url: "/Admin/InvoiceOutput/GetData",
         queryParams: function (p) {
             return {
                 search: unit.GetFormSearchData(),
@@ -371,7 +371,7 @@ $(document).ready(function () {
     }));
 
     unit.$historyTable.bootstrapTable(Sv.BootstrapTableOption({
-        url: "/Admin/InvoiceImport/GetHistoryData",
+        url: "/Admin/InvoiceOutput/GetHistoryData",
         queryParams: function (p) {
             return {
                 code: invoiceCodeSearch,
@@ -393,13 +393,13 @@ $(document).ready(function () {
     });
 
     unit.$btnOpenAdd.click(function () {
-        window.location.href = "/Admin/InvoiceImport/Add";
+        window.location.href = "/Admin/InvoiceOutput/Add";
     });
 
     unit.$boxDetails.on('click', 'button#btnSave', function (e) {
         e.preventDefault();
         Sv.AjaxPost({
-            Url: "/Admin/InvoiceImport/Update",
+            Url: "/Admin/InvoiceOutput/Update",
             Data: {
                 invoiceCode: $("#Code").val(),
                 status: -1,
@@ -426,7 +426,7 @@ $(document).ready(function () {
                 function () {
                     Sv.Loading();
                     Sv.AjaxPost({
-                        Url: "/Admin/InvoiceImport/CancelInvoice",
+                        Url: "/Admin/InvoiceOutput/CancelInvoice",
                         Data: { invoiceCode: $("#Code").val() }
                     },
                     function (rs) {
@@ -454,7 +454,7 @@ $(document).ready(function () {
     });
     unit.$boxDetails.on('click', 'button#btnReOpen', function (e) {
         e.preventDefault();
-        window.location = "InvoiceImport/Add?code=" + $("#Code").val();
+        window.location = "InvoiceOutput/Add?code=" + $("#Code").val();
     });
     unit.$boxDetails.on('click', 'button#btnPrint', function (e) {
         e.preventDefault();
@@ -471,7 +471,7 @@ $(document).ready(function () {
                 function () {
                     Sv.Loading();
                     Sv.AjaxPost({
-                        Url: "/Admin/InvoiceImport/Delete",
+                        Url: "/Admin/InvoiceOutput/Delete",
                         Data: { invoiceCode: $("#Code").val() }
                     },
                     function (rs) {

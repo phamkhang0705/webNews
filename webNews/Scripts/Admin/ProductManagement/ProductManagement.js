@@ -24,6 +24,10 @@
                 field: 'Avatar',
                 align: "center",
                 formatter: function (value, row, index) {
+                    if (value == null) {
+                        //                        return "";
+                        return '<img class="img-preview" src="/Content/images/no_image.png" title="e" alt="" width="100" height="100" style="margin-bottom: 10px" />';
+                    }
                     var url = row.Avatar.split("\\").pop(-1);
                     str = '<img class="img-preview" src="/Content/Product/' + url + '" title="e" alt="" width="100" height="100" style="margin-bottom: 10px" />';
                     return str;
@@ -60,7 +64,7 @@
                 title: 'Tình trạng',
                 field: 'Description',
                 align: "left"
-            }),Sv.BootstrapTableColumn("string", {
+            }), Sv.BootstrapTableColumn("string", {
                 title: 'Biện pháp xử lý',
                 field: 'Solution',
                 align: "left"
@@ -104,8 +108,8 @@
                                 base.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
                                 base.SetupAmountMask();
                                 Sv.SetupDateAndSetDefaultNotMaxDate($('#divCheckDate'), row.CheckDate);
-                                
-//                                $('#formDetail #txtStatus').val(model.status).select2();
+
+                                //                                $('#formDetail #txtStatus').val(model.status).select2();
                                 $('#formDetail #txtCategoryId').val(model.categoryId).select2();
                                 base.OpentDisable();
                             });
@@ -164,11 +168,11 @@
         obj.CategoryId = form.find('#txtCategoryId').val();
         obj.Description = form.find('#txtDescription').val();
         obj.Solution = solution;
-//        obj.Inventory = form.find('#txtInventory').val();
+        //        obj.Inventory = form.find('#txtInventory').val();
         obj.Quantity = form.find('#txtQuantity').val();
         obj.CheckDate = form.find('#txtCheckDate').val();
         obj.Status = form.find('#txtStatus').val();
-        
+
         var images = $('#formDetail').find('.div-image .img-preview');
         var lstImages = [];
         for (var i = 0; i < images.length; i++) {
@@ -193,7 +197,7 @@
             formData.append("Status", dataForm.Status);
             formData.append("Description", dataForm.Description);
             formData.append("Solution", dataForm.Solution);
-//            formData.append("Inventory", dataForm.Inventory);
+            //            formData.append("Inventory", dataForm.Inventory);
             formData.append("Quantity", dataForm.Quantity);
             formData.append("CheckDate", dataForm.CheckDate);
             formData.append("ListFiles", dataForm.ListFiles);
@@ -285,7 +289,7 @@ $(document).ready(function () {
     unit.$btnSearchSubmit.click(function () {
         unit.LoadTableSearch();
         Sv.ResetForm($("#formSearch"), $("#sFromDate"), $("#sToDate"));
-//        $('#formSearch #txtStatus').val('-1').trigger('change');
+        //        $('#formSearch #txtStatus').val('-1').trigger('change');
         $('#formSearch #txtCategoryId').val('-1').trigger('change');
     });
     unit.$btnOpenAdd.click(function () {

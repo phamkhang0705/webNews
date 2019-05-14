@@ -269,6 +269,8 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BranchManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryDetailManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\InvoiceOutputController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PaymentVoucherController.cs" />
     <Compile Include="Areas\Admin\Controllers\SupplierManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\CustomerManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\InvoiceImportController.cs" />
@@ -284,6 +286,7 @@
     <Compile Include="Areas\Admin\Controllers\RoleManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserManagementController.cs" />
     <Compile Include="Areas\Admin\Models\Customer\CustomerModel.cs" />
+    <Compile Include="Areas\Admin\Models\InvoiceOutput\InvoiceOutputModel.cs" />
     <Compile Include="Areas\Admin\Models\InvoiceImport\InvoiceImportModel.cs" />
     <Compile Include="Areas\Admin\Models\Product\ProductModel.cs" />
     <Compile Include="Areas\Admin\Models\Group\GroupModel.cs" />
@@ -381,6 +384,7 @@
     <Content Include="Content\checkbox3.min.css" />
     <Content Include="Content\flexslider.css" />
     <Content Include="Content\images\img.jpg" />
+    <Content Include="Content\images\no_image.png" />
     <Content Include="Content\multi-select.css" />
     <Content Include="Content\select2.min.css" />
     <Content Include="favicon.ico" />
@@ -388,6 +392,9 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\Admin\CategoryDetailManagement\CategoryDetailManagement.js" />
+    <Content Include="Scripts\Admin\InvoiceOutput\InvoiceAdd.js" />
+    <Content Include="Scripts\Admin\InvoiceOutput\InvoiceOutput.js" />
+    <Content Include="Scripts\Admin\PaymentVoucher\PaymentVoucher.js" />
     <Content Include="Scripts\Admin\SupplierManagement\SupplierManagement.js" />
     <Content Include="Scripts\Admin\CustomerManagement\CustomerManagement.js" />
     <Content Include="Scripts\Admin\InvoiceImport\InvoiceAdd.js" />
@@ -453,6 +460,13 @@
     <Content Include="Areas\Admin\Views\SupplierManagement\_supplierDetail.cshtml" />
     <Content Include="Areas\Admin\Views\SupplierManagement\_supplierSearch.cshtml" />
     <Content Include="Areas\Admin\Views\SupplierManagement\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PaymentVoucher\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PaymentVoucher\_ptvSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\InvoiceOutput\_ptvDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\InvoiceOutput\_ptvHistotyPayment.cshtml" />
+    <Content Include="Areas\Admin\Views\InvoiceOutput\_ptvSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\InvoiceOutput\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\InvoiceOutput\Index.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

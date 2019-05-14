@@ -21,29 +21,57 @@
                 }
             }),
             Sv.BootstrapTableColumn("string", {
-                title: 'Mã khuyến mại',
-                field: 'PromotionCode',
+                title: 'Mã phiếu thu',
+                field: 'PaymentCode',
                 align: "left"
-            }), Sv.BootstrapTableColumn("string", {
-                title: 'Tên khuyến mại',
-                field: 'PromotionName',
+            }),
+            Sv.BootstrapTableColumn("string", {
+                title: 'Phiếu nhập',
+                field: 'InvoiceCode',
                 align: "left"
-            }), Sv.BootstrapTableColumn("NumberNull", {
-                title: 'Từ ngày',
-                field: 'FromDate',
-                align: "right",
+            }),
+            Sv.BootstrapTableColumn("string", {
+                title: 'Ngày tạo',
+                field: 'CreatedDate',
+                align: "center",
+                valign: "middle",
                 formatter: function (value) {
-                    return value !== null ? moment(new Date(parseInt(value.slice(6, -2)))).format('DD/MM/YYYY HH:mm:ss') : "";
+                    return value != null ? moment(new Date(parseInt(value.slice(6, -2)))).format('DD/MM/YYYY HH:mm') : "";
+                }
+            }),
+
+            Sv.BootstrapTableColumn("string", {
+                title: 'Tên nhân viên',
+                field: 'UserName',
+                align: "left"
+            }),
+
+            Sv.BootstrapTableColumn("NumberNull", {
+                title: 'Tổng tiền',
+                field: 'TotalMoney'
+            }),
+            Sv.BootstrapTableColumn("NumberNull", {
+                title: 'Đã thanh toán',
+                field: 'PaidMoney',
+                formatter: function (value, row, index) {
+                    return row.TotalMoney - row.RemainMoney;
                 }
             }),
             Sv.BootstrapTableColumn("NumberNull", {
-                title: 'Đến ngày',
-                field: 'ToDate',
-                align: "right",
-                formatter: function (value) {
-                    return value !== null ? moment(new Date(parseInt(value.slice(6, -2)))).format('DD/MM/YYYY HH:mm:ss') : "";
-                }
+                title: 'Nợ lại',
+                field: 'RemainMoney'
+            }),
+
+            Sv.BootstrapTableColumn("string", {
+                title: 'Tên NCC',
+                field: 'Payments_Person',
+                align: "left"
             }), Sv.BootstrapTableColumn("string", {
+                title: 'Ngân hàng',
+                field: 'BankCode',
+                align: "left"
+            }),
+            Sv.BootstrapTableColumn("string", {
                 title: 'Mô tả',
                 field: 'Description',
                 align: "left"
@@ -75,18 +103,13 @@
                 events: {
                     'click .OpenEditItem': function (e, value, row, index) {
                         Sv.ChecPermission("View", function () {
-                            var url = "/Admin/PromotionManagement/ShowModal";
+                            var url = "/Admin/PaymentVoucher/ShowModal";
                             var model = {
-                                id: row.Id,
-                                action: "Edit",
-                                status: row.Status
+                                id: row.Id, action: "Edit"
                             };
                             Sv.BindPopup(url, model, function (rs) {
                                 base.$boxDetails.html(rs);
                                 base.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
-                                Sv.SetupDateAndSetDefaultNotMaxDate($('#divFromDate'), row.FromDate);
-                                Sv.SetupDateAndSetDefaultNotMaxDate($('#divToDate'), row.ToDate);
-                                $('#formDetail #txtStatus').val(model.status).select2();
                                 base.OpentDisable();
                             });
                         });
@@ -96,28 +119,9 @@
         return obj;
     }
 
-    this.SetupAmountMask = function () {
-        //Mask_groupSeparator: '.',
-        //Mask_radixPoint: ',',
-        //Mask_integerDigits: 11,
-        //Mask_digits: 0,
-        $('.amount-mask').on().inputmask({
-            alias: 'decimal',
-            placeholder: '',
-            groupSeparator: '.',
-            radixPoint: ',',
-            autoGroup: true,
-            digits: 0,
-            allowPlus: false,
-            allowMinus: false,
-            autoUnmask: true,
-            integerDigits: 11
-        });
-    }
-
     this.OpentDisable = function () {
         var $form = $("#modalDetails").on();
-        $form.find("input[id='txtPromotionCode']").prop('disabled', true);
+        $form.find("input[id='txtCode']").prop('disabled', true);
     }
 
     this.LoadTableSearch = function () {
@@ -135,90 +139,75 @@
         });
     }
     base.GetFormData = function () {
-        var form = $('#formDetail').on();
-        return form.serialize();
+        var data = $('#formDetail').serialize();
+        return data;
     }
     //-- them sua xoa
-
     this.SubmitServer = function (action, id) {
         var $form = $("#formDetail").on();
-        if ($form.valid()) {
-            
-            var dataForm = base.GetFormData();
-            var url = "/PromotionManagement/Create";
-            if (action === "Edit") {
-                url = "/PromotionManagement/Update";
-            }
-
+        var url = "/PaymentVoucher/Create";
+        if (action === "Edit") {
+            url = "/PaymentVoucher/Update";
+        }
+        if ($form.valid(true)) {
             Sv.AjaxPost({
                 Url: url,
-                Data: dataForm
-            }, function (rs) {
-                if (rs.Status === "01") {
-                    Dialog.Alert(rs.Message, Dialog.Success);
-                    base.$boxDetails.find("#modalDetails").modal("hide");
-                    base.OpentDisable();
-                    base.LoadTableSearch();
-                } else {
-                    Dialog.Alert(rs.Message, Dialog.Error);
-                }
-            }, function () {
-                Dialog.Alert(language.Message_Error, Dialog.Error);
-            });
+                Data: base.GetFormData()
+            },
+                function (rs) {
+                    if (rs.Status === "01") {
+                        Dialog.Alert(rs.Message, Dialog.Success);
+                        base.$boxDetails.find("#modalDetails").modal("hide");
+                        base.LoadTableSearch();
+                    } else {
+                        Dialog.Alert(rs.Message, Dialog.Error);
+                    }
+                },
+                function () {
+                    Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
+                });
         }
     }
 
     this.GetFormSearchData = function () {
         var obj = {};
-        obj.PromotionCode = $('#txtPromotionCode').val();
-        obj.PromotionName = $('#txtPromotionName').val();
-        obj.FromDate = $("#sFromDate").data('DateTimePicker').date();
-        obj.ToDate = $("#sToDate").data('DateTimePicker').date();
-        obj.Status = $('#txtStatus').val();
+        obj.Code = $('#txtPaymentCode').val();
+        obj.Status = $("#txtSearchActive").val();
+        obj.FromDate = $("#divFromDate").data('DateTimePicker').date();
+        obj.ToDate = $("#divToDate").data('DateTimePicker').date();
         return obj;
     }
 }
 
-
 $(document).ready(function () {
     var unit = new Unit();
-    Sv.SetupDateTime($("#sFromDate"), $("#sToDate"));
+//    Sv.SetupDateTime($("#sFromDate"), $("#sToDate"));
+
+    $("#formSearch").find('#divFromDate').data("DateTimePicker").date(Sv.DefaultDate().FormDate);
+    $("#formSearch").find('#divToDate').data("DateTimePicker").date(Sv.DefaultDate().ToDate);
     unit.$table.bootstrapTable(Sv.BootstrapTableOption({
-        url: "/Admin/PromotionManagement/GetData",
+        url: "/Admin/PaymentVoucher/GetData",
         queryParams: function (p) {
             return {
                 search: unit.GetFormSearchData(),
                 pageIndex: p.offset,
                 pageSize: p.limit
-
             };
         },
         columns: unit.Columns()
     }));
-
-
-
-    unit.$btnOpenSearch.click(function () {
-        unit.$searchModal.modal({ backdrop: "static" });
-    });
     unit.$btnSearchSubmit.click(function () {
         unit.LoadTableSearch();
-        Sv.ResetForm($("#formSearch"), $("#sFromDate"), $("#sToDate"));
-        $('#formSearch #txtStatus').val('-1').trigger('change');
     });
     unit.$btnOpenAdd.click(function () {
-        var url = "/Admin/PromotionManagement/ShowModal";
+        var url = "/Admin/PaymentVoucher/ShowModal";
         var model = {
             id: 0, action: "Add"
         };
         Sv.BindPopup(url, model, function (rs) {
             unit.$boxDetails.html(rs);
             unit.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
-            unit.SetupAmountMask();
-            Sv.SetupDateTime($('#divFromDate'), $('#divToDate'));
-            $('#formDetail #txtStatus').val('-1').select2();
         });
-
     });
     unit.$boxDetails.on('click', 'button#btnAdd', function (e) {
         e.preventDefault();
