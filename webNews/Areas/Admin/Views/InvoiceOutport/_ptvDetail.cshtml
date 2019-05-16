@@ -1,6 +1,6 @@
 ﻿@using webNews.Language.Language
 @using webNews.HtmlHelpers
-@model webNews.Areas.Admin.Models.InvoiceImport.InvoiceImportModel
+@model webNews.Areas.Admin.Models.InvoiceOutport.InvoiceOutportModel
 @{
     var add = Model.Action == "Add";
     var edit = Model.Action == "Edit";
@@ -43,9 +43,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.SupplierCode)</label>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.CustomerCode)</label>
                         <div class="col-xs-4 control-label" style="text-align: left">
-                            @Model.SupplierName
+                            @Model.CustomerName
                         </div>
                         <label class="col-xs-2 control-label">@Html.LabelFor(x => x.UserName)</label>
                         <div class="col-xs-4 control-label" style="text-align: left">
@@ -105,10 +105,10 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @if (Model.InvoiceImportDetails != null && Model.InvoiceImportDetails.Count > 0)
+                                        @if (Model.InvoiceOutportDetails != null && Model.InvoiceOutportDetails.Count > 0)
                                         {
                                                 
-                                            foreach (var detail in Model.InvoiceImportDetails)
+                                            foreach (var detail in Model.InvoiceOutportDetails)
                                             {
                                                 <tr>
                                                     <td>1</td>
@@ -170,7 +170,7 @@
                         </div>
                         <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Discount)</label>
                         <div class="col-xs-4 control-label" style="text-align: left">
-                            @String.Format("{0:N0}", Model.Discount)
+                            @(Model.DiscountType==true? String.Format("{0:N0} %", Model.Discount): String.Format("{0:N0}", Model.Discount))
                         </div>
                     </div>
                     <div class="form-group">

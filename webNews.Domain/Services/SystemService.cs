@@ -121,5 +121,10 @@ namespace webNews.Domain.Services
         {
             return _systemRepository.GetBanks(status);
         }
+
+        public List<InvoiceType> GetTypes(int status = 1)
+        {
+            return _systemRepository.GetTypes(status);
+        }
     }
 }

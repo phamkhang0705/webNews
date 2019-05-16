@@ -2,23 +2,18 @@
 using System;
 using System.Dynamic;
 using System.Web.Mvc;
-using webNews.Domain.Services;
-using webNews.Domain.Services.CategoryManagement;
-using webNews.Domain.Services.CustomerManagement;
 using webNews.Domain.Services.PaymentVoucherManagement;
-using webNews.Language.Language;
-using webNews.Models.Common;
 using webNews.Models.PaymentVoucherManagement;
 using webNews.Security;
 
 namespace webNews.Areas.Admin.Controllers
 {
-    public class PaymentVoucherController : BaseController
+    public class ReceiverVoucherController : BaseController
     {
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         private readonly IPaymentVoucherService _paymetService;
 
-        public PaymentVoucherController(
+        public ReceiverVoucherController(
             IPaymentVoucherService paymetService)
         {
             _paymetService = paymetService;
@@ -34,7 +29,6 @@ namespace webNews.Areas.Admin.Controllers
             dynamic model = new ExpandoObject();
             return View(model);
         }
-        
 
         #region GetData
 
@@ -63,8 +57,7 @@ namespace webNews.Areas.Admin.Controllers
                 return null;
             }
         }
-       
-        #endregion GetData
 
+        #endregion GetData
     }
 }

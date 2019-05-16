@@ -5,33 +5,37 @@ using System.Web.Mvc;
 using webNews.Domain.Services;
 using webNews.Domain.Services.CategoryManagement;
 using webNews.Domain.Services.CustomerManagement;
-using webNews.Domain.Services.InvoiceOutputManagement;
+using webNews.Domain.Services.InvoiceOutportManagement;
+using webNews.Domain.Services.OrderTypeManagement;
+using webNews.Domain.Services.ProductManagement;
 using webNews.Language.Language;
 using webNews.Models.Common;
-using webNews.Models.InvoiceOutputManagement;
+using webNews.Models.InvoiceOutportManagement;
 using webNews.Security;
-using InvoiceOutputModel = webNews.Areas.Admin.Models.InvoiceOutput.InvoiceOutputModel;
+using InvoiceOutportModel = webNews.Areas.Admin.Models.InvoiceOutport.InvoiceOutportModel;
 
 namespace webNews.Areas.Admin.Controllers
 {
-    public class InvoiceOutputController : BaseController
+    public class InvoiceRentalController : BaseController
     {
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
-        private readonly IInvoiceOutputService _importService;
-        private readonly ICategoryManagementService _categoryManagementService;
+        private readonly IInvoiceOutportService _importService;
+        private readonly IOrderTypeManagementService _orderTypeManagementService;
         private readonly ICustomerManagementService _customerManagementService;
+        private readonly IProductManagementService _productManagementService;
         private readonly ISystemService _systemService;
 
-        public InvoiceOutputController(
-            IInvoiceOutputService importService, ICategoryManagementService categoryManagementService, ICustomerManagementService customerManagementService, ISystemService systemService)
+        public InvoiceRentalController(
+            IInvoiceOutportService importService, IOrderTypeManagementService orderTypeManagementService, ICustomerManagementService customerManagementService, ISystemService systemService, IProductManagementService productManagementService)
         {
             _importService = importService;
-            _categoryManagementService = categoryManagementService;
+            _orderTypeManagementService = orderTypeManagementService;
             _customerManagementService = customerManagementService;
             _systemService = systemService;
+            _productManagementService = productManagementService;
         }
 
-        // GET: Admin/InvoiceOutput
+        // GET: Admin/InvoiceOutport
         public ActionResult Index()
         {
             if (!CheckAuthorizer.IsAuthenticated())
@@ -51,13 +55,14 @@ namespace webNews.Areas.Admin.Controllers
 
             dynamic model = new ExpandoObject();
             model.ListBanks = _systemService.GetBanks(1);
+            model.ListOrderTypes = _systemService.GetTypes(1);
             return View("Add", model);
         }
 
         #region GetData
 
         [HttpPost]
-        public ActionResult GetData(SearchInvoiceOutput search, int pageIndex, int pageSize)
+        public ActionResult GetData(SearchInvoiceOutport search, int pageIndex, int pageSize)
         {
             if (!CheckAuthorizer.Authorize(Permission.VIEW))
                 return RedirectToAction("Index", "Login");
@@ -67,7 +72,7 @@ namespace webNews.Areas.Admin.Controllers
                     pageIndex = 0;
                 else
                     pageIndex = (pageSize / pageSize);
-
+                search.Type = 2;
                 var data = _importService.Search(search, pageIndex, pageSize);
                 return Json(new
                 {
@@ -82,34 +87,34 @@ namespace webNews.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult GetCategoryData(string categoryName)
+        public ActionResult GetProductData(string productName)
         {
             if (!CheckAuthorizer.Authorize(Permission.VIEW))
                 return RedirectToAction("Index", "Login");
             try
             {
-                var lData = _categoryManagementService.GetByName(categoryName);
+                var lData = _productManagementService.GetByName(productName);
                 return Json(lData, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                _log.Error("Get GetCategoryData error : " + ex);
+                _log.Error("Get GetProductData error : " + ex);
                 return null;
             }
         }
 
-        public ActionResult GetSupplierData(string supplierName)
+        public ActionResult GetCustomerData(string customerName)
         {
             if (!CheckAuthorizer.Authorize(Permission.VIEW))
                 return RedirectToAction("Index", "Login");
             try
             {
-                var lData = _customerManagementService.GetByName(supplierName, (int)CustomerType.Supplier);
+                var lData = _customerManagementService.GetByName(customerName, (int)CustomerType.Customer);
                 return Json(lData, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                _log.Error("Get GetSupplierData error : " + ex);
+                _log.Error("Get GetCustomerData error : " + ex);
                 return null;
             }
         }
@@ -129,16 +134,17 @@ namespace webNews.Areas.Admin.Controllers
         {
             try
             {
-                var invoice = _importService.GetInvoiceOutputByCode(code);
+                var invoice = _importService.GetInvoiceOutportByCode(code);
 
-                var model = new InvoiceOutputModel
+                var model = new InvoiceOutportModel
                 {
                     Id = invoice.Id,
                     Code = invoice.Code,
                     CreatedDate = invoice.CreatedDate,
-                    SupplierCode = invoice.SupplierCode,
-                    SupplierName = invoice.SupplierName,
+                    CustomerCode = invoice.CustomerCode,
+                    CustomerName = invoice.CustomerName,
                     Discount = invoice.Discount,
+                    DiscountType = invoice.DiscountType,
                     TotalMoney = invoice.TotalMoney,
                     Active = invoice.Active,
                     UserName = invoice.UserName,
@@ -147,7 +153,7 @@ namespace webNews.Areas.Admin.Controllers
                     SumMoney = invoice.SumMoney,
                     PaidMoney = invoice.PaidMoney,
                     RemainMoney = invoice.RemainMoney,
-                    InvoiceOutputDetails = _importService.GetInvoiceDetails(invoice.Id),
+                    InvoiceOutportDetails = _importService.GetInvoiceDetails(invoice.Id),
                     Action = "Edit"
                 };
 
@@ -169,35 +175,15 @@ namespace webNews.Areas.Admin.Controllers
         {
             try
             {
-                var invoice = _importService.GetInvoiceOutputByCode(code);
+                var invoice = _importService.GetInvoiceOutportByCode(code);
 
-                var model = new Models.InvoiceOutput.InvoiceOutputModel
+                var model = new Models.InvoiceOutport.InvoiceOutportModel
                 {
-                    //                            Code = invoice.Code,
-                    //                            Date = invoice.Date,
-                    //                            ProviderCode = invoice.ProviderCode,
-                    //                            ProviderName = invoice.ProviderName,
-                    //                            Discount = invoice.Discount,
-                    //                            TotalMonney = invoice.TotalMonney,
-                    //                            BranchName = invoice.BranchName,
-                    //                            Status = invoice.Status,
-                    //                            UserName = invoice.UserName,
-                    //                            Note = invoice.Note,
-                    //                            VAT = invoice.VAT,
-                    //                            SumMonney = invoice.SumMonney,
-                    //                            PaidMonney = invoice.PaidMonney,
-                    //                            RemainMonney = invoice.RemainMonney,
-                    //                            TotalQuantity = invoice.TotalQuantity,
-                    //                            CreateDate = (DateTime)invoice.CreateDate,
-                    //                            PaymentMethod = (int)invoice.PayMethod,
-                    //                            DiscountType = invoice.DiscountType ? 1 : 0,
-                    //
-                    //                            InvoiceDetails = invoice.InvoiceDetails
                     Id = invoice.Id,
                     Code = invoice.Code,
                     CreatedDate = invoice.CreatedDate,
-                    SupplierCode = invoice.SupplierCode,
-                    SupplierName = invoice.SupplierName,
+                    CustomerCode = invoice.CustomerCode,
+                    CustomerName = invoice.CustomerName,
                     Discount = invoice.Discount,
                     TotalMoney = invoice.TotalMoney,
                     Active = invoice.Active,
@@ -207,7 +193,7 @@ namespace webNews.Areas.Admin.Controllers
                     SumMoney = invoice.SumMoney,
                     PaidMoney = invoice.PaidMoney,
                     RemainMoney = invoice.RemainMoney,
-                    InvoiceOutputDetails = _importService.GetInvoiceDetails(invoice.Id),
+                    InvoiceOutportDetails = _importService.GetInvoiceDetails(invoice.Id),
 
                     DiscountType = invoice.DiscountType,
                     TotalQuantity = invoice.TotalQuantity,
@@ -232,7 +218,7 @@ namespace webNews.Areas.Admin.Controllers
         #region Create
 
         [HttpPost]
-        public ActionResult Create(webNews.Models.InvoiceOutputManagement.InvoiceOutputModel model)
+        public ActionResult Create(webNews.Models.InvoiceOutportManagement.InvoiceOutportModel model)
         {
             if (!CheckAuthorizer.Authorize(Permission.ADD))
                 return RedirectToAction("Index", "Login");
@@ -243,13 +229,14 @@ namespace webNews.Areas.Admin.Controllers
                     model.UserId = Authentication.GetUserId();
                     model.CreatedBy = Authentication.GetUserId();
                     model.UserName = Authentication.GetUserName();
+                    model.Type = 2;
                     var rs = _importService.CustomCreate(model);
                     if (rs.ResponseCode == "01")
                     {
                         return Json(new
                         {
                             Status = "01",
-                            Message = "Thêm mới phiếu nhập thành công!"
+                            Message = "Thêm mới hóa đơn thuê thành công!"
                         }, JsonRequestBehavior.AllowGet);
                     }
                     return Json(new
@@ -277,7 +264,7 @@ namespace webNews.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Open(webNews.Models.InvoiceOutputManagement.InvoiceOutputModel model)
+        public ActionResult Open(webNews.Models.InvoiceOutportManagement.InvoiceOutportModel model)
         {
             if (!CheckAuthorizer.Authorize(Permission.ADD))
                 return RedirectToAction("Index", "Login");
@@ -293,7 +280,7 @@ namespace webNews.Areas.Admin.Controllers
                         return Json(new
                         {
                             Status = "01",
-                            Message = "Cập nhật phiếu nhập thành công!"
+                            Message = "Cập nhật hóa đơn thuê thành công!"
                         }, JsonRequestBehavior.AllowGet);
                     }
                     return Json(new

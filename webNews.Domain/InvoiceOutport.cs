@@ -14,16 +14,17 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("Vw_InvoiceOutput")]
-    public partial class Vw_InvoiceOutput 
+	[Alias("InvoiceOutport")]
+    public partial class InvoiceOutport : IHasId<int> 
     {
-        [Required]
+        [Alias("Id")]
+        [AutoIncrement]
         public int Id { get; set; }
         public string Code { get; set; }
         public string UserName { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public string SupplierCode { get; set; }
+        public string CustomerCode { get; set; }
         public DateTime? Date { get; set; }
         public double? Discount { get; set; }
         public bool? DiscountType { get; set; }
@@ -39,7 +40,6 @@ namespace webNews.Domain.Entities
         public int? TotalQuantity { get; set; }
         public int? Type { get; set; }
         public string BankCode { get; set; }
-        public string SupplierName { get; set; }
     }
 
 }

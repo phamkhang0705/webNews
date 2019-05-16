@@ -26,6 +26,7 @@ namespace webNews.Domain.Services.PaymentVoucherManagement
             var query = db.From<Vw_PaymentVoucher>();
 
             if (!string.IsNullOrEmpty(search.Code)) query.Where(x => x.PaymentCode == search.Code);
+             query.Where(x => x.PaymentType == search.PaymentType);
             if (search.Status != null && search.Status != -1) query.Where(x => x.Status == search.Status);
             if (DateTime.MinValue != search.FromDate && DateTime.MinValue != search.ToDate)
             {

@@ -52,8 +52,8 @@ var Unit = function () {
                 }
             }),
             Sv.BootstrapTableColumn("string", {
-                title: 'Nhà cung cấp',
-                field: 'SupplierName',
+                title: 'Khách hàng',
+                field: 'CustomerName',
                 align: "center",
                 valign: "middle"
             }),
@@ -111,7 +111,7 @@ var Unit = function () {
                 events: {
                     'click .OpenEditItem': function (e, value, row, index) {
                         Sv.ChecPermission("View", function () {
-                            var url = "/Admin/InvoiceOutput/GetInvoiceDetail";
+                            var url = "/Admin/InvoiceRental/GetInvoiceDetail";
                             var model = {
                                 id: row.Id, code: row.Code, action: "Edit"
                             };
@@ -149,10 +149,10 @@ var Unit = function () {
                         });
                     },
                     'click .CancelItem': function (e, value, row, index) {
-                        var url = "/Admin/InvoiceOutput/CancelInvoice";
+                        var url = "/Admin/InvoiceRental/CancelInvoice";
                         var msg = "Bạn có muốn hủy phiếu nhập này?";
                         if (row.Active == 0) {
-                            url = "/Admin/InvoiceOutput/Delete";
+                            url = "/Admin/InvoiceRental/Delete";
                             msg = "Bạn có muốn xóa phiếu nhập này?";
                         }
 
@@ -309,9 +309,9 @@ var Unit = function () {
     //-- them sua xoa
     this.SubmitServer = function (action, id) {
         var $form = $("#formDetail").on();
-        var url = "/InvoiceOutput/Create";
+        var url = "/InvoiceRental/Create";
         if (action == "Edit") {
-            url = "/InvoiceOutput/Update";
+            url = "/InvoiceRental/Update";
         }
         if ($form.valid(true)) {
             Sv.AjaxPost({
@@ -358,7 +358,7 @@ var unit = new Unit();
 $(document).ready(function () {
     Sv.SetupDateTime($("#divFromDate"), $("#divToDate"));
     unit.$table.bootstrapTable(Sv.BootstrapTableOption({
-        url: "/Admin/InvoiceOutput/GetData",
+        url: "/Admin/InvoiceRental/GetData",
         queryParams: function (p) {
             return {
                 search: unit.GetFormSearchData(),
@@ -371,7 +371,7 @@ $(document).ready(function () {
     }));
 
     unit.$historyTable.bootstrapTable(Sv.BootstrapTableOption({
-        url: "/Admin/InvoiceOutput/GetHistoryData",
+        url: "/Admin/InvoiceRental/GetHistoryData",
         queryParams: function (p) {
             return {
                 code: invoiceCodeSearch,
@@ -393,13 +393,13 @@ $(document).ready(function () {
     });
 
     unit.$btnOpenAdd.click(function () {
-        window.location.href = "/Admin/InvoiceOutput/Add";
+        window.location.href = "/Admin/InvoiceRental/Add";
     });
 
     unit.$boxDetails.on('click', 'button#btnSave', function (e) {
         e.preventDefault();
         Sv.AjaxPost({
-            Url: "/Admin/InvoiceOutput/Update",
+            Url: "/Admin/InvoiceRental/Update",
             Data: {
                 invoiceCode: $("#Code").val(),
                 status: -1,
@@ -426,7 +426,7 @@ $(document).ready(function () {
                 function () {
                     Sv.Loading();
                     Sv.AjaxPost({
-                        Url: "/Admin/InvoiceOutput/CancelInvoice",
+                        Url: "/Admin/InvoiceRental/CancelInvoice",
                         Data: { invoiceCode: $("#Code").val() }
                     },
                     function (rs) {
@@ -454,7 +454,7 @@ $(document).ready(function () {
     });
     unit.$boxDetails.on('click', 'button#btnReOpen', function (e) {
         e.preventDefault();
-        window.location = "InvoiceOutput/Add?code=" + $("#Code").val();
+        window.location = "InvoiceRental/Add?code=" + $("#Code").val();
     });
     unit.$boxDetails.on('click', 'button#btnPrint', function (e) {
         e.preventDefault();
@@ -471,7 +471,7 @@ $(document).ready(function () {
                 function () {
                     Sv.Loading();
                     Sv.AjaxPost({
-                        Url: "/Admin/InvoiceOutput/Delete",
+                        Url: "/Admin/InvoiceRental/Delete",
                         Data: { invoiceCode: $("#Code").val() }
                     },
                     function (rs) {

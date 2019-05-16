@@ -5,29 +5,29 @@ using System.Collections.Generic;
 using webNews.Domain.Entities;
 using webNews.Models;
 using webNews.Models.Common;
-using webNews.Models.InvoiceOutputManagement;
+using webNews.Models.InvoiceOutportManagement;
 
-namespace webNews.Domain.Repositories.InvoiceOutputManagement
+namespace webNews.Domain.Repositories.InvoiceOutportManagement
 {
-    public class InvoiceOutputRepository : Repository<InvoiceOutput>, IInvoiceOutputRepository
+    public class InvoiceOutportRepository : Repository<InvoiceOutport>, IInvoiceOutportRepository
     {
         private readonly IWebNewsDbConnectionFactory _connectionFactory;
         private readonly ISystemRepository _systemRepository;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public InvoiceOutputRepository(IWebNewsDbConnectionFactory connectionFactory, ISystemRepository systemRepository) : base(connectionFactory)
+        public InvoiceOutportRepository(IWebNewsDbConnectionFactory connectionFactory, ISystemRepository systemRepository) : base(connectionFactory)
         {
             _systemRepository = systemRepository;
             _connectionFactory = connectionFactory;
         }
 
-        public PagingObject<Vw_InvoiceOutput> GetList(SearchInvoiceOutput filter, int pageIndex, int pageSize)
+        public PagingObject<Vw_InvoiceOutport> GetList(SearchInvoiceOutport filter, int pageIndex, int pageSize)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var query = db.From<Vw_InvoiceOutput>();
+                    var query = db.From<Vw_InvoiceOutport>();
 
                     if (!string.IsNullOrEmpty(filter.Code))
                     {
@@ -37,7 +37,7 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
                     //More filter
                     var total = (int)db.Count(query);
                     query.Skip(pageIndex * pageSize).Take(pageSize);
-                    return new PagingObject<Vw_InvoiceOutput>
+                    return new PagingObject<Vw_InvoiceOutport>
                     {
                         Total = (int)total,
                         DataList = db.Select(query)
@@ -46,38 +46,38 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
             }
             catch (Exception e)
             {
-                return new PagingObject<Vw_InvoiceOutput>
+                return new PagingObject<Vw_InvoiceOutport>
                 {
                     Total = 0,
-                    DataList = new List<Vw_InvoiceOutput>()
+                    DataList = new List<Vw_InvoiceOutport>()
                 };
             }
         }
 
-        public List<InvoiceOutput> GetInvoiceOutput()
+        public List<InvoiceOutport> GetInvoiceOutport()
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var query = db.From<InvoiceOutput>();
+                    var query = db.From<InvoiceOutport>();
                     return db.Select(query);
                 }
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "Get invoice error: " + ex.Message);
-                return new List<InvoiceOutput>();
+                return new List<InvoiceOutport>();
             }
         }
 
-        public Vw_InvoiceOutput GetInvoiceOutputByCode(string invoiceCode)
+        public Vw_InvoiceOutport GetInvoiceOutportByCode(string invoiceCode)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var query = db.From<Vw_InvoiceOutput>();
+                    var query = db.From<Vw_InvoiceOutport>();
                     if (!string.IsNullOrEmpty(invoiceCode))
                     {
                         query.Where(_ => _.Code == invoiceCode);
@@ -85,7 +85,7 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
 
                     var invoice = db.Single(query);
 
-                    //                    invoice.InvoiceDetails = db.Select<InvoiceOutputDetail>(_ => _.Code == invoiceCode);
+                    //                    invoice.InvoiceDetails = db.Select<InvoiceOutportDetail>(_ => _.Code == invoiceCode);
 
                     return invoice;
                 }
@@ -93,17 +93,17 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
             catch (Exception ex)
             {
                 _logger.Error(ex, "Get invoice error: " + ex.Message);
-                return new Vw_InvoiceOutput();
+                return new Vw_InvoiceOutport();
             }
         }
 
-        public InvoiceOutput GetInvoiceByCode(string invoiceCode)
+        public InvoiceOutport GetInvoiceByCode(string invoiceCode)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var query = db.From<InvoiceOutput>();
+                    var query = db.From<InvoiceOutport>();
                     query.Where(_ => _.Code == invoiceCode);
 
                     var invoice = db.Single(query);
@@ -118,14 +118,14 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
             }
         }
 
-        public List<Vw_InvoiceOutput_Detail> GetInvoiceDetails(int invoiceId)
+        public List<Vw_InvoiceOutport_Detail> GetInvoiceDetails(int invoiceId)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var query = db.From<Vw_InvoiceOutput_Detail>();
-                    query.Where(_ => _.InvoiceOutputId == invoiceId);
+                    var query = db.From<Vw_InvoiceOutport_Detail>();
+                    query.Where(_ => _.InvoiceOutportId == invoiceId);
 
                     var invoice = db.Select(query);
 
@@ -135,7 +135,7 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
             catch (Exception ex)
             {
                 _logger.Error(ex, "Get invoice error: " + ex.Message);
-                return new List<Vw_InvoiceOutput_Detail>();
+                return new List<Vw_InvoiceOutport_Detail>();
             }
         }
 
@@ -147,13 +147,13 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
                 {
                     try
                     {
-                        var model = db.Single<InvoiceOutput>(_ => _.Code == invoiceCode);
+                        var model = db.Single<InvoiceOutport>(_ => _.Code == invoiceCode);
                         if (model == null) return -1;
                         if (model.Active != (int)InvoiceStatus.Draff) return -1;
                         //Chỉ xóa phiếu tạm
-                        model.InvoiceOutputDetails =
-                            db.Select<InvoiceOutputDetail>(_ => _.InvoiceOutputId == model.Id);
-                        foreach (var item in model.InvoiceOutputDetails)
+                        model.InvoiceOutportDetails =
+                            db.Select<InvoiceOutportDetail>(_ => _.InvoiceOutportId == model.Id);
+                        foreach (var item in model.InvoiceOutportDetails)
                         {
                             db.Delete(item);
                         }
@@ -189,7 +189,7 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
                 {
                     try
                     {
-                        var model = db.Single<InvoiceOutput>(_ => _.Code == invoiceCode);
+                        var model = db.Single<InvoiceOutport>(_ => _.Code == invoiceCode);
                         if (model == null) return -1;
                         if (model.Active == (int)InvoiceStatus.Canceld) return -1;   //Trạng thái phiếu đã hủy - Không update
                         //Chỉ update ngày in với ghi chú - Không update trạng thái
@@ -206,13 +206,13 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
                             //Update Invoice import
                             db.Update(model);
 
-                            //                            model.InvoiceOutputDetails =
-                            //                                db.Select<InvoiceOutput_DETAIL>(_ => _.InvoiceOutputId == model.Id);
+                            //                            model.InvoiceOutportDetails =
+                            //                                db.Select<InvoiceOutport_DETAIL>(_ => _.InvoiceOutportId == model.Id);
 
                             //Update product in store
-                            //                            if (model.InvoiceOutputDetails != null)
+                            //                            if (model.InvoiceOutportDetails != null)
                             //                            {
-                            //                                foreach (var detail in model.InvoiceOutputDetails)
+                            //                                foreach (var detail in model.InvoiceOutportDetails)
                             //                                {
                             //                                    var pro =  db.Single<PRODUCT>(_ => _.ProductCode == detail.ProductCode);
                             //                                    var proDetail =
@@ -289,7 +289,7 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public long UpdateInvoice(InvoiceOutput model)
+        public long UpdateInvoice(InvoiceOutport model)
         {
             using (var db = _connectionFactory.Open())
             {
@@ -301,15 +301,15 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
 
                         db.Update(model);
 
-                        if (model.InvoiceOutputDetails != null)
+                        if (model.InvoiceOutportDetails != null)
                         {
-                            db.Delete<InvoiceOutputDetail>(_ => _.InvoiceOutputId == model.Id);
+                            db.Delete<InvoiceOutportDetail>(_ => _.InvoiceOutportId == model.Id);
 
-                            foreach (var item in model.InvoiceOutputDetails)
+                            foreach (var item in model.InvoiceOutportDetails)
                             {
                                 if (item.DateLimit == DateTime.MinValue)
                                     item.DateLimit = null;
-                                item.InvoiceOutputId = model.Id;
+                                item.InvoiceOutportId = model.Id;
                                  db.Insert(item);
                             }
                         }
@@ -318,13 +318,13 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
                         #region Trạng thái phiếu là hoạt đông - Update thông tin sản phẩm trong kho.  Tạo phiếu chi
 
                         //Update product in store
-                        if (model.Active != null && model.Active == (int)InvoiceStatus.Active && model.InvoiceOutputDetails != null)
+                        if (model.Active != null && model.Active == (int)InvoiceStatus.Active && model.InvoiceOutportDetails != null)
                         {
                             //Create payment invoice
                              db.Insert(model.Payment);
 
                             //Update product and product detail
-                            foreach (var detail in model.InvoiceOutputDetails)
+                            foreach (var detail in model.InvoiceOutportDetails)
                             {
                                 if (model.Type == 1)
                                 {
@@ -389,7 +389,7 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
             }
         }
 
-        public long CreateInvoice(InvoiceOutput model)
+        public long CreateInvoice(InvoiceOutport model)
         {
             using (var db = _connectionFactory.Open())
             {
@@ -401,11 +401,11 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
 
                         var id = (int)db.Insert(model, true);
 
-                        if (model.InvoiceOutputDetails != null)
+                        if (model.InvoiceOutportDetails != null)
                         {
-                            foreach (var item in model.InvoiceOutputDetails)
+                            foreach (var item in model.InvoiceOutportDetails)
                             {
-                                item.InvoiceOutputId = id;
+                                item.InvoiceOutportId = id;
                                 db.Insert(item);
                             }
                         }
@@ -414,55 +414,40 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
 
                         #region Trạng thái phiếu là hoàn thành - Update thông tin sản phẩm trong kho.  Tạo phiếu chi
 
-                        if (model.Active != null && model.Active == (int)InvoiceStatus.Active && model.InvoiceOutputDetails != null)
+                        if (model.Active != null && model.Active == (int)InvoiceStatus.Active && model.InvoiceOutportDetails != null)
                         {
                             db.Insert(model.Payment);
-                            foreach (var detail in model.InvoiceOutputDetails)
+                            foreach (var detail in model.InvoiceOutportDetails)
                             {
-                                if (model.Type == 1)
+                                if (model.Type == 1) // thuê
                                 {
                                     for (var i = 0; i < detail.Quantity; i++)
                                     {
                                         var cate = db.Single<Category>(x => x.Code == detail.CategoryCode);
-                                        var pro = new Product()
-                                        {
-                                            CategoryId = cate.Id,
-                                            ProductCode = detail.CategoryCode,
-                                            ProductName = cate.Name,
-                                            Quantity = 1,
-                                            Inventory = 1,
-                                            PriceInput = detail.Price,
-                                            Status = 1,
-                                            Description = "",
-                                            CreatedBy = model.CreatedBy,
-                                            CreatedDate = DateTime.Now
-                                        };
-                                        db.Insert(pro);
+//                                        var pro
+//                                        db.Update<Product>();
                                     }
                                 }
-                                if (model.Type == 2)
+                                if (model.Type == 2) //bán
                                 {
                                     var cate = db.Single<Category>(x => x.Code == detail.CategoryCode);
                                     var cateDetail = db.Single<CategoryDetail>(_ => _.CategoryId == cate.Id);
 
                                     if (cateDetail != null)
                                     {
-                                        cateDetail.PriceInput = detail.Price;
-                                        cateDetail.Quantity = cateDetail.Quantity + detail.Quantity;
-                                        cateDetail.UpdatedBy = model.CreatedBy;
-                                        cateDetail.UpdatedDate = DateTime.Now;
-                                        db.Update(cateDetail);
-                                    }
-                                    else
-                                    {
-                                        cateDetail = new CategoryDetail()
+                                        if (cateDetail.Quantity > detail.Quantity)
                                         {
-                                            CategoryId = cate.Id,
-                                            Quantity = detail.Quantity,
-                                            CreatedBy = model.CreatedBy,
-                                            CreatedDate = DateTime.Now
-                                        };
-                                        db.Insert(cateDetail);
+                                            cateDetail.Quantity = cateDetail.Quantity - detail.Quantity;
+                                            cateDetail.UpdatedBy = model.CreatedBy;
+                                            cateDetail.UpdatedDate = DateTime.Now;
+                                            db.Update(cateDetail);
+                                        }
+                                        else
+                                        {
+                                            // ko đủ số lượng
+                                            return 3;
+                                        }
+                                        
                                     }
                                 }
                             }
@@ -483,7 +468,7 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
             }
         }
 
-        public long Import(InvoiceOutput model)
+        public long Import(InvoiceOutport model)
         {
             using (var db = _connectionFactory.Open())
             {
@@ -492,13 +477,13 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
                     //                        #region Tạo thông tin phiếu nhập
                     //                        var id =  db.Insert(model, true);
                     //
-                    //                        if (model.InvoiceOutputDetails != null)
+                    //                        if (model.InvoiceOutportDetails != null)
                     //                        {
-                    //                            foreach (var item in model.InvoiceOutputDetails)
+                    //                            foreach (var item in model.InvoiceOutportDetails)
                     //                            {
                     //                                if (item.DateLimit == DateTime.MinValue)
                     //                                    item.DateLimit = null;
-                    //                                item.InvoiceOutputId = id;
+                    //                                item.InvoiceOutportId = id;
                     //
                     //                                 db.Insert(item);
                     //                            }
@@ -508,13 +493,13 @@ namespace webNews.Domain.Repositories.InvoiceOutputManagement
                     //                        #region Trạng thái phiếu là hoạt đông - Update thông tin sản phẩm trong kho.  Tạo phiếu chi
                     //
                     //                        //Update product in store
-                    //                        if (model.Active != null && model.Active == (int)InvoiceStatus.Active && model.InvoiceOutputDetails != null)
+                    //                        if (model.Active != null && model.Active == (int)InvoiceStatus.Active && model.InvoiceOutportDetails != null)
                     //                        {
                     //                            //Create payment invoice
                     //                             db.Insert(model.Payment);
                     //
                     //                            //Update product and product detail
-                    //                            foreach (var detail in model.InvoiceOutputDetails)
+                    //                            foreach (var detail in model.InvoiceOutportDetails)
                     //                            {
                     //                                var pro =  db.Single<PRODUCT>(_ => _.ProductCode == detail.ProductCode);
                     //                                var pro_detail =  db.Single<PRODUCT_DETAIL>(_ => _.ProductCode == detail.ProductCode && _.BranchCode == model.BranchCode && _.StoreId == model.StoreId);

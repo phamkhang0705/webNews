@@ -127,10 +127,13 @@
     <Compile Include="InvoiceImportDetail.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
-    <Compile Include="InvoiceOutput.cs">
+    <Compile Include="InvoiceOutport.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
-    <Compile Include="InvoiceOutputDetail.cs">
+    <Compile Include="InvoiceOutportDetail.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvoiceType.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Language.cs">
@@ -198,8 +201,8 @@
     <Compile Include="Repositories\CategoryDetailManagement\ICategoryDetailManagementRepository.cs" />
     <Compile Include="Repositories\CategoryManagement\CategoryManagementRepository.cs" />
     <Compile Include="Repositories\CategoryManagement\ICategoryManagementRepository.cs" />
-    <Compile Include="Repositories\InvoiceOutputManagement\IInvoiceOutputRepository.cs" />
-    <Compile Include="Repositories\InvoiceOutputManagement\InvoiceOutputRepository.cs" />
+    <Compile Include="Repositories\InvoiceOutportManagement\IInvoiceOutputRepository.cs" />
+    <Compile Include="Repositories\InvoiceOutportManagement\InvoiceOutputRepository.cs" />
     <Compile Include="Repositories\PaymentVoucherManagement\IPaymentVoucherRepository.cs" />
     <Compile Include="Repositories\PaymentVoucherManagement\PaymentVoucherRepository.cs" />
     <Compile Include="Repositories\InvoiceImportManagement\IInvoiceImportRepository.cs" />
@@ -261,8 +264,8 @@
     </Compile>
     <Compile Include="Services\CategoryDetailManagement\CategoryDetailManagementService.cs" />
     <Compile Include="Services\CategoryDetailManagement\ICategoryDetailManagementService.cs" />
-    <Compile Include="Services\InvoiceOutputManagement\IInvoiceOutputService.cs" />
-    <Compile Include="Services\InvoiceOutputManagement\InvoiceOutputService.cs" />
+    <Compile Include="Services\InvoiceOutportManagement\IInvoiceOutputService.cs" />
+    <Compile Include="Services\InvoiceOutportManagement\InvoiceOutputService.cs" />
     <Compile Include="Services\PaymentVoucherManagement\IPaymentVoucherService.cs" />
     <Compile Include="Services\PaymentVoucherManagement\PaymentVoucherService.cs" />
     <Compile Include="Services\InvoiceImportManagement\IInvoiceImportService.cs" />
@@ -315,6 +318,9 @@
     <Compile Include="Vw_CategoryPrice.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Vw_Category_Sale.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="Vw_Core_User.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
@@ -327,10 +333,10 @@
     <Compile Include="Vw_InvoiceImport_Detail.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
-    <Compile Include="Vw_InvoiceOutput.cs">
+    <Compile Include="Vw_InvoiceOutport.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
-    <Compile Include="Vw_InvoiceOutput_Detail.cs">
+    <Compile Include="Vw_InvoiceOutport_Detail.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Vw_PaymentVoucher.cs">

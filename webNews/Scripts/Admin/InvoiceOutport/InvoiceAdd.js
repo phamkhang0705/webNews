@@ -89,13 +89,13 @@ var Unit = function () {
                 valign: "middle"
             }),
             Sv.BootstrapTableColumn("string", {
-                title: 'Đơn giá',
-                field: 'PriceInput',
+                title: 'Giá',
+                field: 'Price',
                 align: "center",
                 valign: "middle",
                 formatter: function (value, row, index) {
                     var html = "";
-                    html = '<input class="form-control inputChange inputPrice" name="inputPrice" id="inputPrice' + row.Code + '" style="text-align: right;" value="' + row.PriceInput + '"/>';
+                    html = '<input class="form-control inputChange inputPrice" name="inputPrice" id="inputPrice' + row.Code + '" style="text-align: right;" value="' + row.Price + '"/>';
                     return html;
                 },
                 events: {
@@ -104,8 +104,8 @@ var Unit = function () {
                             return p.Code === row.Code;
                         });
                         if (pro != null && pro.length > 0) {
-                            pro[0].PriceInput = Sv.round($("#inputPrice" + row.Code).val());
-                            pro[0].TotalMoney = Sv.round(pro[0].PriceInput * pro[0].Quantity);
+                            pro[0].Price = Sv.round($("#inputPrice" + row.Code).val());
+                            pro[0].TotalMoney = Sv.round(pro[0].Price * pro[0].Quantity);
                             recaculateInvoice();
                             $("#totalMoney" + row.Code).html(Sv.FormatMoney(pro[0].TotalMoney));
                         }
@@ -129,7 +129,7 @@ var Unit = function () {
                         });
                         if (pro != null && pro.length > 0) {
                             pro[0].Quantity = Sv.round($("#inputQuantity" + row.Code).val());
-                            pro[0].TotalMoney = Sv.round(pro[0].PriceInput * pro[0].Quantity);
+                            pro[0].TotalMoney = Sv.round(pro[0].Price * pro[0].Quantity);
                             recaculateInvoice();
                             $("#totalMoney" + row.Code).html(Sv.FormatMoney(pro[0].TotalMoney));
                         }
@@ -142,7 +142,7 @@ var Unit = function () {
                 align: "center",
                 valign: "middle",
                 formatter: function (value, item) {
-                    var price = (item.PriceInput != null && item.PriceInput != undefined) ? item.PriceInput : 0;
+                    var price = (item.Price != null && item.Price != undefined) ? item.Price : 0;
                     var quantity = (item.Quantity != null && item.Quantity != undefined) ? item.Quantity : 0;
                     var html = '<span id="totalMoney' + item.Code + '">' + Sv.FormatMoney(Sv.round(price * quantity)) + '</span>';
                     return html;
@@ -200,8 +200,7 @@ var Unit = function () {
         data.SumMoney = totalSalePrice;
         data.PaidMoney = $("#txtPayMoney").val();
         data.RemainMoney = Sv.round(data.SumMoney - data.PaidMoney);
-        data.AddTosupplier = $("#chkAddTosupplier").is(':checked');
-        data.SupplierCode = $("#txtSupplierCode").val();
+        data.CustomerCode = $("#txtCustomerCode").val();
         data.BankCode = $("#txtBankAccount").val();
         data.Code = $("#txtImportCode").val();
         data.CreateDate = $("#txtCreatedDate").val();
@@ -215,29 +214,29 @@ var Unit = function () {
     //-- them sua xoa
     this.SubmitServer = function (action, id) {
         var $form = $("#formDetail").on();
-        var url = "/InvoiceOutput/Create";
+        var url = "/InvoiceOutport/Create";
         if (action == "Edit") {
-            url = "/InvoiceOutput/Update";
+            url = "/InvoiceOutport/Update";
         }
 
         if (action == "Complete" && !isReopen) {
-            url = "/InvoiceOutput/Create";
+            url = "/InvoiceOutport/Create";
             active = 1;
         }
         if (action == "Complete" && isReopen) {
-            url = "/InvoiceOutput/Open";
+            url = "/InvoiceOutport/Open";
             active = 1;
         }
 
         if (action == "SaveTemp") {
-            url = "/InvoiceOutput/Create";
+            url = "/InvoiceOutport/Create";
             active = 0;
         }
         if (categorySelect.length < 1) {
             Dialog.Alert("Bạn chưa chọn sản phẩm", Dialog.Error);
             return;
         }
-        else if ($("#txtSupplierCode").val() == "" || $("#txtSupplierCode").val() == null) {
+        else if ($("#txtCustomerCode").val() == "" || $("#txtCustomerCode").val() == null) {
             Dialog.Alert("Bạn chưa chọn nhà cung cấp", Dialog.Error);
             return;
         }
@@ -266,7 +265,7 @@ var Unit = function () {
         if (categorySelect.length < 1) {
             Dialog.Alert("Bạn chưa chọn sản phẩm", Dialog.Error);
         }
-        else if ($("#txtSupplierCode").val() == "" || $("#txtSupplierCode").val() == null) {
+        else if ($("#txtCustomerCode").val() == "" || $("#txtCustomerCode").val() == null) {
             Dialog.Alert("Bạn chưa chọn nhà cung cấp", Dialog.Error);
         }
         return true;
@@ -305,7 +304,7 @@ $(document).ready(function () {
     if (params.code != null && params.code != undefined) {
         $("#txtImportCode").attr("disabled", "disabled");
         Sv.AjaxPost({
-            Url: "/InvoiceOutput/GetInvoice",
+            Url: "/InvoiceOutport/GetInvoice",
             Data: { code: params.code }
         },
         function (data) {
@@ -316,10 +315,10 @@ $(document).ready(function () {
                 }
                 console.log(data);
                 $(".btnTempSave").attr("disabled", "disabled");
-                $("#selectedSupplier").show();
+                $("#selectedCustomer").show();
                 //Set data form
-                $("#txtSupplierCode").val(data.SupplierCode);
-                $("#txtSupplierName").html(data.SupplierName);
+                $("#txtCustomerCode").val(data.CustomerCode);
+                $("#txtCustomerName").html(data.CustomerName);
 
                 $("#txtImportCode").val(data.Code);
                 $("#txtTotalQuantity").val(data.TotalQuantity);
@@ -342,14 +341,14 @@ $(document).ready(function () {
                 $("#txtBankAccount").val(data.BankAccount);
                 Sv.SetupDateAndSetDefault($('#divCreatedDate'), data.CreatedDate);
                 $("#txtNote").val(data.Note);
-                if (data.InvoiceOutputDetails != null && data.InvoiceOutputDetails != undefined) {
-                    for (var i = 0; i < data.InvoiceOutputDetails.length; i++) {
+                if (data.InvoiceOutportDetails != null && data.InvoiceOutportDetails != undefined) {
+                    for (var i = 0; i < data.InvoiceOutportDetails.length; i++) {
                         var pro = {};
-                        pro.Code = data.InvoiceOutputDetails[i].CategoryCode;
-                        pro.Name = data.InvoiceOutputDetails[i].Name;
-                        pro.PriceInput = data.InvoiceOutputDetails[i].Price;
-                        pro.Quantity = data.InvoiceOutputDetails[i].Quantity;
-                        pro.TotalMoney = data.InvoiceOutputDetails[i].TotalMoney;
+                        pro.Code = data.InvoiceOutportDetails[i].CategoryCode;
+                        pro.Name = data.InvoiceOutportDetails[i].Name;
+                        pro.Price = data.InvoiceOutportDetails[i].Price;
+                        pro.Quantity = data.InvoiceOutportDetails[i].Quantity;
+                        pro.TotalMoney = data.InvoiceOutportDetails[i].TotalMoney;
                         categorySelect.push(pro);
                     }
                 }
@@ -372,7 +371,7 @@ $(document).ready(function () {
         minLength: 0,
         source: function (request, response) {
             $.ajax({
-                url: "/InvoiceOutput/GetCategoryData",
+                url: "/InvoiceOutport/GetCategoryData",
                 type: "POST",
                 dataType: "json",
                 data: { categoryName: $("#txtSearchCategory").val() },
@@ -402,8 +401,8 @@ $(document).ready(function () {
             var tmp = JSON.parse(JSON.stringify(ui.item));
             var store = $('#txtType').val();
             tmp.Quantity = 1;
-            tmp.PriceInput = store === "1" ? 0 : parseFloat(tmp.PriceInput);
-            tmp.TotalMoney = tmp.PriceInput * tmp.Quantity;
+            tmp.Price = store === "1" ? 0 : parseFloat(tmp.Price);
+            tmp.TotalMoney = tmp.Price * tmp.Quantity;
 
             var check = categorySelect.filter(function (p) {
                 return p.Code === tmp.Code;
@@ -431,14 +430,14 @@ $(document).ready(function () {
                 .appendTo(ul);
         };
 
-    $("#supplierSelect").autocomplete({
+    $("#customerSelect").autocomplete({
         minLength: 0,
         source: function (request, response) {
             $.ajax({
-                url: "/InvoiceOutput/GetSupplierData",
+                url: "/InvoiceOutport/GetCustomerData",
                 type: "POST",
                 dataType: "json",
-                data: { supplierName: $("#supplierSelect").val() },
+                data: { customerName: $("#customerSelect").val() },
                 success: function (data) {
                     response($.map(data,
                         function (item) {
@@ -457,13 +456,13 @@ $(document).ready(function () {
             }
         },
         focus: function (event, ui) {
-            $("#supplierSelect").val(ui.item.CustomerName);
+            $("#customerSelect").val(ui.item.CustomerName);
             return false;
         },
         select: function (event, ui) {
-            $("#txtSupplierCode").val(ui.item.CustomerCode);
-            $("#txtSupplierName").html(ui.item.CustomerName);
-            $("#selectedSupplier").show();
+            $("#txtCustomerCode").val(ui.item.CustomerCode);
+            $("#txtCustomerName").html(ui.item.CustomerName);
+            $("#selectedCustomer").show();
             return false;
         }
     })
@@ -521,12 +520,12 @@ $(document).ready(function () {
     $("#txtSearchCategory").focusout(function () {
         $("#txtSearchCategory").val("");
     });
-    $("#supplierSelect").focusout(function () {
-        $("#supplierSelect").val("");
+    $("#customerSelect").focusout(function () {
+        $("#customerSelect").val("");
     });
-    $("#btnAddsupplier").click(function () {
+    $("#btnAddCustomer").click(function () {
         Sv.ChecPermission("View", function () {
-            var url = "/Admin/supplier/ShowModal";
+            var url = "/Admin/CustomerManagement/ShowModal";
             var model = {
                 id: 0, action: "Add"
             };
@@ -537,10 +536,10 @@ $(document).ready(function () {
         });
     });
 
-    $("#deletesupplier").click(function () {
-        $("#txtSupplierCode").val("");
-        $("#txtsupplierName").val("");
-        $("#selectedsupplier").hide();
+    $("#deleteCustomer").click(function () {
+        $("#txtCustomerCode").val("");
+        $("#txtCustomerName").val("");
+        $("#selectedCustomer").hide();
     });
 
     //Shortcut event
@@ -564,6 +563,110 @@ $(document).ready(function () {
         unit.SubmitServer("SaveTemp", 0);
     });
     unit.$btnBack.click(function () {
-        window.location.href = "/Admin/InvoiceOutput";
+        window.location.href = "/Admin/InvoiceOutport";
+    });
+
+    //Add customer
+    var Customer = function () {
+        this.GetFormData = function () {
+            var formData = $('#formDetail').serialize();
+            formData += "&CustomerCode=" + $('#formDetail #txtCustomerCode').val();
+            return formData;
+        }
+
+        this.reloadDataProvider = function () {
+
+        };
+
+        //-- them sua xoa
+        this.SubmitServer = function (action, id) {
+            var $form = $("#formDetail").on();
+            var _this = this;
+
+            if ($form.valid(true)) {
+                Sv.Loading();
+                Sv.AjaxPost({
+                    Url: "/CustomerManagement/Create",
+                    Data: this.GetFormData()
+                },
+                    function (rs) {
+                        Sv.EndLoading();
+                        if (rs.Status == "01") {
+                            Dialog.Alert(rs.Message, Dialog.Success);
+                            unit.$boxDetails.find("#modalDetails").modal("hide");
+                            _this.reloadDataProvider();
+                        } else {
+                            Dialog.Alert(rs.Message, Dialog.Error);
+                        }
+                    },
+                    function () {
+                        Sv.EndLoading();
+                        Dialog.Alert("Lỗi server", Dialog.Error);
+                    });
+            }
+        }
+        this.GetDistrictByProvinceId = function (provinceId, districtId, controlSelect, optionAll) {
+            Sv.AjaxPost({
+                Url: '/CustomerManagement/GetDistrictByProvinceId',
+                Data: {
+                    provinceId: provinceId
+                }
+            }, function (response) {
+                var val = $(controlSelect).val();
+                var selected = '';
+                $(controlSelect).empty();
+                if (optionAll)
+                    $(controlSelect).append('<option value="-1">Tất cả</option>');
+                if (!$.isEmptyObject(response))
+                    $.each(response, function (key, value) {
+                        selected = districtId === value.Id ? "selected" : "";
+                        $(controlSelect).append('<option value="' + value.Id + '"' + selected + '>' + value.name + '</option>');
+                    });
+            },
+            function (error) {
+                Dialog.Alert('Tải quận huyện thất bại', Dialog.Error);
+            });
+        }
+
+        this.GetWardByDistrictId = function (districtId, wardId, controlSelect, optionAll) {
+            Sv.AjaxPost({
+                Url: '/CustomerManagement/GetWardByDistrictId',
+                Data: {
+                    districtId: districtId
+                }
+            }, function (response) {
+                var val = $(controlSelect).val();
+                var selected = '';
+                $(controlSelect).empty();
+                if (optionAll)
+                    $(controlSelect).append('<option value="-1">Tất cả</option>');
+                if (!$.isEmptyObject(response))
+                    $.each(response, function (key, value) {
+                        selected = wardId === value.Id ? "selected" : "";
+                        $(controlSelect).append('<option value="' + value.Id + '"' + selected + '>' + value.name + '</option>');
+                    });
+            },
+            function (error) {
+                Dialog.Alert('Tải phường/xã thất bại', Dialog.Error);
+            });
+        }
+    }
+
+    var customer = new Customer();
+
+    unit.$boxDetails.on('change', '#txtProvinceId', function (e) {
+        e.preventDefault();
+        var provinceId = $('#txtProvinceId').val();
+        customer.GetDistrictByProvinceId(provinceId, null, '#txtDistrictId', true);
+    });
+
+    unit.$boxDetails.on('change', '#txtDistrictId', function (e) {
+        e.preventDefault();
+        var districtId = $('#txtDistrictId').val();
+        customer.GetWardByDistrictId(districtId, null, '#txtWardId', true);
+    });
+    unit.$boxDetails.on('click', 'button#btnAdd', function (e) {
+        e.preventDefault();
+        customer.SubmitServer("Add", 0);
     });
 });

@@ -10,7 +10,7 @@ using webNews.Domain.Repositories.FileAttachManagement;
 using webNews.Domain.Repositories.GroupCategoryManagement;
 using webNews.Domain.Repositories.GroupManagement;
 using webNews.Domain.Repositories.InvoiceImportManagement;
-using webNews.Domain.Repositories.InvoiceOutputManagement;
+using webNews.Domain.Repositories.InvoiceOutportManagement;
 using webNews.Domain.Repositories.OrderTypeManagement;
 using webNews.Domain.Repositories.PaymentVoucherManagement;
 using webNews.Domain.Repositories.ProductManagement;
@@ -26,7 +26,7 @@ using webNews.Domain.Services.CustomerManagement;
 using webNews.Domain.Services.FileAttachManagement;
 using webNews.Domain.Services.GroupManagement;
 using webNews.Domain.Services.InvoiceImportManagement;
-using webNews.Domain.Services.InvoiceOutputManagement;
+using webNews.Domain.Services.InvoiceOutportManagement;
 using webNews.Domain.Services.OrderTypeManagement;
 using webNews.Domain.Services.PaymentVoucherManagement;
 using webNews.Domain.Services.PriceManagement;
@@ -98,8 +98,8 @@ namespace webNews.Domain
             builder.RegisterType<PaymentVoucherRepository>().As<IPaymentVoucherRepository>();
             builder.RegisterType<PaymentVoucherService>().As<IPaymentVoucherService>();
 
-            builder.RegisterType<InvoiceOutputRepository>().As<IInvoiceOutputRepository>();
-            builder.RegisterType<InvoiceOutputService>().As<IInvoiceOutputService>();
+            builder.RegisterType<InvoiceOutportRepository>().As<IInvoiceOutportRepository>();
+            builder.RegisterType<InvoiceOutportService>().As<IInvoiceOutportService>();
 
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerDependency();
             builder.RegisterGeneric(typeof(Service<>)).As(typeof(IService<>)).InstancePerDependency();

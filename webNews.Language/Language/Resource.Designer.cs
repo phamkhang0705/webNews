@@ -250,6 +250,15 @@ namespace webNews.Language.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chọn khách hàng.
+        /// </summary>
+        public static string ChooseCustomer_Lang {
+            get {
+                return ResourceManager.GetString("ChooseCustomer_Lang", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Chọn danh mục(F2).
         /// </summary>
         public static string ChooseProduct_Lang {

@@ -303,6 +303,7 @@ namespace webNews.Domain.Repositories
                         code.Customer = 1;
                         code.Supplier = 1;
                         code.InvoiceImport = 1;
+                        code.InvoiceOutport = 1;
                         code.Date = dateTime;
                     }
 
@@ -323,6 +324,10 @@ namespace webNews.Domain.Repositories
                             case ObjectType.InvoiceImport:
                                 id = code.InvoiceImport++;
                                 name = PrefixType.InvoiceImport + dateTime;
+                                break;
+                            case ObjectType.InvoiceOutport:
+                                id = code.InvoiceOutport++;
+                                name = PrefixType.InvoiceOutport + dateTime;
                                 break;
                             case ObjectType.ReceiveVoucher:
                                 id = code.ReceiveVoucher++;
@@ -586,5 +591,24 @@ namespace webNews.Domain.Repositories
                 return new List<Bank>();
             }
         }
+
+        public List<InvoiceType> GetTypes(int status = 1)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<InvoiceType>().Where(x => x.Status == status);
+                    return db.Select(query);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info("Get InvoiceType error", ex, ex.Message, ex.StackTrace);
+
+                return new List<InvoiceType>();
+            }
+        }
+
     }
 }

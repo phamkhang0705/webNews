@@ -14,12 +14,12 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("Vw_InvoiceOutput_Detail")]
-    public partial class Vw_InvoiceOutput_Detail 
+	[Alias("Vw_InvoiceOutport_Detail")]
+    public partial class Vw_InvoiceOutport_Detail 
     {
         [Required]
         public int Id { get; set; }
-        public int? InvoiceOutputId { get; set; }
+        public int? InvoiceOutportId { get; set; }
         public string CategoryCode { get; set; }
         public string Name { get; set; }
         public int? Quantity { get; set; }

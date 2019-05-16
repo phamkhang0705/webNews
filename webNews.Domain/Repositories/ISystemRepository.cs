@@ -39,5 +39,7 @@ namespace webNews.Domain.Repositories
         List<Ward> GetWards(string wardId);
 
         List<Bank> GetBanks(int status = 1);
+        List<InvoiceType> GetTypes(int status = 1);
     }
+
 }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace webNews.Domain.Entities
 {
-    public partial class InvoiceOutput
+    public partial class InvoiceOutport
     {
         [Reference]
-        public List<InvoiceOutputDetail> InvoiceOutputDetails { get; set; }
+        public List<InvoiceOutportDetail> InvoiceOutportDetails { get; set; }
 
         [Reference]
         public Payment Payment { get; set; }

@@ -4,20 +4,20 @@ using System;
 using System.Collections.Generic;
 using webNews.Domain.Entities;
 using webNews.Domain.Repositories;
-using webNews.Domain.Repositories.InvoiceOutputManagement;
+using webNews.Domain.Repositories.InvoiceOutportManagement;
 using webNews.Models;
 using webNews.Models.Common;
-using webNews.Models.InvoiceOutputManagement;
+using webNews.Models.InvoiceOutportManagement;
 
-namespace webNews.Domain.Services.InvoiceOutputManagement
+namespace webNews.Domain.Services.InvoiceOutportManagement
 {
-    public class InvoiceOutputService : Service<InvoiceOutput>, IInvoiceOutputService
+    public class InvoiceOutportService : Service<InvoiceOutport>, IInvoiceOutportService
     {
         private readonly ISystemRepository _systemRepository;
-        private readonly IInvoiceOutputRepository _importRepository;
+        private readonly IInvoiceOutportRepository _importRepository;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public InvoiceOutputService(IInvoiceOutputRepository importRepository, ISystemRepository systemRepository, IRepository<InvoiceOutput> repository) : base(repository)
+        public InvoiceOutportService(IInvoiceOutportRepository importRepository, ISystemRepository systemRepository, IRepository<InvoiceOutport> repository) : base(repository)
         {
             _importRepository = importRepository;
             _systemRepository = systemRepository;
@@ -33,7 +33,7 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                     return new CoreMessageResponse
                     {
                         ResponseCode = "01",
-                        ResponseMessage = "Hủy phiếu nhập thành công"
+                        ResponseMessage = "Hủy phiếu xuất thành công"
                     };
                 }
                 else
@@ -41,7 +41,7 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                     return new CoreMessageResponse
                     {
                         ResponseCode = "00",
-                        ResponseMessage = "Hủy phiếu nhập thất bại"
+                        ResponseMessage = "Hủy phiếu xuất thất bại"
                     };
                 }
             }
@@ -51,7 +51,7 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                 return new CoreMessageResponse
                 {
                     ResponseCode = "00",
-                    ResponseMessage = "Hủy phiếu nhập thất bại"
+                    ResponseMessage = "Hủy phiếu xuất thất bại"
                 };
             }
         }
@@ -66,7 +66,7 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                     return new CoreMessageResponse
                     {
                         ResponseCode = "01",
-                        ResponseMessage = "Xóa phiếu nhập thành công"
+                        ResponseMessage = "Xóa phiếu xuất thành công"
                     };
                 }
                 else
@@ -74,7 +74,7 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                     return new CoreMessageResponse
                     {
                         ResponseCode = "00",
-                        ResponseMessage = "Xóa phiếu nhập thất bại"
+                        ResponseMessage = "Xóa phiếu xuất thất bại"
                     };
                 }
             }
@@ -84,7 +84,7 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                 return new CoreMessageResponse
                 {
                     ResponseCode = "00",
-                    ResponseMessage = "Xóa phiếu nhập thất bại"
+                    ResponseMessage = "Xóa phiếu xuất thất bại"
                 };
             }
         }
@@ -99,7 +99,7 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                     return new CoreMessageResponse
                     {
                         ResponseCode = "01",
-                        ResponseMessage = "Cập nhật phiếu nhập thành công"
+                        ResponseMessage = "Cập nhật phiếu xuất thành công"
                     };
                 }
                 else
@@ -107,7 +107,7 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                     return new CoreMessageResponse
                     {
                         ResponseCode = "00",
-                        ResponseMessage = "Cập nhật phiếu nhập thất bại"
+                        ResponseMessage = "Cập nhật phiếu xuất thất bại"
                     };
                 }
             }
@@ -117,12 +117,12 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                 return new CoreMessageResponse
                 {
                     ResponseCode = "00",
-                    ResponseMessage = "Cập nhật phiếu nhập thất bại"
+                    ResponseMessage = "Cập nhật phiếu xuất thất bại"
                 };
             }
         }
 
-        public CoreMessageResponse UpdateInvoice(InvoiceOutputModel model)
+        public CoreMessageResponse UpdateInvoice(InvoiceOutportModel model)
         {
             try
             {
@@ -136,8 +136,8 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                         ResponseMessage = "Cập nhật lỗi!"
                     };
                 }
-                //Insert InvoiceOutput
-                invoice.SupplierCode = model.SupplierCode;
+                //Insert InvoiceOutport
+                invoice.CustomerCode = model.CustomerCode;
                 invoice.TotalQuantity = model.TotalQuantity;
                 invoice.TotalMoney = model.TotalMoney;
                 invoice.DiscountType = model.DiscountType;
@@ -154,33 +154,33 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                 invoice.IsComplete = model.SumMoney - model.PaidMoney <= 0;
                 invoice.Active = model.Active;
                 invoice.Note = model.Note;
-                invoice.InvoiceOutputDetails = new List<InvoiceOutputDetail>();
+                invoice.InvoiceOutportDetails = new List<InvoiceOutportDetail>();
                 if (model.CategoryItems != null)
                 {
                     foreach (var item in model.CategoryItems)
                     {
-                        var invoiceDetail = new InvoiceOutputDetail()
+                        var invoiceDetail = new InvoiceOutportDetail()
                         {
                             CategoryCode = item.Code,
                             Quantity = item.Quantity,
-                            Price = item.PriceInput,
+                            Price = item.Price,
                             TotalMoney = item.TotalMoney,
                             DateLimit = item.DateLimit
                         };
-                        invoice.InvoiceOutputDetails.Add(invoiceDetail);
+                        invoice.InvoiceOutportDetails.Add(invoiceDetail);
                     }
                 }
 
                 invoice.Payment = new Payment()
                 {
-                    PaymentCode = _systemRepository.CodeGen(ObjectType.PaymentVoucher, PrefixType.PaymentVoucher),
+                    PaymentCode = _systemRepository.CodeGen(ObjectType.ReceiveVoucher, PrefixType.ReceiveVoucher),
                     UserName = model.UserName,
                     CreatedDate = model.CreatedDate,
                     PaymentMethod = model.PayMethod,
                     Description = model.Note,
                     TotalMoney = model.PaidMoney,
-                    PersonType = (int)PersonType.Provider,
-                    Payments_Person = model.SupplierCode,
+                    PersonType = (int)PersonType.Customer,
+                    Payments_Person = model.CustomerCode,
                     BankCode = model.BankCode,
                     Status = model.Active,
                     InvoiceCode = invoice.Code,
@@ -194,7 +194,7 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                     return new CoreMessageResponse
                     {
                         ResponseCode = "01",
-                        ResponseMessage = "Thêm phiếu nhập thành công!"
+                        ResponseMessage = "Thêm phiếu xuất thành công!"
                     };
                 }
                 else
@@ -217,16 +217,16 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
             }
         }
 
-        public CoreMessageResponse CustomCreate(InvoiceOutputModel model)
+        public CoreMessageResponse CustomCreate(InvoiceOutportModel model)
         {
             try
             {
-                var code = string.IsNullOrEmpty(model.Code) ? _systemRepository.CodeGen(ObjectType.InvoiceOutput, PrefixType.InvoiceOutput) : model.Code;
-                //Insert InvoiceOutput
-                var invoice = new InvoiceOutput
+                var code = string.IsNullOrEmpty(model.Code) ? _systemRepository.CodeGen(ObjectType.InvoiceOutport, PrefixType.InvoiceOutport) : model.Code;
+                //Insert InvoiceOutport
+                var invoice = new InvoiceOutport
                 {
                     Code = code,
-                    SupplierCode = model.SupplierCode,
+                    CustomerCode = model.CustomerCode,
                     TotalQuantity = model.TotalQuantity,
                     TotalMoney = model.TotalMoney,
                     DiscountType = model.DiscountType,
@@ -244,35 +244,35 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                     Active = model.Active,
                     Note = model.Note,
                     Type = model.Type,
-                    InvoiceOutputDetails = new List<InvoiceOutputDetail>()
+                    InvoiceOutportDetails = new List<InvoiceOutportDetail>()
                 };
                 invoice.Date = invoice.Date == DateTime.MinValue ? DateTime.Now : invoice.Date;
                 if (model.CategoryItems != null)
                 {
-                    //Insert InvoiceOutputDetail
+                    //Insert InvoiceOutportDetail
                     foreach (var item in model.CategoryItems)
                     {
-                        var invoiceDetail = new InvoiceOutputDetail()
+                        var invoiceDetail = new InvoiceOutportDetail()
                         {
                             CategoryCode = item.Code,
                             Quantity = item.Quantity,
-                            Price = item.PriceInput,
+                            Price = item.Price,
                             TotalMoney = item.TotalMoney,
                         };
-                        invoice.InvoiceOutputDetails.Add(invoiceDetail);
+                        invoice.InvoiceOutportDetails.Add(invoiceDetail);
                     }
                 }
 
                 invoice.Payment = new Payment()
                 {
-                    PaymentCode = _systemRepository.CodeGen(ObjectType.PaymentVoucher, PrefixType.PaymentVoucher),
+                    PaymentCode = _systemRepository.CodeGen(ObjectType.ReceiveVoucher, PrefixType.ReceiveVoucher),
                     UserName = model.UserName,
                     CreatedDate = DateTime.Now,
                     PaymentMethod = model.PayMethod,
                     Description = model.Note,
                     TotalMoney = model.PaidMoney,
-                    PersonType = (int)PersonType.Provider,
-                    Payments_Person = model.SupplierCode,
+                    PersonType = (int)PersonType.Customer,
+                    Payments_Person = model.CustomerCode,
                     BankCode = model.BankCode,
                     Status = model.Active,
                     InvoiceCode = invoice.Code,
@@ -284,10 +284,18 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                 var res = _importRepository.CreateInvoice(invoice);
                 if (res > 0)
                 {
+                    if (res == 3)
+                    {
+                        return new CoreMessageResponse
+                        {
+                            ResponseCode = "00",
+                            ResponseMessage = "Không đủ số lượng trong kho!"
+                        };
+                    }
                     return new CoreMessageResponse
                     {
                         ResponseCode = "01",
-                        ResponseMessage = "Thêm phiếu nhập thành công!"
+                        ResponseMessage = "Thêm phiếu xuất thành công!"
                     };
                 }
                 else
@@ -310,7 +318,7 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
             }
         }
 
-        public bool Import(List<InvoiceOutputModel> model)
+        public bool Import(List<InvoiceOutportModel> model)
         {
             var result = false;
             try
@@ -320,9 +328,9 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                 //{
                 //                foreach (var item in model)
                 //                {
-                //                    var code = string.IsNullOrEmpty(item.Code) ? _systemRepository.CodeGen(ObjectType.InvoiceOutput, PrefixType.InvoiceOutput) : item.Code;
-                //                    //Insert InvoiceOutput
-                //                    var invoice = new InvoiceOutput
+                //                    var code = string.IsNullOrEmpty(item.Code) ? _systemRepository.CodeGen(ObjectType.InvoiceOutport, PrefixType.InvoiceOutport) : item.Code;
+                //                    //Insert InvoiceOutport
+                //                    var invoice = new InvoiceOutport
                 //                    {
                 //                        Code = code,
                 //                        ProviderCode = item.ProviderCode,
@@ -347,15 +355,15 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                 //                        Note = item.Note,
                 //                        Domain = item.Domain,
                 //                        Type = item.Type,
-                //                        InvoiceOutputDetails = new List<InvoiceOutput_DETAIL>()
+                //                        InvoiceOutportDetails = new List<InvoiceOutport_DETAIL>()
                 //                    };
                 //                    invoice.Date = invoice.Date == DateTime.MinValue ? DateTime.Now : invoice.Date;
                 //                    if (item.ProductItems != null)
                 //                    {
-                //                        //Insert InvoiceOutputDetail
+                //                        //Insert InvoiceOutportDetail
                 //                        foreach (var it in item.ProductItems)
                 //                        {
-                //                            var invoiceDetail = new InvoiceOutput_DETAIL
+                //                            var invoiceDetail = new InvoiceOutport_DETAIL
                 //                            {
                 //                                ProductCode = it.ProductCode,
                 //                                Quantity = it.Quantity,
@@ -365,7 +373,7 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                 //                                Domain = item.Domain
                 //                            };
                 //
-                //                            invoice.InvoiceOutputDetails.Add(invoiceDetail);
+                //                            invoice.InvoiceOutportDetails.Add(invoiceDetail);
                 //                        }
                 //                    }
                 //
@@ -388,7 +396,7 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
                 //                        RemainMonney = item.RemainMoney,
                 //                        Payments_Type = false
                 //                    };
-                var invoice = new InvoiceOutput();
+                var invoice = new InvoiceOutport();
                 var res = _importRepository.CreateInvoice(invoice);
                 if (res > 0)
                 {
@@ -422,16 +430,17 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
         //            return  _systemRepository.Paging(query, pageIndex, pageSize);
         //        }
 
-        public Vw_InvoiceOutput GetInvoiceOutputByCode(string invoiceCode)
+        public Vw_InvoiceOutport GetInvoiceOutportByCode(string invoiceCode)
         {
-            return _importRepository.GetInvoiceOutputByCode(invoiceCode);
+            return _importRepository.GetInvoiceOutportByCode(invoiceCode);
         }
 
-        public PagingObject<Vw_InvoiceOutput> Search(SearchInvoiceOutput search, int pageIndex, int pageSize)
+        public PagingObject<Vw_InvoiceOutport> Search(SearchInvoiceOutport search, int pageIndex, int pageSize)
         {
-            var query = db.From<Vw_InvoiceOutput>();
+            var query = db.From<Vw_InvoiceOutport>();
 
             if (!string.IsNullOrEmpty(search.Code)) query.Where(x => x.Code == search.Code);
+            query.Where(x => x.Type == search.Type);
             if (search.Status != null && search.Status != -1) query.Where(x => x.Active == search.Status);
             if (DateTime.MinValue != search.FromDate && DateTime.MinValue != search.ToDate)
             {
@@ -441,7 +450,7 @@ namespace webNews.Domain.Services.InvoiceOutputManagement
             return _systemRepository.Paging(query, pageIndex, pageSize);
         }
 
-        public List<Vw_InvoiceOutput_Detail> GetInvoiceDetails(int invoiceId)
+        public List<Vw_InvoiceOutport_Detail> GetInvoiceDetails(int invoiceId)
         {
             return _importRepository.GetInvoiceDetails(invoiceId);
         }

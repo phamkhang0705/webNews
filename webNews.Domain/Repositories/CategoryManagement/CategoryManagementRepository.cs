@@ -318,5 +318,21 @@ namespace webNews.Domain.Repositories.CategoryManagement
                 return new List<Vw_Category>();
             }
         }
+        public List<Vw_Category_Sale> GetCategorySale(string name)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var data = db.Select<Vw_Category_Sale>(_ => _.Name.ToLower().Contains(name.ToLower()));
+                    return data;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new List<Vw_Category_Sale>();
+            }
+        }
     }
 }

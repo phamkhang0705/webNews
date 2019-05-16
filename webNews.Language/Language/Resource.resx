@@ -333,4 +333,7 @@
   <data name="Video_Gallery" xml:space="preserve">
     <value>Thư viện video</value>
   </data>
+  <data name="ChooseCustomer_Lang" xml:space="preserve">
+    <value>Chọn khách hàng</value>
+  </data>
 </root>

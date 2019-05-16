@@ -9,5 +9,6 @@ namespace webNews.Models.PaymentVoucherManagement
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public int? Status { get; set; }
+        public bool PaymentType { get; set; }
     }
 }

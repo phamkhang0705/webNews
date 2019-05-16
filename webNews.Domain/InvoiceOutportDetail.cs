@@ -14,13 +14,13 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("InvoiceOutputDetail")]
-    public partial class InvoiceOutputDetail : IHasId<int> 
+	[Alias("InvoiceOutportDetail")]
+    public partial class InvoiceOutportDetail : IHasId<int> 
     {
         [Alias("Id")]
         [AutoIncrement]
         public int Id { get; set; }
-        public int? InvoiceOutputId { get; set; }
+        public int? InvoiceOutportId { get; set; }
         public string ProductCode { get; set; }
         public int? ProductId { get; set; }
         public string CategoryCode { get; set; }

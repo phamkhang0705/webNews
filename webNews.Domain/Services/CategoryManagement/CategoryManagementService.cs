@@ -130,5 +130,10 @@ namespace webNews.Domain.Services.CategoryManagement
         {
             return _categoryRepository.GetByName(name);
         }
+
+        public List<Vw_Category_Sale> GetCategorySale(string name)
+        {
+            return _categoryRepository.GetCategorySale(name);
+        }
     }
 }

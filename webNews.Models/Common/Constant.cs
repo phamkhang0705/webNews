@@ -36,7 +36,7 @@
         Customer = 1,
         Supplier = 2,
         InvoiceImport = 3,
-        InvoiceOutput = 4,
+        InvoiceOutport = 4,
         InvoiceRental = 5,
         ReceiveVoucher=6,
         PaymentVoucher=7
@@ -44,7 +44,8 @@
 
     public enum PersonType
     {
-        Provider=1
+        Provider=1,
+        Customer=2,
     }
 
     public enum InvoiceStatus
@@ -59,7 +60,7 @@
         public const string Customer = "KH";
         public const string Supplier = "NCC";
         public const string InvoiceImport = "PN";
-        public const string InvoiceOutput = "PX";
+        public const string InvoiceOutport = "PX";
         public const string InvoiceRental = "PTHUE";
         public const string ReceiveVoucher = "PTHU";
         public const string PaymentVoucher = "PCHI";

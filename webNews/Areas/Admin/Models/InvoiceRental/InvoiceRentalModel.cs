@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using webNews.Domain.Entities;
 using webNews.Models.InvoiceOutportManagement;
 
-namespace webNews.Areas.Admin.Models.InvoiceOutport
+namespace webNews.Areas.Admin.Models.InvoiceRental
 {
-    public class InvoiceOutportModel
+    public class InvoiceRentalModel
     {
         public int Id { get; set; }
 

@@ -1,0 +1,78 @@
+﻿@using webNews.Language.Language
+@using webNews.Security
+@{
+    ViewBag.Title = "QUẢN LÝ PHIẾU CHI";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+@*@model dynamic*@
+<h2 class="page-header">Quản lý phiếu chi</h2>
+<div class="main-content">
+    <div class="page-action">
+@*        @if (CheckAuthorizer.Authorize(Permission.ADD))*@
+@*        {*@
+@*            <button id="btnOpenAdd" class="btn btn-primary" type="button" title="@(Resource.Btn_Add_Lang)"><i class="fa fa-plus-square-o"></i>@(Resource.Btn_Add_Lang)</button>*@
+        @*        }*@
+
+
+@*        <button id="btnOpenSearch" class="btn btn-primary" type="button" title="@(Resource.Btn_Search)"><i class="fa fa-search"></i>@(Resource.Btn_Search)</button>*@
+        <input type="hidden" id="txtPerAdd" value="@(CheckAuthorizer.Authorize(Permission.ADD) ? 1 : 0)" />
+        <input type="hidden" id="txtPerEdit" value="@(CheckAuthorizer.Authorize(Permission.EDIT) ? 1 : 0)" />
+        <input type="hidden" id="txtPerDelete" value="@(CheckAuthorizer.Authorize(Permission.DELETE) ? 1 : 0)" />
+    </div>
+    <div id="modalSearch">
+        @*        @RenderPage("_ptvSearch.cshtml")*@
+        <form id="formSearch" name="formSearch" class="form-horizontal" method="post" accept-charset="utf-8">
+
+            <div class="form-group">
+                <label class="col-sm-2 col-md-2 control-label">Từ ngày</label>
+                <div class="col-sm-4 col-md-4">
+                    <div class="input-group input-group-sm input-date" id="divFromDate">
+                        <input type="text" id="txtFDate" name="d1"
+                               class="form-control input-sm datemask">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <label class="col-sm-2 col-md-2 control-label">Đến ngày</label>
+                <div class="col-sm-4 col-md-4">
+                    <div class="input-group input-group-sm input-date" id="divToDate">
+                        <input type="text" id="txtTDate" name="d1"
+                               class="form-control input-sm datemask">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label">Mã phiếu chi</label>
+                <div class="col-xs-4">
+                    <input type="text" name="PaymentCode" id="txtPaymentCode" class="form-control input-sm" placeholder="Nhập mã phiếu"/>
+                </div>
+                <label class="col-xs-2 control-label">Trạng thái</label>
+                <div class="col-xs-4">
+                    <select type="text" name="Active" id="txtSearchActive" class="form-control input-sm">
+                        <option value="-1">Tất cả</option>
+                        <option value="0">Phiếu tạm</option>
+                        <option value="2">Đã hủy</option>
+                        <option value="1">Đã nhập hàng</option>
+                    </select>
+                </div>
+            </div>
+
+            <div  style="text-align: center">
+                <button id="btnSearchSubmit" class="btn btn-primary" type="button"><i class="fa fa-search"></i>@(Resource.Search_Lang)</button>
+            </div>
+        </form>
+    </div>
+    <div class="table">
+        <table id="table"></table>
+    </div>
+    <div id="box-detail"></div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/Admin/ReceiverVoucher/ReceiverVoucher.js"></script>
+}

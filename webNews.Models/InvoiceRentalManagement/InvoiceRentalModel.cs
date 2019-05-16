@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace webNews.Models.InvoiceOutportManagement
+namespace webNews.Models.InvoiceRentalManagement
 {
-    public class SearchInvoiceOutport
+    public class SearchInvoiceRental
     {
         public string Code { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public int? Status { get; set; }
-        public int? Type { get; set; }
     }
 
-    public class InvoiceOutportModel
+    public class InvoiceRentalModel
     {
         public int Id { get; set; }
         public string Code { get; set; }
