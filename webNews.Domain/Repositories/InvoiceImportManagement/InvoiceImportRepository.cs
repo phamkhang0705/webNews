@@ -81,13 +81,9 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                     if (!string.IsNullOrEmpty(invoiceCode))
                     {
                         query.Where(_ => _.Code == invoiceCode);
+                        return db.Single(query);
                     }
-
-                    var invoice = db.Single(query);
-
-                    //                    invoice.InvoiceDetails = db.Select<InvoiceImportDetail>(_ => _.Code == invoiceCode);
-
-                    return invoice;
+                    return new Vw_InvoiceImport();
                 }
             }
             catch (Exception ex)
@@ -191,7 +187,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                     {
                         var model = db.Single<InvoiceImport>(_ => _.Code == invoiceCode);
                         if (model == null) return -1;
-                        if (model.Active == (int)InvoiceStatus.Canceld) return -1;   //Trạng thái phiếu đã hủy - Không update
+                        if (model.Active == (int)InvoiceStatus.Cancel) return -1;   //Trạng thái phiếu đã hủy - Không update
                         //Chỉ update ngày in với ghi chú - Không update trạng thái
                         if (status == -1)
                         {
@@ -200,9 +196,9 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                             //Update Invoice import
                             db.Update(model);
                         }
-                        else if (model.Active == (int)InvoiceStatus.Active && status == (int)InvoiceStatus.Canceld)//Update trạng thái phiếu nhập
+                        else if (model.Active == (int)InvoiceStatus.Active && status == (int)InvoiceStatus.Cancel)//Update trạng thái phiếu nhập
                         {
-                            model.Active = (int)InvoiceStatus.Canceld;
+                            model.Active = (int)InvoiceStatus.Cancel;
                             //Update Invoice import
                             db.Update(model);
 
@@ -310,7 +306,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                                 if (item.DateLimit == DateTime.MinValue)
                                     item.DateLimit = null;
                                 item.InvoiceImportId = model.Id;
-                                 db.Insert(item);
+                                db.Insert(item);
                             }
                         }
                         #endregion
@@ -321,7 +317,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                         if (model.Active != null && model.Active == (int)InvoiceStatus.Active && model.InvoiceImportDetails != null)
                         {
                             //Create payment invoice
-                             db.Insert(model.Payment);
+                            db.Insert(model.Payment);
 
                             //Update product and product detail
                             foreach (var detail in model.InvoiceImportDetails)
@@ -365,9 +361,12 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                                         cateDetail = new CategoryDetail()
                                         {
                                             CategoryId = cate.Id,
+                                            PriceInput = detail.Price,
                                             Quantity = detail.Quantity,
                                             CreatedBy = model.CreatedBy,
-                                            CreatedDate = DateTime.Now
+                                            CreatedDate = DateTime.Now,
+                                            UpdatedBy = model.CreatedBy,
+                                            UpdatedDate = DateTime.Now
                                         };
                                         db.Insert(cateDetail);
                                     }
@@ -427,7 +426,7 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                                         var pro = new Product()
                                         {
                                             CategoryId = cate.Id,
-                                            ProductCode = detail.CategoryCode,
+                                            ProductCode = detail.CategoryCode + "00" + i,
                                             ProductName = cate.Name,
                                             Quantity = 1,
                                             Inventory = 1,
@@ -459,7 +458,10 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                                         {
                                             CategoryId = cate.Id,
                                             Quantity = detail.Quantity,
+                                            PriceInput = detail.Price,
                                             CreatedBy = model.CreatedBy,
+                                            UpdatedBy = model.CreatedBy,
+                                            UpdatedDate = DateTime.Now,
                                             CreatedDate = DateTime.Now
                                         };
                                         db.Insert(cateDetail);
@@ -582,6 +584,26 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                     _logger.Error(ex, "Insert invoice import error: " + ex.Message);
                     return -1;
                 }
+            }
+        }
+
+        public List<Vw_InvoiceImport> GetInvoiceImports(int status)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<Vw_InvoiceImport>();
+                    query.Where(_ => _.Active == status);
+                    query.Where(x => x.RemainMoney > 0);
+                    var invoice = db.Select(query);
+                    return invoice;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Get invoice error: " + ex.Message);
+                return new List<Vw_InvoiceImport>();
             }
         }
     }

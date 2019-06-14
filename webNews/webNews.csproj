@@ -288,6 +288,8 @@
     <Compile Include="Areas\Admin\Controllers\RoleManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserManagementController.cs" />
     <Compile Include="Areas\Admin\Models\Customer\CustomerModel.cs" />
+    <Compile Include="Areas\Admin\Models\Receiver\ReceiverModel.cs" />
+    <Compile Include="Areas\Admin\Models\Payment\PaymentModel.cs" />
     <Compile Include="Areas\Admin\Models\InvoiceRental\InvoiceRentalModel.cs" />
     <Compile Include="Areas\Admin\Models\InvoiceOutput\InvoiceOutputModel.cs" />
     <Compile Include="Areas\Admin\Models\InvoiceImport\InvoiceImportModel.cs" />
@@ -467,19 +469,19 @@
     <Content Include="Areas\Admin\Views\SupplierManagement\_supplierSearch.cshtml" />
     <Content Include="Areas\Admin\Views\SupplierManagement\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PaymentVoucher\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\PaymentVoucher\_ptvSearch.cshtml" />
     <Content Include="Areas\Admin\Views\InvoiceOutport\_ptvDetail.cshtml" />
     <Content Include="Areas\Admin\Views\InvoiceOutport\_ptvHistotyPayment.cshtml" />
     <Content Include="Areas\Admin\Views\InvoiceOutport\_ptvSearch.cshtml" />
     <Content Include="Areas\Admin\Views\InvoiceOutport\Add.cshtml" />
     <Content Include="Areas\Admin\Views\InvoiceOutport\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\ReceiverVoucher\_ptvSearch.cshtml" />
     <Content Include="Areas\Admin\Views\ReceiverVoucher\Index.cshtml" />
     <Content Include="Areas\Admin\Views\InvoiceRental\_ptvDetail.cshtml" />
     <Content Include="Areas\Admin\Views\InvoiceRental\_ptvHistotyPayment.cshtml" />
     <Content Include="Areas\Admin\Views\InvoiceRental\_ptvSearch.cshtml" />
     <Content Include="Areas\Admin\Views\InvoiceRental\Add.cshtml" />
     <Content Include="Areas\Admin\Views\InvoiceRental\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PaymentVoucher\_ptvDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\ReceiverVoucher\_ptvDetail.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

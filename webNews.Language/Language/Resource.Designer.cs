@@ -124,7 +124,7 @@ namespace webNews.Language.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hoàn thành.
+        ///   Looks up a localized string similar to Chốt đơn.
         /// </summary>
         public static string Btn_Complete_Lang {
             get {

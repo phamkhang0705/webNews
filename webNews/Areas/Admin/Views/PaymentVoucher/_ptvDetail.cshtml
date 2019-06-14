@@ -1,0 +1,156 @@
+﻿@using webNews.Domain.Entities
+@using webNews.Language.Language
+@using webNews.HtmlHelpers
+@model webNews.Areas.Admin.Models.Payment.PaymentModel
+@{
+    var add = Model.Action == "Add";
+    var edit = Model.Action == "Edit";
+    var popupTitle = "Thông tin phiếu chi";
+    var status = "";
+}
+<script src="~/Assets/Admin/Validate/jquery.validate.min.js"></script>
+<script src="~/Assets/Admin/Validate/jquery.validate.unobtrusive.min.js"></script>
+<div class="modal fade" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="xModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@popupTitle</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <form id="formDetail" name="formDetail" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.HiddenFor(x => x.PaymentCode)
+
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.PaymentCode)</label>
+                        <div class="col-xs-4 control-label" style="text-align: left" id="txtPaymentCode">
+                            @Model.PaymentCode
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Status)</label>
+                        <div class="col-xs-4 control-label" style="text-align: left">
+                            @if (add)
+                            {
+                                status = "Lưu tạm";
+                            }
+                            else
+                            {
+                                status = Model.Status == 1 ? "Đã duyệt" : (Model.Status == 0 ? "Lưu tạm" : "Hủy");
+                            }
+                            @status
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.InvoiceCode)</label>
+                        <div class="col-xs-4 control-label" style="text-align: left">
+                            @Model.InvoiceCode
+                            @if (add)
+                            {
+                                <select class="form-control input-sm" id="txtInvoiceCode" name="InvoiceCode">
+                                    <option value="">Chọn phiếu nhập để thanh toán</option>
+                                    @foreach (Vw_InvoiceImport item in Model.ListInvoiceImports)
+                                    {
+                                        <option value="@item.Code">@item.Code</option>
+                                    }
+                                </select>
+                            }
+                            else
+                            {
+                                @Html.HiddenFor(x => x.InvoiceCode, new { @id = "txtInvoiceCode" })
+                            }
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.CreatedDate)</label>
+                        <div class="col-xs-4">
+                            <div class="input-group input-group-sm input-date" id="divCreatedDate">
+                                <input type="text" id="txtCreatedDate" name="CreatedDate"
+                                       class="form-control input-sm datemask">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.CustomerName)</label>
+                        <div class="col-xs-4 control-label" style="text-align: left" id="txtSupplierName">
+                            @Model.Payments_Person - @Model.CustomerName
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.UserName)</label>
+                        <div class="col-xs-4 control-label" style="text-align: left">
+                            @Model.UserName
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Description)</label>
+                        <div class="col-xs-10">
+                            @Html.ValidationHtmlMessageFor(model => model.Description, "", new { @class = "field-validation-valid" })
+                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control input-sm", @id = "txtDescription", @rows = "3", @placeholder = "Nhập ghi chú" })
+                        </div>
+                    </div>
+                    <div class="invoice-money">
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">@Html.LabelFor(x => x.TotalMoney)</label>
+                            <div class="col-xs-4 control-label" style="text-align: left">
+                                @Html.TextBoxFor(x => x.TotalMoney, new { @class = "form-control input-sm amount-mask", @id = "txtTotalMoney", @placeholder = "Nhập tổng tiền" })
+                            </div>
+                            <label class="col-xs-2 control-label">@Html.LabelFor(x => x.PaidMoney)</label>
+                            <div class="col-xs-4 control-label" style="text-align: left">
+                                @Html.TextBoxFor(x => x.PaidMoney, new { @class = "form-control input-sm amount-mask", @id = "txtPaidMoney", @placeholder = "Nhập số tiền đã thanh toán" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">@Html.LabelFor(x => x.RemainMoney)</label>
+                            <div class="col-xs-4 control-label" style="text-align: left">
+                                @Html.TextBoxFor(x => x.RemainMoney, new { @class = "form-control input-sm amount-mask", @id = "txtRemainMoney", @placeholder = "Số tiền còn nợ lại" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">Phương thức thanh toán</label>
+                        <div class="col-xs-4">
+                            <select class="form-control input-sm" name="PaymentMethod" id="txtMethodPayment">
+                                <option value="0">Tiền mặt</option>
+                                <option value="1">Chuyển khoản</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="grAccount" style="display: none;">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.BankCode)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.BankCode, "", new { @class = "field-validation-valid" })
+                            <select class="form-control input-sm" name="BankCode" id="txtBankAccount">
+                                <option value="">Chọn tài khoản</option>
+                                @foreach (Bank bank in Model.ListBanks)
+                                {
+                                    <option value="@bank.BankAccount">@bank.BankCode-@bank.BankName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.PaymentMoney)</label>
+                        <div class="col-xs-4 control-label" style="text-align: left">
+                            @Html.ValidationHtmlMessageFor(model => model.PaymentMoney, "", new { @class = "field-validation-valid" })
+                            @Html.TextBoxFor(x => x.PaymentMoney, new { @class = "form-control input-sm amount-mask", @id = "txtPaymentMoney", @placeholder = "Nhập số tiền cần thanh toán" })
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                @if (add)
+                {
+                    <button id="btnAdd" class="btn btn-primary" type="button"><i class="fa fa-check"></i> @(Resource.Btn_Save_Lang)</button>
+                }
+                else
+                    if (edit && Model.Status == 0)
+                {
+                    <button id="btnEdit" class="btn btn-primary" type="button"><i class="fa fa-check"></i> @(Resource.Btn_Edit_Lang)</button>
+                }
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-reply"></i>@Resource.Btn_Close_Lang</button>
+            </div>
+        </div>
+    </div>
+</div>

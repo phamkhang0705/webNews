@@ -118,5 +118,10 @@ namespace webNews.Domain.Services.ProductManagement
         {
             return _productRepository.GetByName(name);
         }
+
+        public List<Vw_Product_Rental> GetProductRentals(string name, string type)
+        {
+            return _productRepository.GetProductRentals(name,type);
+        }
     }
 }

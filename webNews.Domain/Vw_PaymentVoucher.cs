@@ -17,7 +17,7 @@ namespace webNews.Domain.Entities
 	[Alias("Vw_PaymentVoucher")]
     public partial class Vw_PaymentVoucher 
     {
-        [AutoIncrement]
+        [Required]
         public int Id { get; set; }
         public string PaymentCode { get; set; }
         public int? PaymentMethod { get; set; }
@@ -29,12 +29,16 @@ namespace webNews.Domain.Entities
         public string Description { get; set; }
         public int? Status { get; set; }
         public double? RemainMoney { get; set; }
+        public double? PaidMoney { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? UpdateBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public int? PersonType { get; set; }
         public string Payments_Person { get; set; }
+        public string CustomerCode { get; set; }
+        public string CustomerName { get; set; }
+        public double? PaymentMoney { get; set; }
     }
 
 }

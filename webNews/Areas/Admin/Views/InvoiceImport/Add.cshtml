@@ -25,7 +25,7 @@
                     <input type="text" id="txtSearchCategory" class="form-control input-sm" autocomplete="false" placeholder="@Resource.ChooseProduct_Lang"/>
                 </div>
                 <div class="table" style="padding-top: 66px">
-                    <table id="table"></table>
+                    <table id="table" class="nowrap text-nowrap"></table>
                 </div>
             </div>
 
@@ -152,6 +152,7 @@
                                         <label class="col-xs-4 control-label">Tài khoản</label>
                                         <div class="col-xs-8">
                                             <select class="form-control input-sm" name="BankCode" id="txtBankAccount">
+                                                <option value="">Chọn tài khoản</option>
                                                 @foreach (Bank bank in Model.ListBanks)
                                                 {
                                                     <option value="@bank.BankAccount">@bank.BankCode-@bank.BankName</option>

@@ -64,9 +64,20 @@ namespace webNews.Areas.Admin.Models.InvoiceOutport
 
         public int? Type { get; set; }
         public int CreatedBy { get; set; }
+        [Display(Name = "Tổng tiền cọc")]
+        public double? TotalDeposit { get; set; }
+        [Display(Name = "Tổng tiền vận chuyển")]
+        public double? TotalTransport { get; set; }
+
+        public string InvoiceType { get; set; }
+        public double? TotalDepositDiscount { get; set; }
+        public double? TotalTransportDiscount { get; set; }
+        public string DeliveryAddress { get; set; }
+        public DateTime? DelieryDate { get; set; }
 
         public List<CategoryItem> CategoryItems { get; set; }
         public string Action { get; set; }
         public List<Vw_InvoiceOutport_Detail> InvoiceOutportDetails { get; set; }
+        public List<Vw_InvoiceRental_Detail> InvoiceRentalDetails { get; set; }
     }
 }

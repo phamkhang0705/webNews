@@ -27,7 +27,7 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
         {
             try
             {
-                var isCancel = _importRepository.UpdateStatusInvoice(invoiceCode, (int)InvoiceStatus.Canceld, null);
+                var isCancel = _importRepository.UpdateStatusInvoice(invoiceCode, (int)InvoiceStatus.Cancel, null);
                 if (isCancel == 1)
                 {
                     return new CoreMessageResponse
@@ -137,6 +137,7 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
                     };
                 }
                 //Insert InvoiceOutport
+
                 invoice.CustomerCode = model.CustomerCode;
                 invoice.TotalQuantity = model.TotalQuantity;
                 invoice.TotalMoney = model.TotalMoney;
@@ -144,50 +145,146 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
                 invoice.Discount = model.Discount;
                 invoice.VAT = model.VAT;
                 invoice.SumMoney = model.SumMoney;
-                invoice.PaidMoney = model.PaidMoney;
-                invoice.RemainMoney = model.SumMoney - model.PaidMoney;
+                invoice.PaidMoney = 0;
+                invoice.RemainMoney = model.SumMoney;
                 invoice.PayMethod = model.PayMethod;
                 invoice.BankCode = model.BankCode;
                 invoice.UserName = model.UserName;
                 invoice.CreatedDate = DateTime.Now;
+                invoice.CreatedBy = model.CreatedBy;
                 invoice.Date = model.CreatedDate;
-                invoice.IsComplete = model.SumMoney - model.PaidMoney <= 0;
                 invoice.Active = model.Active;
                 invoice.Note = model.Note;
+                invoice.Type = model.Type;
                 invoice.InvoiceOutportDetails = new List<InvoiceOutportDetail>();
+                invoice.TotalDeposit = model.TotalDeposit;
+                invoice.TotalTransport = model.TotalTransport;
+                invoice.TotalDepositDiscount = model.TotalDepositDiscount;
+                invoice.DeliveryAddress = model.DeliveryAddress;
+                invoice.DeliveryDate = model.DeliveryDate;
+                invoice.InvoiceType = model.InvoiceType;
+
+                invoice.Date = invoice.Date == DateTime.MinValue ? DateTime.Now : invoice.Date;
                 if (model.CategoryItems != null)
                 {
                     foreach (var item in model.CategoryItems)
                     {
                         var invoiceDetail = new InvoiceOutportDetail()
                         {
+                            ProductId = item.Id,
                             CategoryCode = item.Code,
+                            ProductCode = item.ProductCode,
                             Quantity = item.Quantity,
                             Price = item.Price,
                             TotalMoney = item.TotalMoney,
-                            DateLimit = item.DateLimit
+                            Deposits_Money = item.Deposits_Money,
+                            Transport_Money = item.Transport_Money
                         };
                         invoice.InvoiceOutportDetails.Add(invoiceDetail);
                     }
                 }
-
-                invoice.Payment = new Payment()
+                if (model.Active == (int)PaymentActive.Approve)
                 {
-                    PaymentCode = _systemRepository.CodeGen(ObjectType.ReceiveVoucher, PrefixType.ReceiveVoucher),
-                    UserName = model.UserName,
-                    CreatedDate = model.CreatedDate,
-                    PaymentMethod = model.PayMethod,
-                    Description = model.Note,
-                    TotalMoney = model.PaidMoney,
-                    PersonType = (int)PersonType.Customer,
-                    Payments_Person = model.CustomerCode,
-                    BankCode = model.BankCode,
-                    Status = model.Active,
-                    InvoiceCode = invoice.Code,
-                    RemainMoney = model.RemainMoney,
-                    PaymentType = false
-                };
+                    //phiếu thu tiền hàng
+                    var receiver = new Payment()
+                    {
+                        PaymentCode = _systemRepository.CodeGen(ObjectType.ReceiverVoucher, PrefixType.ReceiverVoucher),
+                        UserName = model.UserName,
+                        CreatedDate = DateTime.Now,
+                        PaymentMethod = model.PayMethod,
+                        Description = "Thu tiền hàng",
+                        TotalMoney = model.PaidMoney,
+                        PersonType = (int)PersonType.Customer,
+                        Payments_Person = model.CustomerCode,
+                        BankCode = model.BankCode,
+                        Status = (int)PaymentActive.Waiting,
+                        InvoiceCode = invoice.Code,
+                        RemainMoney = model.RemainMoney,
+                        PaymentMoney = model.TotalMoney,
+                        PaidMoney = 0,
+                        PaymentType = true,
+                        CreatedBy = model.CreatedBy,
+                        ReceiverType = (int)ReceiverType.ProductMoney
+                    };
 
+                    //Phiếu chi tiền cọc
+                    var payment = new Payment()
+                    {
+                        PaymentCode = _systemRepository.CodeGen(ObjectType.PaymentVoucher, PrefixType.PaymentVoucher),
+                        UserName = model.UserName,
+                        CreatedDate = DateTime.Now,
+                        PaymentMethod = model.PayMethod,
+                        Description = "Trả tiền cọc",
+                        TotalMoney = model.PaidMoney,
+                        PersonType = (int)PersonType.Customer,
+                        Payments_Person = model.CustomerCode,
+                        BankCode = model.BankCode,
+                        Status = (int)PaymentActive.Waiting,
+                        InvoiceCode = invoice.Code,
+                        RemainMoney = model.RemainMoney,
+                        PaymentMoney = model.TotalDeposit,
+                        PaidMoney = 0,
+                        PaymentType = false,
+                        CreatedBy = model.CreatedBy,
+                        ReceiverVoucherCode = receiver.PaymentCode
+                    };
+
+                    //Phiếu thu tiền cọc
+                    var payment_deposit = new Payment()
+                    {
+                        PaymentCode = _systemRepository.CodeGen(ObjectType.ReceiverVoucher, PrefixType.ReceiverVoucher),
+                        UserName = model.UserName,
+                        CreatedDate = DateTime.Now,
+                        PaymentMethod = model.PayMethod,
+                        Description = "Thu tiền cọc",
+                        TotalMoney = model.TotalDeposit,
+                        PersonType = (int)PersonType.Customer,
+                        Payments_Person = model.CustomerCode,
+                        BankCode = model.BankCode,
+                        Status = (int)PaymentActive.Waiting,
+                        InvoiceCode = invoice.Code,
+                        RemainMoney = model.TotalMoney,
+                        PaymentMoney = model.TotalDeposit,
+                        PaidMoney = 0,
+                        PaymentType = true,
+                        CreatedBy = model.CreatedBy,
+                        ReceiverType = (int)ReceiverType.Deposit
+                    };
+
+                    // Phiếu thu tiền vận chuyển
+                    var payment_transport = new Payment()
+                    {
+                        PaymentCode = _systemRepository.CodeGen(ObjectType.ReceiverVoucher, PrefixType.ReceiverVoucher),
+                        UserName = model.UserName,
+                        CreatedDate = DateTime.Now,
+                        PaymentMethod = model.PayMethod,
+                        Description = "Thu tiền vận chuyển",
+                        TotalMoney = model.TotalTransport,
+                        PersonType = (int)PersonType.Customer,
+                        Payments_Person = model.CustomerCode,
+                        BankCode = model.BankCode,
+                        Status = (int)PaymentActive.Waiting,
+                        InvoiceCode = invoice.Code,
+                        RemainMoney = model.TotalMoney,
+                        PaymentMoney = model.TotalTransport,
+                        PaidMoney = 0,
+                        PaymentType = true,
+                        CreatedBy = model.CreatedBy,
+                        ReceiverType = (int)ReceiverType.Transport
+                    };
+                    invoice.ListPayments = new List<Payment>();
+                    if (model.Type == 2)
+                    {
+                        invoice.ListPayments.Add(payment);
+                        invoice.ListPayments.Add(payment_deposit);
+                        invoice.ListPayments.Add(payment_transport);
+                        invoice.ListPayments.Add(receiver);
+                    }
+                    else
+                    {
+                        invoice.Payment = payment;
+                    }
+                }
                 var res = _importRepository.UpdateInvoice(invoice);
                 if (res > 0)
                 {
@@ -221,7 +318,20 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
         {
             try
             {
-                var code = string.IsNullOrEmpty(model.Code) ? _systemRepository.CodeGen(ObjectType.InvoiceOutport, PrefixType.InvoiceOutport) : model.Code;
+                var code = "";
+                if (model.Type == 1)
+                {
+                    code = string.IsNullOrEmpty(model.Code)
+                        ? _systemRepository.CodeGen(ObjectType.InvoiceRental, PrefixType.InvoiceRental)
+                        : model.Code;
+                }
+                else
+                {
+                    code = string.IsNullOrEmpty(model.Code) ?
+                        _systemRepository.CodeGen(ObjectType.InvoiceOutport, PrefixType.InvoiceOutport)
+                        : model.Code;
+                }
+
                 //Insert InvoiceOutport
                 var invoice = new InvoiceOutport
                 {
@@ -233,8 +343,8 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
                     Discount = model.Discount,
                     VAT = model.VAT,
                     SumMoney = model.SumMoney,
-                    PaidMoney = model.PaidMoney,
-                    RemainMoney = model.SumMoney - model.PaidMoney,
+                    PaidMoney = 0,
+                    RemainMoney = model.SumMoney,
                     PayMethod = model.PayMethod,
                     BankCode = model.BankCode,
                     UserName = model.UserName,
@@ -244,7 +354,13 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
                     Active = model.Active,
                     Note = model.Note,
                     Type = model.Type,
-                    InvoiceOutportDetails = new List<InvoiceOutportDetail>()
+                    InvoiceOutportDetails = new List<InvoiceOutportDetail>(),
+                    TotalDeposit = model.TotalDeposit,
+                    TotalTransport = model.TotalTransport,
+                    TotalDepositDiscount = model.TotalDepositDiscount,
+                    DeliveryAddress = model.DeliveryAddress,
+                    DeliveryDate = model.DeliveryDate,
+                    InvoiceType = model.InvoiceType,
                 };
                 invoice.Date = invoice.Date == DateTime.MinValue ? DateTime.Now : invoice.Date;
                 if (model.CategoryItems != null)
@@ -254,33 +370,118 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
                     {
                         var invoiceDetail = new InvoiceOutportDetail()
                         {
+                            ProductId = item.Id,
                             CategoryCode = item.Code,
+                            ProductCode = item.ProductCode,
                             Quantity = item.Quantity,
                             Price = item.Price,
                             TotalMoney = item.TotalMoney,
+                            Deposits_Money = item.Deposits_Money,
+                            Transport_Money = item.Transport_Money
                         };
                         invoice.InvoiceOutportDetails.Add(invoiceDetail);
                     }
                 }
 
-                invoice.Payment = new Payment()
+                //phiếu thu tiền hàng
+                var receiver = new Payment()
                 {
-                    PaymentCode = _systemRepository.CodeGen(ObjectType.ReceiveVoucher, PrefixType.ReceiveVoucher),
+                    PaymentCode = _systemRepository.CodeGen(ObjectType.ReceiverVoucher, PrefixType.ReceiverVoucher),
                     UserName = model.UserName,
                     CreatedDate = DateTime.Now,
                     PaymentMethod = model.PayMethod,
-                    Description = model.Note,
+                    Description = "Thu tiền hàng",
                     TotalMoney = model.PaidMoney,
                     PersonType = (int)PersonType.Customer,
                     Payments_Person = model.CustomerCode,
                     BankCode = model.BankCode,
-                    Status = model.Active,
+                    Status = (int)PaymentActive.Waiting,
                     InvoiceCode = invoice.Code,
                     RemainMoney = model.RemainMoney,
-                    PaymentType = false,
-                    CreatedBy = model.CreatedBy
+                    PaymentMoney = model.TotalMoney,
+                    PaidMoney = 0,
+                    PaymentType = true,
+                    CreatedBy = model.CreatedBy,
+                    ReceiverType = (int)ReceiverType.ProductMoney
                 };
 
+                //Phiếu chi tiền cọc
+                var payment = new Payment()
+                {
+                    PaymentCode = _systemRepository.CodeGen(ObjectType.PaymentVoucher, PrefixType.PaymentVoucher),
+                    UserName = model.UserName,
+                    CreatedDate = DateTime.Now,
+                    PaymentMethod = model.PayMethod,
+                    Description = "Trả tiền cọc",
+                    TotalMoney = model.PaidMoney,
+                    PersonType = (int)PersonType.Customer,
+                    Payments_Person = model.CustomerCode,
+                    BankCode = model.BankCode,
+                    Status = (int)PaymentActive.Waiting,
+                    InvoiceCode = invoice.Code,
+                    RemainMoney = model.RemainMoney,
+                    PaymentMoney = model.TotalDeposit,
+                    PaidMoney = 0,
+                    PaymentType = false,
+                    CreatedBy = model.CreatedBy,
+                    ReceiverVoucherCode = receiver.PaymentCode
+                };
+
+                //Phiếu thu tiền cọc
+                var payment_deposit = new Payment()
+                {
+                    PaymentCode = _systemRepository.CodeGen(ObjectType.ReceiverVoucher, PrefixType.ReceiverVoucher),
+                    UserName = model.UserName,
+                    CreatedDate = DateTime.Now,
+                    PaymentMethod = model.PayMethod,
+                    Description = "Thu tiền cọc",
+                    TotalMoney = model.TotalDeposit,
+                    PersonType = (int)PersonType.Customer,
+                    Payments_Person = model.CustomerCode,
+                    BankCode = model.BankCode,
+                    Status = (int)PaymentActive.Waiting,
+                    InvoiceCode = invoice.Code,
+                    RemainMoney = model.TotalMoney,
+                    PaymentMoney = model.TotalDeposit,
+                    PaidMoney = 0,
+                    PaymentType = true,
+                    CreatedBy = model.CreatedBy,
+                    ReceiverType = (int)ReceiverType.Deposit
+                };
+
+                // Phiếu thu tiền vận chuyển
+                var payment_transport = new Payment()
+                {
+                    PaymentCode = _systemRepository.CodeGen(ObjectType.ReceiverVoucher, PrefixType.ReceiverVoucher),
+                    UserName = model.UserName,
+                    CreatedDate = DateTime.Now,
+                    PaymentMethod = model.PayMethod,
+                    Description = "Thu tiền vận chuyển",
+                    TotalMoney = model.TotalTransport,
+                    PersonType = (int)PersonType.Customer,
+                    Payments_Person = model.CustomerCode,
+                    BankCode = model.BankCode,
+                    Status = (int)PaymentActive.Waiting,
+                    InvoiceCode = invoice.Code,
+                    RemainMoney = model.TotalMoney,
+                    PaymentMoney = model.TotalTransport,
+                    PaidMoney = 0,
+                    PaymentType = true,
+                    CreatedBy = model.CreatedBy,
+                    ReceiverType = (int)ReceiverType.Transport
+                };
+                invoice.ListPayments = new List<Payment>();
+                if (model.Type == 2)
+                {
+                    invoice.ListPayments.Add(payment);
+                    invoice.ListPayments.Add(payment_deposit);
+                    invoice.ListPayments.Add(payment_transport);
+                    invoice.ListPayments.Add(receiver);
+                }
+                else
+                {
+                    invoice.Payment = payment;
+                }
                 var res = _importRepository.CreateInvoice(invoice);
                 if (res > 0)
                 {
@@ -303,7 +504,7 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
                     return new CoreMessageResponse
                     {
                         ResponseCode = "00",
-                        ResponseMessage = "Có lỗi sảy ra!"
+                        ResponseMessage = "Có lỗi xayr ra!"
                     };
                 }
             }
@@ -453,6 +654,16 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
         public List<Vw_InvoiceOutport_Detail> GetInvoiceDetails(int invoiceId)
         {
             return _importRepository.GetInvoiceDetails(invoiceId);
+        }
+
+        public List<Vw_InvoiceRental_Detail> GetInvoiceRentalDetails(int invoiceId)
+        {
+            return _importRepository.GetInvoiceRentalDetails(invoiceId);
+        }
+
+        public List<Vw_InvoiceOutport> GetInvoiceOutports(int status)
+        {
+            return _importRepository.GetInvoiceOutports(status);
         }
     }
 }

@@ -34,6 +34,8 @@ namespace webNews.Domain.Entities
         public DateTime? DateLimit { get; set; }
         public int? QuantityReturn { get; set; }
         public int? QuantityRemain { get; set; }
+        public double? Deposits_Money { get; set; }
+        public double? Transport_Money { get; set; }
     }
 
 }

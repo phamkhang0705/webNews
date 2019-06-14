@@ -38,6 +38,7 @@ namespace webNews.Domain.Entities
         public string DistrictName { get; set; }
         public string WardName { get; set; }
         public string Address { get; set; }
+        public int? num_trans { get; set; }
     }
 
 }

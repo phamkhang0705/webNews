@@ -80,19 +80,22 @@ var Unit = function () {
                 title: 'Mã danh mục',
                 field: 'Code',
                 align: "center",
-                valign: "middle"
+                valign: "middle",
+                width: '100px'
             }),
             Sv.BootstrapTableColumn("string", {
                 title: 'Tên danh mục',
                 field: 'Name',
                 align: "center",
-                valign: "middle"
+                valign: "middle",
+                width: '200px'
             }),
             Sv.BootstrapTableColumn("string", {
                 title: 'Giá',
                 field: 'Price',
                 align: "center",
                 valign: "middle",
+                width: '100px',
                 formatter: function (value, row, index) {
                     var html = "";
                     html = '<input class="form-control inputChange inputPrice" name="inputPrice" id="inputPrice' + row.Code + '" style="text-align: right;" value="' + row.Price + '"/>';
@@ -117,6 +120,7 @@ var Unit = function () {
                 field: 'Quantity',
                 align: "center",
                 valign: "middle",
+                width: '100px',
                 formatter: function (value, row, index) {
                     var html = "";
                     html = '<input class="form-control inputChange inputQuantity" name="inputQuantity" id="inputQuantity' + row.Code + '" style="text-align: right;" value="' + row.Quantity + '"/>';
@@ -141,6 +145,7 @@ var Unit = function () {
                 field: 'TotalMoney',
                 align: "center",
                 valign: "middle",
+                width: '100px',
                 formatter: function (value, item) {
                     var price = (item.Price != null && item.Price != undefined) ? item.Price : 0;
                     var quantity = (item.Quantity != null && item.Quantity != undefined) ? item.Quantity : 0;
@@ -240,23 +245,27 @@ var Unit = function () {
             Dialog.Alert("Bạn chưa chọn nhà cung cấp", Dialog.Error);
             return;
         }
-        Sv.Loading();
+
+        if ($('#txtMethodPayment').val() == 1) {
+            if ($('#txtBankAccount').val().length == 0) {
+                Dialog.Alert("Bạn chưa chọn tài khoản", Dialog.Error);
+                return;
+            }
+        }
         Sv.AjaxPost({
             Url: url,
             Data: base.GetFormData()
         },
             function (rs) {
-                Sv.EndLoading();
                 if (rs.Status === "01") {
                     Dialog.Alert(rs.Message, Dialog.Success, "", function () {
-                        window.location.reload();
+                        window.location.href = "/InvoiceOutport/Index";
                     });
                 } else {
                     Dialog.Alert(rs.Message, Dialog.Error);
                 }
             },
             function () {
-                Sv.EndLoading();
                 Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
             });
     }
@@ -285,6 +294,7 @@ $(document).ready(function () {
     }
     $("#txtSalePrice").attr("disabled", true);
     $("#txtRemainMoney").attr("disabled", true);
+    $("#txtBankAccount").attr("disabled", true);
 
     unit.$table.bootstrapTable(Sv.BootstrapTableOptionClient({
         queryParams: function (p) {
@@ -512,8 +522,10 @@ $(document).ready(function () {
     $("#txtMethodPayment").change(function () {
         if (parseInt($("#txtMethodPayment").val()) == 1) {
             $("#grAccount").show();
+            $('#txtBankAccount').prop('disabled', false);
         } else {
             $("#grAccount").hide();
+            $('#txtBankAccount').prop('disabled', true);
         }
     });
 
@@ -584,13 +596,11 @@ $(document).ready(function () {
             var _this = this;
 
             if ($form.valid(true)) {
-                Sv.Loading();
                 Sv.AjaxPost({
                     Url: "/CustomerManagement/Create",
                     Data: this.GetFormData()
                 },
                     function (rs) {
-                        Sv.EndLoading();
                         if (rs.Status == "01") {
                             Dialog.Alert(rs.Message, Dialog.Success);
                             unit.$boxDetails.find("#modalDetails").modal("hide");
@@ -600,7 +610,6 @@ $(document).ready(function () {
                         }
                     },
                     function () {
-                        Sv.EndLoading();
                         Dialog.Alert("Lỗi server", Dialog.Error);
                     });
             }

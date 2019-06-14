@@ -1,20 +1,35 @@
 ﻿var active = 1;
 var totalQuantity = 0;
 var totalMoney = 0;
+var totalDeposit = 0;
+var totalTransport = 0;
 var totalSalePrice = 0;
 var discountAmount = 0;
+var totalDepositDiscount = 0;
 var discount = 0;
 var discountPercent = 0;
+var totalSumMoney = 0;
 var VAT = 0;
 var isReopen = false;
-
+var changeDeposit = 0;
+var changeTotalSale = 0;
+var changePayment = 0;
+var paidMoney = 0;
 var recaculateInvoice = function () {
     discount = Sv.round($("#txtDiscount0").val());
     discountPercent = Sv.round($("#txtDiscount1").val());
     totalQuantity = Sv.Sum(categorySelect, "Quantity");
     totalMoney = Sv.Sum(categorySelect, "TotalMoney");
+    totalDeposit = Sv.Sum(categorySelect, "Deposits_Money");
+    totalTransport = Sv.Sum(categorySelect, "Transport_Money");
     discountAmount = 0;
     VAT = Sv.round($("#txtVAT").val());
+    totalDepositDiscount = Sv.round($("#txtTotalDepositDiscount").val());
+    var newDeposit = Sv.round($("#txtTotalDeposit").val());
+    if (changeDeposit > 0) {
+        totalDeposit = newDeposit;
+    }
+    var newSalePrice = Sv.round($("#txtSalePrice").val());
 
     if (parseInt($("#txtDiscounType").val()) === 0) {
         $("#typeMoney").show();
@@ -25,21 +40,28 @@ var recaculateInvoice = function () {
         $("#typeMoney").hide();
         discountAmount = Math.round(totalMoney * discountPercent) / 100;
     }
+    totalSumMoney = totalMoney + totalDeposit - (totalDeposit * totalDepositDiscount / 100) + totalTransport;
+    if (changeTotalSale > 0) {
+        //trường hợp combo tặng khách
+        totalSalePrice = newSalePrice;
+    } else {
+        totalSalePrice = Math.round(totalSumMoney - (totalSumMoney * VAT / 100) - discountAmount);    //làm tròn
+    }
 
-    totalSalePrice = Math.round(totalMoney + (totalMoney * VAT / 100) - discountAmount);    //làm tròn
-    var paidMoney = totalSalePrice;
+    var newPayment = Sv.round($("#txtPayMoney").val());
+    if (changePayment > 0) {
+        paidMoney = newPayment;
+    } else {
+        paidMoney = totalSalePrice;
+    }
 
-    $("#txtTotalQuantity").val(Sv.FormatMoney(totalQuantity));
-    $("#txtTotalMoney").val(Sv.FormatMoney(totalMoney));
-    $("#txtSalePrice").val(Sv.FormatMoney(totalSalePrice));
+    $("#txtTotalQuantity").val(totalQuantity);
+    $("#txtTotalMoney").val(totalMoney);
+    $("#txtTotalDeposit").val(totalDeposit);
+    $("#txtTotalTransport").val(totalTransport);
+    $("#txtSalePrice").val(totalSalePrice);
     $("#txtRemainMoney").val(totalSalePrice - paidMoney);
     $("#txtPayMoney").val(paidMoney);
-
-    if (totalSalePrice - paidMoney >= 0) {
-        $("#chkAddTosupplier").prop('checked', true);
-    } else {
-        $("#chkAddTosupplier").prop('checked', false);
-    }
 }
 
 var init = function () {
@@ -80,34 +102,91 @@ var Unit = function () {
                 title: 'Mã sản phẩm',
                 field: 'ProductCode',
                 align: "center",
-                valign: "middle"
+                valign: "middle",
+                width: "100px",
             }),
             Sv.BootstrapTableColumn("string", {
                 title: 'Tên sản phẩm',
                 field: 'ProductName',
                 align: "center",
+                width: "200px",
                 valign: "middle"
             }),
             Sv.BootstrapTableColumn("string", {
                 title: 'Giá',
                 field: 'Price',
                 align: "center",
+                width: "100px",
                 valign: "middle",
                 formatter: function (value, row, index) {
                     var html = "";
-                    html = '<input class="form-control inputChange inputPrice" name="inputPrice" id="inputPrice' + row.Code + '" style="text-align: right;" value="' + row.Price + '"/>';
+                    html = '<input class="form-control inputChange inputPrice" name="inputPrice" id="inputPrice' + row.Id + '" style="text-align: right;" value="' + row.Price + '"/>';
                     return html;
                 },
                 events: {
                     'keyup .inputChange': function (e, value, row) {
                         var pro = categorySelect.filter(function (p) {
-                            return p.Code === row.Code;
+                            return (p.Id === row.Id) && (p.ProductCode === row.ProductCode);
                         });
                         if (pro != null && pro.length > 0) {
-                            pro[0].Price = Sv.round($("#inputPrice" + row.Code).val());
+                            pro[0].Price = Sv.round($("#inputPrice" + row.Id).val());
+                            pro[0].Deposits_Money = Sv.round($("#inputDeposit" + row.Id).val());
+                            pro[0].Transport_Money = Sv.round($("#inputTransport" + row.Id).val());
                             pro[0].TotalMoney = Sv.round(pro[0].Price * pro[0].Quantity);
                             recaculateInvoice();
-                            $("#totalMoney" + row.Code).html(Sv.FormatMoney(pro[0].TotalMoney));
+                            $("#totalMoney" + row.Id).html(Sv.NumberToString(pro[0].TotalMoney));
+                        }
+                    }
+                }
+            }),
+            Sv.BootstrapTableColumn("string", {
+                title: 'Tiền cọc',
+                field: 'Deposits_Money',
+                align: "center", width: "100px",
+                valign: "middle",
+                formatter: function (value, row, index) {
+                    var html = "";
+                    html = '<input class="form-control inputChange inputPrice" name="inputDeposit" id="inputDeposit' + row.Id + '" style="text-align: right;" value="' + row.Deposits_Money + '"/>';
+                    return html;
+                },
+                events: {
+                    'keyup .inputChange': function (e, value, row) {
+                        var pro = categorySelect.filter(function (p) {
+                            return (p.Id === row.Id) && (p.ProductCode === row.ProductCode);
+                        });
+                        if (pro != null && pro.length > 0) {
+                            pro[0].Price = Sv.round($("#inputPrice" + row.Id).val());
+                            pro[0].Deposits_Money = Sv.round($("#inputDeposit" + row.Id).val());
+                            pro[0].Transport_Money = Sv.round($("#inputTransport" + row.Id).val());
+                            pro[0].TotalMoney = Sv.round(pro[0].Price * pro[0].Quantity);
+                            recaculateInvoice();
+                            $("#totalMoney" + row.Id).html(Sv.NumberToString(pro[0].TotalMoney));
+                        }
+                    }
+                }
+            }),
+            Sv.BootstrapTableColumn("string", {
+                title: 'Tiền vận chuyển',
+                field: 'Transport_Money',
+                align: "center", width: "100px",
+                valign: "middle",
+                formatter: function (value, row, index) {
+                    var html = "";
+                    html = '<input class="form-control inputChange inputPrice" name="inputTransport" id="inputTransport' + row.Id + '" style="text-align: right;" value="' + row.Transport_Money + '"/>';
+                    return html;
+                },
+                events: {
+                    'keyup .inputChange': function (e, value, row) {
+                        var pro = categorySelect.filter(function (p) {
+                            return (p.Id === row.Id) && (p.ProductCode === row.ProductCode);
+                        });
+                        if (pro != null && pro.length > 0) {
+                            pro[0].Price = Sv.round($("#inputPrice" + row.Id).val());
+                            pro[0].Deposits_Money = Sv.round($("#inputDeposit" + row.Id).val());
+                            pro[0].Transport_Money = Sv.round($("#inputTransport" + row.Id).val());
+                            pro[0].TotalMoney = Sv.round(pro[0].Price * pro[0].Quantity);
+                            recaculateInvoice();
+                            $("#totalMoney" + row.Id).html(Sv.NumberToString(pro[0].TotalMoney));
                         }
                     }
                 }
@@ -115,23 +194,26 @@ var Unit = function () {
             Sv.BootstrapTableColumn("string", {
                 title: 'Số lượng',
                 field: 'Quantity',
-                align: "center",
+                align: "center", width: "100px",
                 valign: "middle",
                 formatter: function (value, row, index) {
                     var html = "";
-                    html = '<input class="form-control inputChange inputQuantity" name="inputQuantity" id="inputQuantity' + row.Code + '" style="text-align: right;" value="' + row.Quantity + '"/>';
+                    html = '<input class="form-control inputChange inputPrice" name="inputQuantity" id="inputQuantity' + row.Id + '" style="text-align: right;" value="' + row.Quantity + '"/>';
                     return html;
                 },
                 events: {
                     'keyup .inputChange': function (e, value, row) {
                         var pro = categorySelect.filter(function (p) {
-                            return p.Code === row.Code;
+                            return (p.Id === row.Id) && (p.ProductCode === row.ProductCode);
                         });
                         if (pro != null && pro.length > 0) {
-                            pro[0].Quantity = Sv.round($("#inputQuantity" + row.Code).val());
-                            pro[0].TotalMoney = Sv.round(pro[0].Price * pro[0].Quantity);
+                            var quantity = $('#inputQuantity' + row.Id).val();
+                            pro[0].Price = Sv.round($("#inputPrice" + row.Id).val());
+                            pro[0].Deposits_Money = Sv.round($("#inputDeposit" + row.Id).val());
+                            pro[0].Transport_Money = Sv.round($("#inputTransport" + row.Id).val());
+                            pro[0].TotalMoney = Sv.round(pro[0].Price * quantity);
                             recaculateInvoice();
-                            $("#totalMoney" + row.Code).html(Sv.FormatMoney(pro[0].TotalMoney));
+                            $("#totalMoney" + row.Id).html(Sv.NumberToString(pro[0].TotalMoney));
                         }
                     }
                 }
@@ -139,12 +221,12 @@ var Unit = function () {
             Sv.BootstrapTableColumn("string", {
                 title: 'Tổng tiền',
                 field: 'TotalMoney',
-                align: "center",
+                align: "center", width: "100px",
                 valign: "middle",
                 formatter: function (value, item) {
                     var price = (item.Price != null && item.Price != undefined) ? item.Price : 0;
                     var quantity = (item.Quantity != null && item.Quantity != undefined) ? item.Quantity : 0;
-                    var html = '<span id="totalMoney' + item.Code + '">' + Sv.FormatMoney(Sv.round(price * quantity)) + '</span>';
+                    var html = '<span id="totalMoney' + item.Id + '">' + Sv.NumberToString(Sv.round(price * quantity)) + '</span>';
                     return html;
                 }
             }),
@@ -159,7 +241,7 @@ var Unit = function () {
                     }, events: {
                         'click .delete': function (e, value, row) {
                             for (var i = 0; i < categorySelect.length; i++) {
-                                if (categorySelect[i].Code === row.Code) {
+                                if (categorySelect[i].Id === row.Id) {
                                     categorySelect.splice(i, 1);
                                     break;
                                 }
@@ -191,12 +273,12 @@ var Unit = function () {
     base.GetFormData = function () {
         var data = {};
         data = Sv.getFormData($("#formDetail"));
-        data.DiscountType = parseInt($("#txtDiscounType").val()) === "0" ? false : true;
+        data.DiscountType = parseInt($("#txtDiscounType").val()) === 0 ? false : true;
         data.Active = active;
         data.TotalQuantity = totalQuantity;
         data.TotalMoney = totalMoney;
         data.CategoryItems = categorySelect;
-        data.Discount = data.DiscountType ? discount : discountPercent;
+        data.Discount = data.DiscountType ? discountPercent : discount;
         data.SumMoney = totalSalePrice;
         data.PaidMoney = $("#txtPayMoney").val();
         data.RemainMoney = Sv.round(data.SumMoney - data.PaidMoney);
@@ -207,8 +289,13 @@ var Unit = function () {
         data.VAT = $("#txtVAT").val();
         data.Note = $("#txtNote").val();
         data.PayMethod = $("#txtMethodPayment").val();
-        data.Type = $("#txtType").val();
-
+        data.InvoiceType = $("#txtType").val();
+        data.TotalDeposit = $("#txtTotalDeposit").val();
+        data.TotalTransport = $("#txtTotalTransport").val();
+        data.TotalDepositDiscount = $("#txtTotalDepositDiscount").val();
+        data.DeliveryDate = $("#txtDeliveryDate").val();
+        data.DeliveryAddress = $("#txtAddress").val();
+        console.log(data);
         return data;
     }
     //-- them sua xoa
@@ -237,26 +324,23 @@ var Unit = function () {
             return;
         }
         else if ($("#txtCustomerCode").val() == "" || $("#txtCustomerCode").val() == null) {
-            Dialog.Alert("Bạn chưa chọn nhà cung cấp", Dialog.Error);
+            Dialog.Alert("Bạn chưa chọn khách hàng", Dialog.Error);
             return;
         }
-        Sv.Loading();
         Sv.AjaxPost({
             Url: url,
             Data: base.GetFormData()
         },
             function (rs) {
-                Sv.EndLoading();
                 if (rs.Status === "01") {
                     Dialog.Alert(rs.Message, Dialog.Success, "", function () {
-                        window.location.reload();
+                        window.location.href = "/InvoiceRental/Index";
                     });
                 } else {
                     Dialog.Alert(rs.Message, Dialog.Error);
                 }
             },
             function () {
-                Sv.EndLoading();
                 Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
             });
     }
@@ -270,6 +354,22 @@ var Unit = function () {
         }
         return true;
     }
+    this.getDeliveryDate = function () {
+        var type = $('#txtType').val();
+        var num_days = 0;
+        switch (type) {
+            case '2W':
+                num_days = 15;
+                break;
+            case '1W':
+                num_days = 8;
+                break;
+            case '1M':
+                num_days = 31;
+                break;
+        }
+        $('#txtDeliveryDate').val(moment().add(num_days, 'days').format('DD/MM/YYYY HH:mm'));
+    }
 }
 
 var unit = new Unit();
@@ -277,29 +377,31 @@ var unit = new Unit();
 var categorySelect = [];
 
 $(document).ready(function () {
-    $('#divCreateDate').data("DateTimePicker").date(Sv.DefaultDate().Default);
+    Sv.SetupInputDate($('#txtCreatedDate'));
+    Sv.SetupInputDate($('#txtDeliveryDate'));
+    unit.getDeliveryDate();
     var loadTableSearch = function () {
         unit.$table.bootstrapTable('load', categorySelect);
         $(".inputQuantity").number(true, 0);
         $(".inputPrice").number(true, 0);
     }
-    $("#txtSalePrice").attr("disabled", true);
-    $("#txtRemainMoney").attr("disabled", true);
 
+    $("#txtRemainMoney").attr("disabled", true);
+    $("#txtBankAccount").attr("disabled", true);
+    $("#txtSalePrice").attr("disabled", true);
+    var $example = $("#txtDiscounType").select2();
+    $example.select2("close");
     unit.$table.bootstrapTable(Sv.BootstrapTableOptionClient({
         queryParams: function (p) {
             return {
                 search: unit.GetFormSearchData(),
                 pageIndex: p.offset,
                 pageSize: p.limit
-
             };
         },
         columns: unit.Columns(),
         data: categorySelect
     }));
-
-
     var params = Sv.getAllUrlParams(window.location.href);
     if (params.code != null && params.code != undefined) {
         $("#txtImportCode").attr("disabled", "disabled");
@@ -341,23 +443,32 @@ $(document).ready(function () {
                 $("#txtBankAccount").val(data.BankAccount);
                 Sv.SetupDateAndSetDefault($('#divCreatedDate'), data.CreatedDate);
                 $("#txtNote").val(data.Note);
+                $("#txtTotalDeposit").val(data.TotalDeposit);
+                $("#txtTotalTransport").val(data.TotalTransport);
                 if (data.InvoiceRentalDetails != null && data.InvoiceRentalDetails != undefined) {
                     for (var i = 0; i < data.InvoiceRentalDetails.length; i++) {
                         var pro = {};
-                        pro.Code = data.InvoiceRentalDetails[i].CategoryCode;
-                        pro.Name = data.InvoiceRentalDetails[i].Name;
-                        pro.PriceInput = data.InvoiceRentalDetails[i].Price;
+                        pro.Id = data.InvoiceRentalDetails[i].ProductId;
+                        pro.ProductId = data.InvoiceRentalDetails[i].ProductId;
+                        pro.ProductCode = data.InvoiceRentalDetails[i].ProductCode;
+                        pro.ProductName = data.InvoiceRentalDetails[i].ProductName;
+                        pro.Price = data.InvoiceRentalDetails[i].Price;
                         pro.Quantity = data.InvoiceRentalDetails[i].Quantity;
                         pro.TotalMoney = data.InvoiceRentalDetails[i].TotalMoney;
+                        pro.Deposits_Money = data.InvoiceRentalDetails[i].Deposits_Money;
+                        pro.Transport_Money = data.InvoiceRentalDetails[i].Transport_Money;
                         categorySelect.push(pro);
                     }
                 }
                 totalSalePrice = data.SumMoney;
                 totalQuantity = data.TotalQuantity;
                 totalMoney = data.TotalMoney;
+                totalDeposit = data.TotalDeposit;
+                totalTransport = data.TotalTransport;
 
                 $("#txtSalePrice").attr("disabled", true);
                 $("#txtRemainMoney").attr("disabled", true);
+                $("#txtType").val(data.InvoiceType).trigger('change');;
                 loadTableSearch();
             }
         },
@@ -374,13 +485,12 @@ $(document).ready(function () {
                 url: "/InvoiceRental/GetProductData",
                 type: "POST",
                 dataType: "json",
-                data: { productName: $("#txtSearchCategory").val() },
+                data: { productName: $("#txtSearchCategory").val(), type: $('#txtType').val() },
                 success: function (data) {
                     response($.map(data,
                         function (item) {
                             return item;
                         }));
-
                 }
             });
         },
@@ -399,14 +509,16 @@ $(document).ready(function () {
         select: function (event, ui) {
             $("#txtSearchCategory").val("");
             var tmp = JSON.parse(JSON.stringify(ui.item));
-            var store = $('#txtType').val();
+            console.log(tmp);
             tmp.Quantity = 1;
-            tmp.Price = store === "1" ? 0 : parseFloat(tmp.Price);
+            tmp.ProductId = tmp.Id;
+            tmp.Price = parseFloat(tmp.Price);
             tmp.TotalMoney = tmp.Price * tmp.Quantity;
 
             var check = categorySelect.filter(function (p) {
-                return p.ProductCode === tmp.ProductCode;
+                return (p.Id === tmp.Id) && (p.ProductCode === tmp.ProductCode);
             });
+            console.log(check);
             if (check != null && check.length == 1) {
                 check[0].Quantity += tmp.Quantity;
                 check[0].TotalMoney += tmp.TotalMoney;
@@ -422,7 +534,7 @@ $(document).ready(function () {
         }
     })
         .data("ui-autocomplete")._renderItem = function (ul, item) {
-            var inner_html = '<p>' + item.ProductCode + " - " + item.ProductName + '</p>';
+            var inner_html = '<p id="' + item.Id + '">' + item.Id + " - " + item.ProductCode + " - " + item.ProductName + '</p>';
             return $("<li></li>")
                 .data("item.autocomplete", item)
                 .append(inner_html)
@@ -443,7 +555,6 @@ $(document).ready(function () {
                         function (item) {
                             return item;
                         }));
-
                 }
             });
         },
@@ -463,6 +574,11 @@ $(document).ready(function () {
             $("#txtCustomerCode").val(ui.item.CustomerCode);
             $("#txtCustomerName").html(ui.item.CustomerName);
             $("#selectedCustomer").show();
+            if (ui.item.num_trans > 0) {
+                $('.TotalDepositDiscount').show();
+                $('#txtDiscounType').val('1').trigger('change');
+                $("#txtTotalDepositDiscount").prop("disabled", true);
+            }
             return false;
         }
     })
@@ -477,24 +593,26 @@ $(document).ready(function () {
 
     //Event input of form detail
     $("#txtPayMoney").keyup(function () {
-        var pay = isNaN(parseFloat($("#txtPayMoney").val())) ? 0 : parseFloat($("#txtPayMoney").val());
-        $("#txtRemainMoney").val(Sv.FormatMoney(totalSalePrice - pay));
-        if (totalSalePrice - pay >= 0) {
-            $("#chkAddTosupplier").prop('checked', true);
-        } else {
-            $("#chkAddTosupplier").prop('checked', false);
-        }
+        changePayment++;
+        //        var pay = isNaN(parseFloat($("#txtPayMoney").val())) ? 0 : parseFloat($("#txtPayMoney").val());
+        //        $("#txtRemainMoney").val(Sv.FormatMoney(totalSalePrice - pay));
+        recaculateInvoice();
     });
+
+    $("#txtTotalDeposit").keyup(function () {
+        changeDeposit++;
+        recaculateInvoice();
+    });
+
     $("#txtVAT").keyup(function () {
         VAT = isNaN(parseFloat($("#txtVAT").val())) ? 0 : parseFloat($("#txtVAT").val());
         totalSalePrice = Math.round(totalMoney + (totalMoney * VAT / 100) - discountAmount);    //làm tròn
-
-        $("#txtSalePrice").val(Sv.FormatMoney(totalSalePrice));
+        $("#txtSalePrice").val(totalSalePrice);
         recaculateInvoice();
     });
     $("#txtDiscount0").keyup(function () {
         recaculateInvoice();
-        $("#txtSalePrice").val(Sv.FormatMoney(totalSalePrice));
+        $("#txtSalePrice").val(totalSalePrice);
     });
     $("#txtDiscount1").keyup(function () {
         var value = isNaN(parseFloat($("#txtDiscount1").val())) ? 0 : parseFloat($("#txtDiscount1").val());
@@ -502,18 +620,33 @@ $(document).ready(function () {
         if (value < 0) $("#txtDiscount1").val("0");
 
         recaculateInvoice();
-        $("#txtSalePrice").val(Sv.FormatMoney(totalSalePrice));
+        $("#txtSalePrice").val(totalSalePrice);
     });
 
     $("#txtDiscounType").change(function () {
         recaculateInvoice();
     });
 
+    $("#checkboxChange").change(function () {
+        if ($('#checkboxChange').prop('checked') == true) {
+            $('#txtSalePrice').prop('disabled', false);
+        } else {
+            $('#txtSalePrice').prop('disabled', true);
+        }
+    });
+
+    $("#txtSalePrice").keyup(function () {
+        changeTotalSale++;
+        recaculateInvoice();
+    });
+
     $("#txtMethodPayment").change(function () {
         if (parseInt($("#txtMethodPayment").val()) == 1) {
             $("#grAccount").show();
+            $('#txtBankAccount').prop('disabled', false);
         } else {
             $("#grAccount").hide();
+            $('#txtBankAccount').prop('disabled', true);
         }
     });
 
@@ -551,10 +684,16 @@ $(document).ready(function () {
     });
 
     //Init only input number
+    $("#txtTotalMoney").number(true, 0);
     $("#txtPayMoney").number(true, 0);
+    $("#txtTotalDeposit").number(true, 0);
+    $("#txtTotalTransport").number(true, 0);
+    $("#txtSalePrice").number(true, 0);
     $("#txtVAT").number(true, 0);
     $("#txtDiscount0").number(true, 0);
     $("#txtDiscount1").number(true, 0);
+    $("#txtRemainMoney").number(true, 0);
+
 
     unit.$btnComplete.click(function () {
         unit.SubmitServer("Complete", 0);
@@ -584,13 +723,11 @@ $(document).ready(function () {
             var _this = this;
 
             if ($form.valid(true)) {
-                Sv.Loading();
                 Sv.AjaxPost({
                     Url: "/CustomerManagement/Create",
                     Data: this.GetFormData()
                 },
                     function (rs) {
-                        Sv.EndLoading();
                         if (rs.Status == "01") {
                             Dialog.Alert(rs.Message, Dialog.Success);
                             unit.$boxDetails.find("#modalDetails").modal("hide");
@@ -600,7 +737,6 @@ $(document).ready(function () {
                         }
                     },
                     function () {
-                        Sv.EndLoading();
                         Dialog.Alert("Lỗi server", Dialog.Error);
                     });
             }
@@ -668,5 +804,8 @@ $(document).ready(function () {
     unit.$boxDetails.on('click', 'button#btnAdd', function (e) {
         e.preventDefault();
         customer.SubmitServer("Add", 0);
+    });
+    $('#txtType').on('change', function (e) {
+        unit.getDeliveryDate();
     });
 });

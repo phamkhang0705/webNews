@@ -10,5 +10,7 @@ namespace webNews.Domain.Entities
 
         [Reference]
         public Payment Payment { get; set; }
+        [Reference]
+        public List<Payment> ListPayments { get; set; }
     }
 }

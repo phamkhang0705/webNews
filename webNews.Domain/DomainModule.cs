@@ -16,6 +16,7 @@ using webNews.Domain.Repositories.PaymentVoucherManagement;
 using webNews.Domain.Repositories.ProductManagement;
 using webNews.Domain.Repositories.ProductPriceManagement;
 using webNews.Domain.Repositories.PromotionManagement;
+using webNews.Domain.Repositories.ReceiverVoucherManagement;
 using webNews.Domain.Repositories.RoleManage;
 using webNews.Domain.Repositories.RoleManagement;
 using webNews.Domain.Repositories.UserManagement;
@@ -32,6 +33,7 @@ using webNews.Domain.Services.PaymentVoucherManagement;
 using webNews.Domain.Services.PriceManagement;
 using webNews.Domain.Services.ProductManagement;
 using webNews.Domain.Services.PromotionManagement;
+using webNews.Domain.Services.ReceiverVoucherManagement;
 using webNews.Domain.Services.RoleManage;
 using webNews.Domain.Services.RoleManagement;
 using webNews.Domain.Services.UserManagement;
@@ -97,6 +99,9 @@ namespace webNews.Domain
 
             builder.RegisterType<PaymentVoucherRepository>().As<IPaymentVoucherRepository>();
             builder.RegisterType<PaymentVoucherService>().As<IPaymentVoucherService>();
+
+            builder.RegisterType<ReceiverVoucherRepository>().As<IReceiverVoucherRepository>();
+            builder.RegisterType<ReceiverVoucherService>().As<IReceiverVoucherService>();
 
             builder.RegisterType<InvoiceOutportRepository>().As<IInvoiceOutportRepository>();
             builder.RegisterType<InvoiceOutportService>().As<IInvoiceOutportService>();

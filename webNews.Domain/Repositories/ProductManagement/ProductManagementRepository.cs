@@ -254,5 +254,22 @@ namespace webNews.Domain.Repositories.ProductManagement
                 return new List<Vw_Product>();
             }
         }
+
+        public List<Vw_Product_Rental> GetProductRentals(string name, string type)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var check = db.Select<Vw_Product_Rental>(_ => _.ProductName.ToLower().Contains(name.ToLower()) && _.OrderTypeCode == type);
+                    return check;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new List<Vw_Product_Rental>();
+            }
+        }
     }
 }

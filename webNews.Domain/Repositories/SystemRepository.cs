@@ -304,6 +304,9 @@ namespace webNews.Domain.Repositories
                         code.Supplier = 1;
                         code.InvoiceImport = 1;
                         code.InvoiceOutport = 1;
+                        code.ReceiveVoucher = 1;
+                        code.PaymentVoucher = 1;
+                        code.InvoiceRental = 1;
                         code.Date = dateTime;
                     }
 
@@ -329,13 +332,17 @@ namespace webNews.Domain.Repositories
                                 id = code.InvoiceOutport++;
                                 name = PrefixType.InvoiceOutport + dateTime;
                                 break;
-                            case ObjectType.ReceiveVoucher:
+                            case ObjectType.ReceiverVoucher:
                                 id = code.ReceiveVoucher++;
-                                name = PrefixType.ReceiveVoucher + dateTime;
+                                name = PrefixType.ReceiverVoucher + dateTime;
                                 break;
                             case ObjectType.PaymentVoucher:
                                 id = code.PaymentVoucher++;
                                 name = PrefixType.PaymentVoucher + dateTime;
+                                break;
+                            case ObjectType.InvoiceRental:
+                                id = code.InvoiceRental++;
+                                name = PrefixType.InvoiceRental + dateTime;
                                 break;
                                 //                            default:
                                 //                                id = code.OtherPerson++;

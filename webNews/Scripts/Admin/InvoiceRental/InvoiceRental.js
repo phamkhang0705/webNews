@@ -68,7 +68,7 @@ var Unit = function () {
             }),
             Sv.BootstrapTableColumn("string", {
                 title: 'Tổng tiền',
-                field: 'TotalMoney',
+                field: 'SumMoney',
                 align: "center",
                 valign: "middle",
                 formatter: function (value) {
@@ -85,10 +85,13 @@ var Unit = function () {
                         return "Phiếu tạm";
                     }
                     else if (data.Active === 1) {
-                        return "Đã duyệt";
-                    }
-                    else {
-                        return "Đã hiếu";
+                        return "Chờ giao";
+                    } else if (data.Active === 2) {
+                        return "Đã hủy";
+                    } else if (data.Active === 3) {
+                        return "Đang thuê";
+                    } else if (data.Active === 4) {
+                        return "Hoàn thành";
                     }
                 }
             }),
@@ -98,18 +101,18 @@ var Unit = function () {
                 width: '80px',
                 formatter: function (value, row, index) {//
                     var str = "";
-                    if (base.$perEdit == 1) {
-                        str += "<button data-code='%s' class='OpenEditItem btn btn-primary btn-in-table' title='Chi tiết'><i class='fa fa-pencil-square-o'></i></button>";
-                    }
+                    str += "<button data-code='%s' class='OpenViewItem btn btn-primary btn-in-table' title='Chi tiết'><i class='fa fa-eye'></i></button>";
                     //                    str += "<button data-code='%s' class='OpenHistoryItem btn btn-primary btn-in-table' title='Xem lịch sử thanh toán'><i class='fa fa-bar-chart'></i></button>";
                     if (row.Active == 0) {
-                        str += "<button data-code='%s' class='CancelItem btn btn-primary btn-in-table' title='Hủy bỏ phiếu'><i class='fa fa-close'></i></button>";
+                        if (base.$perEdit == 1) {
+                            str += "<button data-code='%s' class='OpenEditItem btn btn-primary btn-in-table' title='Chi tiết'><i class='fa fa-pencil-square-o'></i></button>";
+                        }
                     }
-
+                    str += "<button data-code='%s' class='CancelItem btn btn-primary btn-in-table' title='Hủy bỏ phiếu'><i class='fa fa-close'></i></button>";
                     return str;
                 },
                 events: {
-                    'click .OpenEditItem': function (e, value, row, index) {
+                    'click .OpenViewItem': function (e, value, row, index) {
                         Sv.ChecPermission("View", function () {
                             var url = "/Admin/InvoiceRental/GetInvoiceDetail";
                             var model = {
@@ -122,23 +125,22 @@ var Unit = function () {
                                 Sv.SetupDateAndSetDefault($('#divCreatedDate'), row.CreatedDate);
                                 base.$boxDetails.find("#txtCreatedDate").prop('disabled', true);
                                 if (row.Active == 0) {
-                                    $("#btnReOpen").show();
+                                    //                                    $("#btnReOpen").show();
                                     $("#btnDelete").show();
                                     $("#btnClose").show();
                                 }
                                 else if (row.Active == 1) {
-                                    //                                    $("#btnSave").show();
-                                    //                                    $("#btnPrint").show();
-                                    //                                    $("#btnRefund").show();
-                                    //                                    $("#btnExport").show();
-                                    //                                    $("#btnCancel").show();
+                                    $("#btnSave").show();
+                                    $("#btnTemp").show();
+//                                    $("#btnCancel").show();
                                     $("#btnClose").show();
                                 }
-                                //                                else {
-                                //                                    $("#btnExport").show();
-                                //                                    $("#btnPrint").show();
-                                //                                }
                             });
+                        });
+                    },
+                    'click .OpenEditItem': function (e, value, row, index) {
+                        Sv.ChecPermission("Edit", function () {
+                            window.location = "/InvoiceRental/Add?code=" + row.Code;
                         });
                     },
                     'click .OpenHistoryItem': function (e, value, row, index) {
@@ -157,28 +159,23 @@ var Unit = function () {
                         }
 
 
-                        Dialog.ConfirmCustom("",
-                            msg,
-                                    function () {
-                                        Sv.Loading();
-                                        Sv.AjaxPost({
-                                            Url: url,
-                                            Data: { invoiceCode: row.Code }
-                                        },
-                                        function (rs) {
-                                            Sv.EndLoading();
-                                            if (rs.Status == "01") {
-                                                Dialog.Alert(rs.Message, Dialog.Success);
-                                                base.$boxDetails.find("#modalDetails").modal("hide");
-                                                base.OpentDisable();
-                                                base.LoadTableSearch();
-                                            }
-                                        },
-                                        function () {
-                                            Sv.EndLoading();
-                                            Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
-                                        });
-                                    });
+                        Dialog.ConfirmCustom("", msg, function () {
+                            Sv.AjaxPost({
+                                Url: url,
+                                Data: { invoiceCode: row.Code }
+                            },
+                            function (rs) {
+                                if (rs.Status == "01") {
+                                    Dialog.Alert(rs.Message, Dialog.Success);
+                                    base.$boxDetails.find("#modalDetails").modal("hide");
+                                    base.OpentDisable();
+                                    base.LoadTableSearch();
+                                }
+                            },
+                            function () {
+                                Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
+                            });
+                        });
 
                     }
                 }
@@ -323,6 +320,7 @@ var Unit = function () {
                         Dialog.Alert(rs.Message, Dialog.Success);
                         base.$boxDetails.find("#modalDetails").modal("hide");
                         base.OpentDisable();
+                        window.location.href = "/InvoiceRental/Index";
                         base.LoadTableSearch();
                     }
                 },
@@ -419,6 +417,29 @@ $(document).ready(function () {
                 Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
             });
     });
+    unit.$boxDetails.on('click', 'button#btnTemp', function (e) {
+        e.preventDefault();
+        Sv.AjaxPost({
+            Url: "/Admin/InvoiceRental/Update",
+            Data: {
+                invoiceCode: $("#Code").val(),
+                status: 0,
+                date: $('#txtCreateDate').val(),
+                note: $("#txtNote").val()
+            }
+        },
+            function (rs) {
+                if (rs.Status == "01") {
+                    Dialog.Alert(rs.Message, Dialog.Success);
+                    unit.$boxDetails.find("#modalDetails").modal("hide");
+                    unit.OpentDisable();
+                    unit.LoadTableSearch();
+                }
+            },
+            function () {
+                Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
+            });
+    });
     unit.$boxDetails.on('click', 'button#btnCancel', function (e) {
         e.preventDefault();
         Dialog.ConfirmCustom("",
@@ -449,12 +470,12 @@ $(document).ready(function () {
         Dialog.ConfirmCustom("",
                 "Bạn chắc chắn trả lại hàng không?",
                 function () {
-                    window.location = "ReturnProvider/Add?code=" + $("#Code").val() + "&type=1";
+                    window.location = "/ReturnProvider/Add?code=" + $("#Code").val() + "&type=1";
                 });
     });
     unit.$boxDetails.on('click', 'button#btnReOpen', function (e) {
         e.preventDefault();
-        window.location = "InvoiceRental/Add?code=" + $("#Code").val();
+        window.location = "/InvoiceRental/Add?code=" + $("#Code").val();
     });
     unit.$boxDetails.on('click', 'button#btnPrint', function (e) {
         e.preventDefault();

@@ -40,6 +40,13 @@ namespace webNews.Domain.Entities
         public int? Type { get; set; }
         public string BankCode { get; set; }
         public string CustomerName { get; set; }
+        public double? TotalDeposit { get; set; }
+        public double? TotalTransport { get; set; }
+        public string InvoiceType { get; set; }
+        public double? TotalDepositDiscount { get; set; }
+        public string DeliveryAddress { get; set; }
+        public DateTime? DeliveryDate { get; set; }
+        public double? TotalTransportDiscount { get; set; }
     }
 
 }

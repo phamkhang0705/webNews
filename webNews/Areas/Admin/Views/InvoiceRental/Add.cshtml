@@ -14,9 +14,9 @@
                     <label class="col-xs-4 control-label">Chọn thời gian thuê</label>
                     <div class="col-xs-8">
                         <select class="form-control" id="txtType">
-                            @foreach (InvoiceType item in Model.ListOrderTypes)
+                            @foreach (InvoiceType item in Model.ListInvoiceTypes)
                             {
-                                <option value="@item.Id">@item.Name</option>
+                                <option value="@item.Code">@item.Name</option>
                             }
                         </select>
                     </div>
@@ -71,7 +71,6 @@
                                         <div class="col-xs-8">
                                             <input type="text" name="CustomerCode" class="form-control hidden" id="txtCustomerCode" placeholder="@Resource.ChooseProvider_Lang" />
                                             <label type="text" name="CustomerName" class="control-label" id="txtCustomerName"></label>
-
                                             <button class='delete btn btn-primary btn-in-table' id="deleteCustomer" type="button" title='Xóa khách hàng'><i class='fa fa-remove'></i></button>
                                         </div>
                                     </div>
@@ -88,6 +87,25 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label class="col-xs-4 control-label padding-lr-0">Tổng tiền cọc</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="TotalDeposit" value="0" class="form-control input-right" id="txtTotalDeposit" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group TotalDepositDiscount" style="display: none">
+                                        <label class="col-xs-4 control-label padding-lr-0">Chiết khấu tiền cọc</label>
+                                        <div class="col-xs-8 input-group" style="padding-right: 10px; padding-left: 10px;">
+                                            <input type="text" class="form-control input-right" name="TotalDepositDiscount" id="txtTotalDepositDiscount" value="@Model.DepositDiscount" />
+                                            <span class="input-group-addon">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label padding-lr-0">Tổng tiền vận chuyển</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="TotalTransport" disabled="disabled" value="0" class="form-control input-right" id="txtTotalTransport" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-xs-4 control-label padding-lr-0">Chiết khấu</label>
                                         <div class="col-xs-3">
                                             <select class="form-control" name="DiscountType" id="txtDiscounType">
@@ -99,20 +117,30 @@
                                             <input type="text" class="form-control input-right" id="txtDiscount0" value="0" />
                                         </div>
 
-                                        <div class="col-xs-5 input-group input-group-sm" style="display: none;" id="typePercent">
-                                            <input type="text" class="form-control input-right" id="txtDiscount1" value="0" />
+                                        <div class="col-xs-5 input-group" style="display: none; padding-right: 10px;" id="typePercent">
+                                            <input type="text" class="form-control input-right" id="txtDiscount1" value="@Model.RentalDiscount" />
                                             <span class="input-group-addon">%</span>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-xs-4 control-label">VAT</label>
                                         <div class="col-xs-8">
-                                            <input type="text" name="VAT" class="form-control input-right discount-mask" value="0" id="txtVAT" />
+                                            <input type="text" name="VAT" class="form-control input-right discount-mask" value="0" id="txtVAT"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-xs-4 control-label">Tổng tiền</label>
-                                        <div class="col-xs-8">
+                                        <div class="col-xs-2">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="checkbox" id="checkboxChange" title="Thay đổi tổng tiền" class="form-check-input" />
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                </label>
+                                            </div>
+                                            
+                                            <label for="checkboxChange"></label>
+                                        </div>
+                                        <div class="col-xs-6">
                                             <input type="text" name="SumMonney" class="form-control input-right" value="0" id="txtSalePrice" />
                                         </div>
                                     </div>
@@ -145,26 +173,26 @@
                                             <label class="col-xs-4 control-label">Lưu tạm</label>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-xs-4 control-label">Phương thức thanh toán</label>
-                                        <div class="col-xs-8">
-                                            <select class="form-control" name="PayMethod" id="txtMethodPayment">
-                                                <option value="0">Tiền mặt</option>
-                                                <option value="1">Chuyển khoản</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" id="grAccount" style="display: none;">
-                                        <label class="col-xs-4 control-label">Tài khoản</label>
-                                        <div class="col-xs-8">
-                                            <select class="form-control" name="BankCode" id="txtBankAccount">
-                                                @foreach (Bank bank in Model.ListBanks)
-                                                {
-                                                    <option value="@bank.BankAccount">@bank.BankCode-@bank.BankName</option>
-                                                }
-                                            </select>
-                                        </div>
-                                    </div>
+                                    @*                                    <div class="form-group">*@
+                                    @*                                        <label class="col-xs-4 control-label">Phương thức thanh toán</label>*@
+                                    @*                                        <div class="col-xs-8">*@
+                                    @*                                            <select class="form-control" name="PayMethod" id="txtMethodPayment">*@
+                                    @*                                                <option value="0">Tiền mặt</option>*@
+                                    @*                                                <option value="1">Chuyển khoản</option>*@
+                                    @*                                            </select>*@
+                                    @*                                        </div>*@
+                                    @*                                    </div>*@
+                                    @*                                    <div class="form-group" id="grAccount" style="display: none;">*@
+                                    @*                                        <label class="col-xs-4 control-label">Tài khoản</label>*@
+                                    @*                                        <div class="col-xs-8">*@
+                                    @*                                            <select class="form-control" name="BankCode" id="txtBankAccount">*@
+                                    @*                                                @foreach (Bank bank in Model.ListBanks)*@
+                                    @*                                                {*@
+                                    @*                                                    <option value="@bank.BankAccount">@bank.BankCode-@bank.BankName</option>*@
+                                    @*                                                }*@
+                                    @*                                            </select>*@
+                                    @*                                        </div>*@
+                                    @*                                    </div>*@
                                     <div class="form-group">
                                         <label class="col-xs-4 control-label">Người tạo</label>
                                         <div class="col-xs-8">
@@ -181,6 +209,24 @@
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Ngày giao hàng dự kiến</label>
+                                        <div class="col-xs-8">
+                                            <div class="input-group input-group-sm input-date" id="divDeliveryDate">
+                                                <input type="text" id="txtDeliveryDate" name="DeliveryDate"
+                                                       class="form-control datemask">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Địa chỉ giao hàng</label>
+                                        <div class="col-xs-8">
+                                            <textarea type="text" class="form-control" id="txtAddress" name="Note" placeholder="Địa chỉ giao hàng" rows="7"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">

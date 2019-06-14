@@ -87,8 +87,15 @@ var Unit = function () {
                     else if (data.Active === 1) {
                         return "Đã duyệt";
                     }
+                    else if (data.Active === 2) {
+                        return "Đã hủy";
+                    } else if (data.Active === 3) {
+                        return "Chờ thanh toán";
+                    } else if (data.Active === 4) {
+                        return "Hoàn thành";
+                    }
                     else {
-                        return "Đã hiếu";
+                        return "";
                     }
                 }
             }),
@@ -123,6 +130,7 @@ var Unit = function () {
                                 base.$boxDetails.find("#txtCreatedDate").prop('disabled', true);
                                 if (row.Active == 0) {
                                     $("#btnReOpen").show();
+                                    $("#btnSave").show();
                                     $("#btnDelete").show();
                                     $("#btnClose").show();
                                 }
@@ -131,7 +139,7 @@ var Unit = function () {
                                     //                                    $("#btnPrint").show();
                                     //                                    $("#btnRefund").show();
                                     //                                    $("#btnExport").show();
-                                    //                                    $("#btnCancel").show();
+                                    $("#btnCancel").show();
                                     $("#btnClose").show();
                                 }
                                 //                                else {
@@ -155,30 +163,23 @@ var Unit = function () {
                             url = "/Admin/InvoiceImport/Delete";
                             msg = "Bạn có muốn xóa phiếu nhập này?";
                         }
-
-
-                        Dialog.ConfirmCustom("",
-                            msg,
-                                    function () {
-                                        Sv.Loading();
-                                        Sv.AjaxPost({
-                                            Url: url,
-                                            Data: { invoiceCode: row.Code }
-                                        },
-                                        function (rs) {
-                                            Sv.EndLoading();
-                                            if (rs.Status == "01") {
-                                                Dialog.Alert(rs.Message, Dialog.Success);
-                                                base.$boxDetails.find("#modalDetails").modal("hide");
-                                                base.OpentDisable();
-                                                base.LoadTableSearch();
-                                            }
-                                        },
-                                        function () {
-                                            Sv.EndLoading();
-                                            Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
-                                        });
-                                    });
+                        Dialog.ConfirmCustom("", msg, function () {
+                            Sv.AjaxPost({
+                                Url: url,
+                                Data: { invoiceCode: row.Code }
+                            },
+                            function (rs) {
+                                if (rs.Status == "01") {
+                                    Dialog.Alert(rs.Message, Dialog.Success);
+                                    base.$boxDetails.find("#modalDetails").modal("hide");
+                                    base.OpentDisable();
+                                    base.LoadTableSearch();
+                                }
+                            },
+                            function () {
+                                Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
+                            });
+                        });
 
                     }
                 }
@@ -246,7 +247,7 @@ var Unit = function () {
                         return "Phiếu tạm";
                     }
                     else if (value == 1) {
-                        return "Hoạt động";
+                        return "Đã duyệt";
                     }
                     else {
                         return "Hủy phiếu";
@@ -424,13 +425,11 @@ $(document).ready(function () {
         Dialog.ConfirmCustom("",
                 "Bạn chắc chắn hủy hóa đơn này?",
                 function () {
-                    Sv.Loading();
                     Sv.AjaxPost({
                         Url: "/Admin/InvoiceImport/CancelInvoice",
                         Data: { invoiceCode: $("#Code").val() }
                     },
                     function (rs) {
-                        Sv.EndLoading();
                         if (rs.Status == "01") {
                             Dialog.Alert(rs.Message, Dialog.Success);
                             unit.$boxDetails.find("#modalDetails").modal("hide");
@@ -439,7 +438,6 @@ $(document).ready(function () {
                         }
                     },
                     function () {
-                        Sv.EndLoading();
                         Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
                     });
                 });
@@ -454,7 +452,7 @@ $(document).ready(function () {
     });
     unit.$boxDetails.on('click', 'button#btnReOpen', function (e) {
         e.preventDefault();
-        window.location = "InvoiceImport/Add?code=" + $("#Code").val();
+        window.location = "/InvoiceImport/Add?code=" + $("#Code").val();
     });
     unit.$boxDetails.on('click', 'button#btnPrint', function (e) {
         e.preventDefault();

@@ -22,6 +22,7 @@ namespace webNews.Domain.Entities
         public int Id { get; set; }
         public int? CategoryId { get; set; }
         public int? OrderTypeId { get; set; }
+        public string Code { get; set; }
         public decimal? Price { get; set; }
     }
 

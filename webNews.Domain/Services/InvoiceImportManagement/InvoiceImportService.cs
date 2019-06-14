@@ -28,7 +28,7 @@ namespace webNews.Domain.Services.InvoiceImportManagement
         {
             try
             {
-                var isCancel = _importRepository.UpdateStatusInvoice(invoiceCode, (int)InvoiceStatus.Canceld, null);
+                var isCancel = _importRepository.UpdateStatusInvoice(invoiceCode, (int)InvoiceStatus.Cancel, null);
                 if (isCancel == 1)
                 {
                     return new CoreMessageResponse
@@ -145,14 +145,16 @@ namespace webNews.Domain.Services.InvoiceImportManagement
                 invoice.Discount = model.Discount;
                 invoice.VAT = model.VAT;
                 invoice.SumMoney = model.SumMoney;
-                invoice.PaidMoney = model.PaidMoney;
-                invoice.RemainMoney = model.SumMoney - model.PaidMoney;
+                //                invoice.PaidMoney = model.PaidMoney;
+                invoice.PaidMoney = 0;
+                //                invoice.RemainMoney = model.SumMoney - model.PaidMoney;
+                invoice.RemainMoney = model.SumMoney;
                 invoice.PayMethod = model.PayMethod;
                 invoice.BankCode = model.BankCode;
                 invoice.UserName = model.UserName;
                 invoice.CreatedDate = DateTime.Now;
                 invoice.Date = model.CreatedDate;
-                invoice.IsComplete = model.SumMoney - model.PaidMoney <= 0;
+                //                invoice.IsComplete = model.SumMoney - model.PaidMoney <= 0;
                 invoice.Active = model.Active;
                 invoice.Note = model.Note;
                 invoice.InvoiceImportDetails = new List<InvoiceImportDetail>();
@@ -176,17 +178,20 @@ namespace webNews.Domain.Services.InvoiceImportManagement
                 {
                     PaymentCode = _systemRepository.CodeGen(ObjectType.PaymentVoucher, PrefixType.PaymentVoucher),
                     UserName = model.UserName,
-                    CreatedDate = model.CreatedDate,
+                    CreatedDate = DateTime.Now,
                     PaymentMethod = model.PayMethod,
                     Description = model.Note,
-                    TotalMoney = model.PaidMoney,
+                    TotalMoney = model.TotalMoney,
                     PersonType = (int)PersonType.Provider,
                     Payments_Person = model.SupplierCode,
                     BankCode = model.BankCode,
-                    Status = model.Active,
+                    Status = (int)PaymentActive.Waiting,
                     InvoiceCode = invoice.Code,
-                    RemainMoney = model.RemainMoney,
-                    PaymentType = false
+                    RemainMoney = model.TotalMoney,
+                    PaidMoney = 0,
+                    PaymentMoney = model.PaidMoney,
+                    PaymentType = false,
+                    CreatedBy = model.CreatedBy
                 };
 
                 var res = _importRepository.UpdateInvoice(invoice);
@@ -195,7 +200,7 @@ namespace webNews.Domain.Services.InvoiceImportManagement
                     return new CoreMessageResponse
                     {
                         ResponseCode = "01",
-                        ResponseMessage = "Thêm phiếu nhập thành công!"
+                        ResponseMessage = "Cập nhật phiếu nhập thành công!"
                     };
                 }
                 else
@@ -223,6 +228,15 @@ namespace webNews.Domain.Services.InvoiceImportManagement
             try
             {
                 var code = string.IsNullOrEmpty(model.Code) ? _systemRepository.CodeGen(ObjectType.InvoiceImport, PrefixType.InvoiceImport) : model.Code;
+                var check_code = _importRepository.GetInvoiceImportByCode(code);
+                if (check_code != null)
+                {
+                    return new CoreMessageResponse
+                    {
+                        ResponseCode = "00",
+                        ResponseMessage = "Mã phiếu nhập đã tồn tại"
+                    };
+                }
                 //Insert InvoiceImport
                 var invoice = new InvoiceImport
                 {
@@ -234,8 +248,10 @@ namespace webNews.Domain.Services.InvoiceImportManagement
                     Discount = model.Discount,
                     VAT = model.VAT,
                     SumMoney = model.SumMoney,
-                    PaidMoney = model.PaidMoney,
-                    RemainMoney = model.SumMoney - model.PaidMoney,
+                    //                    PaidMoney = model.PaidMoney,
+                    PaidMoney = 0,
+                    //                    RemainMoney = model.SumMoney - model.PaidMoney
+                    RemainMoney = model.SumMoney,
                     PayMethod = model.PayMethod,
                     BankCode = model.BankCode,
                     UserName = model.UserName,
@@ -271,15 +287,19 @@ namespace webNews.Domain.Services.InvoiceImportManagement
                     CreatedDate = DateTime.Now,
                     PaymentMethod = model.PayMethod,
                     Description = model.Note,
-                    TotalMoney = model.PaidMoney,
+                    TotalMoney = model.TotalMoney,
                     PersonType = (int)PersonType.Provider,
                     Payments_Person = model.SupplierCode,
                     BankCode = model.BankCode,
-                    Status = model.Active,
+                    Status = (int)PaymentActive.Waiting,
                     InvoiceCode = invoice.Code,
-                    RemainMoney = model.RemainMoney,
+                    //                    RemainMoney = model.RemainMoney,
+                    RemainMoney = model.TotalMoney,
+                    //                    PaidMoney = model.PaidMoney,
+                    PaidMoney = 0,
+                    PaymentMoney = model.PaidMoney,
                     PaymentType = false,
-                    CreatedBy = model.CreatedBy  
+                    CreatedBy = model.CreatedBy
                 };
 
                 var res = _importRepository.CreateInvoice(invoice);
@@ -445,6 +465,11 @@ namespace webNews.Domain.Services.InvoiceImportManagement
         public List<Vw_InvoiceImport_Detail> GetInvoiceDetails(int invoiceId)
         {
             return _importRepository.GetInvoiceDetails(invoiceId);
+        }
+
+        public List<Vw_InvoiceImport> GetInvoiceImports(int status)
+        {
+            return _importRepository.GetInvoiceImports(status);
         }
     }
 }

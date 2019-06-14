@@ -23,19 +23,23 @@ namespace webNews.Domain.Entities
         public string PaymentCode { get; set; }
         public int? PaymentMethod { get; set; }
         public string UserName { get; set; }
-        public double? TotalMoney { get; set; }
         public bool? PaymentType { get; set; }
         public string InvoiceCode { get; set; }
         public string BankCode { get; set; }
         public string Description { get; set; }
         public int? Status { get; set; }
+        public double? TotalMoney { get; set; }
         public double? RemainMoney { get; set; }
+        public double? PaidMoney { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? UpdateBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public int? PersonType { get; set; }
         public string Payments_Person { get; set; }
+        public double? PaymentMoney { get; set; }
+        public int? ReceiverType { get; set; }
+        public string ReceiverVoucherCode { get; set; }
     }
 
 }

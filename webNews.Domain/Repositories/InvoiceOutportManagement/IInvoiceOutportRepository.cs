@@ -18,6 +18,8 @@ namespace webNews.Domain.Repositories.InvoiceOutportManagement
 
         List<Vw_InvoiceOutport_Detail> GetInvoiceDetails(int invoiceId);
 
+        List<Vw_InvoiceRental_Detail> GetInvoiceRentalDetails(int invoiceId);
+
         long UpdateInvoice(InvoiceOutport model);
 
         long CreateInvoice(InvoiceOutport model);
@@ -27,5 +29,7 @@ namespace webNews.Domain.Repositories.InvoiceOutportManagement
         Vw_InvoiceOutport GetInvoiceOutportByCode(string invoiceCode);
 
         long DeleteInvoice(string invoiceCode);
+
+        List<Vw_InvoiceOutport> GetInvoiceOutports(int status);
     }
 }

@@ -23,12 +23,9 @@
 
     public enum PaymentActive
     {
-        Reject = 0,
-        Active = 1,
-        Cancel = 2,
-        Waiting = 3,
-        ApproveLv1 = 4,
-        ApproveLv2 = 5
+        Waiting = 0,
+        Approve = 1,
+        Cancel = 2
     }
 
     public enum ObjectType
@@ -38,21 +35,23 @@
         InvoiceImport = 3,
         InvoiceOutport = 4,
         InvoiceRental = 5,
-        ReceiveVoucher=6,
-        PaymentVoucher=7
+        ReceiverVoucher = 6,
+        PaymentVoucher = 7
     }
 
     public enum PersonType
     {
-        Provider=1,
-        Customer=2,
+        Provider = 2,
+        Customer = 1,
     }
 
     public enum InvoiceStatus
     {
-        Canceld = 2,
+        Cancel = 2,
         Active = 1,
-        Draff = 0
+        Draff = 0,
+        Paying = 3,
+        Complete = 4
     }
 
     public class PrefixType
@@ -62,15 +61,22 @@
         public const string InvoiceImport = "PN";
         public const string InvoiceOutport = "PX";
         public const string InvoiceRental = "PTHUE";
-        public const string ReceiveVoucher = "PTHU";
+        public const string ReceiverVoucher = "PTHU";
         public const string PaymentVoucher = "PCHI";
     }
 
 
     public enum CustomerType
     {
-        Customer=1,
-        Supplier=2,
-        User=3
+        Customer = 1,
+        Supplier = 2,
+        User = 3
+    }
+
+    public enum ReceiverType:int
+    {
+        ProductMoney = 1,//tiền hàng
+        Deposit = 2,//tiền cọc
+        Transport = 3//tiền vận chuyển
     }
 }

@@ -10,17 +10,6 @@
 <div class="main-content">
     <div class="col-xs-12 col-sm-12 col-md-12 no-padding">
         <div class="col-lg-8 col-md-8 col-sm-8 no-padding">
-            @*            <div class="col-md-7 col-xs-7 ui-widget">*@
-            @*                <div class="form-group">*@
-            @*                    <label class="col-xs-4 control-label">Chọn kho thuê/bán</label>*@
-            @*                    <div class="col-xs-8">*@
-            @*                        <select class="form-control" id="txtType">*@
-            @*                            <option value="1">Kho thuê</option>*@
-            @*                            <option value="2">Kho bán</option>*@
-            @*                        </select>*@
-            @*                    </div>*@
-            @*                </div>*@
-            @*            </div>*@
             <div class="col-md-5 col-xs-5 ui-widget">
                 <input type="text" id="txtSearchCategory" class="form-control" autocomplete="false" placeholder="@Resource.ChooseProduct_Lang" />
             </div>
@@ -157,6 +146,7 @@
                                         <label class="col-xs-4 control-label">Tài khoản</label>
                                         <div class="col-xs-8">
                                             <select class="form-control" name="BankCode" id="txtBankAccount">
+                                                <option value="">Chọn tài khoản</option>
                                                 @foreach (Bank bank in Model.ListBanks)
                                                 {
                                                     <option value="@bank.BankAccount">@bank.BankCode-@bank.BankName</option>

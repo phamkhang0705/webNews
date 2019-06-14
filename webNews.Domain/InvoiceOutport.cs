@@ -25,7 +25,6 @@ namespace webNews.Domain.Entities
         public int? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string CustomerCode { get; set; }
-        public DateTime? Date { get; set; }
         public double? Discount { get; set; }
         public bool? DiscountType { get; set; }
         public double? TotalMoney { get; set; }
@@ -40,6 +39,17 @@ namespace webNews.Domain.Entities
         public int? TotalQuantity { get; set; }
         public int? Type { get; set; }
         public string BankCode { get; set; }
+        public string InvoiceType { get; set; }
+        public DateTime? DateLimit { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+        public DateTime? Date { get; set; }
+        public double? TotalDeposit { get; set; }
+        public double? TotalTransport { get; set; }
+        public double? TotalTransportDiscount { get; set; }
+        public double? TotalDepositDiscount { get; set; }
+        public DateTime? DeliveryDate { get; set; }
+        public string DeliveryAddress { get; set; }
     }
 
 }

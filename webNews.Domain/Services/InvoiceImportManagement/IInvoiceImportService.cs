@@ -23,9 +23,10 @@ namespace webNews.Domain.Services.InvoiceImportManagement
 
         Vw_InvoiceImport GetInvoiceImportByCode(string invoiceCode);
 
-//        PagingObject<PAYMENT>> GetHistory(string invoiceCode, int pageIndex, int pageSize);
+        //        PagingObject<PAYMENT>> GetHistory(string invoiceCode, int pageIndex, int pageSize);
 
         PagingObject<Vw_InvoiceImport> Search(SearchInvoiceImport search, int pageIndex, int pageSize);
         List<Vw_InvoiceImport_Detail> GetInvoiceDetails(int invoiceId);
+        List<Vw_InvoiceImport> GetInvoiceImports(int status);
     }
 }

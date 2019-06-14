@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="InvoiceRentalManagement\InvoiceRentalModel.cs" />
     <Compile Include="InvoiceOutputManagement\InvoiceOutputModel.cs" />
+    <Compile Include="ReceiverVoucherManagement\ReceiverVoucherModel.cs" />
     <Compile Include="PaymentVoucherManagement\PaymentVoucherModel.cs" />
     <Compile Include="InvoiceImportManagement\InvoiceImportModel.cs" />
     <Compile Include="PromotionManagement\SearchPromotionModel.cs" />

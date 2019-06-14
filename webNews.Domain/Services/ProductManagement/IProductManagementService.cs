@@ -21,5 +21,6 @@ namespace webNews.Domain.Services.ProductManagement
 
         Vw_Product GetByCode(string code);
         List<Vw_Product> GetByName(string name);
+        List<Vw_Product_Rental> GetProductRentals(string name, string type);
     }
 }

@@ -53,6 +53,13 @@ namespace webNews.Models.InvoiceOutportManagement
 
         public int? Type { get; set; }
         public int CreatedBy { get; set; }
+        public double? TotalDeposit { get; set; }
+        public double? TotalTransport { get; set; }
+        public double? TotalDepositDiscount { get; set; }
+        public double? TotalTransportDiscount { get; set; }
+        public DateTime? DeliveryDate { get; set; }
+        public string DeliveryAddress { get; set; }
+        public string InvoiceType { get; set; }
 
         public List<CategoryItem> CategoryItems { get; set; }
     }
@@ -72,5 +79,8 @@ namespace webNews.Models.InvoiceOutportManagement
         public int TotalQuantity { get; set; }
         public int RealTotalQuantity { get; set; }
         public int QuantityFail { get; set; }
+        public string ProductCode { get; set; }
+        public double Deposits_Money { get; set; }
+        public double Transport_Money { get; set; }
     }
 }

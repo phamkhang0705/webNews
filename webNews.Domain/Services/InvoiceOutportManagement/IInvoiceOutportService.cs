@@ -27,5 +27,8 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
 
         PagingObject<Vw_InvoiceOutport> Search(SearchInvoiceOutport search, int pageIndex, int pageSize);
         List<Vw_InvoiceOutport_Detail> GetInvoiceDetails(int invoiceId);
+        List<Vw_InvoiceRental_Detail> GetInvoiceRentalDetails(int invoiceId);
+
+        List<Vw_InvoiceOutport> GetInvoiceOutports(int status);
     }
 }

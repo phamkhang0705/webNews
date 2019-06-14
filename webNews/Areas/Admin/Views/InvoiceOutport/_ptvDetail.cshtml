@@ -26,7 +26,7 @@
                         </div>
                         <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Active)</label>
                         <div class="col-xs-4 control-label" style="text-align: left">
-                            @(Model.Active==1? "Đã duyệt": (Model.Active==0?"Lưu tạm": "Hủy"))
+                            @(Model.Active == 1 ? "Đã duyệt" : (Model.Active == 0 ? "Lưu tạm" : (Model.Active == 2 ? "Đã hủy" : (Model.Active == 3 ? "Chờ thanh toán" : "Hoàn thành"))))
                         </div>
                     </div>
                     <div class="form-group">
@@ -219,7 +219,7 @@
 @*                <button id="btnExport" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-sign-out"></i> @(Resource.Btn_ExportExcel_Lang)</button>*@
                 <button id="btnCancel" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-recycle"></i> @(Resource.Btn_Cancel_Lang)</button>
                 <button id="btnDelete" class="btn btn-primary" style="display: none" type="button"><i class="fa fa-recycle"></i> @(Resource.Btn_Delete_Lang)</button>
-                <button id="btnClose" class="btn btn-primary" type="button"><i class="fa fa-close"></i> @(Resource.Btn_Close_Lang)</button>
+                <button id="btnClose" class="btn btn-primary" data-dismiss="modal" type="button"><i class="fa fa-close"></i> @(Resource.Btn_Close_Lang)</button>
             </div>
         </div>
     </div>
