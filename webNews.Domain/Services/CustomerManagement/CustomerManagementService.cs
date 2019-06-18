@@ -88,33 +88,31 @@ namespace webNews.Domain.Services.CustomerManagement
             {
                 ResponseCode = "00"
             };
-            var pro = _customerRepository.GetById(customer.Id);
+            var cus = _customerRepository.GetById(customer.Id);
+            var cusDetail = _customerRepository.GetCustomerDetail(customer.Id);
 
-            if (pro == null)
+            if (cus == null)
             {
                 response.ResponseMessage = "Khách hàng không tồn tại!";
                 return response;
             }
-            var cus = new Customer()
-            {
-                CustomerName = customer.CustomerName,
-                CustomerCode = customer.CustomerCode,
-                Status = customer.Status,
-                UpdatedDate = DateTime.Now,
-                UpdatedBy = pro.UpdatedBy
-            };
-            var cusDetail = new CustomerDetail()
-            {
-                CustomerId = customer.Id,
-                Phone = customer.Phone,
-                Facebook = customer.Facebook,
-                Email = customer.Email,
-                Description = customer.Description,
-                ProvinceId = customer.ProvinceId,
-                DistrictId = customer.DistrictId,
-                WardId = customer.WardId,
-                Address = customer.Address
-            };
+
+            cus.CustomerName = customer.CustomerName;
+            cus.CustomerCode = customer.CustomerCode;
+            cus.Status = customer.Status;
+            cus.UpdatedDate = customer.UpdatedDate;
+            cus.UpdatedBy = customer.UpdatedBy;
+            
+            cusDetail.Phone = customer.Phone;
+            cusDetail.Facebook = customer.Facebook;
+            cusDetail.Email = customer.Email;
+            cusDetail.Description = customer.Description;
+            cusDetail.ProvinceId = customer.ProvinceId;
+            cusDetail.DistrictId = customer.DistrictId;
+            cusDetail.WardId = customer.WardId;
+            cusDetail.Address = customer.Address;
+            cusDetail.UpdatedBy = customer.UpdatedBy;
+            cusDetail.UpdatedDate = customer.UpdatedDate;
             
             var update = _customerRepository.UpdateCustomer(cus,cusDetail);
 

@@ -77,7 +77,7 @@ namespace webNews.Areas.Admin.Controllers
                 var model = new CustomerModel()
                 {
                     Action = action,
-                    ListStatus = _constantService.ListStatus(),
+                    ListStatus = _constantService.ListStatus(false),
                     ListProvinces = _systemService.GetProvinces(),
                     ListDistricts = new List<District>(),
                     ListWards = new List<Ward>()

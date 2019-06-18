@@ -83,7 +83,7 @@ namespace webNews.Domain.Services.GroupManagement
                 return response;
             }
 
-            group.UpdatedDate = new DateTime();
+            group.UpdatedDate = DateTime.Now;
             group.UpdatedBy = model.UpdatedBy;
             group.Name = model.Name;
             group.Status = model.Status;

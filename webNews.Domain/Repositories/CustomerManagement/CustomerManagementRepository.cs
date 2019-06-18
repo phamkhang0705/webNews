@@ -215,13 +215,13 @@ namespace webNews.Domain.Repositories.CustomerManagement
             }
         }
 
-        public List<Vw_Customer> GetByName(string name,int customerType = 1)
+        public List<Vw_Customer> GetByName(string name, int customerType = 1)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var check = db.Select<Vw_Customer>(_ => _.CustomerName.ToLower().Contains(name.ToLower()) && _.CustomerType==customerType);
+                    var check = db.Select<Vw_Customer>(_ => _.CustomerName.ToLower().Contains(name.ToLower()) && _.CustomerType == customerType);
                     return check;
                 }
             }
@@ -229,6 +229,23 @@ namespace webNews.Domain.Repositories.CustomerManagement
             {
                 _logger.Error(e, "DB connection error");
                 return new List<Vw_Customer>();
+            }
+        }
+
+        public CustomerDetail GetCustomerDetail(int customerId)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var check = db.Single<CustomerDetail>(_ => _.CustomerId == customerId);
+                    return check;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new CustomerDetail();
             }
         }
     }

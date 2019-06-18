@@ -71,7 +71,7 @@ namespace webNews.Areas.Admin.Controllers
                 var model = new webNews.Areas.Admin.Models.Group.GroupModel()
                 {
                     Action = action,
-                    ListStatus = _constantService.ListStatus()
+                    ListStatus = _constantService.ListStatus(false)
                 };
                 if (id > 0)
                 {
@@ -151,10 +151,11 @@ namespace webNews.Areas.Admin.Controllers
                 {
                     model.UpdatedBy = Authentication.GetCurrentUser().Id;
                     var rs = _groupManagementService.UpdateGroup(model);
+
                     return Json(new
                     {
-                        Status = "01",
-                        Message = "Cập nhật nhóm sản phẩm"
+                        Status = rs.ResponseCode,
+                        Message = rs.ResponseMessage
                     }, JsonRequestBehavior.AllowGet);
                 }
 

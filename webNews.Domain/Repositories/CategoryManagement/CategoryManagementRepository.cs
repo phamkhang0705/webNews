@@ -188,6 +188,10 @@ namespace webNews.Domain.Repositories.CategoryManagement
                                     }
                                 }
                             }
+                            else
+                            {
+                                db.Delete<FileAttach>(x => x.CategoryId == category.Id);
+                            }
                             if (files.Count > 0)
                             {
                                 foreach (var file in files)
