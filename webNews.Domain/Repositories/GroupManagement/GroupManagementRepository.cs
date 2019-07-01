@@ -29,11 +29,15 @@ namespace webNews.Domain.Repositories.GroupManagement
                     var query = db.From<Group>();
                     if (!string.IsNullOrEmpty(filter.Name))
                     {
-                        query.Where(_ => _.Code.Contains(filter.Name));
+                        query.Where(_ => _.Name.Contains(filter.Name));
                     }
                     if (!string.IsNullOrEmpty(filter.Code))
                     {
                         query.Where(_ => _.Code == filter.Code);
+                    }
+                    if (filter.Status != -1)
+                    {
+                        query.Where(_ => _.Status == filter.Status);
                     }
 
                     var total = (int)db.Count(query);
@@ -179,7 +183,7 @@ namespace webNews.Domain.Repositories.GroupManagement
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var check = db.Select<Group>(_ => _.Status==1);
+                    var check = db.Select<Group>(_ => _.Status == 1);
                     return check;
                 }
             }

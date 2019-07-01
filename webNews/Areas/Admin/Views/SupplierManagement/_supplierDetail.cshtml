@@ -9,6 +9,7 @@
 }
 <script src="~/Assets/Admin/Validate/jquery.validate.min.js"></script>
 <script src="~/Assets/Admin/Validate/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
 <div class="modal fade" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="xModal">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -82,9 +83,12 @@
                     </div>
                     <div class="form-group">
                         <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Description)</label>
-                        <div class="col-xs-4">
+                        <div class="col-xs-10">
                             @Html.ValidationHtmlMessageFor(model => model.Description, "", new { @class = "field-validation-valid" })
                             @Html.TextAreaFor(x => x.Description, new { @class = "form-control input-sm", @id = "txtDescription", @placeholder = "Nhập mô tả" })
+                            <script>
+                                CKEDITOR.replace("txtDescription");
+                            </script>
                         </div>
                     </div>
                 </form>

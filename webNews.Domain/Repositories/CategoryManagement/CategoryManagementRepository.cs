@@ -29,7 +29,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
                     var query = db.From<Vw_Category>();
                     if (!string.IsNullOrEmpty(filter.Name))
                     {
-                        query.Where(_ => _.Code.Contains(filter.Name));
+                        query.Where(_ => _.Name.Contains(filter.Name));
                     }
                     if (!string.IsNullOrEmpty(filter.Code))
                     {
@@ -39,8 +39,13 @@ namespace webNews.Domain.Repositories.CategoryManagement
                     {
                         if (filter.GroupId.Count > 0)
                         {
-                            query.Where(_ => _.groupids.Contains(filter.GroupId.ToString()));
+                            var result = string.Join(",", filter.GroupId.ToArray());
+                            query.Where(_ => _.groupids.Contains(result.ToUpper()));
                         }
+                    }
+                    if (filter.Status != -1)
+                    {
+                        query.Where(x => x.Status == filter.Status);
                     }
                     //More filter
                     var total = (int)db.Count(query);

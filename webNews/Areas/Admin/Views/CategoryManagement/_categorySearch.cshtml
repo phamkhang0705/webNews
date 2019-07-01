@@ -34,29 +34,28 @@
                     <div class="form-group">
                         <label class="col-xs-2 control-label">Mã danh mục</label>
                         <div class="col-xs-4">
-                            <input type="text" class="form-control input-sm" name="Code" id="txtCode"/>
+                            <input type="text" class="form-control input-sm" name="Code" id="txtCode" placeholder="Nhập mã danh mục" />
                         </div>
                         <label class="col-xs-2 control-label">Tên danh mục</label>
                         <div class="col-xs-4">
-                            <input type="text" class="form-control input-sm" name="Name" id="txtName"/>
+                            <input type="text" class="form-control input-sm" name="Name" id="txtName" placeholder="Nhập tên danh mục" />
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label">Từ tuổi</label>
-                        <div class="col-xs-4">
-                            <input type="text" class="form-control input-sm" name="FromAge" id="txtFromAge" />
-                        </div>
-                        <label class="col-xs-2 control-label">Đến tuổi</label>
-                        <div class="col-xs-4">
-                            <input type="text" class="form-control input-sm" name="ToAge" id="txtToAge" />
-                        </div>
-                    </div>
+                    @*                    <div class="form-group">*@
+                    @*                        <label class="col-xs-2 control-label">Từ tuổi</label>*@
+                    @*                        <div class="col-xs-4">*@
+                    @*                            <input type="text" class="form-control input-sm" name="FromAge" id="txtFromAge" placeholder="Nhập từ tuổi" />*@
+                    @*                        </div>*@
+                    @*                        <label class="col-xs-2 control-label">Đến tuổi</label>*@
+                    @*                        <div class="col-xs-4">*@
+                    @*                            <input type="text" class="form-control input-sm" name="ToAge" id="txtToAge" placeholder="Nhập đến tuổi" />*@
+                    @*                        </div>*@
+                    @*                    </div>*@
 
                     <div class="form-group">
                         <label class="col-xs-2 control-label">Nhóm</label>
                         <div class="col-xs-4">
                             <select class="form-control input-sm" name="GroupId" id="txtGroupId" multiple="multiple">
-@*                                <option value="-1">Tất cả</option>*@
                                 @foreach (Group item in Model.ListGroups)
                                 {
                                     <option value="@item.Id">@item.Name</option>

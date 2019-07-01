@@ -94,7 +94,7 @@ namespace webNews.Areas.Admin.Controllers
                 {
                     Action = action,
                     ListStatus = _constantService.ListStatus(false),
-                    ListOrderTypes = _orderTypeManagementService.GetAll(),
+                    ListOrderTypes = _orderTypeManagementService.GetAllOrderTypes(),
                     ListGroups = _groupManagementService.GetAllGroups(),
                     ListAgeType = _constantService.ListAgeType(false)
                 };

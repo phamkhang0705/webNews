@@ -85,6 +85,15 @@
     <Compile Include="Banner.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="BizAccount.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BizAccountGroup.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BizAccountType.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="Category.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>

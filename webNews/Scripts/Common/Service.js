@@ -470,7 +470,7 @@
 
         var obj = {
             locale: "vi",
-            classes: "table table-hover table-condensed",
+            classes: "table table-hover table-condensed table-bordered",
             cache: false,
             striped: true,
             height: "auto",
@@ -525,7 +525,7 @@
 
         var obj = {
             locale: language.localeTable,
-            classes: "table table-condensed", // table-hover
+            classes: "table table-condensed table-bordered", // table-hover
             cache: false,
             pagination: true,
             pageSize: 10,

@@ -260,5 +260,40 @@ namespace webNews.Areas.Admin.Controllers
         }
 
         #endregion [Update]
+        #region [Delete]
+
+        public ActionResult Delete(int customerId)
+        {
+            try
+            {
+                var rs = _customerManagementService.Delete(customerId);
+                if (rs)
+                {
+                    return Json(new
+                    {
+                        Status = "01",
+                        Message = "Xoá khách hàng thành công!"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        Status = "00",
+                        Message = "Xóa khách hàng không thành công!"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Delete customer is error: " + ex.Message);
+                return Json(new
+                {
+                    Status = "0",
+                    Message = Resource.InvalidInfomation_Lang
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
     }
 }

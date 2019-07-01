@@ -24,7 +24,7 @@
                 title: 'Mã nhóm',
                 field: 'Code',
                 align: "left"
-            }),Sv.BootstrapTableColumn("string", {
+            }), Sv.BootstrapTableColumn("string", {
                 title: 'Tên nhóm',
                 field: 'Name',
                 align: "left"
@@ -130,7 +130,7 @@
 
     this.GetFormSearchData = function () {
         var obj = {};
-        obj.COode = $('#txtCode').val();
+        obj.Code = $('#txtCode').val();
         obj.Name = $('#txtName').val();
         obj.Status = $('#txtStatus').val();
         return obj;

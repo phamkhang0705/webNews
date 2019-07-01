@@ -156,9 +156,21 @@
         });
     }
     base.GetFormData = function () {
-        var formData = $('#formDetail').serialize();
-        formData += "&CustomerCode=" + $('#formDetail #txtCustomerCode').val();
-        return formData;
+        var obj = {};
+        var description = CKEDITOR.instances['txtDescription'].getData();
+        obj.Id = $('#formDetail #txtId').val();
+        obj.CustomerCode = $('#formDetail #txtCustomerCode').val();
+        obj.CustomerName = $('#formDetail #txtCustomerName').val();
+        obj.Phone = $('#formDetail #txtPhone').val();
+        obj.Email = $('#formDetail #txtEmail').val();
+        obj.Facebook = $('#formDetail #txtFacebook').val();
+        obj.ProvinceId = $('#formDetail #txtProvinceId').val();
+        obj.DistrictId = $('#formDetail #txtDistrictId').val();
+        obj.WardId = $('#formDetail #txtWardId').val();
+        obj.Address = $('#formDetail #txtAddress').val();
+        obj.Status = $('#formDetail #txtStatus').val();
+        obj.Description = description;
+        return obj;
     }
     //-- them sua xoa
 

@@ -162,6 +162,7 @@ namespace webNews.Domain.Repositories.CustomerManagement
                     {
                         try
                         {
+                            db.Delete<CustomerDetail>(_ => _.CustomerId == id);
                             db.Delete<Customer>(_ => _.Id == id);
                             trans.Commit();
                             return true;

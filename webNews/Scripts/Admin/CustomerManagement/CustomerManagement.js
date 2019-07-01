@@ -82,6 +82,7 @@
                     var str = "";
                     if (base.$perEdit === "1") {
                         str += "<button data-code='%s' class='OpenEditItem btn btn-primary btn-in-table' title='Sửa'><i class='fa fa-pencil-square-o'></i></button>";
+                        str += "<button data-code='%s' class='OpenDeleteItem btn btn-primary btn-in-table' title='Xóa'><i class='fa fa-trash'></i></button>";
                     }
                     return str;
                 },
@@ -102,14 +103,31 @@
                                 base.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
                                 $('#formDetail #txtStatus').val(model.status).select2();
                                 base.OpentDisable();
-                                //                                $('#formDetail #txtProvinceId').val(row.ProvinceId).trigger('change');
                                 base.GetDistrictByProvinceId(row.ProvinceId, row.DistrictId, '#txtDistrictId', true);
-                                //                                $('#formDetail #txtDistrictId').val(row.DistrictId).trigger('change');
                                 base.GetWardByDistrictId(row.DistrictId, row.WardId, '#txtWardId', true);
-                                //                                $('#formDetail #txtWardId').val(row.WardId).trigger('change');
+                            }); 
+                        });
+                    },
+                    'click .OpenDeleteItem': function (e, value, row, index) {
+                        Sv.ChecPermission("Delete", function () {
+                            var url = "/Admin/CustomerManagement/Delete";
+                            Dialog.ConfirmCustom("Xóa khách hàng", "Bạn có muốn xóa khách hàng này?", function () {
+                                Sv.AjaxPost({
+                                    Url: url,
+                                    Data: {
+                                        customerId: row.Id
+                                    }
+                                }, function (response) {
+                                    if (response.Status == "01") {
+                                        Dialog.Alert(response.Message, Dialog.Success);
+                                        base.LoadTableSearch();
+                                    } else {
+                                        Dialog.Alert(response.Message, Dialog.Error);
+                                    }
+                                }, function (xhr) {
+                                    Dialog.Alert(language.Message_Error, Dialog.Error);
+                                });
                             });
-
-
                         });
                     }
                 }
@@ -156,9 +174,21 @@
         });
     }
     base.GetFormData = function () {
-        var formData = $('#formDetail').serialize();
-        formData += "&CustomerCode=" + $('#formDetail #txtCustomerCode').val();
-        return formData;
+        var obj = {};
+        var description = CKEDITOR.instances['txtDescription'].getData();
+        obj.Id = $('#formDetail #txtId').val();
+        obj.CustomerCode = $('#formDetail #txtCustomerCode').val();
+        obj.CustomerName = $('#formDetail #txtCustomerName').val();
+        obj.Phone = $('#formDetail #txtPhone').val();
+        obj.Email = $('#formDetail #txtEmail').val();
+        obj.Facebook = $('#formDetail #txtFacebook').val();
+        obj.ProvinceId = $('#formDetail #txtProvinceId').val();
+        obj.DistrictId = $('#formDetail #txtDistrictId').val();
+        obj.WardId = $('#formDetail #txtWardId').val();
+        obj.Address = $('#formDetail #txtAddress').val();
+        obj.Status = $('#formDetail #txtStatus').val();
+        obj.Description = description;
+        return obj;
     }
     //-- them sua xoa
 
