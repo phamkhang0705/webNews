@@ -76,7 +76,7 @@ namespace webNews.Areas.Admin.Controllers
                 var model = new PromotionModel()
                 {
                     Action = action,
-                    ListStatus = _constantService.ListStatus()
+                    ListStatus = _constantService.ListStatus(false)
                 };
                 if (id > 0)
                 {
