@@ -3,6 +3,9 @@ using ServiceStack.OrmLite;
 using ServiceStack.OrmLite.SqlServer;
 using System.Configuration;
 using webNews.Domain.Repositories;
+using webNews.Domain.Repositories.BizAccountGroupManagement;
+using webNews.Domain.Repositories.BizAccountManagement;
+using webNews.Domain.Repositories.BizAccountTypeManagement;
 using webNews.Domain.Repositories.CategoryDetailManagement;
 using webNews.Domain.Repositories.CategoryManagement;
 using webNews.Domain.Repositories.CustomerManagement;
@@ -21,6 +24,10 @@ using webNews.Domain.Repositories.RoleManage;
 using webNews.Domain.Repositories.RoleManagement;
 using webNews.Domain.Repositories.UserManagement;
 using webNews.Domain.Services;
+using webNews.Domain.Services.BizAccountGroupManagement;
+using webNews.Domain.Services.BizAccountTypeManagement;
+using webNews.Domain.Services.BizAccountManagement;
+using webNews.Domain.Services.BizAccountTYpeManagement;
 using webNews.Domain.Services.CategoryDetailManagement;
 using webNews.Domain.Services.CategoryManagement;
 using webNews.Domain.Services.CustomerManagement;
@@ -105,6 +112,15 @@ namespace webNews.Domain
 
             builder.RegisterType<InvoiceOutportRepository>().As<IInvoiceOutportRepository>();
             builder.RegisterType<InvoiceOutportService>().As<IInvoiceOutportService>();
+
+            builder.RegisterType<BizAccountGroupRepository>().As<IBizAccountGroupRepository>();
+            builder.RegisterType<BizAccountGroupService>().As<IBizAccountGroupService>();
+
+            builder.RegisterType<BizAccountTypeRepository>().As<IBizAccountTypeRepository>();
+            builder.RegisterType<BizAccountTypeService>().As<IBizAccountTypeService>();
+
+            builder.RegisterType<BizAccountRepository>().As<IBizAccountRepository>();
+            builder.RegisterType<BizAccountService>().As<IBizAccountService>();
 
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerDependency();
             builder.RegisterGeneric(typeof(Service<>)).As(typeof(IService<>)).InstancePerDependency();

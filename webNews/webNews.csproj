@@ -267,8 +267,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BizAccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\BranchManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryDetailManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BizAccountGroupController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BizAccountTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\InvoiceRentalController.cs" />
     <Compile Include="Areas\Admin\Controllers\InvoiceOutportController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReceiverVoucherController.cs" />
@@ -287,6 +290,8 @@
     <Compile Include="Areas\Admin\Controllers\PromotionManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserManagementController.cs" />
+    <Compile Include="Areas\Admin\Models\BizAccount\BizAccountModel.cs" />
+    <Compile Include="Areas\Admin\Models\BizAccountType\BizAccountTypeModel.cs" />
     <Compile Include="Areas\Admin\Models\Customer\CustomerModel.cs" />
     <Compile Include="Areas\Admin\Models\Receiver\ReceiverModel.cs" />
     <Compile Include="Areas\Admin\Models\Payment\PaymentModel.cs" />
@@ -397,6 +402,9 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\Admin\CategoryDetailManagement\CategoryDetailManagement.js" />
+    <Content Include="Scripts\Admin\BizAccountGroup\BizAccountGroup.js" />
+    <Content Include="Scripts\Admin\BizAccount\BizAccount.js" />
+    <Content Include="Scripts\Admin\BizAccountType\BizAccountType.js" />
     <Content Include="Scripts\Admin\InvoiceRental\InvoiceAdd.js" />
     <Content Include="Scripts\Admin\InvoiceRental\InvoiceRental.js" />
     <Content Include="Scripts\Admin\InvoiceOutport\InvoiceAdd.js" />
@@ -482,6 +490,15 @@
     <Content Include="Areas\Admin\Views\InvoiceRental\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PaymentVoucher\_ptvDetail.cshtml" />
     <Content Include="Areas\Admin\Views\ReceiverVoucher\_ptvDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\BizAccountGroup\_groupDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\BizAccountGroup\_groupSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\BizAccountGroup\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\BizAccountType\_bizAccountTypeDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\BizAccountType\_bizAccountTypeSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\BizAccountType\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\BizAccount\_bizAccountDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\BizAccount\_bizAccountSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\BizAccount\Index.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

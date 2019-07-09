@@ -1,0 +1,71 @@
+﻿@using webNews.Domain.Entities
+@using webNews.Language.Language
+@using webNews.HtmlHelpers
+@model webNews.Areas.Admin.Models.BizAccount.BizAccountModel
+@{
+    var add = Model.Action == "Add";
+    var edit = Model.Action == "Edit";
+    var popupTitle = Model.Action == "Add" ? "Thêm mới" : "Cập nhật";
+}
+<script src="~/Assets/Admin/Validate/jquery.validate.min.js"></script>
+<script src="~/Assets/Admin/Validate/jquery.validate.unobtrusive.min.js"></script>
+<div class="modal fade" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="xModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@popupTitle</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <form id="formDetail" name="formDetail" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                    @Html.HiddenFor(x => x.Id, new { @id = "txtId" })
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Code)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Code, "", new { @class = "field-validation-valid" })
+                            @Html.TextBoxFor(x => x.Code, new { @class = "form-control input-sm ", @id = "txtCode", @placeholder = "Mã tài khoản" })
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Name)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Name, "", new { @class = "field-validation-valid" })
+                            @Html.TextBoxFor(x => x.Name, new { @class = "form-control input-sm", @id = "txtName", @placeholder = "Tên tài khoản" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.CreditAccount)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.CreditAccount, "", new { @class = "field-validation-valid" })
+                            @Html.DropDownListFor(x => x.CreditAccount, new SelectList(Model.ListTypes, "Code", "Code"), new { @class = "form-control input-sm", @id = "txtCreditAccount" })
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.DebtAccount)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.CreditAccount, "", new { @class = "field-validation-valid" })
+                            @Html.DropDownListFor(x => x.DebtAccount, new SelectList(Model.ListTypes, "Code", "Code"), new { @class = "form-control input-sm", @id = "txtDebtAccount" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Status)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Status, "", new { @class = "field-validation-valid" })
+                            @Html.DropDownListFor(x => x.Status, new SelectList(Model.ListStatus, "Value", "Text"), new { @class = "form-control input-sm", @id = "txtStatus" })
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                @if (add)
+                {
+                    <button id="btnAdd" class="btn btn-primary" type="button"><i class="fa fa-check"></i> @(Resource.Btn_Save_Lang)</button>
+                }
+                else
+                    if (edit)
+                {
+                    <button id="btnEdit" class="btn btn-primary" type="button"><i class="fa fa-check"></i> @(Resource.Btn_Edit_Lang)</button>
+                }
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-reply"></i>@Resource.Btn_Close_Lang</button>
+            </div>
+        </div>
+    </div>
+</div>

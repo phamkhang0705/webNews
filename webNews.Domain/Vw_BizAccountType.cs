@@ -14,17 +14,18 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("BizAccount")]
-    public partial class BizAccount : IHasId<int> 
+	[Alias("Vw_BizAccountType")]
+    public partial class Vw_BizAccountType 
     {
-        [Alias("Id")]
-        [AutoIncrement]
+        [Required]
         public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
-        public string DebtAccount { get; set; }
-        public string CreditAccount { get; set; }
         public int? Status { get; set; }
+        public string Description { get; set; }
+        public string Group { get; set; }
+        public string BizAccountCode { get; set; }
+        public string BizAccountName { get; set; }
     }
 
 }
