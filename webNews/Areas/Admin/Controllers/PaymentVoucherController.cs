@@ -3,8 +3,10 @@ using System;
 using System.Dynamic;
 using System.Web.Mvc;
 using webNews.Areas.Admin.Models.Payment;
+using webNews.Common;
 using webNews.Domain.Entities;
 using webNews.Domain.Services;
+using webNews.Domain.Services.BizAccountManagement;
 using webNews.Domain.Services.InvoiceImportManagement;
 using webNews.Domain.Services.PaymentVoucherManagement;
 using webNews.Language.Language;
@@ -20,13 +22,20 @@ namespace webNews.Areas.Admin.Controllers
         private readonly IPaymentVoucherService _paymetService;
         private readonly IInvoiceImportService _invoiceImportService;
         private readonly ISystemService _systemService;
+        private readonly IConstantService _constantService;
+        private readonly IBizAccountService _bizAccountService;
 
         public PaymentVoucherController(
-            IPaymentVoucherService paymetService, IInvoiceImportService invoiceImportService, ISystemService systemService)
+            IPaymentVoucherService paymetService,
+            IInvoiceImportService invoiceImportService,
+            ISystemService systemService,
+            IBizAccountService bizAccountService)
         {
             _paymetService = paymetService;
             _invoiceImportService = invoiceImportService;
             _systemService = systemService;
+            _bizAccountService = bizAccountService;
+            _constantService = new ConstantService();
         }
 
         // GET: Admin/PaymentVoucher
@@ -82,7 +91,8 @@ namespace webNews.Areas.Admin.Controllers
                     ListInvoiceImports = _invoiceImportService.GetInvoiceImports((int)InvoiceStatus.Active),
                     CreatedDate = DateTime.Now,
                     PaymentCode = _systemService.CodeGen(ObjectType.PaymentVoucher, PrefixType.PaymentVoucher),
-                    ListBanks = _systemService.GetBanks(1)
+                    ListBanks = _systemService.GetBanks(1),
+                    ListBizAccounts = _bizAccountService.GetBizAccounts((int)webNews.Models.Common.BizAccountType.Payment)
                 };
                 if (action == "Edit")
                 {
@@ -106,8 +116,9 @@ namespace webNews.Areas.Admin.Controllers
                     model.Payments_Person = payment.Payments_Person;
                     model.CustomerName = payment.CustomerName;
                     model.PaymentMoney = payment.PaymentMoney;
+                    model.CreditAccount = payment.CreditAccount;
+                    model.DebitAccount = payment.DebitAccount;
                 };
-
                 return PartialView("_ptvDetail", model);
             }
             catch (Exception ex)
@@ -245,6 +256,10 @@ namespace webNews.Areas.Admin.Controllers
                         PaymentMoney = model.PaymentMoney,
                         PaymentType = false,
                         CreatedBy = Authentication.GetUserId(),
+                        BizAccountType = model.BizAccountType,
+                        CreditAccount = model.CreditAccount,
+                        DebitAccount = model.DebitAccount,
+                        TypePayment = (int)TypePayment.Other
                     };
                     var rs = _paymetService.CreatePayment(payment);
                     if (rs.ResponseCode == "01")
@@ -289,7 +304,7 @@ namespace webNews.Areas.Admin.Controllers
                 {
                     var payment = new Payment()
                     {
-                        Id=model.Id,
+                        Id = model.Id,
                         PaymentCode = model.PaymentCode,
                         UserName = Authentication.GetUserName(),
                         CreatedDate = DateTime.Now,
@@ -303,6 +318,9 @@ namespace webNews.Areas.Admin.Controllers
                         PaymentMoney = model.PaymentMoney,
                         PaymentType = false,
                         CreatedBy = Authentication.GetUserId(),
+                        CreditAccount = model.CreditAccount,
+                        DebitAccount = model.DebitAccount,
+                        BizAccountType = model.BizAccountType
                     };
                     var rs = _paymetService.UpdatePayment(payment);
                     if (rs.ResponseCode == "01")

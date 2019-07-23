@@ -426,7 +426,8 @@ namespace webNews.Domain.Repositories.InvoiceImportManagement
                                         var pro = new Product()
                                         {
                                             CategoryId = cate.Id,
-                                            ProductCode = detail.CategoryCode + "00" + i,
+//                                            ProductCode = detail.CategoryCode + "00" + i,
+                                            ProductCode = _systemRepository.CodeGen(ObjectType.Category, detail.CategoryCode,4),
                                             ProductName = cate.Name,
                                             Quantity = 1,
                                             Inventory = 1,

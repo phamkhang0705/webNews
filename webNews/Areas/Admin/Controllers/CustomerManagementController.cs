@@ -162,6 +162,7 @@ namespace webNews.Areas.Admin.Controllers
         #region Create
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Create(Vw_Customer customer)
         {
             if (!CheckAuthorizer.Authorize(Permission.ADD)) return RedirectToAction("Index", "Login");
@@ -212,7 +213,7 @@ namespace webNews.Areas.Admin.Controllers
         #endregion Create
 
         #region [Update]
-
+        [ValidateInput(false)]
         public ActionResult Update(Vw_Customer customer)
         {
             if (!CheckAuthorizer.Authorize(Permission.EDIT)) return RedirectToAction("Index", "Login");

@@ -116,7 +116,7 @@ namespace webNews.Areas.Admin.Controllers
                         model.groupnames = cate.groupnames;
                         model.prices = cate.prices;
                         model.files = cate.files;
-                        model.lstFiles = cate.files.Split(',');
+                        model.lstFiles = cate.files != null ? cate.files.Split(',') : new string[1000];
                         model.ListCategoryPrices = _priceService.GetCategoryPrices(id);
                         model.ListGroupCategorys = _categoryManagementService.GetGroupCategories(id);
                         model.ListFiles = _fileService.GetFileAttach(id);
@@ -141,6 +141,7 @@ namespace webNews.Areas.Admin.Controllers
         #region Create
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Create(FormCollection fc)
         {
             if (!CheckAuthorizer.Authorize(Permission.EDIT)) return RedirectToAction("Index", "Login");
@@ -261,6 +262,7 @@ namespace webNews.Areas.Admin.Controllers
         #region [Update]
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Update(FormCollection fc)
         {
             if (!CheckAuthorizer.Authorize(Permission.EDIT)) return RedirectToAction("Index", "Login");

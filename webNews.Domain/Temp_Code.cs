@@ -36,6 +36,8 @@ namespace webNews.Domain.Entities
         public int PaymentVoucher { get; set; }
         [Required]
         public int ReceiveVoucher { get; set; }
+        [Required]
+        public int Category { get; set; }
     }
 
 }

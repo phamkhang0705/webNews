@@ -45,13 +45,17 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Type)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Type, "", new {@class = "field-validation-valid"})
+                            @Html.DropDownListFor(x => x.Type, new SelectList(Model.Types, "Value", "Text"), new {@class = "form-control input-sm", @id = "txtType"})
+                        </div>
                         <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Status)</label>
                         <div class="col-xs-4">
                             @Html.ValidationHtmlMessageFor(model => model.Status, "", new { @class = "field-validation-valid" })
                             @Html.DropDownListFor(x => x.Status, new SelectList(Model.ListStatus, "Value", "Text"), new { @class = "form-control input-sm", @id = "txtStatus" })
                         </div>
                     </div>
-
                 </form>
             </div>
             <div class="modal-footer">

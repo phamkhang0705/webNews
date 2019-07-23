@@ -38,7 +38,12 @@ namespace webNews.Domain.Entities
         public string Payments_Person { get; set; }
         public string CustomerCode { get; set; }
         public string CustomerName { get; set; }
+        public int? ReceiverType { get; set; }
         public double? PaymentMoney { get; set; }
+        public int? BizAccountType { get; set; }
+        public string CreditAccount { get; set; }
+        public string DebitAccount { get; set; }
+        public int? TypePayment { get; set; }
     }
 
 }

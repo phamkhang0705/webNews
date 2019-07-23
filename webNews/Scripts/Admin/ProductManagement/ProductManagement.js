@@ -25,12 +25,15 @@
                 align: "center",
                 formatter: function (value, row, index) {
                     if (value == null) {
-                        //                        return "";
                         return '<img class="img-preview" src="/Content/images/no_image.png" title="e" alt="" width="100" height="100" style="margin-bottom: 10px" />';
+                    } else {
+                        var url = row.Avatar != null ? row.Avatar.split("\\").pop(-1) : '';
+                        var str = '';
+                        if (url.length > 0) {
+                            str = '<img class="img-preview" src="/Content/Product/' + url + '" title="e" alt="" width="100" height="100" style="margin-bottom: 10px" />';
+                        }
+                        return str;
                     }
-                    var url = row.Avatar.split("\\").pop(-1);
-                    str = '<img class="img-preview" src="/Content/Product/' + url + '" title="e" alt="" width="100" height="100" style="margin-bottom: 10px" />';
-                    return str;
                 }
             }),
             Sv.BootstrapTableColumn("string", {
@@ -74,7 +77,7 @@
                 width: '150px',
                 title: 'Trạng thái',
                 formatter: function (value, row, index) {
-                    if (row.Status === 1) {
+                    if (row.Status == "1") {
                         return 'Hoạt động';
                     }
                     else {
@@ -108,8 +111,7 @@
                                 base.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
                                 base.SetupAmountMask();
                                 Sv.SetupDateAndSetDefaultNotMaxDate($('#divCheckDate'), row.CheckDate);
-
-                                //                                $('#formDetail #txtStatus').val(model.status).select2();
+                                $('#formDetail #txtStatus').val(model.status).select2();
                                 $('#formDetail #txtCategoryId').val(model.categoryId).select2();
                                 base.OpentDisable();
                             });
@@ -302,7 +304,7 @@ $(document).ready(function () {
             unit.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
             unit.SetupAmountMask();
             Sv.SetupDateAndSetDefaultNotMaxDate($('#divCheckDate'), new Date());
-            $('#formDetail #txtStatus').val('-1').select2();
+            $('#formDetail #txtStatus').select2();
             $('#formDetail #txtCategoryId').val('').select2();
         });
 

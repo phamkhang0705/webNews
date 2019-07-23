@@ -16,6 +16,12 @@ namespace webNews
 {
     public class RouteConfig
     {
+        public static IWebNewsDbConnectionFactory _connectionFactory;
+        //        public RouteConfig(IWebNewsDbConnectionFactory connectionFactory)
+        //        {
+        //            _connectionFactory = connectionFactory;
+        //        }
+
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -23,8 +29,28 @@ namespace webNews
               name: "Default",
               url: "{controller}/{action}/{id}",
               defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
-            ).DataTokens = new RouteValueDictionary(new {area= "admin"});
+            ).DataTokens = new RouteValueDictionary(new { area = "admin" });
 
+        }
+        public static void RewirteUrl(RouteCollection routes)
+        {
+            _connectionFactory = new WebNewsDbConnectionFactory(ConfigurationManager.ConnectionStrings["WebNews"].ConnectionString, SqlServer2014OrmLiteDialectProvider.Instance);
+
+            using (var db = _connectionFactory.OpenDbConnection())
+            {
+                var menus = db.Select<System_Menu>();
+                foreach (var menu in menus)
+                {
+                    if (!string.IsNullOrEmpty(menu.AliasUrl))
+                    {
+                        routes.MapRoute(
+                          name: menu.Controller,
+                          url: (string.IsNullOrEmpty(menu.Area) ? "" : menu.Area + "/") + menu.AliasUrl,
+                          defaults: new { controller = menu.Controller, action = "Index", id = UrlParameter.Optional }
+                      ).DataTokens = new RouteValueDictionary(new { area = menu.Area });
+                    }
+                }
+            }
         }
     }
 }

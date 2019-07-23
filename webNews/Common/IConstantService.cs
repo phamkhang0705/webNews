@@ -7,5 +7,6 @@ namespace webNews.Common
     {
         List<SelectListItem> ListStatus(bool showTitle = true);
         List<SelectListItem> ListAgeType(bool showTitle = true);
+        List<SelectListItem> ListBizAccountType(bool showTitle = true);
     }
 }

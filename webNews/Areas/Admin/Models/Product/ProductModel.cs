@@ -36,6 +36,7 @@ namespace webNews.Areas.Admin.Models.Product
         public DateTime? CheckDate { get; set; }
         [Display(Name = "Biện pháp xử lý")]
         [Required(ErrorMessage = "Vui lòng nhập biện pháp xử lý")]
+        [AllowHtml]
         public string Solution { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public int? CreatedBy { get; set; }

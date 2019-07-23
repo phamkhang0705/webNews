@@ -138,6 +138,7 @@
         obj.CreditAccount = form.find('#txtCreditAccount').val();
         obj.DebtAccount = form.find('#txtDebtAccount').val();
         obj.Status = form.find('#txtStatus').val();
+        obj.Type = form.find('#txtType').val();
         return obj;
     }
     //-- them sua xoa

@@ -36,11 +36,13 @@
                 title: 'Email',
                 field: 'Email',
                 align: "left"
-            }), Sv.BootstrapTableColumn("string", {
-                title: 'Facebook',
-                field: 'Facebook',
-                align: "left"
-            }), Sv.BootstrapTableColumn("string", {
+            })
+//            , Sv.BootstrapTableColumn("string", {
+//                title: 'Facebook',
+//                field: 'Facebook',
+//                align: "left"
+//            })
+            , Sv.BootstrapTableColumn("string", {
                 title: 'Tỉnh/Thành phố',
                 field: 'ProvinceName',
                 align: "left"
@@ -56,11 +58,13 @@
                 title: 'Địa chỉ',
                 field: 'Address',
                 align: "left"
-            }), Sv.BootstrapTableColumn("string", {
-                title: 'Mô tả',
-                field: 'Description',
-                align: "left"
-            }), Sv.BootstrapTableColumn("string", {
+            })
+//            , Sv.BootstrapTableColumn("string", {
+//                title: 'Mô tả',
+//                field: 'Description',
+//                align: "left"
+//            })
+            , Sv.BootstrapTableColumn("string", {
                 filed: 'Status',
                 align: "left",
                 width: '150px',

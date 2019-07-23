@@ -351,13 +351,16 @@ var Unit = function () {
         obj.ToDate = $("#divToDate").data('DateTimePicker').date();
         return obj;
     }
-
+    this.SetDateTime = function () {
+        base.$searchModal.find('#divFromDate').data("DateTimePicker").date(Sv.DefaultDate().StartOfMonth).format('DD/MM/YYYY HH:mm');
+        base.$searchModal.find('#divToDate').data("DateTimePicker").date(Sv.DefaultDate().ToDate).format('DD/MM/YYYY HH:mm');
+    }
 }
 
 var unit = new Unit();
 
 $(document).ready(function () {
-    Sv.SetupDateTime($("#divFromDate"), $("#divToDate"));
+    unit.SetDateTime();
     unit.$table.bootstrapTable(Sv.BootstrapTableOption({
         url: "/Admin/InvoiceOutport/GetData",
         queryParams: function (p) {
@@ -385,8 +388,7 @@ $(document).ready(function () {
 
     unit.$btnOpenSearch.click(function () {
         unit.$searchModal.modal({ backdrop: "static" });
-        unit.$searchModal.find('#divFromDate').data("DateTimePicker").date(Sv.DefaultDate().FormDate);
-        unit.$searchModal.find('#divToDate').data("DateTimePicker").date(Sv.DefaultDate().ToDate);
+        unit.SetDateTime();
         ////Max date
     });
     unit.$btnSearchSubmit.click(function () {

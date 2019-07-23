@@ -7,7 +7,7 @@ namespace webNews.Common
     {
         public List<SelectListItem> ListStatus(bool showTitle = true)
         {
-            if(showTitle)
+            if (showTitle)
             {
                 return new List<SelectListItem>
                 {
@@ -79,6 +79,44 @@ namespace webNews.Common
                 {
                     Value = "2",
                     Text = "Tuổi"
+                },
+            };
+        }
+        public List<SelectListItem> ListBizAccountType(bool showTitle = true)
+        {
+            if (showTitle)
+            {
+                return new List<SelectListItem>
+                {
+                    new SelectListItem()
+                    {
+                        Value = "-1",
+                        Text = "Tất cả",
+                        Selected = true
+                    },
+                    new SelectListItem()
+                    {
+                        Value = "1",
+                        Text = "Thu"
+                    },
+                    new SelectListItem()
+                    {
+                        Value = "2",
+                        Text = "Chi"
+                    },
+                };
+            }
+            return new List<SelectListItem>
+            {
+                new SelectListItem()
+                {
+                    Value = "1",
+                    Text = "Thu"
+                },
+                new SelectListItem()
+                {
+                    Value = "2",
+                    Text = "Chi"
                 },
             };
         }

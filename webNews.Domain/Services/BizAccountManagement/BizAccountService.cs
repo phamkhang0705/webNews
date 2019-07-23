@@ -1,4 +1,6 @@
-﻿using NLog;
+﻿using System;
+using System.Collections.Generic;
+using NLog;
 using webNews.Domain.Entities;
 using webNews.Domain.Repositories;
 using webNews.Domain.Repositories.BizAccountManagement;
@@ -25,6 +27,11 @@ namespace webNews.Domain.Services.BizAccountManagement
         public bool CheckExist(string userName)
         {
             return _typeRepository.CheckExist(userName);
+        }
+
+        public List<BizAccount> GetBizAccounts(int type)
+        {
+            return _typeRepository.GetBizAccounts(type);
         }
     }
 }

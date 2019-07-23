@@ -76,5 +76,21 @@ namespace webNews.Domain.Repositories.BizAccountManagement
                 return false;
             }
         }
+
+        public List<BizAccount> GetBizAccounts(int type)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    return db.Select<BizAccount>(x => x.Type == type);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "DB connection error");
+                return new List<BizAccount>();
+            }
+        }
     }
 }

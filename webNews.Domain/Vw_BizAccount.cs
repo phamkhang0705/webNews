@@ -26,6 +26,7 @@ namespace webNews.Domain.Entities
         public string DebtAccountName { get; set; }
         public string CreditAccountCode { get; set; }
         public string CreditAccountName { get; set; }
+        public int? Type { get; set; }
     }
 
 }

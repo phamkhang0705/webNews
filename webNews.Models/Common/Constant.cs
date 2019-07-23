@@ -36,7 +36,8 @@
         InvoiceOutport = 4,
         InvoiceRental = 5,
         ReceiverVoucher = 6,
-        PaymentVoucher = 7
+        PaymentVoucher = 7,
+        Category = 8,
     }
 
     public enum PersonType
@@ -63,6 +64,7 @@
         public const string InvoiceRental = "PTHUE";
         public const string ReceiverVoucher = "PTHU";
         public const string PaymentVoucher = "PCHI";
+        public const string Category = "CATE";
     }
 
 
@@ -73,10 +75,23 @@
         User = 3
     }
 
-    public enum ReceiverType:int
+    public enum ReceiverType : int
     {
-        ProductMoney = 1,//tiền hàng
-        Deposit = 2,//tiền cọc
-        Transport = 3//tiền vận chuyển
+        ProductMoney = 1,//phiếu thu tiền hàng
+        Deposit = 2,//phiếu thu tiền cọc
+        Transport = 3,//phiếu tiền vận chuyển
+        Other = 4//phiếu thu phát sinh khác
+    }
+
+    public enum TypePayment : int
+    {
+        Deposit = 1,//phiếu chi tiền cọc
+        Other = 2//phiếu chi phát sinh khác
+    }
+
+    public enum BizAccountType : int
+    {
+        Receive = 1,//Phiếu thu
+        Payment = 2//Phiếu chi
     }
 }

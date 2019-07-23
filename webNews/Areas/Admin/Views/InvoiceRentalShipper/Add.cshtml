@@ -1,0 +1,258 @@
+﻿@using webNews.Domain.Entities
+@using webNews.Language.Language
+@using webNews.Security
+@{
+    ViewBag.Title = "THUÊ HÀNG";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+}
+<h2 class="page-header">Thuê hàng</h2>
+<div class="main-content">
+    <div class="col-xs-12 col-sm-12 col-md-12 no-padding">
+        <div class="col-lg-8 col-md-8 col-sm-8 no-padding">
+            <div class="col-md-7 col-xs-7 ui-widget">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">Chọn thời gian thuê</label>
+                    <div class="col-xs-8">
+                        <select class="form-control" id="txtType">
+                            @foreach (InvoiceType item in Model.ListInvoiceTypes)
+                            {
+                                <option value="@item.Code">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-xs-5 ui-widget">
+                <input type="text" id="txtSearchCategory" class="form-control" autocomplete="false" placeholder="Chọn sản phẩm" />
+            </div>
+            <div class="table" style="padding-top: 66px">
+                <table id="table"></table>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="x_content">
+
+                <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab1" class="nav nav-tabs bar_tabs left" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#add_tab_content11" id="add_tab1" role="tab" data-toggle="tab" aria-controls="add_tab1" aria-expanded="true">Thông tin</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#add_tab_content22" role="tab" id="add_tab2" data-toggle="tab" aria-controls="add_tab2" aria-expanded="false">Chi tiết</a>
+                        </li>
+                    </ul>
+                    <form id="formDetail1" name="formDetail1" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                        <div id="myTabContent2" class="tab-content">
+
+                            @*Tab 1 content*@
+                            <div role="tabpanel" class="tab-pane fade active in" id="add_tab_content11" aria-labelledby="add_tab1-tab">
+                                @*pannel 1. Basic infor*@
+                                <div class="x_panel padding-lr-0">
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label padding-lr-0">Mã phiếu</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="Code" class="form-control" id="txtImportCode" placeholder="@Resource.CodeAutoGen_Lang" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label padding-lr-0">Khách hàng</label>
+                                        <div class="col-xs-8">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="customerSelect" placeholder="@Resource.ChooseCustomer_Lang" />
+                                                <span class="input-group-btn">
+                                                    <button id="btnAddCustomer" class="btn btn-primary" type="button" title="+">+</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="selectedCustomer" style="display: none">
+                                        <label class="col-xs-4 control-label"></label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="CustomerCode" class="form-control hidden" id="txtCustomerCode" placeholder="@Resource.ChooseProvider_Lang" />
+                                            <label type="text" name="CustomerName" class="control-label" id="txtCustomerName"></label>
+                                            <button class='delete btn btn-primary btn-in-table' id="deleteCustomer" type="button" title='Xóa khách hàng'><i class='fa fa-remove'></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label padding-lr-0">Tổng số lượng</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="TotalQuantity" disabled="disabled" value="0" class="form-control input-right" id="txtTotalQuantity" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label padding-lr-0">Tổng tiền hàng</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="TotalMoney" disabled="disabled" value="0" class="form-control input-right" id="txtTotalMoney" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label padding-lr-0">Tổng tiền cọc</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="TotalDeposit" value="0" class="form-control input-right" id="txtTotalDeposit" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group TotalDepositDiscount" style="display: none">
+                                        <label class="col-xs-4 control-label padding-lr-0">Chiết khấu tiền cọc</label>
+                                        <div class="col-xs-8 input-group" style="padding-right: 10px; padding-left: 10px;">
+                                            <input type="text" class="form-control input-right" name="TotalDepositDiscount" id="txtTotalDepositDiscount" value="@Model.DepositDiscount" />
+                                            <span class="input-group-addon">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label padding-lr-0">Tổng tiền vận chuyển</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="TotalTransport" disabled="disabled" value="0" class="form-control input-right" id="txtTotalTransport" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label padding-lr-0">Chiết khấu</label>
+                                        <div class="col-xs-3">
+                                            <select class="form-control" name="DiscountType" id="txtDiscounType">
+                                                <option value="0">Tiền</option>
+                                                <option value="1">Phần trăm</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-5" id="typeMoney">
+                                            <input type="text" class="form-control input-right" id="txtDiscount0" value="0" />
+                                        </div>
+
+                                        <div class="col-xs-5 input-group" style="display: none; padding-right: 10px;" id="typePercent">
+                                            <input type="text" class="form-control input-right" id="txtDiscount1" value="@Model.RentalDiscount" />
+                                            <span class="input-group-addon">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">VAT</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="VAT" class="form-control input-right discount-mask" value="0" id="txtVAT"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Tổng tiền</label>
+                                        <div class="col-xs-2">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="checkbox" id="checkboxChange" title="Thay đổi tổng tiền" class="form-check-input" />
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                </label>
+                                            </div>
+                                            
+                                            <label for="checkboxChange"></label>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <input type="text" name="SumMonney" class="form-control input-right" value="0" id="txtSalePrice" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Thanh toán</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="PaidMoney" class="form-control input-right" value="0" id="txtPayMoney" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Nợ lại</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" name="RemainMoney" class="form-control input-right" value="0" id="txtRemainMoney" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="float: right">
+                                        <button class="btn btn-primary btnComplete" type="button" title="@(Resource.Btn_Complete_Lang)">@(Resource.Btn_Complete_Lang)</button>
+                                        <button class="btn btn-primary btnTempSave" type="button" title="@(Resource.Btn_Temp_Save_Lang)">@(Resource.Btn_Temp_Save_Lang)</button>
+                                        <button class="btn btn-primary btnBack" type="button" title="@(Resource.Btn_Back_Lang)">@(Resource.Btn_Back_Lang)</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*Tab 2 content*@
+                            <div role="tabpanel" class="tab-pane fade" id="add_tab_content22" aria-labelledby="add_tab2-tab">
+                                <div class="x_panel padding-lr-0">
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Trạng thái</label>
+                                        <div class="col-xs-8">
+                                            <label class="col-xs-4 control-label">Lưu tạm</label>
+                                        </div>
+                                    </div>
+                                    @*                                    <div class="form-group">*@
+                                    @*                                        <label class="col-xs-4 control-label">Phương thức thanh toán</label>*@
+                                    @*                                        <div class="col-xs-8">*@
+                                    @*                                            <select class="form-control" name="PayMethod" id="txtMethodPayment">*@
+                                    @*                                                <option value="0">Tiền mặt</option>*@
+                                    @*                                                <option value="1">Chuyển khoản</option>*@
+                                    @*                                            </select>*@
+                                    @*                                        </div>*@
+                                    @*                                    </div>*@
+                                    @*                                    <div class="form-group" id="grAccount" style="display: none;">*@
+                                    @*                                        <label class="col-xs-4 control-label">Tài khoản</label>*@
+                                    @*                                        <div class="col-xs-8">*@
+                                    @*                                            <select class="form-control" name="BankCode" id="txtBankAccount">*@
+                                    @*                                                @foreach (Bank bank in Model.ListBanks)*@
+                                    @*                                                {*@
+                                    @*                                                    <option value="@bank.BankAccount">@bank.BankCode-@bank.BankName</option>*@
+                                    @*                                                }*@
+                                    @*                                            </select>*@
+                                    @*                                        </div>*@
+                                    @*                                    </div>*@
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Người tạo</label>
+                                        <div class="col-xs-8">
+                                            <input type="text" class="form-control" value="@Authentication.GetUserName()" name="UserName" id="txtCreateUser" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Ngày tạo</label>
+                                        <div class="col-xs-8">
+                                            <div class="input-group input-group-sm input-date" id="divCreateDate">
+                                                <input type="text" id="txtCreatedDate" name="CreateDate"
+                                                       class="form-control datemask">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Ngày giao hàng dự kiến</label>
+                                        <div class="col-xs-8">
+                                            <div class="input-group input-group-sm input-date" id="divDeliveryDate">
+                                                <input type="text" id="txtDeliveryDate" name="DeliveryDate"
+                                                       class="form-control datemask">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Địa chỉ giao hàng</label>
+                                        <div class="col-xs-8">
+                                            <textarea type="text" class="form-control" id="txtAddress" name="Note" placeholder="Địa chỉ giao hàng" rows="7"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-4 control-label">Ghi chú</label>
+                                        <div class="col-xs-8">
+                                            <textarea type="text" class="form-control" id="txtNote" name="Note" placeholder="@Resource.Note_Lang" rows="7"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="float: right">
+                                        <button id="btnComplete" class="btn btn-primary btnComplete" type="button" title="@(Resource.Btn_Complete_Lang)">@(Resource.Btn_Complete_Lang)</button>
+                                        <button id="btnTempSave" class="btn btn-primary btnTempSave" type="button" title="@(Resource.Btn_Temp_Save_Lang)">@(Resource.Btn_Temp_Save_Lang)</button>
+                                        <button id="btnBack" class="btn btn-primary btnBack" type="button" title="@(Resource.Btn_Back_Lang)">@(Resource.Btn_Back_Lang)</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="box-detail"></div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/Admin/InvoiceRental/InvoiceAdd.js"></script>
+}

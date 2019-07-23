@@ -6,12 +6,14 @@ using webNews.Areas.Admin.Models.Payment;
 using webNews.Areas.Admin.Models.Receiver;
 using webNews.Domain.Entities;
 using webNews.Domain.Services;
+using webNews.Domain.Services.BizAccountManagement;
 using webNews.Domain.Services.InvoiceOutportManagement;
 using webNews.Domain.Services.ReceiverVoucherManagement;
 using webNews.Language.Language;
 using webNews.Models.Common;
 using webNews.Models.ReceiverVoucherManagement;
 using webNews.Security;
+using webNews.Common;
 
 namespace webNews.Areas.Admin.Controllers
 {
@@ -21,13 +23,17 @@ namespace webNews.Areas.Admin.Controllers
         private readonly IReceiverVoucherService _paymetService;
         private readonly IInvoiceOutportService _outportService;
         private readonly ISystemService _systemService;
+        private readonly IConstantService _constantService;
+        private readonly IBizAccountService _bizAccountService;
 
         public ReceiverVoucherController(
-            IReceiverVoucherService paymetService, IInvoiceOutportService outportService, ISystemService systemService)
+            IReceiverVoucherService paymetService, IInvoiceOutportService outportService, ISystemService systemService, IBizAccountService bizAccountService)
         {
             _paymetService = paymetService;
             _outportService = outportService;
             _systemService = systemService;
+            _constantService = new ConstantService();
+            _bizAccountService = bizAccountService;
         }
 
         // GET: Admin/ReceiverVoucher
@@ -83,7 +89,8 @@ namespace webNews.Areas.Admin.Controllers
                     ListInvoiceOutports = _outportService.GetInvoiceOutports((int)InvoiceStatus.Active),
                     CreatedDate = DateTime.Now,
                     PaymentCode = _systemService.CodeGen(ObjectType.ReceiverVoucher, PrefixType.ReceiverVoucher),
-                    ListBanks = _systemService.GetBanks(1)
+                    ListBanks = _systemService.GetBanks(1),
+                    ListBizAccounts = _bizAccountService.GetBizAccounts((int)webNews.Models.Common.BizAccountType.Receive)
                 };
                 if (action == "Edit")
                 {
@@ -107,6 +114,9 @@ namespace webNews.Areas.Admin.Controllers
                     model.Payments_Person = payment.Payments_Person;
                     model.CustomerName = payment.CustomerName;
                     model.PaymentMoney = payment.PaymentMoney;
+                    model.CreditAccount = payment.CreditAccount;
+                    model.DebitAccount = payment.DebitAccount;
+                    model.BizAccountType = payment.BizAccountType;
                 };
 
                 return PartialView("_ptvDetail", model);
@@ -246,6 +256,10 @@ namespace webNews.Areas.Admin.Controllers
                         PaymentMoney = model.PaymentMoney,
                         PaymentType = true,
                         CreatedBy = Authentication.GetUserId(),
+                        BizAccountType = model.BizAccountType,
+                        CreditAccount = model.CreditAccount,
+                        DebitAccount = model.DebitAccount,
+                        ReceiverType = (int)ReceiverType.Other
                     };
                     var rs = _paymetService.CreatePayment(payment);
                     if (rs.ResponseCode == "01")
@@ -293,7 +307,7 @@ namespace webNews.Areas.Admin.Controllers
                         Id = model.Id,
                         PaymentCode = model.PaymentCode,
                         UserName = Authentication.GetUserName(),
-                        CreatedDate = DateTime.Now,
+                        UpdatedDate = DateTime.Now,
                         PaymentMethod = model.PaymentMethod,
                         Description = model.Description,
                         PersonType = (int)PersonType.Provider,
@@ -303,7 +317,10 @@ namespace webNews.Areas.Admin.Controllers
                         InvoiceCode = model.InvoiceCode,
                         PaymentMoney = model.PaymentMoney,
                         PaymentType = true,
-                        CreatedBy = Authentication.GetUserId(),
+                        UpdateBy = Authentication.GetUserId(),
+                        BizAccountType = model.BizAccountType,
+                        CreditAccount = model.CreditAccount,
+                        DebitAccount = model.DebitAccount
                     };
                     var rs = _paymetService.UpdatePayment(payment);
                     if (rs.ResponseCode == "01")

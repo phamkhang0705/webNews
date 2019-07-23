@@ -93,8 +93,9 @@ namespace webNews.Areas.Admin.Controllers
                 var model = new ProductModel()
                 {
                     Action = action,
-                    ListStatus = _constantService.ListStatus(),
-                    ListCategories = _categoryManagementService.GetAllCategories()
+                    ListStatus = _constantService.ListStatus(false),
+                    ListCategories = _categoryManagementService.GetAllCategories(),
+                    Status = 1
                 };
                 if (id > 0)
                 {
@@ -104,18 +105,18 @@ namespace webNews.Areas.Admin.Controllers
                         model.Id = pro.Id;
                         model.ProductCode = pro.ProductCode;
                         model.ProductName = pro.ProductName;
-//                        model.Inventory = pro.Inventory;
+                        //                        model.Inventory = pro.Inventory;
                         model.Quantity = pro.Quantity;
                         model.Description = pro.Description;
                         model.Solution = pro.Solution;
                         model.Status = pro.Status;
                         model.files = pro.files;
-                        if (pro.files!=null)
+                        if (pro.files != null)
                         {
                             model.lstFiles = pro.files.Split(',');
                         }
 
-                        model.ListFiles = _fileService.GetFileAttach(null,id,null);
+                        model.ListFiles = _fileService.GetFileAttach(null, id, null);
                     }
                 }
                 return PartialView("_ProductDetail", model);
@@ -137,6 +138,7 @@ namespace webNews.Areas.Admin.Controllers
         #region Create
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Create(FormCollection fc)
         {
             if (!CheckAuthorizer.Authorize(Permission.EDIT)) return RedirectToAction("Index", "Login");
@@ -153,7 +155,7 @@ namespace webNews.Areas.Admin.Controllers
                         Description = fc["Description"],
                         Solution = fc["Solution"],
                         Quantity = Int32.Parse(fc["Quantity"]),
-//                        Inventory = Int32.Parse(fc["Inventory"]),
+                        //                        Inventory = Int32.Parse(fc["Inventory"]),
                         Status = Int32.Parse(fc["Status"]),
                         UpdatedDate = DateTime.Now,
                         UpdatedBy = Authentication.GetCurrentUser().Id,
@@ -252,6 +254,7 @@ namespace webNews.Areas.Admin.Controllers
         #region [Update]
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Update(FormCollection fc)
         {
             if (!CheckAuthorizer.Authorize(Permission.EDIT)) return RedirectToAction("Index", "Login");
@@ -262,14 +265,14 @@ namespace webNews.Areas.Admin.Controllers
                     string path = "";
                     var cate = new Product()
                     {
-                        Id=Int32.Parse(fc["Id"]),
+                        Id = Int32.Parse(fc["Id"]),
                         CategoryId = Int32.Parse(fc["CategoryId"]),
                         ProductCode = fc["ProductCode"],
                         ProductName = fc["ProductName"],
                         Description = fc["Description"],
                         Solution = fc["Solution"],
                         Quantity = Int32.Parse(fc["Quantity"]),
-//                        Inventory = Int32.Parse(fc["Inventory"]),
+                        //                        Inventory = Int32.Parse(fc["Inventory"]),
                         Status = Int32.Parse(fc["Status"]),
                         UpdatedDate = DateTime.Now,
                         UpdatedBy = Authentication.GetCurrentUser().Id,

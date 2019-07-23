@@ -22,7 +22,7 @@ namespace webNews
         {
             ServiceStackHelper.Help();
             LicenseUtils.ActivatedLicenseFeatures();
-
+//            RouteConfig.RewirteUrl(RouteTable.Routes);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

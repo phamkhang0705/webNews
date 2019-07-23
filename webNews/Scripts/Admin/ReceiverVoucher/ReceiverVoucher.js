@@ -82,12 +82,12 @@
                 width: '80px',
                 formatter: function (value, data, index) {
                     var str = "";
-                    if (base.$perEdit === "1" && data.ReceiverType == "2") {
+                    if (base.$perEdit == "1" && (data.ReceiverType != "1" && data.ReceiverType != "3")) {
                         str += "<button data-code='%s' class='OpenEditItem btn btn-primary btn-in-table' title='Sửa'><i class='fa fa-pencil-square-o'></i></button>";
-                        if (data.Status === 0) {
-                            str += "<button data-code='%s' class='OpenApproveItem btn btn-primary btn-in-table' title='Duyệt'><i class='fa fa-check'></i></button>";
-                            str += "<button data-code='%s' class='OpenRejectItem btn btn-primary btn-in-table' title='Hủy'><i class='fa fa-trash'></i></button>";
-                        }
+                    }
+                    if (data.Status === 0) {
+                        str += "<button data-code='%s' class='OpenApproveItem btn btn-primary btn-in-table' title='Duyệt'><i class='fa fa-check'></i></button>";
+                        str += "<button data-code='%s' class='OpenRejectItem btn btn-primary btn-in-table' title='Hủy'><i class='fa fa-trash'></i></button>";
                     }
                     return str;
                 },
@@ -193,7 +193,7 @@
         var remainMoney = $form.find('#txtRemainMoney').val();
         var paymentMoney = $form.find('#txtPaymentMoney').val();
         var invoiceCode = $form.find('#txtInvoiceCode').val();
-        if (invoiceCode.length > 0 && paymentMoney > remainMoney) {
+        if (invoiceCode.length > 0 && parseInt(paymentMoney) > parseInt(remainMoney)) {
             Dialog.Alert("Số tiền cần thanh toán phải nhỏ hơn số tiền nợ lại", Dialog.Error);
             return;
         }
@@ -283,8 +283,8 @@
 
 $(document).ready(function () {
     var unit = new Unit();
-    $("#formSearch").find('#divFromDate').data("DateTimePicker").date(Sv.DefaultDate().FormDate);
-    $("#formSearch").find('#divToDate').data("DateTimePicker").date(Sv.DefaultDate().ToDate);
+    $("#formSearch").find('#divFromDate').data("DateTimePicker").date(Sv.DefaultDate().StartOfMonth).format('DD/MM/YYYY HH:mm');
+    $("#formSearch").find('#divToDate').data("DateTimePicker").date(Sv.DefaultDate().ToDate).format('DD/MM/YYYY HH:mm');
     unit.$table.bootstrapTable(Sv.BootstrapTableOption({
         url: "/Admin/ReceiverVoucher/GetData",
         queryParams: function (p) {
@@ -349,6 +349,18 @@ $(document).ready(function () {
         } else {
             $("#grAccount").hide();
             $('#txtBankAccount').prop('disabled', true);
+        }
+    });
+    unit.$boxDetails.on('change', '#txtBizAccountType', function (e) {
+        e.preventDefault();
+        var id = $(this).val();
+        var credit = $(this).find(':selected').data('credit') || '';
+        var debt = $(this).find(':selected').data('debit') || '';
+        if (credit != '') {
+            unit.$boxDetails.find('#txtCreditAccount').val(credit);
+        }
+        if (credit != '') {
+            unit.$boxDetails.find('#txtDebitAccount').val(debt);
         }
     });
 });

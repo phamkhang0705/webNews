@@ -42,6 +42,7 @@ namespace webNews.Areas.Admin.Controllers
             dynamic model = new ExpandoObject();
             model.ListStatus = _constantService.ListStatus();
             model.ListTypes = _service.GetAll();
+            model.Types = _constantService.ListBizAccountType();
             return View(model);
         }
 
@@ -81,7 +82,8 @@ namespace webNews.Areas.Admin.Controllers
                 {
                     Action = action,
                     ListStatus = _constantService.ListStatus(false),
-                    ListTypes = _typeService.GetAll()
+                    ListTypes = _typeService.GetAll(),
+                    Types = _constantService.ListBizAccountType(false)
                 };
                 if (id > 0)
                 {
@@ -94,6 +96,7 @@ namespace webNews.Areas.Admin.Controllers
                         model.CreditAccount = cate.CreditAccount;
                         model.DebtAccount = cate.DebtAccount;
                         model.Status = cate.Status;
+                        model.Type = cate.Type;
                     }
                 }
                 return PartialView("_bizAccountDetail", model);

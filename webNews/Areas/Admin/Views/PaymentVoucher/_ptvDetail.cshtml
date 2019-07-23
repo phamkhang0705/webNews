@@ -107,7 +107,28 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">Định nghĩa</label>
+                        <div class="col-xs-4">
+                            <select class="form-control input-sm" name="BizAccountType" id="txtBizAccountType">
+                                <option value="-1">Chọn tài khoản đã định nghĩa</option>
+                                @foreach (BizAccount item in Model.ListBizAccounts)
+                                {
+                                    <option value="@item.Id" data-credit="@item.CreditAccount" data-debit="@item.DebtAccount">@item.Code - @item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.DebitAccount)</label>
+                        <div class="col-xs-4 control-label" style="text-align: left">
+                            @Html.TextBoxFor(x => x.DebitAccount, new { @class = "form-control input-sm", @id = "txtDebitAccount", @placeholder = "Nhập tài khoản nợ" })
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.CreditAccount)</label>
+                        <div class="col-xs-4 control-label" style="text-align: left">
+                            @Html.TextBoxFor(x => x.CreditAccount, new { @class = "form-control input-sm", @id = "txtCreditAccount", @placeholder = "Nhập tài khoản có" })
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-xs-2 control-label">Phương thức thanh toán</label>
                         <div class="col-xs-4">

@@ -1,4 +1,5 @@
-﻿using webNews.Domain.Entities;
+﻿using System.Collections.Generic;
+using webNews.Domain.Entities;
 using webNews.Models;
 using webNews.Models.CategoryManagement;
 
@@ -9,5 +10,6 @@ namespace webNews.Domain.Services.BizAccountManagement
         PagingObject<Vw_BizAccount> GetList(SearchCategoryModel filter, int pageIndex, int pageSize);
 
         bool CheckExist(string userName);
+        List<BizAccount> GetBizAccounts(int type);
     }
 }

@@ -296,10 +296,8 @@
 
 $(document).ready(function () {
     var unit = new Unit();
-    //    Sv.SetupDateTime($("#sFromDate"), $("#sToDate"));
-
-    $("#formSearch").find('#divFromDate').data("DateTimePicker").date(Sv.DefaultDate().FormDate);
-    $("#formSearch").find('#divToDate').data("DateTimePicker").date(Sv.DefaultDate().ToDate);
+    $("#formSearch").find('#divFromDate').data("DateTimePicker").date(Sv.DefaultDate().StartOfMonth).format('DD/MM/YYYY HH:mm');
+    $("#formSearch").find('#divToDate').data("DateTimePicker").date(Sv.DefaultDate().ToDate).format('DD/MM/YYYY HH:mm');
     unit.$table.bootstrapTable(Sv.BootstrapTableOption({
         url: "/Admin/PaymentVoucher/GetData",
         queryParams: function (p) {
@@ -364,6 +362,18 @@ $(document).ready(function () {
         } else {
             $("#grAccount").hide();
             $('#txtBankAccount').prop('disabled', true);
+        }
+    });
+    unit.$boxDetails.on('change', '#txtBizAccountType', function (e) {
+        e.preventDefault();
+        var id = $(this).val();
+        var credit = $(this).find(':selected').data('credit') || '';
+        var debt = $(this).find(':selected').data('debit') || '';
+        if (credit != '') {
+            unit.$boxDetails.find('#txtCreditAccount').val(credit);
+        }
+        if (credit != '') {
+            unit.$boxDetails.find('#txtDebitAccount').val(debt);
         }
     });
 });

@@ -127,7 +127,7 @@ namespace webNews.Domain.Repositories.PaymentVoucherManagement
                                 invoice.RemainMoney -= payment.PaymentMoney;
                                 if (invoice.RemainMoney == 0)
                                 {
-                                    invoice.Active = (int) InvoiceStatus.Complete;
+                                    invoice.Active = (int)InvoiceStatus.Complete;
                                 }
                                 db.Update(invoice);
                             }
@@ -152,7 +152,7 @@ namespace webNews.Domain.Repositories.PaymentVoucherManagement
                                 db.Update(invoice);
                             }
                         }
-                        
+
                         if (payment != null)
                         {
                             payment.Status = (int)PaymentActive.Approve;
@@ -199,15 +199,26 @@ namespace webNews.Domain.Repositories.PaymentVoucherManagement
             {
                 try
                 {
-                    if (!string.IsNullOrEmpty(model.InvoiceCode))
-                    {
-                        var invoice = db.Single<InvoiceImport>(x => x.Code == model.InvoiceCode);
-                        model.Payments_Person = invoice.SupplierCode;
-                        model.PersonType = (int)CustomerType.Supplier;
-                    }
                     var payment = db.Single<Payment>(x => x.Id == model.Id);
-                    payment.PaymentMoney = model.PaymentMoney;
-                    payment.Description = model.Description;
+                    if (model.PaymentType == false && payment.TypePayment == (int)TypePayment.Deposit)
+                    {
+                        payment.PaymentMoney = model.PaymentMoney;
+                        payment.Description = model.Description;
+                        payment.CreditAccount = model.CreditAccount;
+                        payment.DebitAccount = model.DebitAccount;
+                        payment.BizAccountType = model.BizAccountType;
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(model.InvoiceCode))
+                        {
+                            var invoice = db.Single<InvoiceImport>(x => x.Code == model.InvoiceCode);
+                            model.Payments_Person = invoice.SupplierCode;
+                            model.PersonType = (int)CustomerType.Supplier;
+                        }
+                        payment.PaymentMoney = model.PaymentMoney;
+                        payment.Description = model.Description;
+                    }
                     db.Update(payment);
                     return 1;
                 }

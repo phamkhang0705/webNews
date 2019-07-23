@@ -424,7 +424,8 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
                     PaidMoney = 0,
                     PaymentType = false,
                     CreatedBy = model.CreatedBy,
-                    ReceiverVoucherCode = receiver.PaymentCode
+                    ReceiverVoucherCode = receiver.PaymentCode,
+                    TypePayment = (int)TypePayment.Deposit
                 };
 
                 //Phiếu thu tiền cọc

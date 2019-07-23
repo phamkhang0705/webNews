@@ -31,10 +31,13 @@ namespace webNews.Areas.Admin.Models.BizAccount
 
         [Display(Name = "Trạng thái")]
         public int? Status { get; set; }
+        [Display(Name = "Tài khoản thu/chi")]
+        public int? Type { get; set; }
 
         public string Action { get; set; }
 
         public List<SelectListItem> ListStatus { get; set; }
+        public List<SelectListItem> Types { get; set; }
         public List<Domain.Entities.BizAccountType> ListTypes { get; set; }
     }
 }

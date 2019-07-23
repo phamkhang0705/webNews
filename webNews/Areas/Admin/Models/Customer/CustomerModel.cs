@@ -23,6 +23,7 @@ namespace webNews.Areas.Admin.Models.Customer
         [Display(Name = "Trạng thái")]
         public int? Status { get; set; }
 
+        [AllowHtml]
         [Display(Name = "Mô tả")]
         [StringLength(2000, ErrorMessage = "Mô tả tối đa 2000 ký tự")]
         public string Description { get; set; }

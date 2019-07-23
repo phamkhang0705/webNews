@@ -83,14 +83,15 @@ var Unit = function () {
                 formatter: function (value, data, index) {
                     if (data.Active === 0) {
                         return "Phiếu tạm";
-                    }
-                    else if (data.Active === 1) {
+                    } else if (data.Active === 1) {
                         return "Chờ giao";
                     } else if (data.Active === 2) {
                         return "Đã hủy";
                     } else if (data.Active === 3) {
                         return "Đang thuê";
                     } else if (data.Active === 4) {
+                        return "Đã thu";
+                    } else if (data.Active === 5) {
                         return "Hoàn thành";
                     }
                 }
@@ -102,7 +103,6 @@ var Unit = function () {
                 formatter: function (value, row, index) {//
                     var str = "";
                     str += "<button data-code='%s' class='OpenViewItem btn btn-primary btn-in-table' title='Chi tiết'><i class='fa fa-eye'></i></button>";
-                    //                    str += "<button data-code='%s' class='OpenHistoryItem btn btn-primary btn-in-table' title='Xem lịch sử thanh toán'><i class='fa fa-bar-chart'></i></button>";
                     if (row.Active == 0) {
                         if (base.$perEdit == 1) {
                             str += "<button data-code='%s' class='OpenEditItem btn btn-primary btn-in-table' title='Chi tiết'><i class='fa fa-pencil-square-o'></i></button>";
@@ -125,16 +125,14 @@ var Unit = function () {
                                 Sv.SetupDateAndSetDefault($('#divCreatedDate'), row.CreatedDate);
                                 base.$boxDetails.find("#txtCreatedDate").prop('disabled', true);
                                 if (row.Active == 0) {
-                                    //                                    $("#btnReOpen").show();
                                     $("#btnDelete").show();
-                                    $("#btnClose").show();
                                 }
                                 else if (row.Active == 1) {
                                     $("#btnSave").show();
                                     $("#btnTemp").show();
-//                                    $("#btnCancel").show();
-                                    $("#btnClose").show();
                                 }
+                                $("#btnClose").show();
+
                             });
                         });
                     },
@@ -348,13 +346,16 @@ var Unit = function () {
         obj.ToDate = $("#divToDate").data('DateTimePicker').date();
         return obj;
     }
-
+    this.SetDateTime = function () {
+        base.$searchModal.find('#divFromDate').data("DateTimePicker").date(Sv.DefaultDate().StartOfMonth).format('DD/MM/YYYY HH:mm');
+        base.$searchModal.find('#divToDate').data("DateTimePicker").date(Sv.DefaultDate().ToDate).format('DD/MM/YYYY HH:mm');
+    }
 }
 
 var unit = new Unit();
 
 $(document).ready(function () {
-    Sv.SetupDateTime($("#divFromDate"), $("#divToDate"));
+    unit.SetDateTime();
     unit.$table.bootstrapTable(Sv.BootstrapTableOption({
         url: "/Admin/InvoiceRental/GetData",
         queryParams: function (p) {
@@ -382,9 +383,7 @@ $(document).ready(function () {
 
     unit.$btnOpenSearch.click(function () {
         unit.$searchModal.modal({ backdrop: "static" });
-        unit.$searchModal.find('#divFromDate').data("DateTimePicker").date(Sv.DefaultDate().FormDate);
-        unit.$searchModal.find('#divToDate').data("DateTimePicker").date(Sv.DefaultDate().ToDate);
-        ////Max date
+        unit.SetDateTime();
     });
     unit.$btnSearchSubmit.click(function () {
         unit.LoadTableSearch();

@@ -40,6 +40,10 @@ namespace webNews.Domain.Entities
         public double? PaymentMoney { get; set; }
         public int? ReceiverType { get; set; }
         public string ReceiverVoucherCode { get; set; }
+        public int? BizAccountType { get; set; }
+        public string CreditAccount { get; set; }
+        public string DebitAccount { get; set; }
+        public int? TypePayment { get; set; }
     }
 
 }

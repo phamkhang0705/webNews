@@ -178,9 +178,9 @@ namespace webNews.Domain.Repositories.ReceiverVoucherManagement
                 {
                     if (!string.IsNullOrEmpty(model.InvoiceCode))
                     {
-                        var invoice = db.Single<InvoiceImport>(x => x.Code == model.InvoiceCode);
-                        model.Payments_Person = invoice.SupplierCode;
-                        model.PersonType = (int)CustomerType.Supplier;
+                        var invoice = db.Single<InvoiceOutport>(x => x.Code == model.InvoiceCode);
+                        model.Payments_Person = invoice.CustomerCode;
+                        model.PersonType = (int)CustomerType.Customer;
                     }
                     db.Insert(model);
                     return 1;
@@ -197,38 +197,54 @@ namespace webNews.Domain.Repositories.ReceiverVoucherManagement
         {
             using (var db = _connectionFactory.Open())
             {
-                try
+                using (var trans = db.OpenTransaction())
                 {
-                    var payment = db.Single<Payment>(x => x.Id == model.Id);
-                    if (!string.IsNullOrEmpty(model.InvoiceCode))
+                    try
                     {
-                        var invoice = db.Single<InvoiceImport>(x => x.Code == model.InvoiceCode);
-                        var rental = db.Single<InvoiceOutport>(x => x.Code == model.InvoiceCode);
-                        if (model.ReceiverType == (int)ReceiverType.Deposit)
+                        var payment = db.Single<Payment>(x => x.Id == model.Id && x.PaymentType == true);
+                        if (!string.IsNullOrEmpty(model.InvoiceCode))
                         {
-                            if (model.PaymentMoney < rental.TotalMoney)
+                            var invoice = db.Single<InvoiceImport>(x => x.Code == model.InvoiceCode);
+                            var rental = db.Single<InvoiceOutport>(x => x.Code == model.InvoiceCode);
+                            if (payment.PaymentType == true) //la phieu thu
                             {
-                                payment.PaymentMoney = model.PaymentMoney;
+                                if (payment.ReceiverType == (int)ReceiverType.Deposit)
+                                {
+                                    if (model.PaymentMoney < rental.TotalMoney)
+                                    {
+                                        payment.PaymentMoney = model.PaymentMoney;
+                                    }
+                                    var paymentDeposit =
+                                        db.Single<Payment>(
+                                            x => x.PaymentType == false && x.InvoiceCode == model.InvoiceCode);
+                                    paymentDeposit.PaymentMoney = model.PaymentMoney;
+                                    paymentDeposit.TotalMoney = model.PaymentMoney;
+                                    db.Update(paymentDeposit);
+                                }
+                                payment.Payments_Person = rental.CustomerCode;
+                                payment.PersonType = (int)CustomerType.Customer;
                             }
-                            var paymentDeposit = db.Single<Payment>(x => x.InvoiceCode == model.InvoiceCode);
-                            paymentDeposit.PaymentMoney = model.PaymentMoney;
-                            paymentDeposit.TotalMoney = model.PaymentMoney;
+                            else //phieu chi
+                            {
+                                if (model.TypePayment == (int)TypePayment.Deposit)
+                                {
+                                    payment.Payments_Person = invoice.SupplierCode;
+                                    payment.PersonType = (int)CustomerType.Supplier;
+                                }
+                            }
                         }
-                        model.Payments_Person = invoice.SupplierCode;
-                        model.PersonType = (int)CustomerType.Supplier;
+                        payment.PaymentMoney = model.PaymentMoney;
+                        payment.Description = model.Description;
+                        db.Update(payment);
+                        trans.Commit();
+                        return 1;
                     }
-                    
-                    payment.PaymentMoney = model.PaymentMoney;
-                    payment.Description = model.Description;
-
-
-                    db.Update(payment);
-                    return 1;
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error(ex, "Update Payment error: " + ex.Message);
-                    return -1;
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        _logger.Error(ex, "Update Payment error: " + ex.Message);
+                        return -1;
+                    }
                 }
             }
         }

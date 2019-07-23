@@ -162,6 +162,7 @@ namespace webNews.Areas.Admin.Controllers
         #region Create
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Create(Vw_Customer customer)
         {
             if (!CheckAuthorizer.Authorize(Permission.ADD)) return RedirectToAction("Index", "Login");
@@ -171,7 +172,7 @@ namespace webNews.Areas.Admin.Controllers
                 {
                     customer.CreatedBy = Authentication.GetUserId();
                     customer.CreatedDate = DateTime.Now;
-                    customer.CustomerType = (int) CustomerType.Supplier;
+                    customer.CustomerType = (int)CustomerType.Supplier;
                     var rs = _customerManagementService.CreateCustomer(customer);
                     if (rs.ResponseCode == "01")
                     {
@@ -212,7 +213,7 @@ namespace webNews.Areas.Admin.Controllers
         #endregion Create
 
         #region [Update]
-
+        [ValidateInput(false)]
         public ActionResult Update(Vw_Customer customer)
         {
             if (!CheckAuthorizer.Authorize(Permission.EDIT)) return RedirectToAction("Index", "Login");

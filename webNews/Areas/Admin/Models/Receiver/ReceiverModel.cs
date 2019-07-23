@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using webNews.Domain.Entities;
+using System.Web.Mvc;
 
 namespace webNews.Areas.Admin.Models.Receiver
 {
@@ -47,5 +48,17 @@ namespace webNews.Areas.Admin.Models.Receiver
         [Display(Name = "Số tiền")]
         [Required(ErrorMessage = "Vui lòng nhập số tiền cần thanh toán")]
         public double? PaymentMoney { get; set; }
+
+        [Display(Name = "Định nghĩa")]
+       
+        public int? BizAccountType { get; set; }
+        public List<Domain.Entities.BizAccount> ListBizAccounts { get; set; }
+
+        [Display(Name = "Tài khoản có")]
+        [Required(ErrorMessage = "Vui lòng tài khoản có")]
+        public string CreditAccount { get; set; }
+        [Display(Name = "Tài khoản nợ")]
+        [Required(ErrorMessage = "Vui lòng tài khoản nọ")]
+        public string DebitAccount { get; set; }
     }
 }

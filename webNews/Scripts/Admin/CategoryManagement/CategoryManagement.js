@@ -24,9 +24,16 @@
                 field: 'Avatar',
                 align: "center",
                 formatter: function (value, row, index) {
-                    var url = row.Avatar.split("\\").pop(-1);
-                    str = '<img class="img-preview" src="/Content/Cate/' + url + '" title="e" alt="" width="100" height="100" style="margin-bottom: 10px" />';
-                    return str;
+                    if (value == null) {
+                        return '<img class="img-preview" src="/Content/images/no_image.png" title="e" alt="" width="100" height="100" style="margin-bottom: 10px" />';
+                    } else {
+                        var url = row.Avatar != null ? row.Avatar.split("\\").pop(-1) : '';
+                        var str = '';
+                        if (url.length > 0) {
+                            str = '<img class="img-preview" src="/Content/Cate/' + url + '" title="e" alt="" width="100" height="100" style="margin-bottom: 10px" />';
+                        }
+                        return str;
+                    }
                 }
             }),
             Sv.BootstrapTableColumn("string", {
@@ -185,7 +192,7 @@
             var price = {};
             price.OrderTypeId = prices.eq(i).attr('id');
             price.Code = prices.eq(i).attr('name');
-            price.Price = prices.eq(i).val() ? prices.eq(i).val(): 0;
+            price.Price = prices.eq(i).val() ? prices.eq(i).val() : 0;
             lstPrices.push(price);
         }
 
@@ -243,7 +250,7 @@
             if (action === "Edit") {
                 url = "/CategoryManagement/Update";
             }
-            Sv.AjaxPostDemo({
+            Sv.AjaxPostFile({
                 Url: url,
                 Data: formData
             }, function (rs) {

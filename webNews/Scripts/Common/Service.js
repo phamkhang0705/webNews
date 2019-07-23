@@ -768,7 +768,8 @@
             MaxDate: dfMax,
             MomentFromDate: moment(dfFormDate),
             MomentToDate: moment(dfToDate),
-            MomentMaxDate: moment(dfMax)
+            MomentMaxDate: moment(dfMax),
+            StartOfMonth: moment().startOf('month')
         };
     };
     this.SetMinDateMaxDate = function() {

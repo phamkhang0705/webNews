@@ -30,8 +30,10 @@ namespace webNews.Areas.Admin.Models.Category
         public int? AgeType { get; set; }
 
         [Display(Name = "Mô tả")]
-//        [StringLength(2000, ErrorMessage = "Mô tả tối đa 2000 ký tự")]
+        [AllowHtml]
+        //        [StringLength(2000, ErrorMessage = "Mô tả tối đa 2000 ký tự")]
         public string Description { get; set; }
+        [AllowHtml]
         [Display(Name = "Thông tin")]
 //        [StringLength(2000, ErrorMessage = "Thông tin tối đa 2000 ký tự")]
         public string MoreInformation { get; set; }

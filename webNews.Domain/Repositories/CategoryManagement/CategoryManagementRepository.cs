@@ -133,6 +133,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
                         }
                         catch (Exception e)
                         {
+                            _logger.Error(e, "DB connection error" + e.Message);
                             trans.Rollback();
                             return false;
                         }

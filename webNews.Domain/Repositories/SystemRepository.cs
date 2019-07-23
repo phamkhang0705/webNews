@@ -344,6 +344,10 @@ namespace webNews.Domain.Repositories
                                 id = code.InvoiceRental++;
                                 name = PrefixType.InvoiceRental + dateTime;
                                 break;
+                            case ObjectType.Category:
+                                id = code.Category++;
+                                name = name + '_';
+                                break;
                                 //                            default:
                                 //                                id = code.OtherPerson++;
                                 //                                name = PrefixType.OtherPerson;
