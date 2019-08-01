@@ -274,6 +274,7 @@
     <Compile Include="Areas\Admin\Controllers\BizAccountTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\InvoiceRentalController.cs" />
     <Compile Include="Areas\Admin\Controllers\InvoiceOutportController.cs" />
+    <Compile Include="Areas\Admin\Controllers\InvoiceRentalShipperController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReceiverVoucherController.cs" />
     <Compile Include="Areas\Admin\Controllers\PaymentVoucherController.cs" />
     <Compile Include="Areas\Admin\Controllers\SupplierManagementController.cs" />
@@ -405,6 +406,8 @@
     <Content Include="Scripts\Admin\BizAccountGroup\BizAccountGroup.js" />
     <Content Include="Scripts\Admin\BizAccount\BizAccount.js" />
     <Content Include="Scripts\Admin\BizAccountType\BizAccountType.js" />
+    <Content Include="Scripts\Admin\InvoiceRentalShipper\InvoiceAdd.js" />
+    <Content Include="Scripts\Admin\InvoiceRentalShipper\InvoiceRentalShipper.js" />
     <Content Include="Scripts\Admin\InvoiceRental\InvoiceAdd.js" />
     <Content Include="Scripts\Admin\InvoiceRental\InvoiceRental.js" />
     <Content Include="Scripts\Admin\InvoiceOutport\InvoiceAdd.js" />
@@ -499,6 +502,11 @@
     <Content Include="Areas\Admin\Views\BizAccount\_bizAccountDetail.cshtml" />
     <Content Include="Areas\Admin\Views\BizAccount\_bizAccountSearch.cshtml" />
     <Content Include="Areas\Admin\Views\BizAccount\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\InvoiceRentalShipper\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\InvoiceRentalShipper\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\InvoiceRentalShipper\_ptvDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\InvoiceRentalShipper\_ptvHistotyPayment.cshtml" />
+    <Content Include="Areas\Admin\Views\InvoiceRentalShipper\_ptvSearch.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

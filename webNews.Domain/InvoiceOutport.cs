@@ -50,6 +50,7 @@ namespace webNews.Domain.Entities
         public double? TotalDepositDiscount { get; set; }
         public DateTime? DeliveryDate { get; set; }
         public string DeliveryAddress { get; set; }
+        public string DeliveryPhone { get; set; }
     }
 
 }

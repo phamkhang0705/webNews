@@ -10,6 +10,7 @@ namespace webNews.Models.InvoiceOutportManagement
         public DateTime ToDate { get; set; }
         public int? Status { get; set; }
         public int? Type { get; set; }
+        public bool IsRental { get; set; }
     }
 
     public class InvoiceOutportModel
@@ -59,6 +60,7 @@ namespace webNews.Models.InvoiceOutportManagement
         public double? TotalTransportDiscount { get; set; }
         public DateTime? DeliveryDate { get; set; }
         public string DeliveryAddress { get; set; }
+        public string DeliveryPhone { get; set; }
         public string InvoiceType { get; set; }
 
         public List<CategoryItem> CategoryItems { get; set; }

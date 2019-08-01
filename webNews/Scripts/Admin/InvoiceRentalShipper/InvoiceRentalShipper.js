@@ -35,12 +35,23 @@ var Unit = function () {
                     return Sv.BootstrapTableSTT(base.$table, index);
                 }
             }),
-
             Sv.BootstrapTableColumn("string", {
                 title: 'Mã đơn',
                 field: 'Code',
                 align: "center",
                 valign: "middle"
+            }),
+            Sv.BootstrapTableColumn("string", {
+                title: 'Loại đơn',
+                align: "center",
+                valign: "middle",
+                formatter: function (value, data, index) {
+                    if (data.Active === 1) {
+                        return '<div class="alert alert-warning"><strong>Đơn giao</strong></div>';
+                    } else if (data.Active === 3) {
+                        return '<div class="alert alert-info"><strong>Đơn thu</strong></div>';
+                    }
+                }
             }),
             Sv.BootstrapTableColumn("string", {
                 title: 'Ngày tạo',
@@ -82,7 +93,7 @@ var Unit = function () {
                 valign: "middle",
                 formatter: function (value, data, index) {
                     if (data.Active === 1) {
-                        return '<div class="alert alert-secondary"><strong>Chờ giao</strong></div>';
+                        return '<div class="alert alert-warning"><strong>Chờ giao</strong></div>';
                     } else if (data.Active === 3) {
                         return '<div class="alert alert-info"><strong>Chờ thu</strong></div>';
                     } else if (data.Active === 4) {
@@ -97,11 +108,30 @@ var Unit = function () {
                 formatter: function (value, row, index) {
                     var str = "";
                     str += "<button data-code='%s' class='OpenViewItem btn btn-primary btn-in-table' title='Chi tiết'><i class='fa fa-eye'></i></button>";
-                    str += "<button data-code='%s' class='CancelItem btn btn-primary btn-in-table' title='Hủy bỏ phiếu'><i class='fa fa-close'></i></button>";
+                    if (row.Active == 1) {
+                        str += "<button data-code='%s' class='OpenEditItem btn btn-primary btn-in-table' title='Chi tiết'><i class='fa fa-edit'></i></button>";
+                    }
+
                     return str;
                 },
                 events: {
                     'click .OpenViewItem': function (e, value, row, index) {
+                        Sv.ChecPermission("View", function () {
+                            var url = "/Admin/InvoiceRentalShipper/GetInvoiceDetail";
+                            var model = {
+                                id: row.Id, code: row.Code, action: "View"
+                            };
+                            Sv.BindPopup(url, model, function (rs) {
+                                base.$boxDetails.html(rs);
+                                base.OpentDisable();
+                                base.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
+                                Sv.SetupDateAndSetDefault($('#divCreatedDate'), row.CreatedDate);
+                                base.$boxDetails.find("#txtCreatedDate").prop('disabled', true);
+                                $("#btnClose").show();
+                            });
+                        });
+                    },
+                    'click .OpenEditItem': function (e, value, row, index) {
                         Sv.ChecPermission("View", function () {
                             var url = "/Admin/InvoiceRentalShipper/GetInvoiceDetail";
                             var model = {
@@ -336,14 +366,13 @@ $(document).ready(function () {
     unit.$btnOpenAdd.click(function () {
         window.location.href = "/Admin/InvoiceRentalShipper/Add";
     });
-
-    unit.$boxDetails.on('click', 'button#btnSave', function (e) {
+    unit.$boxDetails.on('click', 'button#btnComplete', function (e) {
         e.preventDefault();
         Sv.AjaxPost({
             Url: "/Admin/InvoiceRentalShipper/Update",
             Data: {
                 invoiceCode: $("#Code").val(),
-                status: -1,
+                status: 4,
                 date: $('#txtCreateDate').val(),
                 note: $("#txtNote").val()
             }
@@ -360,99 +389,7 @@ $(document).ready(function () {
                 Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
             });
     });
-    unit.$boxDetails.on('click', 'button#btnTemp', function (e) {
-        e.preventDefault();
-        Sv.AjaxPost({
-            Url: "/Admin/InvoiceRentalShipper/Update",
-            Data: {
-                invoiceCode: $("#Code").val(),
-                status: 0,
-                date: $('#txtCreateDate').val(),
-                note: $("#txtNote").val()
-            }
-        },
-            function (rs) {
-                if (rs.Status == "01") {
-                    Dialog.Alert(rs.Message, Dialog.Success);
-                    unit.$boxDetails.find("#modalDetails").modal("hide");
-                    unit.OpentDisable();
-                    unit.LoadTableSearch();
-                }
-            },
-            function () {
-                Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
-            });
-    });
-    unit.$boxDetails.on('click', 'button#btnCancel', function (e) {
-        e.preventDefault();
-        Dialog.ConfirmCustom("",
-                "Bạn chắc chắn hủy hóa đơn này?",
-                function () {
-                    Sv.Loading();
-                    Sv.AjaxPost({
-                        Url: "/Admin/InvoiceRentalShipper/CancelInvoice",
-                        Data: { invoiceCode: $("#Code").val() }
-                    },
-                    function (rs) {
-                        Sv.EndLoading();
-                        if (rs.Status == "01") {
-                            Dialog.Alert(rs.Message, Dialog.Success);
-                            unit.$boxDetails.find("#modalDetails").modal("hide");
-                            unit.OpentDisable();
-                            unit.LoadTableSearch();
-                        }
-                    },
-                    function () {
-                        Sv.EndLoading();
-                        Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
-                    });
-                });
-    });
-    unit.$boxDetails.on('click', 'button#btnRefund', function (e) {
-        e.preventDefault();
-        Dialog.ConfirmCustom("",
-                "Bạn chắc chắn trả lại hàng không?",
-                function () {
-                    window.location = "/ReturnProvider/Add?code=" + $("#Code").val() + "&type=1";
-                });
-    });
-    unit.$boxDetails.on('click', 'button#btnReOpen', function (e) {
-        e.preventDefault();
-        window.location = "/InvoiceRentalShipper/Add?code=" + $("#Code").val();
-    });
-    unit.$boxDetails.on('click', 'button#btnPrint', function (e) {
-        e.preventDefault();
 
-    });
-    unit.$boxDetails.on('click', 'button#btnExport', function (e) {
-        e.preventDefault();
-
-    });
-    unit.$boxDetails.on('click', 'button#btnDelete', function (e) {
-        e.preventDefault();
-        Dialog.ConfirmCustom("",
-                "Bạn có muốn xóa phiếu nhập này?",
-                function () {
-                    Sv.Loading();
-                    Sv.AjaxPost({
-                        Url: "/Admin/InvoiceRentalShipper/Delete",
-                        Data: { invoiceCode: $("#Code").val() }
-                    },
-                    function (rs) {
-                        Sv.EndLoading();
-                        if (rs.Status == "01") {
-                            Dialog.Alert(rs.Message, Dialog.Success);
-                            unit.$boxDetails.find("#modalDetails").modal("hide");
-                            unit.OpentDisable();
-                            unit.LoadTableSearch();
-                        }
-                    },
-                    function () {
-                        Sv.EndLoading();
-                        Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
-                    });
-                });
-    });
     unit.$boxDetails.on('click', 'button#btnClose', function (e) {
         e.preventDefault();
         unit.$boxDetails.find("#modalDetails").modal("hide");

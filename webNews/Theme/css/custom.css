@@ -35,3 +35,9 @@
 .table thead {
     color: #337ab7;
 }
+
+.alert-complete {
+  color: #93ab20;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}

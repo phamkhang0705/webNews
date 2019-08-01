@@ -296,6 +296,7 @@ var Unit = function () {
         data.TotalDepositDiscount = $("#txtTotalDepositDiscount").val();
         data.DeliveryDate = $("#txtDeliveryDate").val();
         data.DeliveryAddress = $("#txtAddress").val();
+        data.DeliveryPhone = $("#txtPhone").val();
         console.log(data);
         return data;
     }
@@ -446,6 +447,9 @@ $(document).ready(function () {
                 $("#txtNote").val(data.Note);
                 $("#txtTotalDeposit").val(data.TotalDeposit);
                 $("#txtTotalTransport").val(data.TotalTransport);
+                $("#txtDeliveryDate").val(data.DeliveryDate);
+                $("#txtDeliveryPhone").val(data.DeliveryPhone);
+                $("#txtDeliveryAddress").val(data.DeliveryAddress);
                 if (data.InvoiceRentalDetails != null && data.InvoiceRentalDetails != undefined) {
                     for (var i = 0; i < data.InvoiceRentalDetails.length; i++) {
                         var pro = {};

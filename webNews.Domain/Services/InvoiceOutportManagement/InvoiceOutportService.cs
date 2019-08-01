@@ -162,6 +162,7 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
                 invoice.TotalDepositDiscount = model.TotalDepositDiscount;
                 invoice.DeliveryAddress = model.DeliveryAddress;
                 invoice.DeliveryDate = model.DeliveryDate;
+                invoice.DeliveryPhone = model.DeliveryPhone;
                 invoice.InvoiceType = model.InvoiceType;
 
                 invoice.Date = invoice.Date == DateTime.MinValue ? DateTime.Now : invoice.Date;
@@ -360,6 +361,7 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
                     TotalDepositDiscount = model.TotalDepositDiscount,
                     DeliveryAddress = model.DeliveryAddress,
                     DeliveryDate = model.DeliveryDate,
+                    DeliveryPhone = model.DeliveryPhone,
                     InvoiceType = model.InvoiceType,
                 };
                 invoice.Date = invoice.Date == DateTime.MinValue ? DateTime.Now : invoice.Date;
@@ -647,6 +649,10 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
             if (DateTime.MinValue != search.FromDate && DateTime.MinValue != search.ToDate)
             {
                 query.Where(x => x.CreatedDate < search.ToDate && x.CreatedDate >= search.FromDate);
+            }
+            if (search.IsRental == true)
+            {
+                query.Where(x => Sql.In(x.Active, 1, 3, 4));
             }
             query.OrderByDescending(x => x.CreatedDate);
             return _systemRepository.Paging(query, pageIndex, pageSize);

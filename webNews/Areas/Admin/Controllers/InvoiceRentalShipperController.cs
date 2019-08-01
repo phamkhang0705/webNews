@@ -83,6 +83,7 @@ namespace webNews.Areas.Admin.Controllers
                 else
                     pageIndex = (pageSize / pageSize);
                 search.Type = 2;
+                search.IsRental = true;
                 var data = _importService.Search(search, pageIndex, pageSize);
                 return Json(new
                 {
@@ -215,7 +216,7 @@ namespace webNews.Areas.Admin.Controllers
                     TotalDepositDiscount = invoice.TotalDepositDiscount,
                     TotalTransportDiscount = invoice.TotalTransportDiscount,
                     InvoiceType = invoice.InvoiceType,
-                    DelieryDate = invoice.DeliveryDate,
+                    DeliveryDate = invoice.DeliveryDate,
                     DeliveryAddress = invoice.DeliveryAddress
                 };
 

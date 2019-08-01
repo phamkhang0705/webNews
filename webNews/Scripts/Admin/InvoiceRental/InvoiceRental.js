@@ -84,15 +84,15 @@ var Unit = function () {
                     if (data.Active === 0) {
                         return "Phiếu tạm";
                     } else if (data.Active === 1) {
-                        return "Chờ giao";
+                        return '<div class="alert alert-warning"><strong>Chờ giao</strong></div>';
                     } else if (data.Active === 2) {
-                        return "Đã hủy";
+                        return '<div class="alert alert-danger"><strong>Đã hủy</strong></div>';
                     } else if (data.Active === 3) {
-                        return "Đang thuê";
+                        return '<div class="alert alert-info"><strong>Đang thuê</strong></div>';
                     } else if (data.Active === 4) {
-                        return "Đã thu";
+                        return '<div class="alert alert-success"><strong>Đã thu</strong></div>';
                     } else if (data.Active === 5) {
-                        return "Hoàn thành";
+                        return '<div class="alert alert-complete"><strong>Hoàn thành</strong></div>';
                     }
                 }
             }),
@@ -108,7 +108,12 @@ var Unit = function () {
                             str += "<button data-code='%s' class='OpenEditItem btn btn-primary btn-in-table' title='Chi tiết'><i class='fa fa-pencil-square-o'></i></button>";
                         }
                     }
-                    str += "<button data-code='%s' class='CancelItem btn btn-primary btn-in-table' title='Hủy bỏ phiếu'><i class='fa fa-close'></i></button>";
+                    if (row.Active == 0 || row.Active == 1) {
+                        if (base.$perEdit == 1) {
+                            str += "<button data-code='%s' class='CancelItem btn btn-primary btn-in-table' title='Hủy bỏ phiếu'><i class='fa fa-close'></i></button>";
+                        }
+                    }
+
                     return str;
                 },
                 events: {
@@ -123,16 +128,21 @@ var Unit = function () {
                                 base.OpentDisable();
                                 base.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
                                 Sv.SetupDateAndSetDefault($('#divCreatedDate'), row.CreatedDate);
+                                Sv.SetupDateAndSetDefault($('#divDeliveryDate'), row.DeliveryDate);
                                 base.$boxDetails.find("#txtCreatedDate").prop('disabled', true);
+                                base.$boxDetails.find("#txtDeliveryDate").prop('disabled', true);
                                 if (row.Active == 0) {
                                     $("#btnDelete").show();
                                 }
                                 else if (row.Active == 1) {
                                     $("#btnSave").show();
                                     $("#btnTemp").show();
+                                } else if (row.Active == 4) {
+                                    $("#btnSave").show();
+                                    $("#btnComplete").show();
                                 }
                                 $("#btnClose").show();
-
+                                $('#txtNote').prop('disabled', true);
                             });
                         });
                     },
@@ -439,6 +449,30 @@ $(document).ready(function () {
                 Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
             });
     });
+    unit.$boxDetails.on('click', 'button#btnComplete', function (e) {
+        e.preventDefault();
+        Sv.AjaxPost({
+            Url: "/Admin/InvoiceRental/Update",
+            Data: {
+                invoiceCode: $("#Code").val(),
+                status: 5,
+                date: $('#txtCreateDate').val(),
+                note: $("#txtNote").val()
+            }
+        },
+            function (rs) {
+                if (rs.Status == "01") {
+                    Dialog.Alert(rs.Message, Dialog.Success);
+                    unit.$boxDetails.find("#modalDetails").modal("hide");
+                    unit.OpentDisable();
+                    unit.LoadTableSearch();
+                }
+            },
+            function () {
+                Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
+            });
+    });
+
     unit.$boxDetails.on('click', 'button#btnCancel', function (e) {
         e.preventDefault();
         Dialog.ConfirmCustom("",

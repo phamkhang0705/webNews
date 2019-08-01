@@ -55,6 +55,16 @@
         Complete = 4
     }
 
+    public enum InvoiceOutportStatus : int
+    {
+        Draff = 0,
+        Approved = 1,// = WaitingDelivery
+        Cancel = 2,
+        Rentaling = 3,
+        Collectioned = 4,
+        Completed = 5
+    }
+
     public class PrefixType
     {
         public const string Customer = "KH";

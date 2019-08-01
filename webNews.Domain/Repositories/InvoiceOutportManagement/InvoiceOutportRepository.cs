@@ -2,6 +2,7 @@
 using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
+using ServiceStack;
 using webNews.Domain.Entities;
 using webNews.Models;
 using webNews.Models.Common;
@@ -170,7 +171,7 @@ namespace webNews.Domain.Repositories.InvoiceOutportManagement
                     {
                         var model = db.Single<InvoiceOutport>(_ => _.Code == invoiceCode);
                         if (model == null) return -1;
-                        if (model.Active != (int)InvoiceStatus.Draff) return -1;
+                        if (model.Active != (int)InvoiceOutportStatus.Draff) return -1;
                         //Chỉ xóa phiếu tạm
                         model.InvoiceOutportDetails =
                             db.Select<InvoiceOutportDetail>(_ => _.InvoiceOutportId == model.Id);
@@ -212,8 +213,7 @@ namespace webNews.Domain.Repositories.InvoiceOutportManagement
                     {
                         var model = db.Single<InvoiceOutport>(_ => _.Code == invoiceCode);
                         if (model == null) return -1;
-                        if (model.Active == (int)InvoiceStatus.Cancel) return -1;   //Trạng thái phiếu đã hủy - Không update
-                        //Chỉ update ngày in với ghi chú - Không update trạng thái
+                        if (model.Active == (int)InvoiceOutportStatus.Cancel) return -1;
                         if (status == -1)
                         {
                             if (date != null) model.Date = date;
@@ -221,147 +221,40 @@ namespace webNews.Domain.Repositories.InvoiceOutportManagement
                             //Update Invoice import
                             db.Update(model);
                         }
-                        else if (model.Active == (int)InvoiceStatus.Active && status == (int)InvoiceStatus.Cancel)//Update trạng thái phiếu nhập
+                        else if (model.Active == (int)InvoiceOutportStatus.Approved && status == (int)InvoiceOutportStatus.Cancel)
                         {
-                            model.Active = (int)InvoiceStatus.Cancel;
-                            //Update Invoice import
+                            model.Active = (int)InvoiceOutportStatus.Cancel;
                             db.Update(model);
-
-                            //                            model.InvoiceOutportDetails =
-                            //                                db.Select<InvoiceOutport_DETAIL>(_ => _.InvoiceOutportId == model.Id);
-
-                            //Update product in store
-                            //                            if (model.InvoiceOutportDetails != null)
-                            //                            {
-                            //                                foreach (var detail in model.InvoiceOutportDetails)
-                            //                                {
-                            //                                    var pro =  db.Single<PRODUCT>(_ => _.ProductCode == detail.ProductCode);
-                            //                                    var proDetail =
-                            //                                        
-                            //                                            db.Single<PRODUCT_DETAIL>(
-                            //                                                _ =>
-                            //                                                    _.ProductCode == detail.ProductCode &&
-                            //                                                    _.BranchCode == model.BranchCode && _.StoreId == model.StoreId);
-                            //
-                            //                                    if (pro != null)
-                            //                                    {
-                            //                                        pro.Quantity = pro.Quantity - detail.Quantity;  //Số lượng sản phẩm cũ = số lượng mới - số lượng hủy
-                            //                                        //Giá TB cũ = (Giá mới * (Số lượng cũ + Số lượng hủy) - (Số lượng hủy * Giá TB Hủy)) / Số lượng tồn cũ
-                            //                                        if (pro.Quantity == 0) proDetail.PriceInput = 0;
-                            //                                        else
-                            //                                            pro.PriceInput = (((double) pro.PriceInput * (pro.Quantity + detail.Quantity)) -
-                            //                                                          (detail.Quantity*detail.Price))/pro.Quantity;
-                            //
-                            //                                        pro.PriceInput = Math.Round((pro.PriceInput ?? 0) * 100) / 100;
-                            //                                         db.Update(pro);
-                            //                                    }
-                            //
-                            //                                    if (proDetail != null)
-                            //                                    {
-                            //                                        proDetail.Quantity = proDetail.Quantity - detail.Quantity;
-                            //                                        if (proDetail.Quantity == 0) proDetail.PriceInput = 0;
-                            //                                        else
-                            //                                        proDetail.PriceInput = (((double)proDetail.PriceInput * (proDetail.Quantity + detail.Quantity)) -
-                            //                                                          (detail.Quantity * detail.Price)) / proDetail.Quantity;
-                            //
-                            //                                        proDetail.PriceInput = Math.Round((proDetail.PriceInput ?? 0) * 100) / 100;
-                            //                                         db.Update(proDetail);
-                            //
-                            //                                    }
-                            //                                }
-
-                            //                                //Tạo phiếu thu
-                            //                                db.Insert(new PAYMENT
-                            //                                {
-                            //                                    Payments_Code = _systemRepository.CodeGen(ObjectType.Receipt, PrefixType.Receipt),
-                            //                                    InvoiceCode = model.Code,
-                            //                                    Payments_UserName = model.UserName,
-                            //                                    Payments_CreatDate = model.CreateDate.Value,
-                            //                                    Payments_Method = 1,    //Mặc định là tiền mặt
-                            //                                    Payments_Decription = $"Hủy phiếu nhập {model.Code} ngày {model.CreateDate:dd-MM-yyyy}",
-                            //                                    Payments_TotalMoney = (double)model.SumMonney,
-                            //                                    RemainMonney = 0,
-                            //                                    Payments_PersonType = (int)PersonType.Provider,
-                            //                                    Payments_Person = model.ProviderCode,
-                            //                                    Payments_Accounting = true,     //Default
-                            //                                    Payments_Active = 1,
-                            //                                    Payments_Type = true,
-                            //                                    Payments_BranchCode = model.BranchCode,
-                            //                                    Domain = model.Domain
-                            //                                });
-                            //                            }
                         }
-                        else if (model.Active == (int)InvoiceStatus.Active && status == (int)InvoiceStatus.Draff)//Update trạng thái phiếu nhập
+                        else if (model.Active == (int)InvoiceOutportStatus.Approved && status == (int)InvoiceOutportStatus.Draff)
                         {
-                            model.Active = (int)InvoiceStatus.Draff;
-                            //Update Invoice import
+                            model.Active = (int)InvoiceOutportStatus.Draff;
                             db.Update(model);
-
-                            //                            model.InvoiceOutportDetails =
-                            //                                db.Select<InvoiceOutport_DETAIL>(_ => _.InvoiceOutportId == model.Id);
-
-                            //Update product in store
-                            //                            if (model.InvoiceOutportDetails != null)
-                            //                            {
-                            //                                foreach (var detail in model.InvoiceOutportDetails)
-                            //                                {
-                            //                                    var pro =  db.Single<PRODUCT>(_ => _.ProductCode == detail.ProductCode);
-                            //                                    var proDetail =
-                            //                                        
-                            //                                            db.Single<PRODUCT_DETAIL>(
-                            //                                                _ =>
-                            //                                                    _.ProductCode == detail.ProductCode &&
-                            //                                                    _.BranchCode == model.BranchCode && _.StoreId == model.StoreId);
-                            //
-                            //                                    if (pro != null)
-                            //                                    {
-                            //                                        pro.Quantity = pro.Quantity - detail.Quantity;  //Số lượng sản phẩm cũ = số lượng mới - số lượng hủy
-                            //                                        //Giá TB cũ = (Giá mới * (Số lượng cũ + Số lượng hủy) - (Số lượng hủy * Giá TB Hủy)) / Số lượng tồn cũ
-                            //                                        if (pro.Quantity == 0) proDetail.PriceInput = 0;
-                            //                                        else
-                            //                                            pro.PriceInput = (((double) pro.PriceInput * (pro.Quantity + detail.Quantity)) -
-                            //                                                          (detail.Quantity*detail.Price))/pro.Quantity;
-                            //
-                            //                                        pro.PriceInput = Math.Round((pro.PriceInput ?? 0) * 100) / 100;
-                            //                                         db.Update(pro);
-                            //                                    }
-                            //
-                            //                                    if (proDetail != null)
-                            //                                    {
-                            //                                        proDetail.Quantity = proDetail.Quantity - detail.Quantity;
-                            //                                        if (proDetail.Quantity == 0) proDetail.PriceInput = 0;
-                            //                                        else
-                            //                                        proDetail.PriceInput = (((double)proDetail.PriceInput * (proDetail.Quantity + detail.Quantity)) -
-                            //                                                          (detail.Quantity * detail.Price)) / proDetail.Quantity;
-                            //
-                            //                                        proDetail.PriceInput = Math.Round((proDetail.PriceInput ?? 0) * 100) / 100;
-                            //                                         db.Update(proDetail);
-                            //
-                            //                                    }
-                            //                                }
-
-                            //                                //Tạo phiếu thu
-                            //                                db.Insert(new PAYMENT
-                            //                                {
-                            //                                    Payments_Code = _systemRepository.CodeGen(ObjectType.Receipt, PrefixType.Receipt),
-                            //                                    InvoiceCode = model.Code,
-                            //                                    Payments_UserName = model.UserName,
-                            //                                    Payments_CreatDate = model.CreateDate.Value,
-                            //                                    Payments_Method = 1,    //Mặc định là tiền mặt
-                            //                                    Payments_Decription = $"Hủy phiếu nhập {model.Code} ngày {model.CreateDate:dd-MM-yyyy}",
-                            //                                    Payments_TotalMoney = (double)model.SumMonney,
-                            //                                    RemainMonney = 0,
-                            //                                    Payments_PersonType = (int)PersonType.Provider,
-                            //                                    Payments_Person = model.ProviderCode,
-                            //                                    Payments_Accounting = true,     //Default
-                            //                                    Payments_Active = 1,
-                            //                                    Payments_Type = true,
-                            //                                    Payments_BranchCode = model.BranchCode,
-                            //                                    Domain = model.Domain
-                            //                                });
-                            //                            }
                         }
+                        else if (model.Active == (int)InvoiceOutportStatus.Approved && status == (int)InvoiceOutportStatus.Collectioned)
+                        {
+                            model.Active = (int)InvoiceOutportStatus.Collectioned;
+                            db.Update(model);
+                        }
+                        else if (model.Active == (int)InvoiceOutportStatus.Collectioned && status == (int)InvoiceOutportStatus.Completed)
+                        {
+                            model.Active = (int)InvoiceOutportStatus.Completed;
 
+                            //trả đồ về kho-> hoàn thành đơn thuê
+                            var rentalDetail = db.Select<InvoiceOutportDetail>(x => x.InvoiceOutportId == model.Id);
+                            if (rentalDetail.Count > 0)
+                            {
+                                foreach (var item in rentalDetail)
+                                {
+                                    var product = db.Single<Product>(x => x.Id == item.ProductId);
+                                    //update 
+                                    product.Quantity = 1;
+                                    product.Inventory = 1;
+                                    db.Update(product);
+                                }
+                            }
+                            db.Update(model);
+                        }
                         trans.Commit();
                         return 1;
                     }
@@ -484,7 +377,7 @@ namespace webNews.Domain.Repositories.InvoiceOutportManagement
                 {
                     try
                     {
-                        #region Tạo thông tin phiếu nhập
+                        #region Tạo thông tin phiếu xuất
 
                         var id = (int)db.Insert(model, true);
 
@@ -497,7 +390,7 @@ namespace webNews.Domain.Repositories.InvoiceOutportManagement
                             }
                         }
 
-                        #endregion Tạo thông tin phiếu nhập
+                        #endregion Tạo thông tin phiếu xuất
 
                         #region Trạng thái phiếu là hoàn thành - Update thông tin sản phẩm trong kho.  Tạo phiếu chi
 

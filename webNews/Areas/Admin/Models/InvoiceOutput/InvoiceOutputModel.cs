@@ -72,8 +72,12 @@ namespace webNews.Areas.Admin.Models.InvoiceOutport
         public string InvoiceType { get; set; }
         public double? TotalDepositDiscount { get; set; }
         public double? TotalTransportDiscount { get; set; }
+        [Display(Name = "Địa chỉ giao hàng")]
         public string DeliveryAddress { get; set; }
-        public DateTime? DelieryDate { get; set; }
+        [Display(Name = "Ngày giao hàng")]
+        public DateTime? DeliveryDate { get; set; }
+        [Display(Name = "Số điện thoại liên hệ")]
+        public string DeliveryPhone { get; set; }
 
         public List<CategoryItem> CategoryItems { get; set; }
         public string Action { get; set; }
