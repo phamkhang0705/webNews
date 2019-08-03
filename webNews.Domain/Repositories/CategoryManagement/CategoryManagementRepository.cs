@@ -157,7 +157,18 @@ namespace webNews.Domain.Repositories.CategoryManagement
                     {
                         try
                         {
-                            db.Update(category);
+                            var cate = db.Single<Category>(x => x.Id == category.Id);
+                            cate.Code = category.Code;
+                            cate.Name = category.Name;
+                            cate.AgeType = category.AgeType;
+                            cate.FromAge = category.FromAge;
+                            cate.ToAge = category.ToAge;
+                            cate.Description = category.Description;
+                            cate.MoreInformation = category.MoreInformation;
+                            cate.Status = category.Status;
+                            cate.UpdatedBy = category.UpdatedBy;
+                            cate.UpdatedDate = category.UpdatedDate;
+                            db.Update(cate);
                             if (groupCategories.Length > 0)
                             {
                                 db.Delete<GroupCategory>(x => x.CategoryId == category.Id);

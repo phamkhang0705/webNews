@@ -215,7 +215,10 @@
         if ($form.valid()) {
             var formData = new FormData();
             var dataForm = base.GetFormData();
-            formData.append("Id", dataForm.Id);
+            if (action != "add") {
+                formData.append("Id", dataForm.Id);
+            }
+
             formData.append("Code", dataForm.Code);
             formData.append("Name", dataForm.Name);
             formData.append("Status", dataForm.Status);

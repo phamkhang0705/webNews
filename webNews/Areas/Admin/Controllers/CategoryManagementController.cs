@@ -152,17 +152,16 @@ namespace webNews.Areas.Admin.Controllers
                     string path = "";
                     var cate = new Category()
                     {
-                        Id = Int32.Parse(fc["Id"]),
                         Code = fc["Code"],
                         Name = fc["Name"],
-                        AgeType = Int32.Parse(fc["AgeType"]),
-                        FromAge = Int32.Parse(fc["FromAge"]),
-                        ToAge = Int32.Parse(fc["ToAge"]),
+                        AgeType = Convert.ToInt32(fc["AgeType"]),
+                        FromAge = Convert.ToInt32(fc["FromAge"]),
+                        ToAge = Convert.ToInt32(fc["ToAge"]),
                         Description = fc["Description"],
                         MoreInformation = fc["MoreInformation"],
-                        Status = Int32.Parse(fc["Status"]),
-                        UpdatedDate = DateTime.Now,
-                        UpdatedBy = Authentication.GetCurrentUser().Id,
+                        Status = Convert.ToInt32(fc["Status"]),
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = Authentication.GetCurrentUser().Id,
                     };
                     var groupId = fc["GroupId"];
                     var lstGroup = groupId.Split(',');
@@ -248,7 +247,7 @@ namespace webNews.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                _log.Error("Update is error: " + ex);
+                _log.Error("Create is error: " + ex.Message);
                 return Json(new
                 {
                     Status = "0",
@@ -273,15 +272,15 @@ namespace webNews.Areas.Admin.Controllers
                     string path = "";
                     var cate = new Category()
                     {
-                        Id = Int32.Parse(fc["Id"]),
+                        Id = Convert.ToInt32(fc["Id"]),
                         Code = fc["Code"],
                         Name = fc["Name"],
-                        AgeType = Int32.Parse(fc["AgeType"]),
-                        FromAge = Int32.Parse(fc["FromAge"]),
-                        ToAge = Int32.Parse(fc["ToAge"]),
+                        AgeType = Convert.ToInt32(fc["AgeType"]),
+                        FromAge = Convert.ToInt32(fc["FromAge"]),
+                        ToAge = Convert.ToInt32(fc["ToAge"]),
                         Description = fc["Description"],
                         MoreInformation = fc["MoreInformation"],
-                        Status = Int32.Parse(fc["Status"]),
+                        Status = Convert.ToInt32(fc["Status"]),
                         UpdatedDate = DateTime.Now,
                         UpdatedBy = Authentication.GetCurrentUser().Id,
                     };

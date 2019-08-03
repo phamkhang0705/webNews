@@ -22,9 +22,9 @@ namespace webNews
         {
             ServiceStackHelper.Help();
             LicenseUtils.ActivatedLicenseFeatures();
-//            RouteConfig.RewirteUrl(RouteTable.Routes);
-            AreaRegistration.RegisterAllAreas();
+            //            RouteConfig.RewirteUrl(RouteTable.Routes);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutofacConfig.ConfigureContainer();
