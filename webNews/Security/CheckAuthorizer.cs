@@ -46,7 +46,7 @@ namespace webNews.Security
             {
                 controllerName = controllerName.ToLower();
                 List<Security_VwRoleService> lstPermision = Authentication.GetPermission().Where(p => (p.IDInSystem ?? "").ToLower() == (controllerName)).ToList();
-                
+
                 if (lstPermision.Count == 0) return false;
                 return lstPermision.Any(e => e.PermissionID == permission.GetHashCode());
 
@@ -56,8 +56,8 @@ namespace webNews.Security
 
         public static bool IsAuthenticated()
         {
-            return true;
-            //return Authentication.GetUserId() != -1;
+            //            return true;
+            return Authentication.GetUserId() != -1;
         }
     }
 }

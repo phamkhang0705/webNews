@@ -8,16 +8,11 @@
     var popupTitle = Model.Action == "Add" ? "Thêm mới" : "Cập nhật";
 }
 
-<style>
-    .cke_dialog {
-        z-index: 10055 !important;
-    }
-</style>
 <script src="~/Assets/Admin/Validate/jquery.validate.min.js"></script>
 <script src="~/Assets/Admin/Validate/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/Scripts/ckeditor/ckeditor.js"></script>
-<script src="~/Scripts/ckfinder/ckfinder.js"></script>
-<div class="modal fade" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="xModal">
+<script src="~/ckeditor/ckeditor.js"></script>
+<script src="~/ckfinder/ckfinder.js"></script>
+<div class="modal fade" id="modalDetails" role="dialog" aria-labelledby="xModal">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -140,6 +135,7 @@
                             @Html.TextAreaFor(x => x.Description, new { @class = "form-control input-sm", @id = "txtDescription", @placeholder = "Nhập mô tả" })
                             <script>
                                 CKEDITOR.replace("txtDescription");
+                                CKFinder.setupCKEditor(null, '/ckfinder');
                                 CKEDITOR.addCss('.cke_editable { height: 150px; }');
                             </script>
                         </div>

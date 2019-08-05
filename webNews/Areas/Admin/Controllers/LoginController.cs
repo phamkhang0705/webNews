@@ -92,9 +92,9 @@ namespace webNews.Areas.Admin.Controllers
                     rs = _userService.Authenticate(obj.UserName, obj.Password, ref user);
                     if (user != null)
                     {
-                        var branchCode = string.Empty;
-                        Session[Constant.SessionKey.UserName] = user.UserName;
-                        Session[Constant.SessionKey.UserId] = user.Id.ToString();
+                        //                        var branchCode = string.Empty;
+                        //                        Session[Constant.SessionKey.UserName] = user.UserName;
+                        //                        Session[Constant.SessionKey.UserId] = user.Id.ToString();
                         return Json(new { result = rs }, JsonRequestBehavior.AllowGet);
                     }
                     else
@@ -107,7 +107,7 @@ namespace webNews.Areas.Admin.Controllers
                         };
                         return Json(new { result = rs }, JsonRequestBehavior.AllowGet);
                     }
-                    
+
                 }
                 return Json(new { result = rs }, JsonRequestBehavior.AllowGet);
             }
