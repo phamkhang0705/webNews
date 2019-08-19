@@ -621,5 +621,78 @@ namespace webNews.Domain.Repositories
             }
         }
 
+
+        public About GetAbout(int status = 1)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.Single<About>(x => x.Status == status && x.Type == "ABOUT");
+                    return query;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info("Get InvoiceType error", ex, ex.Message, ex.StackTrace);
+
+                return new About();
+            }
+        }
+
+        public About GetForCustomer(int status = 1)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.Single<About>(x => x.Status == status && x.Type == "CUSTOMER");
+                    return query;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info("Get InvoiceType error", ex, ex.Message, ex.StackTrace);
+
+                return new About();
+            }
+        }
+
+        public List<Banner> GetBanners(int type = 0, int status = 1)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.Select<Banner>(x => x.Status == status && x.Type == type);
+                    return query;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info("Get GetBanners error", ex, ex.Message, ex.StackTrace);
+
+                return new List<Banner>();
+            }
+        }
+
+        public Banner GetBanner(int type = 0, int status = 1)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.Single<Banner>(x => x.Status == status && x.Type == type);
+                    return query;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info("Get GetBanners error", ex, ex.Message, ex.StackTrace);
+
+                return new Banner();
+            }
+        }
+
     }
 }

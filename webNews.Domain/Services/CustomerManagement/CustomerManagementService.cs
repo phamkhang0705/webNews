@@ -17,7 +17,7 @@ namespace webNews.Domain.Services.CustomerManagement
         private readonly ICustomerManagementRepository _customerRepository;
         private readonly ISystemRepository _systemRepository;
 
-        public CustomerManagementService(ICustomerManagementRepository customerRepository,ISystemRepository systemRepository, IRepository<Customer> repository) : base(repository)
+        public CustomerManagementService(ICustomerManagementRepository customerRepository, ISystemRepository systemRepository, IRepository<Customer> repository) : base(repository)
         {
             _customerRepository = customerRepository;
             _systemRepository = systemRepository;
@@ -25,7 +25,12 @@ namespace webNews.Domain.Services.CustomerManagement
 
         public PagingObject<Vw_Customer> GetList(SearchCustomerModel filter, int pageIndex, int pageSize)
         {
-            return _customerRepository.GetList(filter, pageIndex, pageSize);
+            var offset = 0;
+            if (pageIndex >= pageSize)
+            {
+                offset = (pageIndex / pageSize);
+            }
+            return _customerRepository.GetList(filter, offset, pageSize);
         }
 
         public bool CheckExist(string userName)
@@ -46,7 +51,7 @@ namespace webNews.Domain.Services.CustomerManagement
                 response.ResponseMessage = "Mã khách hàng đã tồn tại!";
                 return response;
             }
-            
+
             var cus = new Customer()
             {
                 CustomerCode = customer.CustomerCode,
@@ -102,7 +107,7 @@ namespace webNews.Domain.Services.CustomerManagement
             cus.Status = customer.Status;
             cus.UpdatedDate = customer.UpdatedDate;
             cus.UpdatedBy = customer.UpdatedBy;
-            
+
             cusDetail.Phone = customer.Phone;
             cusDetail.Facebook = customer.Facebook;
             cusDetail.Email = customer.Email;
@@ -113,8 +118,8 @@ namespace webNews.Domain.Services.CustomerManagement
             cusDetail.Address = customer.Address;
             cusDetail.UpdatedBy = customer.UpdatedBy;
             cusDetail.UpdatedDate = customer.UpdatedDate;
-            
-            var update = _customerRepository.UpdateCustomer(cus,cusDetail);
+
+            var update = _customerRepository.UpdateCustomer(cus, cusDetail);
 
             if (update)
             {
@@ -141,7 +146,12 @@ namespace webNews.Domain.Services.CustomerManagement
 
         public List<Vw_Customer> GetByName(string name, int customerType = 1)
         {
-            return _customerRepository.GetByName(name,customerType);
+            return _customerRepository.GetByName(name, customerType);
+        }
+
+        public Vw_Customer GetCompanyInfo(int type = 3)
+        {
+            return _customerRepository.GetCompanyInfo(type);
         }
     }
 }

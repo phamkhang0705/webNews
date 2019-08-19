@@ -1,17 +1,28 @@
-﻿<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">
+﻿@model webNews.Domain.Entities.Vw_Customer
+<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45" style="margin-top:20px">
     <div class="flex-w p-b-90">
-        <div class="w-size6 p-t-30 p-l-15 p-r-15 respon3">
-            <h4 class="s-text12 p-b-30">
-                GET IN TOUCH
-            </h4>
-
+        <div class="w-size6 p-t-30 p-l-15 p-r-15 respon4">
+            @*<h4 class="s-text12 p-b-30">
+                    GET IN TOUCH
+                </h4>*@
+            <div>
+                <a href="#" class="logo_footer">
+                    <img src="~/images/logo.png" alt="IMG-LOGO">
+                </a>
+            </div>
             <div>
                 <p class="s-text7 w-size27">
-                    Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us on (+1) 96 716 6879
+                    <span style="font-weight: bold">Địa chỉ: </span> @Model.Address
+                </p>
+                <p class="s-text7 w-size27">
+                    <span style="font-weight: bold">Phone: </span> @Model.Phone
+                </p>
+                <p class="s-text7 w-size27">
+                    <span style="font-weight: bold">Email: </span> @Model.Email
                 </p>
 
                 <div class="flex-m p-t-30">
-                    <a href="#" class="fs-18 color1 p-r-20 fa fa-facebook"></a>
+                    <a href="@Model.Facebook" target="_blank" class="fs-18 color1 p-r-20 fa fa-facebook"></a>
                     <a href="#" class="fs-18 color1 p-r-20 fa fa-instagram"></a>
                     <a href="#" class="fs-18 color1 p-r-20 fa fa-pinterest-p"></a>
                     <a href="#" class="fs-18 color1 p-r-20 fa fa-snapchat-ghost"></a>
@@ -20,110 +31,110 @@
             </div>
         </div>
 
-        <div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
+        <div class="w-size15 p-t-30 p-l-15 p-r-15 respon4">
             <h4 class="s-text12 p-b-30">
-                Categories
+                Dành cho người thuê
             </h4>
 
             <ul>
                 <li class="p-b-9">
                     <a href="#" class="s-text7">
-                        Men
+                        Bảo vệ người thuê
                     </a>
                 </li>
 
                 <li class="p-b-9">
                     <a href="#" class="s-text7">
-                        Women
+                        Quy định đối với người thuê
                     </a>
                 </li>
 
                 <li class="p-b-9">
                     <a href="#" class="s-text7">
-                        Dresses
+                        Giải quyết khiếu nại
                     </a>
                 </li>
 
                 <li class="p-b-9">
                     <a href="#" class="s-text7">
-                        Sunglasses
+                        Hướng dẫn người thuê
                     </a>
                 </li>
             </ul>
         </div>
 
-        <div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
+        <div class="w-size15 p-t-30 p-l-15 p-r-15 respon4">
             <h4 class="s-text12 p-b-30">
-                Links
+                Chăm sóc khách hàng
             </h4>
 
             <ul>
                 <li class="p-b-9">
                     <a href="#" class="s-text7">
-                        Search
+                        Chính sách bảo mật thanh toán
                     </a>
                 </li>
 
                 <li class="p-b-9">
                     <a href="#" class="s-text7">
-                        About Us
+                        Chính sách giao hàng
                     </a>
                 </li>
 
                 <li class="p-b-9">
                     <a href="#" class="s-text7">
-                        Contact Us
+                        Chính sách đổi trả
                     </a>
                 </li>
 
                 <li class="p-b-9">
                     <a href="#" class="s-text7">
-                        Returns
+                        Chính sách bảo hành
                     </a>
                 </li>
             </ul>
         </div>
 
-        <div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
+        @*<div class="w-size7 p-t-30 p-l-15 p-r-15 respon3">
+                <h4 class="s-text12 p-b-30">
+                    Help
+                </h4>
+
+                <ul>
+                    <li class="p-b-9">
+                        <a href="#" class="s-text7">
+                            Track Order
+                        </a>
+                    </li>
+
+                    <li class="p-b-9">
+                        <a href="#" class="s-text7">
+                            Returns
+                        </a>
+                    </li>
+
+                    <li class="p-b-9">
+                        <a href="#" class="s-text7">
+                            Shipping
+                        </a>
+                    </li>
+
+                    <li class="p-b-9">
+                        <a href="#" class="s-text7">
+                            FAQs
+                        </a>
+                    </li>
+                </ul>
+            </div>*@
+
+        <div class="w-size15 p-t-30 p-l-15 p-r-15 respon4">
             <h4 class="s-text12 p-b-30">
-                Help
-            </h4>
-
-            <ul>
-                <li class="p-b-9">
-                    <a href="#" class="s-text7">
-                        Track Order
-                    </a>
-                </li>
-
-                <li class="p-b-9">
-                    <a href="#" class="s-text7">
-                        Returns
-                    </a>
-                </li>
-
-                <li class="p-b-9">
-                    <a href="#" class="s-text7">
-                        Shipping
-                    </a>
-                </li>
-
-                <li class="p-b-9">
-                    <a href="#" class="s-text7">
-                        FAQs
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="w-size8 p-t-30 p-l-15 p-r-15 respon3">
-            <h4 class="s-text12 p-b-30">
-                Newsletter
+                Đăng ký nhận khuyến mại
             </h4>
 
             <form>
                 <div class="effect1 w-size9">
-                    <input class="s-text7 bg6 w-full p-b-5" type="text" name="email" placeholder="email@example.com">
+                    <input class="s-text7 bg6 w-full p-b-5" type="text" name="email" placeholder="Email của bạn">
                     <span class="effect1-line"></span>
                 </div>
 

@@ -21,7 +21,12 @@ namespace webNews.Domain.Services.BizAccountManagement
 
         public PagingObject<Vw_BizAccount> GetList(SearchCategoryModel filter, int pageIndex, int pageSize)
         {
-            return _typeRepository.GetList(filter, pageIndex, pageSize);
+            var offset = 0;
+            if (pageIndex >= pageSize)
+            {
+                offset = (pageIndex / pageSize);
+            }
+            return _typeRepository.GetList(filter, offset, pageSize);
         }
 
         public bool CheckExist(string userName)

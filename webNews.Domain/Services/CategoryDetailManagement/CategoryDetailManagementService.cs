@@ -23,7 +23,12 @@ namespace webNews.Domain.Services.CategoryDetailManagement
 
         public PagingObject<Vw_CategoryDetail> GetList(SearchCategoryModel filter, int pageIndex, int pageSize)
         {
-            return _categoryRepository.GetList(filter, pageIndex, pageSize);
+            var offset = 0;
+            if (pageIndex >= pageSize)
+            {
+                offset = (pageIndex / pageSize);
+            }
+            return _categoryRepository.GetList(filter, offset, pageSize);
         }
 
 

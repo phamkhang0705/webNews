@@ -10,5 +10,13 @@ namespace webNews.Models.ProductManagement
         public string Code { get; set; }
         public string Name { get; set; }
         public int Status { get; set; }
+        public int Type { get; set; }
+        public int AgeType { get; set; }
+    }
+    public class SearchProductModelFE
+    {
+        public string Name { get; set; }
+        public int? Type { get; set; }
+        public int? AgeType { get; set; }
     }
 }

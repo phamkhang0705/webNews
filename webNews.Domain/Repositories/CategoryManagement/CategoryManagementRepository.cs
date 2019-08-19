@@ -3,6 +3,7 @@ using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PagedList;
 using webNews.Domain.Entities;
 using webNews.Models;
 using webNews.Models.CategoryManagement;
@@ -353,6 +354,69 @@ namespace webNews.Domain.Repositories.CategoryManagement
             {
                 _logger.Error(e, "DB connection error");
                 return new List<Vw_Category_Sale>();
+            }
+        }
+
+        public IEnumerable<Vw_Category> GetCategories(SearchCategoryModelFE filter)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<Vw_Category>().Where(x => x.Status == 1 && x.DisplayRental == 1);
+                    if (!string.IsNullOrEmpty(filter.Name))
+                    {
+                        query.Where(_ => _.Name.Contains(filter.Name));
+                    }
+
+                    if (filter.AgeType == 1)
+                    {
+                        query.Where(_ => _.AgeType == filter.AgeType);
+                        if (filter.Type == 1)
+                        {
+                            query.Where(_ => _.FromAge >= 0 && _.ToAge <= 12);
+                        }
+                    }
+                    if (filter.AgeType == 2)
+                    {
+                        query.Where(_ => _.AgeType == filter.AgeType);
+                        if (filter.Type == 1)
+                        {
+                            query.Where(_ => _.FromAge >= 1 || _.ToAge <= 3);
+                        }
+                        if (filter.Type == 2)
+                        {
+                            query.Where(_ => _.ToAge >= 3);
+                        }
+                    }
+
+
+                    //More filter
+                    //                    var total = (int)db.Count(query);
+                    return db.Select(query).ToPagedList(Convert.ToInt32(filter.Page), Convert.ToInt32(filter.PageSize));
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<Vw_Category>();
+            }
+        }
+
+
+        public Vw_Category GetCategoryDetail(int id)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var check = db.Single<Vw_Category>(_ => _.Id == id);
+                    return check;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new Vw_Category();
             }
         }
     }

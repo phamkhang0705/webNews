@@ -82,7 +82,8 @@
     {
         Customer = 1,
         Supplier = 2,
-        User = 3
+        Company = 3,
+        User = 4
     }
 
     public enum ReceiverType : int

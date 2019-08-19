@@ -271,5 +271,50 @@ namespace webNews.Domain.Repositories.ProductManagement
                 return new List<Vw_Product_Rental>();
             }
         }
+
+        public IEnumerable<Vw_Product> GetProducts(SearchProductModelFE filter)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<Vw_Product>();
+                    if (!string.IsNullOrEmpty(filter.Name))
+                    {
+                        query.Where(_ => _.ProductName.Contains(filter.Name));
+                    }
+
+                    if (filter.AgeType==1)
+                    {
+                        query.Where(_ => _.AgeType==filter.AgeType);
+                        if (filter.Type == 1)
+                        {
+                            query.Where(_ => _.FromAge >= 0 && _.ToAge<=12);
+                        }
+                    }
+                    if (filter.AgeType == 2)
+                    {
+                        query.Where(_ => _.AgeType == filter.AgeType);
+                        if (filter.Type == 1)
+                        {
+                            query.Where(_ => _.FromAge >= 1 && _.ToAge <= 3);
+                        }
+                        if (filter.Type == 2)
+                        {
+                            query.Where(_ => _.FromAge >= 3);
+                        }
+                    }
+
+
+                    //More filter
+//                    var total = (int)db.Count(query);
+                    return db.Select(query);
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<Vw_Product>();
+            }
+        }
     }
 }

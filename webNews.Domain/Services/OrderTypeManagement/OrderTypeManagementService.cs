@@ -25,7 +25,12 @@ namespace webNews.Domain.Services.OrderTypeManagement
 
         public PagingObject<OrderType> GetList(SearchOrderTypeModel filter, int pageIndex, int pageSize)
         {
-            return _orderTypeRepository.GetList(filter, pageIndex, pageSize);
+            var offset = 0;
+            if (pageIndex >= pageSize)
+            {
+                offset = (pageIndex / pageSize);
+            }
+            return _orderTypeRepository.GetList(filter, offset, pageSize);
         }
 
         public bool CheckExist(string userName)

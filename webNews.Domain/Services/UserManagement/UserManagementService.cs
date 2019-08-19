@@ -26,7 +26,12 @@ namespace webNews.Domain.Services.UserManagement
 
         public PagingObject<Vw_Core_User> GetList(SearchUserModel filter, int pageIndex, int pageSize)
         {
-            return _userManageRepository.GetList(filter, pageIndex, pageSize);
+            var offset = 0;
+            if (pageIndex >= pageSize)
+            {
+                offset = (pageIndex / pageSize);
+            }
+            return _userManageRepository.GetList(filter, offset, pageSize);
         }
 
         public bool CheckExist(string userName)

@@ -249,5 +249,24 @@ namespace webNews.Domain.Repositories.CustomerManagement
                 return new CustomerDetail();
             }
         }
+
+        public Vw_Customer GetCompanyInfo(int type = 3)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var check = db.Single<Vw_Customer>(_ => _.CustomerType == type);
+                    return check;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new Vw_Customer();
+            }
+        }
+
+
     }
 }

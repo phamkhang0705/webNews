@@ -1,14 +1,14 @@
 ﻿<div class="wrap_header fixed-header2 trans-0-4">
     <!-- Logo -->
     <a href="#" class="logo">
-        <img src="~/Theme/fashe-colorlib/images/icons/logo.png" alt="IMG-LOGO">
+        <img src="~/images/logo.png" alt="IMG-LOGO">
     </a>
     <!-- Menu -->
-    <div class="wrap_menu">
+    <div class="wrap_menu_2">
         <nav class="menu">
             <ul class="main_menu">
-                <li>
-                    <a href="index.html">Trang chủ</a>
+                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
+                    <a href="@Url.Action("Index","Home")">Trang chủ</a>
                     @*                    <ul class="sub_menu">*@
                     @*                        <li><a href="index.html">Homepage V1</a></li>*@
                     @*                        <li><a href="home-02.html">Homepage V2</a></li>*@
@@ -16,12 +16,12 @@
                     @*                    </ul>*@
                 </li>
 
-                <li>
-                    <a href="product.html">Giới thiệu</a>
+                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "About" ? "sale-noti" : "")">
+                    <a href="@Url.Action("About","Home")">Giới thiệu</a>
                 </li>
 
-                <li class="sale-noti">
-                    <a href="product.html">Sản phẩm thuê</a>
+                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Category" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
+                    <a href="@Url.Action("Index","Category")">Sản phẩm thuê</a>
                 </li>
 
                 <li>
@@ -32,8 +32,8 @@
                     <a href="blog.html">Gói sự kiện</a>
                 </li>
 
-                <li>
-                    <a href="about.html">Dành cho khách hàng</a>
+                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "ForCustomer" ? "sale-noti" : "")">
+                    <a href="@Url.Action("ForCustomer","Home")">Dành cho khách hàng</a>
                 </li>
 
                 <li>

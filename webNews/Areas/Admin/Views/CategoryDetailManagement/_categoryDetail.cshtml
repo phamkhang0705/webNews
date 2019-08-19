@@ -56,6 +56,7 @@
                             @Html.TextAreaFor(x => x.Description, new { @class = "form-control input-sm", @id = "txtDescription", @placeholder = "Nhập mô tả" })
                             <script>
                                 CKEDITOR.replace("txtDescription");
+                                CKEDITOR.addCss('.cke_editable { height: 400px; }');
                             </script>
                         </div>
                     </div>

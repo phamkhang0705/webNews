@@ -1,0 +1,46 @@
+﻿.logo2 {
+    margin-top: -35px;
+}
+
+    .logo2 img {
+        max-height: 150px;
+    }
+
+.logo {
+    left: 20px;
+}
+
+    .logo img {
+        max-height: 100px;
+    }
+
+.topbar-social {
+    height: 50%;
+}
+
+.topbar-child2 {
+    height: 50%;
+}
+
+.wrap_menu {
+    margin-top: -65px;
+}
+
+.wrap_header {
+    height: 65px;
+}
+
+
+.logo_footer {
+    max-height: 150px;
+}
+
+.logo_footer img {
+    height: 100%;
+    width: 100%;
+}
+
+.btn-link-about {
+    font-size: 23px;
+    margin-bottom: 5px;
+}

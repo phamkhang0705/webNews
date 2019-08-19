@@ -1,7 +1,63 @@
-﻿@{
-    ViewBag.Title = "About";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿@model webNews.Domain.Entities.About
 
-<p>Use this area to provide additional information.</p>
+@{
+    ViewBag.Title = "Giới thiệu";
+}
+
+<!-- Title Page -->
+@*<section class="bg-title-page p-t-40 p-b-50 flex-col-c-m" style="background-image: url(~/images/heading-pages-06.jpg);">*@
+@*<h3>*@
+@*    GIỚI THIỆU VỀ THUEDOCHOITOT.COM*@
+@*</h3>*@
+@*</section>*@
+
+<!-- Content-->
+@*<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">*@
+@*    @Html.Raw(Model.Content)*@
+@*</div>*@
+
+<!-- Title Page -->
+<section class="bg-title-page p-t-40 p-b-50 flex-col-c-m" style="background-image: url(/Theme/fashe-colorlib/images/heading-pages-06.jpg);">
+    <h2 class="l-text2 t-center">
+        About
+    </h2>
+</section>
+
+<!-- content page -->
+
+<section class="bgwhite p-t-66 p-b-38">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 p-b-30">
+                <div class="hov-img-zoom">
+                    <img src="/Theme/fashe-colorlib/images/banner-14.jpg" alt="IMG-ABOUT">
+                </div>
+            </div>
+
+            <div class="col-md-8 p-b-30">
+                <div class="center_column col-xs-12 col-sm-9" id="center_column">
+                    <h2 class="page-heading">
+                        <span class="page-heading-title2">Giới thiệu về <a class="btn btn-link btn-link-about" href="@Url.Action("Index","Home")">Thuedotot.vn</a></span>
+                    </h2>
+
+                    <article class="entry-detail tbl_quytrinhthietke_rps">
+                        <p><span style="font-size:14px">Đồ chơi là những vật dụng quen thuộc đối với các bé trong cuộc sống hàng ngày. Những sản phẩm đồ chơi không những giúp bé giải trí mà còn có thể giúp các bé rèn luyện về cả cơ thể lẫn trí tuệ.</span></p>
+
+                        <p><span style="font-size:14px">Tâm lí của các bé thường hay tò mò, hiếu động, thích được khám phá những cái mới.&nbsp;Khi được mua đồ chơi ban đầu bé rất thích nhưng sau một thời gian, bé không còn khám phá thêm được gì nữa sẽ chán và đi tìm những đồ chơi khác.</span></p>
+
+                        <p><span style="font-size:14px">Xuất phát từ nhu cầu thực tế “nhanh thích nhanh chán” của các bé cũng như tiết kiệm tối ưu chi phí cho các bố mẹ.</span></p>
+
+                        <p><span style="font-size:14px">Công ty Cổ phần Thuê đồ Tốt chuyên về cung cấp và cho thuê đồ chơi cao cấp dành cho trẻ em từ 0 đến 8 tuổi.</span></p>
+
+                        <p><span style="font-size:14px">Với mong muốn mang lại nhiều niềm vui, đảm bảo sự hài lòng và giúp các bé khám phá, phát triển toàn diện về tư duy, thể lực; Công ty chúng tôi luôn cung cấp cho các bố mẹ cũng như các bé nhiều sự lựa chọn với những sản phẩm đồ chơi thông minh, đa dạng về mẫu mã, chất lượng đảm bảo và an toàn, được nhập khẩu của các hãng sản xuất nổi tiếng từ Châu Á, Châu Âu, Châu Mỹ, ,...</span></p>
+
+                        <p><span style="font-size:14px">Đến với chúng tôi, các bố mẹ sẽ rất an tâm vì các sản phẩm được lựa chọn kỹ lưỡng về độ bền, độ an toàn; Sản phẩm được vệ sinh sạch sẽ, khử trùng theo đúng tiêu chuẩn và quy trình kiểm tra của Công ty.</span></p>
+
+                        <p><span style="font-size:14px">Với quan điểm kinh doanh vì mục tiêu “<strong>UY TÍN – CHẤT LƯỢNG SẢN PHẨM – DỊCH VỤ TỐT – SỰ HÀI LÒNG</strong>” của Quý khách hàng chính là <strong>CHÌA KHÓA THÀNH CÔNG</strong> của chúng tôi.</span></p>
+
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

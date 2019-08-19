@@ -28,9 +28,11 @@ namespace webNews.Domain.Entities
         public string Description { get; set; }
         public string MoreInformation { get; set; }
         public DateTime? UpdatedDate { get; set; }
-        public int? CreatedBy { get; set; }
+        public int? Createdby { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? UpdatedBy { get; set; }
+        public int? DisplayRental { get; set; }
+        public int? DisplaySale { get; set; }
         public string prices { get; set; }
         public string groupids { get; set; }
         public string groupnames { get; set; }

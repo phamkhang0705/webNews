@@ -1,34 +1,93 @@
 ﻿using System;
-using System.Threading;
-using System.Web;
+using System.Linq;
 using System.Web.Mvc;
-using webNews.Domain.Entities;
+using NLog;
 using webNews.Domain.Services;
-using webNews.Security;
-using webNews.Shared;
-using static webNews.FilterConfig;
+using webNews.Domain.Services.CategoryManagement;
+using webNews.Domain.Services.CustomerManagement;
+using webNews.Domain.Services.FileAttachManagement;
+using webNews.Models.CategoryManagement;
+using webNews.Models.Common;
 
 namespace webNews.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private readonly ISystemService _service;
+        private readonly ICustomerManagementService _customerManagementService;
+        private readonly ICategoryManagementService _categoryService;
+        private readonly IFileAttachManagementService _fileService;
+        private readonly Logger _log = LogManager.GetCurrentClassLogger();
+
+        public HomeController(ISystemService service, ICustomerManagementService customerManagementService, ICategoryManagementService categoryService, IFileAttachManagementService fileService)
         {
-            return View();
+            _service = service;
+            _customerManagementService = customerManagementService;
+            _categoryService = categoryService;
+            _fileService = fileService;
+        }
+
+        public ActionResult Index(SearchCategoryModelFE search)
+        {
+            try
+            {
+                ViewBag.Title = "Trang chủ - Thuedotot.vn";
+                ViewBag.ListBestSeller = _categoryService.GetCategories(new SearchCategoryModelFE() {Page = 1,PageSize = 8});
+                ViewBag.ListSales = _categoryService.GetCategories(new SearchCategoryModelFE() { Page = 1, PageSize = 8 });
+                ViewBag.ListTopRate = _categoryService.GetCategories(new SearchCategoryModelFE() { Page = 1, PageSize = 8 });
+                ViewBag.ListSlides = _service.GetBanners(1);
+                ViewBag.Video = _service.GetBanner(3);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Index error : " + ex);
+                return null;
+            }
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            try
+            {
+                ViewBag.Title = "Giới thiệu";
+                var about = _service.GetAbout();
+                return View(about);
+            }
+            catch (Exception ex)
+            {
+                _log.Error("About error : " + ex);
+                return null;
+            }
+        }
 
-            return View();
+        public ActionResult ForCustomer()
+        {
+            try
+            {
+                ViewBag.Title = "Dành cho khách hàng";
+                var about = _service.GetForCustomer();
+                return View(about);
+            }
+            catch (Exception ex)
+            {
+                _log.Error("ForCustomer error : " + ex);
+                return null;
+            }
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            try
+            {
+                var contact = _customerManagementService.GetCompanyInfo((int)CustomerType.Company);
+                return PartialView("~/Views/Shared/_FooterPartial.cshtml", contact);
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Contact error : " + ex);
+                return null;
+            }
         }
     }
 }

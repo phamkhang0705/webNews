@@ -21,5 +21,7 @@ namespace webNews.Domain.Services.CustomerManagement
 
         Vw_Customer GetByCode(string code);
         List<Vw_Customer> GetByName(string name, int customerType = 1);
+
+        Vw_Customer GetCompanyInfo(int type = 3);
     }
 }

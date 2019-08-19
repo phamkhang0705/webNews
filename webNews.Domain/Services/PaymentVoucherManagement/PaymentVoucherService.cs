@@ -33,7 +33,12 @@ namespace webNews.Domain.Services.PaymentVoucherManagement
                 query.Where(x => x.CreatedDate < search.ToDate && x.CreatedDate >= search.FromDate);
             }
             query.OrderByDescending(x => x.CreatedDate);
-            return _systemRepository.Paging(query, pageIndex, pageSize);
+            var offset = 0;
+            if (pageIndex >= pageSize)
+            {
+                offset = (pageIndex / pageSize);
+            }
+            return _systemRepository.Paging(query, offset, pageSize);
         }
 
         public Vw_PaymentVoucher GetPaymentVoucher(int? id = null, string code = null)

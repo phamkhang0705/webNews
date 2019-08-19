@@ -1,18 +1,17 @@
 ﻿<header class="header2">
     <!-- Header desktop -->
-    <div class="container-menu-header-v2 p-t-26">
+    @*<div class="container-menu-header-v2 p-t-26">*@
+    <div class="container-menu-header-v2">
         <div class="topbar2">
             <div class="topbar-social">
-                <a href="#" class="topbar-social-item fa fa-facebook"></a>
-                <a href="#" class="topbar-social-item fa fa-instagram"></a>
-                <a href="#" class="topbar-social-item fa fa-pinterest-p"></a>
-                <a href="#" class="topbar-social-item fa fa-snapchat-ghost"></a>
-                <a href="#" class="topbar-social-item fa fa-youtube-play"></a>
+                <a href="https://www.facebook.com/Thuedochoitot/" class="topbar-social-item fa fa-facebook"></a>
+                <a href="https://www.instagram.com/thuedochoitot/" class="topbar-social-item fa fa-instagram"></a>
+                <a href="https://www.youtube.com/channel/UCALiXoEgrVbkgcn2-L2HPlw" class="topbar-social-item fa fa-youtube-play"></a>
             </div>
 
             <!-- Logo2 -->
-            <a href="index.html" class="logo2">
-                <img src="~/Theme/fashe-colorlib/images/icons/logo.png" alt="IMG-LOGO">
+            <a href="@Url.Action("Index","Home")" class="logo2">
+                <img src="~/images/logo.png" alt="IMG-LOGO">
             </a>
 
             <div class="topbar-child2">
@@ -120,8 +119,8 @@
             <div class="wrap_menu">
                 <nav class="menu">
                     <ul class="main_menu">
-                        <li>
-                            <a href="index.html">Trang chủ</a>
+                        <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index"? "sale-noti" : "")">
+                            <a href="@Url.Action("Index","Home")">Trang chủ</a>
                             @*                            <ul class="sub_menu">*@
                             @*                                <li><a href="index.html">Homepage V1</a></li>*@
                             @*                                <li><a href="home-02.html">Homepage V2</a></li>*@
@@ -129,12 +128,12 @@
                             @*                            </ul>*@
                         </li>
 
-                        <li>
-                            <a href="product.html">Giới thiệu</a>
+                        <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "About" ? "sale-noti" : "")">
+                            <a href="@Url.Action("About","Home")">Giới thiệu</a>
                         </li>
 
-                        <li class="sale-noti">
-                            <a href="product.html">Sản phẩm thuê</a>
+                        <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Category" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
+                            <a href="@Url.Action("Index","Category")">Sản phẩm thuê</a>
                         </li>
 
                         <li>
@@ -145,8 +144,8 @@
                             <a href="blog.html">Gói sự kiện</a>
                         </li>
 
-                        <li>
-                            <a href="about.html">Dành cho khách hàng</a>
+                        <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "ForCustomer" ? "sale-noti" : "")">
+                            <a href="@Url.Action("ForCustomer","Home")">Dành cho khách hàng</a>
                         </li>
 
                         <li>
@@ -298,11 +297,9 @@
 
                 <li class="item-topbar-mobile p-l-10">
                     <div class="topbar-social-mobile">
-                        <a href="#" class="topbar-social-item fa fa-facebook"></a>
-                        <a href="#" class="topbar-social-item fa fa-instagram"></a>
-                        <a href="#" class="topbar-social-item fa fa-pinterest-p"></a>
-                        <a href="#" class="topbar-social-item fa fa-snapchat-ghost"></a>
-                        <a href="#" class="topbar-social-item fa fa-youtube-play"></a>
+                        <a href="https://www.facebook.com/Thuedochoitot/" class="topbar-social-item fa fa-facebook"></a>
+                        <a href="https://www.instagram.com/thuedochoitot/" class="topbar-social-item fa fa-instagram"></a>
+                        <a href="https://www.youtube.com/channel/UCALiXoEgrVbkgcn2-L2HPlw" class="topbar-social-item fa fa-youtube-play"></a>
                     </div>
                 </li>
 

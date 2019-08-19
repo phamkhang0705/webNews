@@ -22,7 +22,12 @@ namespace webNews.Domain.Services.CategoryManagement
 
         public PagingObject<Vw_Category> GetList(SearchCategoryModel filter, int pageIndex, int pageSize)
         {
-            return _categoryRepository.GetList(filter, pageIndex, pageSize);
+            var offset = 0;
+            if (pageIndex >= pageSize)
+            {
+                offset = (pageIndex / pageSize);
+            }
+            return _categoryRepository.GetList(filter, offset, pageSize);
         }
 
         public bool CheckExist(string userName)
@@ -131,6 +136,16 @@ namespace webNews.Domain.Services.CategoryManagement
         public List<Vw_Category_Sale> GetCategorySale(string name)
         {
             return _categoryRepository.GetCategorySale(name);
+        }
+
+        public IEnumerable<Vw_Category> GetCategories(SearchCategoryModelFE search)
+        {
+            return _categoryRepository.GetCategories(search);
+        }
+
+        public Vw_Category GetCategoryDetail(int id)
+        {
+            return _categoryRepository.GetCategoryDetail(id);
         }
     }
 }

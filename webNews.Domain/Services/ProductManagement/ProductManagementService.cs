@@ -22,7 +22,12 @@ namespace webNews.Domain.Services.ProductManagement
 
         public PagingObject<Vw_Product> GetList(SearchProductModel filter, int pageIndex, int pageSize)
         {
-            return _productRepository.GetList(filter, pageIndex, pageSize);
+            var offset = 0;
+            if (pageIndex >= pageSize)
+            {
+                offset = (pageIndex / pageSize);
+            }
+            return _productRepository.GetList(filter, offset, pageSize);
         }
 
         public bool CheckExist(string userName)
@@ -122,6 +127,11 @@ namespace webNews.Domain.Services.ProductManagement
         public List<Vw_Product_Rental> GetProductRentals(string name, string type)
         {
             return _productRepository.GetProductRentals(name,type);
+        }
+
+        public IEnumerable<Vw_Product> GetProducts(SearchProductModelFE search)
+        {
+            return _productRepository.GetProducts(search);
         }
     }
 }

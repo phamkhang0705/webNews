@@ -21,7 +21,12 @@ namespace webNews.Domain.Services.GroupManagement
 
         public PagingObject<Group> GetList(SearchGroupModel filter, int pageIndex, int pageSize)
         {
-            return _groupRepository.GetList(filter, pageIndex, pageSize);
+            var offset = 0;
+            if (pageIndex >= pageSize)
+            {
+                offset = (pageIndex / pageSize);
+            }
+            return _groupRepository.GetList(filter, offset, pageSize);
         }
 
         public bool CheckExist(string userName)

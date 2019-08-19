@@ -51,8 +51,7 @@ namespace webNews
                 {
                     currentAction = currentRouteData.Values["action"].ToString();
                 }
-                var errorMsg =
-                    $"An unhandled exception occurs in the controller:{currentController}, action:{currentAction}";
+                var errorMsg = string.Format("An unhandled exception occurs in the controller:{0}, action:{1}",currentController,currentAction);
                 _log.Error(errorMsg + "\n" + ex);
             }
 

@@ -14,4 +14,13 @@ namespace webNews.Models.CategoryManagement
         public int ToAge { get; set; }
         public int Status { get; set; }
     }
+
+    public class SearchCategoryModelFE
+    {
+        public string Name { get; set; }
+        public int? Type { get; set; }
+        public int? AgeType { get; set; }
+        public int? Page { get; set; }
+        public int? PageSize { get; set; }
+    }
 }

@@ -36,6 +36,9 @@ namespace webNews.Domain.Entities
         public DateTime? UpdatedDate { get; set; }
         public string CategoryCode { get; set; }
         public string CategoryName { get; set; }
+        public int? AgeType { get; set; }
+        public int? FromAge { get; set; }
+        public int? ToAge { get; set; }
         public string files { get; set; }
         public string Avatar { get; set; }
     }
