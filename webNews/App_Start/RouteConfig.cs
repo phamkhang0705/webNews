@@ -25,15 +25,42 @@ namespace webNews
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            //            routes.MapRoute(
-            //              name: "Default",
-            //              url: "{controller}/{action}/{id}",
-            //              defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
-            //            ).DataTokens = new RouteValueDictionary(new { area = "admin" });
+            
+            routes.MapRoute(
+              name: "CategoryRental",
+              url: "danh-muc-san-pham-thue",
+              defaults: new { controller = "Category", action = "Index", id = UrlParameter.Optional },
+              namespaces: new[] {"webNews.Controllers"}
+            );
+            routes.MapRoute(
+              name: "CategorySale",
+              url: "danh-muc-san-pham-ban",
+              defaults: new { controller = "Category", action = "Sale", id = UrlParameter.Optional },
+              namespaces: new[] { "webNews.Controllers" }
+            );
+            routes.MapRoute(
+              name: "CategoryDetail",
+              url: "chi-tiet-san-pham/{id}",
+              defaults: new { controller = "Category", action = "Detail", id = UrlParameter.Optional },
+              namespaces: new[] { "webNews.Controllers" }
+            );
+            routes.MapRoute(
+              name: "About",
+              url: "gioi-thieu",
+              defaults: new { controller = "Home", action = "About", id = UrlParameter.Optional },
+              namespaces: new[] { "webNews.Controllers" }
+            );
+            routes.MapRoute(
+              name: "ForCustomer",
+              url: "danh-cho-khach-hang",
+              defaults: new { controller = "Home", action = "ForCustomer", id = UrlParameter.Optional },
+              namespaces: new[] { "webNews.Controllers" }
+            );
             routes.MapRoute(
               name: "Default",
               url: "{controller}/{action}/{id}",
-              defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+              defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+              namespaces: new[] { "webNews.Controllers" }
             );
         }
         public static void RewirteUrl(RouteCollection routes)

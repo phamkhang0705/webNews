@@ -20,14 +20,17 @@ namespace webNews
     {
         protected void Application_Start()
         {
-            ServiceStackHelper.Help();
-            LicenseUtils.ActivatedLicenseFeatures();
+
             //            RouteConfig.RewirteUrl(RouteTable.Routes);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutofacConfig.ConfigureContainer();
+            ServiceStackHelper.Help();
+            LicenseUtils.ActivatedLicenseFeatures();
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new RazorViewEngine());
         }
 
         private readonly Logger _log = LogManager.GetLogger("ErrorAllPage");
@@ -51,7 +54,7 @@ namespace webNews
                 {
                     currentAction = currentRouteData.Values["action"].ToString();
                 }
-                var errorMsg = string.Format("An unhandled exception occurs in the controller:{0}, action:{1}",currentController,currentAction);
+                var errorMsg = string.Format("An unhandled exception occurs in the controller:{0}, action:{1}", currentController, currentAction);
                 _log.Error(errorMsg + "\n" + ex);
             }
 

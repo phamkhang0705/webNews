@@ -40,6 +40,8 @@ namespace webNews.Domain.Entities
         public string Avatar { get; set; }
         public int? Quantity { get; set; }
         public double? PriceInput { get; set; }
+        public int? total_rental { get; set; }
+        public int? total_sale { get; set; }
     }
 
 }

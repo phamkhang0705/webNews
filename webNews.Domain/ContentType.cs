@@ -14,24 +14,18 @@ using ServiceStack;
 
 namespace webNews.Domain.Entities
 {
-	[Alias("Banner")]
-    public partial class Banner : IHasId<long> 
+	[Alias("ContentType")]
+    public partial class ContentType : IHasId<int> 
     {
         [Alias("Id")]
         [AutoIncrement]
-        public long Id { get; set; }
+        public int Id { get; set; }
         [Required]
-        public int Type { get; set; }
-        public string Title { get; set; }
-        public string Url { get; set; }
+        public string ContentFolder { get; set; }
+        [Required]
+        public string ContentCode { get; set; }
+        public string ContentName { get; set; }
         public int? Status { get; set; }
-        public string Link { get; set; }
-        public string Content { get; set; }
-        public string Description { get; set; }
-        public int? CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public int? UpdatedBy { get; set; }
-        public DateTime? UpdatedDate { get; set; }
     }
 
 }

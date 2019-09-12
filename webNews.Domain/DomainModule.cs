@@ -8,6 +8,8 @@ using webNews.Domain.Repositories.BizAccountManagement;
 using webNews.Domain.Repositories.BizAccountTypeManagement;
 using webNews.Domain.Repositories.CategoryDetailManagement;
 using webNews.Domain.Repositories.CategoryManagement;
+using webNews.Domain.Repositories.ContentManagement;
+using webNews.Domain.Repositories.ContentTypeManagement;
 using webNews.Domain.Repositories.CustomerManagement;
 using webNews.Domain.Repositories.FileAttachManagement;
 using webNews.Domain.Repositories.GroupCategoryManagement;
@@ -30,6 +32,8 @@ using webNews.Domain.Services.BizAccountManagement;
 using webNews.Domain.Services.BizAccountTYpeManagement;
 using webNews.Domain.Services.CategoryDetailManagement;
 using webNews.Domain.Services.CategoryManagement;
+using webNews.Domain.Services.ContentManagement;
+using webNews.Domain.Services.ContentTypeManagement;
 using webNews.Domain.Services.CustomerManagement;
 using webNews.Domain.Services.FileAttachManagement;
 using webNews.Domain.Services.GroupManagement;
@@ -44,6 +48,10 @@ using webNews.Domain.Services.ReceiverVoucherManagement;
 using webNews.Domain.Services.RoleManage;
 using webNews.Domain.Services.RoleManagement;
 using webNews.Domain.Services.UserManagement;
+using webNews.Domain.Repositories.NewsManagement;
+using webNews.Domain.Services.NewsCategoryManagement;
+using webNews.Domain.Repositories.NewsCategoryManagement;
+using webNews.Domain.Services.NewsManagement;
 
 namespace webNews.Domain
 {
@@ -121,6 +129,18 @@ namespace webNews.Domain
 
             builder.RegisterType<BizAccountRepository>().As<IBizAccountRepository>();
             builder.RegisterType<BizAccountService>().As<IBizAccountService>();
+
+            builder.RegisterType<ContentTypeManagementRepository>().As<IContentTypeManagementRepository>();
+            builder.RegisterType<ContentTypeManagementService>().As<IContentTypeManagementService>();
+
+            builder.RegisterType<ContentManagementRepository>().As<IContentManagementRepository>();
+            builder.RegisterType<ContentManagementService>().As<IContentManagementService>();
+
+            builder.RegisterType<NewsCategoryManagementRepository>().As<INewsCategoryManagementRepository>();
+            builder.RegisterType<NewsCategoryManagementService>().As<INewsCategoryManagementService>();
+
+            builder.RegisterType<NewsManagementRepository>().As<INewsManagementRepository>();
+            builder.RegisterType<NewsManagementService>().As<INewsManagementService>();
 
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerDependency();
             builder.RegisterGeneric(typeof(Service<>)).As(typeof(IService<>)).InstancePerDependency();

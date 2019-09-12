@@ -20,7 +20,11 @@ namespace webNews.Models.CategoryManagement
         public string Name { get; set; }
         public int? Type { get; set; }
         public int? AgeType { get; set; }
+        public int? Group { get; set; }
         public int? Page { get; set; }
         public int? PageSize { get; set; }
+        public int? IsRental { get; set; }
+        public int? IsSale { get; set; }
+        public int? CategoryType { get; set; }
     }
 }

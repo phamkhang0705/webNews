@@ -93,9 +93,6 @@
     <Compile Include="Bank.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
-    <Compile Include="Banner.cs">
-      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
-    </Compile>
     <Compile Include="BizAccount.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
@@ -109,6 +106,12 @@
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="CategoryDetail.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Content.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContentType.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Customer.cs">
@@ -223,10 +226,18 @@
     <Compile Include="Repositories\CategoryDetailManagement\ICategoryDetailManagementRepository.cs" />
     <Compile Include="Repositories\BizAccountTypeManagement\BizAccountTypeRepository.cs" />
     <Compile Include="Repositories\BizAccountTypeManagement\IBizAccountTypeRepository.cs" />
+    <Compile Include="Repositories\NewsManagement\NewsManagementRepository.cs" />
+    <Compile Include="Repositories\NewsManagement\INewsManagementRepository.cs" />
+    <Compile Include="Repositories\ContentManagement\ContentManagementRepository.cs" />
+    <Compile Include="Repositories\ContentManagement\IContentManagementRepository.cs" />
     <Compile Include="Repositories\CategoryManagement\CategoryManagementRepository.cs" />
     <Compile Include="Repositories\CategoryManagement\ICategoryManagementRepository.cs" />
     <Compile Include="Repositories\BizAccountGroupManagement\BizAccountGroupRepository.cs" />
     <Compile Include="Repositories\BizAccountGroupManagement\IBizAccountGroupRepository.cs" />
+    <Compile Include="Repositories\NewsCategoryManagement\NewsCategoryManagementRepository.cs" />
+    <Compile Include="Repositories\NewsCategoryManagement\INewsCategoryManagementRepository.cs" />
+    <Compile Include="Repositories\ContentTypeManagement\ContentTypeManagementRepository.cs" />
+    <Compile Include="Repositories\ContentTypeManagement\IContentTypeManagementRepository.cs" />
     <Compile Include="Repositories\InvoiceOutportManagement\IInvoiceOutportRepository.cs" />
     <Compile Include="Repositories\InvoiceOutportManagement\InvoiceOutportRepository.cs" />
     <Compile Include="Repositories\ReceiverVoucherManagement\IReceiverVoucherRepository.cs" />
@@ -298,6 +309,14 @@
     <Compile Include="Services\BizAccountGroupManagement\IBizAccountGroupService.cs" />
     <Compile Include="Services\BizAccountManagement\BizAccountService.cs" />
     <Compile Include="Services\BizAccountManagement\IBizAccountService.cs" />
+    <Compile Include="Services\NewsManagement\NewsManagementService.cs" />
+    <Compile Include="Services\NewsManagement\INewsManagementService.cs" />
+    <Compile Include="Services\ContentManagement\ContentManagementService.cs" />
+    <Compile Include="Services\ContentManagement\IContentManagementService.cs" />
+    <Compile Include="Services\NewsCategoryManagement\NewsCategoryManagementService.cs" />
+    <Compile Include="Services\NewsCategoryManagement\INewsCategoryManagementService.cs" />
+    <Compile Include="Services\ContentTypeManagement\ContentTypeManagementService.cs" />
+    <Compile Include="Services\ContentTypeManagement\IContentTypeManagementService.cs" />
     <Compile Include="Services\InvoiceOutportManagement\IInvoiceOutportService.cs" />
     <Compile Include="Services\InvoiceOutportManagement\InvoiceOutportService.cs" />
     <Compile Include="Services\ReceiverVoucherManagement\IReceiverVoucherService.cs" />
@@ -363,6 +382,9 @@
     <Compile Include="Vw_Category_Sale.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Vw_Content.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="Vw_Core_User.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
@@ -385,6 +407,9 @@
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Vw_InvoiceRental_Detail.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vw_News.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Vw_PaymentVoucher.cs">

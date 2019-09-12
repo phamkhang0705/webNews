@@ -1,0 +1,33 @@
+﻿@using webNews.Language.Language
+@using webNews.Security
+@model dynamic
+@{
+    ViewBag.Title = "QUẢN LÝ NHÓM NỘI DUNG";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPage.cshtml";
+    var caption = MvcHtmlString.Create("Quản lý nhóm nội dung");
+}
+<h2 class="page-header">@caption</h2>
+<div class="main-content">
+    <div class="page-action">
+        @if (CheckAuthorizer.Authorize(Permission.ADD))
+        {
+            <button id="btnOpenAdd" class="btn btn-primary" type="button" title="@(Resource.Btn_Add_Lang)"><i class="fa fa-plus-square-o"></i>@(Resource.Btn_Add_Lang)</button>
+        }
+        <button id="btnOpenSearch" class="btn btn-primary" type="button" title="@(Resource.Btn_Search)"><i class="fa fa-search"></i>@(Resource.Btn_Search)</button>
+        <input type="hidden" id="txtPerAdd" value="@(CheckAuthorizer.Authorize(Permission.ADD) ? 1 : 0)" />
+        <input type="hidden" id="txtPerEdit" value="@(CheckAuthorizer.Authorize(Permission.EDIT) ? 1 : 0)" />
+        <input type="hidden" id="txtPerDelete" value="@(CheckAuthorizer.Authorize(Permission.DELETE) ? 1 : 0)" />
+    </div>
+    <div id="modalSearch">
+        @RenderPage("_contentTypeSearch.cshtml")
+    </div>
+    <div class="table">
+        <table id="table"></table>
+    </div>
+    <div id="box-detail"></div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/Admin/ContentType/ContentType.js"></script>
+}

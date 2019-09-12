@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\SearchModel.cs" />
+    <Compile Include="ContentTypeManagement\SearchContentModel.cs" />
     <Compile Include="InvoiceRentalManagement\InvoiceRentalModel.cs" />
     <Compile Include="InvoiceOutputManagement\InvoiceOutputModel.cs" />
     <Compile Include="ReceiverVoucherManagement\ReceiverVoucherModel.cs" />

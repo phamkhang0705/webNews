@@ -1,7 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using NLog;
+using System;
 using System.Web.Mvc;
-using NLog;
 using webNews.Domain.Services;
 using webNews.Domain.Services.CategoryManagement;
 using webNews.Domain.Services.CustomerManagement;
@@ -11,6 +10,7 @@ using webNews.Models.Common;
 
 namespace webNews.Controllers
 {
+    //    [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
     public class HomeController : Controller
     {
         private readonly ISystemService _service;
@@ -32,10 +32,11 @@ namespace webNews.Controllers
             try
             {
                 ViewBag.Title = "Trang chủ - Thuedotot.vn";
-                ViewBag.ListBestSeller = _categoryService.GetCategories(new SearchCategoryModelFE() {Page = 1,PageSize = 8});
+                ViewBag.ListBestSeller = _categoryService.GetCategories(new SearchCategoryModelFE() { Page = 1, PageSize = 8 });
                 ViewBag.ListSales = _categoryService.GetCategories(new SearchCategoryModelFE() { Page = 1, PageSize = 8 });
                 ViewBag.ListTopRate = _categoryService.GetCategories(new SearchCategoryModelFE() { Page = 1, PageSize = 8 });
                 ViewBag.ListSlides = _service.GetBanners(1);
+                ViewBag.ListBanners = _service.GetBanners(2);
                 ViewBag.Video = _service.GetBanner(3);
                 return View();
             }
@@ -46,6 +47,7 @@ namespace webNews.Controllers
             }
         }
 
+        [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
         public ActionResult About()
         {
             try
@@ -61,6 +63,7 @@ namespace webNews.Controllers
             }
         }
 
+        [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
         public ActionResult ForCustomer()
         {
             try
@@ -76,6 +79,7 @@ namespace webNews.Controllers
             }
         }
 
+        [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
         public ActionResult Contact()
         {
             try
@@ -88,6 +92,11 @@ namespace webNews.Controllers
                 _log.Error("Contact error : " + ex);
                 return null;
             }
+        }
+
+        public ActionResult KeepResult()
+        {
+            return null;
         }
     }
 }

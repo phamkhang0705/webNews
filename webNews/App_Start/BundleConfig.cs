@@ -8,8 +8,8 @@ namespace webNews
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            //bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-            //            "~/Scripts/jquery-{version}.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                        "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -134,6 +134,33 @@ namespace webNews
                       "~/Scripts/select2.full.min.js",
                        "~/Scripts/bootstrap-switch.min.js",
                         "~/Scripts/app.js"
+                ));
+            bundles.Add(new StyleBundle("~/Theme/fashecolorlibcss").Include(
+               "~/Theme/fashe-colorlib/vendor/animate/animate.css",
+               "~/Theme/fashe-colorlib/vendor/daterangepicker/daterangepicker.css",
+               "~/Theme/fashe-colorlib/vendor/slick/slick.css",
+               "~/Theme/fashe-colorlib/css/custom.css"
+                ));
+
+            bundles.Add(new ScriptBundle("~/Theme/fashecolorlibjs").Include(
+                "~/Theme/fashe-colorlib/vendor/jquery/jquery-3.2.1.min.js",
+                "~/Theme/fashe-colorlib/vendor/animsition/js/animsition.min.js",
+                "~/Theme/fashe-colorlib/vendor/bootstrap/js/popper.js",
+                "~/Theme/fashe-colorlib/vendor/bootstrap/js/bootstrap.min.js",
+                "~/Theme/fashe-colorlib/vendor/select2/select2.min.js",
+                "~/Theme/fashe-colorlib/vendor/slick/slick.min.js",
+                "~/Theme/fashe-colorlib/js/slick-custom.min.js",
+                "~/Theme/fashe-colorlib/vendor/countdowntime/countdowntime.js",
+                "~/Theme/fashe-colorlib/vendor/lightbox2/js/lightbox.min.js",
+                "~/Theme/fashe-colorlib/vendor/sweetalert/sweetalert.min.js",
+                "~/Theme/fashe-colorlib/vendor/parallax100/parallax100.js",
+                "~/Theme/fashe-colorlib/vendor/noui/nouislider.min.js",
+                "~/Theme/fashe-colorlib/js/main.js",
+                "~/Theme/fashe-colorlib/js/keep_alive.js"
+                ));
+
+            bundles.Add(new ScriptBundle("~/Theme/facebookjs").Include(
+                "~/Theme/fashe-colorlib/js/facebook.js"
                 ));
             BundleTable.EnableOptimizations = true;
         }

@@ -136,11 +136,11 @@ namespace webNews.Domain.Services
             return _systemRepository.GetForCustomer(status);
         }
 
-        public List<Banner> GetBanners(int type = 0, int status = 1)
+        public List<Content> GetBanners(int type = 0, int status = 1)
         {
             return _systemRepository.GetBanners(type,status);
         }
-        public Banner GetBanner(int type = 0, int status = 1)
+        public Content GetBanner(int type = 0, int status = 1)
         {
             return _systemRepository.GetBanner(type,status);
         }

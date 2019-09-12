@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var  listFiles = ViewBag.ListFiles;
+    var url = "http://thuedotot.vn/chi-tiet-san-pham/" + Model.Id;
 }
 
 <!-- breadcrumb -->
@@ -191,4 +192,4 @@
         </div>
     </div>
 </div>
-
+<div class="fb-comments" data-href="@url" data-width="" data-numposts="5"></div>

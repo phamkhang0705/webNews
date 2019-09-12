@@ -78,6 +78,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <HintPath>..\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
     </Reference>
@@ -296,6 +300,10 @@
     <Compile Include="Areas\Admin\Controllers\CategoryDetailManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\BizAccountGroupController.cs" />
     <Compile Include="Areas\Admin\Controllers\BizAccountTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NewsManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ContentManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NewsCategoryManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ContentTypeManagementController.cs" />
     <Compile Include="Areas\Admin\Controllers\InvoiceRentalController.cs" />
     <Compile Include="Areas\Admin\Controllers\InvoiceOutportController.cs" />
     <Compile Include="Areas\Admin\Controllers\InvoiceRentalShipperController.cs" />
@@ -317,7 +325,11 @@
     <Compile Include="Areas\Admin\Controllers\UserManagementController.cs" />
     <Compile Include="Areas\Admin\Models\BizAccount\BizAccountModel.cs" />
     <Compile Include="Areas\Admin\Models\BizAccountType\BizAccountTypeModel.cs" />
+    <Compile Include="Areas\Admin\Models\News\NewsModel.cs" />
+    <Compile Include="Areas\Admin\Models\NewsCategory\NewsCategoryModel.cs" />
+    <Compile Include="Areas\Admin\Models\Content\ContentModel.cs" />
     <Compile Include="Areas\Admin\Models\Customer\CustomerModel.cs" />
+    <Compile Include="Areas\Admin\Models\ContentType\ContentTypeModel.cs" />
     <Compile Include="Areas\Admin\Models\Receiver\ReceiverModel.cs" />
     <Compile Include="Areas\Admin\Models\Payment\PaymentModel.cs" />
     <Compile Include="Areas\Admin\Models\InvoiceRental\InvoiceRentalModel.cs" />
@@ -1400,23 +1412,23 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="images\logo.png" />
-    <Content Include="images\banner-01.jpg" />
-    <Content Include="images\banner-02.jpg" />
-    <Content Include="images\banner-03.jpg" />
-    <Content Include="images\banner-04.jpg" />
-    <Content Include="images\banner-05.jpg" />
-    <Content Include="images\banner-06.jpg" />
-    <Content Include="images\banner-07.jpg" />
-    <Content Include="images\banner-08.jpg" />
-    <Content Include="images\banner-09.jpg" />
-    <Content Include="images\banner-10.jpg" />
-    <Content Include="images\banner-11.jpg" />
-    <Content Include="images\banner-12.jpg" />
-    <Content Include="images\banner-13.jpg" />
-    <Content Include="images\banner-14.jpg" />
-    <Content Include="images\bg-banner-01.jpg" />
-    <Content Include="images\bg-banner-02.jpg" />
-    <Content Include="images\bg-video-01.jpg" />
+    <Content Include="images\banners\banner-01.jpg" />
+    <Content Include="images\banners\banner-02.jpg" />
+    <Content Include="images\banners\banner-03.jpg" />
+    <Content Include="images\banners\banner-04.jpg" />
+    <Content Include="images\banners\banner-05.jpg" />
+    <Content Include="images\banners\banner-06.jpg" />
+    <Content Include="images\banners\banner-07.jpg" />
+    <Content Include="images\banners\banner-08.jpg" />
+    <Content Include="images\banners\banner-09.jpg" />
+    <Content Include="images\banners\banner-10.jpg" />
+    <Content Include="images\banners\banner-11.jpg" />
+    <Content Include="images\banners\banner-12.jpg" />
+    <Content Include="images\banners\banner-13.jpg" />
+    <Content Include="images\banners\banner-14.jpg" />
+    <Content Include="images\banners\bg-banner-01.jpg" />
+    <Content Include="images\banners\bg-banner-02.jpg" />
+    <Content Include="images\banner-videos\bg-video-01.jpg" />
     <Content Include="images\blog-01.jpg" />
     <Content Include="images\blog-02.jpg" />
     <Content Include="images\blog-03.jpg" />
@@ -1442,12 +1454,12 @@
     <Content Include="images\gallery-13.jpg" />
     <Content Include="images\gallery-14.jpg" />
     <Content Include="images\gallery-15.jpg" />
-    <Content Include="images\heading-pages-01.jpg" />
-    <Content Include="images\heading-pages-02.jpg" />
-    <Content Include="images\heading-pages-03.jpg" />
-    <Content Include="images\heading-pages-04.jpg" />
-    <Content Include="images\heading-pages-05.jpg" />
-    <Content Include="images\heading-pages-06.jpg" />
+    <Content Include="images\heading-pages\heading-pages-01.jpg" />
+    <Content Include="images\heading-pages\heading-pages-02.jpg" />
+    <Content Include="images\heading-pages\heading-pages-03.jpg" />
+    <Content Include="images\heading-pages\heading-pages-04.jpg" />
+    <Content Include="images\heading-pages\heading-pages-05.jpg" />
+    <Content Include="images\heading-pages\heading-pages-06.jpg" />
     <Content Include="images\icons\bg-01.jpg" />
     <Content Include="images\icons\discover.png" />
     <Content Include="images\icons\express.png" />
@@ -1483,14 +1495,14 @@
     <Content Include="images\item-cart-04.jpg" />
     <Content Include="images\item-cart-05.jpg" />
     <Content Include="images\item-cart-06.jpg" />
-    <Content Include="images\master-slide-01.jpg" />
-    <Content Include="images\master-slide-02.jpg" />
-    <Content Include="images\master-slide-03.jpg" />
-    <Content Include="images\master-slide-04.jpg" />
-    <Content Include="images\master-slide-05.jpg" />
-    <Content Include="images\master-slide-06.jpg" />
-    <Content Include="images\master-slide-07.jpg" />
-    <Content Include="images\master-slide-08.jpg" />
+    <Content Include="images\slides\master-slide-01.jpg" />
+    <Content Include="images\slides\master-slide-02.jpg" />
+    <Content Include="images\slides\master-slide-03.jpg" />
+    <Content Include="images\slides\master-slide-04.jpg" />
+    <Content Include="images\slides\master-slide-05.jpg" />
+    <Content Include="images\slides\master-slide-06.jpg" />
+    <Content Include="images\slides\master-slide-07.jpg" />
+    <Content Include="images\slides\master-slide-08.jpg" />
     <Content Include="images\product-detail-01.jpg" />
     <Content Include="images\product-detail-02.jpg" />
     <Content Include="images\product-detail-03.jpg" />
@@ -1503,6 +1515,9 @@
     <Content Include="Scripts\Admin\BizAccountGroup\BizAccountGroup.js" />
     <Content Include="Scripts\Admin\BizAccount\BizAccount.js" />
     <Content Include="Scripts\Admin\BizAccountType\BizAccountType.js" />
+    <Content Include="Scripts\Admin\NewsManagement\NewsManagement.js" />
+    <Content Include="Scripts\Admin\ContentManagement\ContentManagement.js" />
+    <Content Include="Scripts\Admin\ContentType\ContentType.js" />
     <Content Include="Scripts\Admin\InvoiceRentalShipper\InvoiceAdd.js" />
     <Content Include="Scripts\Admin\InvoiceRentalShipper\InvoiceRentalShipper.js" />
     <Content Include="Scripts\Admin\InvoiceRental\InvoiceAdd.js" />
@@ -1625,6 +1640,15 @@
     <Content Include="ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
     <Content Include="ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="ckeditor\skins\moono\readme.md" />
+    <Content Include="Areas\Admin\Views\ContentTypeManagement\_contentTypeDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\ContentTypeManagement\_contentTypeSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\ContentTypeManagement\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ContentManagement\_contentDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\ContentManagement\_contentSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\ContentManagement\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsManagement\_newsDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsManagement\_newsSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsManagement\Index.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -4258,6 +4282,8 @@
     <Content Include="Theme\fashe-colorlib\images\thumb-item-03.jpg" />
     <Content Include="Theme\fashe-colorlib\images\Untitled-5.jpg" />
     <Content Include="Theme\fashe-colorlib\index.html" />
+    <Content Include="Theme\fashe-colorlib\js\facebook.js" />
+    <Content Include="Theme\fashe-colorlib\js\keep_alive.js" />
     <Content Include="Theme\fashe-colorlib\js\main.js" />
     <Content Include="Theme\fashe-colorlib\js\main.min.js" />
     <Content Include="Theme\fashe-colorlib\js\map-custom.js" />
@@ -5202,6 +5228,9 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Category\Detail.cshtml" />
+    <Content Include="Views\Category\Sale.cshtml" />
+    <Content Include="Views\Shared\_BackToTopPartial.cshtml" />
+    <Content Include="Views\Shared\_FacebookPluginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

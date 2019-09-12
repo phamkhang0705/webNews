@@ -658,13 +658,13 @@ namespace webNews.Domain.Repositories
             }
         }
 
-        public List<Banner> GetBanners(int type = 0, int status = 1)
+        public List<Content> GetBanners(int type = 0, int status = 1)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var query = db.Select<Banner>(x => x.Status == status && x.Type == type);
+                    var query = db.Select<Content>(x => x.Status == status && x.Type == type);
                     return query;
                 }
             }
@@ -672,17 +672,17 @@ namespace webNews.Domain.Repositories
             {
                 _logger.Info("Get GetBanners error", ex, ex.Message, ex.StackTrace);
 
-                return new List<Banner>();
+                return new List<Content>();
             }
         }
 
-        public Banner GetBanner(int type = 0, int status = 1)
+        public Content GetBanner(int type = 0, int status = 1)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var query = db.Single<Banner>(x => x.Status == status && x.Type == type);
+                    var query = db.Single<Content>(x => x.Status == status && x.Type == type);
                     return query;
                 }
             }
@@ -690,7 +690,7 @@ namespace webNews.Domain.Repositories
             {
                 _logger.Info("Get GetBanners error", ex, ex.Message, ex.StackTrace);
 
-                return new Banner();
+                return new Content();
             }
         }
 

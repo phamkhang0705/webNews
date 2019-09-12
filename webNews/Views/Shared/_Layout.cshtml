@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using webNews.Domain.Services.CustomerManagement
+@using webNews.Models.Common
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -6,7 +8,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@ViewBag.Title - ThueDoTot</title>
+    <meta name="keywords" content="Hệ thống thuê đồ tốt uy tín" />
+    <meta name="description" content="Hệ thống thuê đồ tốt uy tín" />
+    <meta name="author" content="http://thuedotot.vn/" />
+    <meta property="og:title" content="Hệ thống thuê đồ tốt uy tín" />
+    <meta property="og:description" content="Hệ thống thuê đồ tốt uy tín" />
+    <meta property="og:site_name" content="Hệ thống thuê đồ tốt uy tín" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/images/logo.png" data-react-helmet="true" />
+    <title>@ViewBag.Title</title>
+
     <link rel="icon" type="image/png" href="~/Theme/fashe-colorlib/images/icons/favicon.png" />
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/vendor/bootstrap/css/bootstrap.min.css">
@@ -19,49 +30,29 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/fonts/elegant-font/html-css/style.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/vendor/animate/animate.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/vendor/css-hamburgers/hamburgers.min.css">
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/vendor/animsition/css/animsition.min.css">
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/vendor/select2/select2.min.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/vendor/daterangepicker/daterangepicker.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/vendor/slick/slick.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/vendor/lightbox2/css/lightbox.min.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/css/util.css">
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/css/main.css">
-    <link href="~/Theme/fashe-colorlib/css/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/css/util.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/css/main.min.css">
+    <!--===============================================================================================-->
+    @Styles.Render("~/Theme/fashecolorlibcss")
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146572388-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-146572388-1');</script>
+
 </head>
 <body class="animsition">
     <!-- Load Facebook SDK for JavaScript -->
-    <div id="fb-root"></div>
-    <script>
-        window.fbAsyncInit = function() {
-          FB.init({
-            xfbml            : true,
-            version          : 'v4.0'
-          });
-        };
-
-        (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));</script>
-    <!-- Your customer chat code -->
-    <div class="fb-customerchat"
-         attribution=setup_tool
-         page_id="1399090223473000"
-         logged_in_greeting="Thuedotot.vn có thể giúp gì cho bạn?"
-         logged_out_greeting="Thuedotot.vn có thể giúp gì cho bạn?">
-    </div>
     <!-- header fixed -->
     @RenderPage("_TopMenuPartial.cshtml")
 
@@ -78,65 +69,15 @@
     <!-- Footer -->
     @Html.Action("Contact", "Home", new { area = "" })
 
+    <!-- Facebook Plugin -->
+    @RenderPage("_FacebookPluginPartial.cshtml")
     <!-- Back to top -->
-    <div class="btn-back-to-top bg0-hov" id="myBtn">
-        <span class="symbol-btn-back-to-top">
-            <i class="fa fa-angle-double-up" aria-hidden="true"></i>
-        </span>
-    </div>
+    @RenderPage("_BackToTopPartial.cshtml")
 
     <!-- Container Selection1 -->
     <div id="dropDownSelect1"></div>
-
-    
-
     <!--===============================================================================================-->
-    <script type="text/javascript" src="~/Theme/fashe-colorlib/vendor/jquery/jquery-3.2.1.min.js"></script>
-    <!--===============================================================================================-->
-    <script type="text/javascript" src="~/Theme/fashe-colorlib/vendor/animsition/js/animsition.min.js"></script>
-    <!--===============================================================================================-->
-    <script type="text/javascript" src="~/Theme/fashe-colorlib/vendor/bootstrap/js/popper.js"></script>
-    <script type="text/javascript" src="~/Theme/fashe-colorlib/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <!--===============================================================================================-->
-    <script type="text/javascript" src="~/Theme/fashe-colorlib/vendor/select2/select2.min.js"></script>
-    <script type="text/javascript">
-        $(".selection-1").select2({
-            minimumResultsForSearch: 20,
-            dropdownParent: $('#dropDownSelect1')
-        });
-    </script>
-    <!--===============================================================================================-->
-    <script type="text/javascript" src="~/Theme/fashe-colorlib/vendor/slick/slick.min.js"></script>
-    <script type="text/javascript" src="~/Theme/fashe-colorlib/js/slick-custom.js"></script>
-    <!--===============================================================================================-->
-    <script type="text/javascript" src="~/Theme/fashe-colorlib/vendor/countdowntime/countdowntime.js"></script>
-    <!--===============================================================================================-->
-    <script type="text/javascript" src="~/Theme/fashe-colorlib/vendor/lightbox2/js/lightbox.min.js"></script>
-    <!--===============================================================================================-->
-    <script type="text/javascript" src="~/Theme/fashe-colorlib/vendor/sweetalert/sweetalert.min.js"></script>
-    <script type="text/javascript">
-        $('.block2-btn-addcart').each(function () {
-            var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-            $(this).on('click', function () {
-                swal(nameProduct, "is added to cart !", "success");
-            });
-        });
-
-        $('.block2-btn-addwishlist').each(function () {
-            var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-            $(this).on('click', function () {
-                swal(nameProduct, "is added to wishlist !", "success");
-            });
-        });
-    </script>
-
-    <!--===============================================================================================-->
-    <script type="text/javascript" src="~/Theme/fashe-colorlib/vendor/parallax100/parallax100.js"></script>
-    <script type="text/javascript">
-        $('.parallax100').parallax100();
-    </script>
-    <!--===============================================================================================-->
-    <script src="~/Theme/fashe-colorlib/js/main.js"></script>
-
+    @Scripts.Render("~/Theme/facebookjs")
+    @Scripts.Render("~/Theme/fashecolorlibjs")
 </body>
 </html>

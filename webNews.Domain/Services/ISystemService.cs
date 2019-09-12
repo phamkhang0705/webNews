@@ -35,7 +35,7 @@ namespace webNews.Domain.Services
         About GetAbout(int status=1);
         About GetForCustomer(int status=1);
 
-        List<Banner> GetBanners(int type = 0, int status = 1);
-        Banner GetBanner(int type = 0, int status = 1);
+        List<Content> GetBanners(int type = 0, int status = 1);
+        Content GetBanner(int type = 0, int status = 1);
     }
 }

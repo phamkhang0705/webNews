@@ -8,8 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewBag.Title - ThueDoTot</title>
-        @Styles.Render("~/Themecss/css")
-        <link href="~/Theme/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    @Styles.Render("~/Themecss/css")
+    <link href="~/Theme/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body class="nav-md">
     <div class="container body">
@@ -45,11 +45,15 @@
     <script src="~/Scripts/Common/language-vi.js"></script>
     <script src="~/Scripts/Common/Service.js"></script>
     <script src="~/Scripts/HomePage/Ctrl.js"></script>
+    <script src="~/Assets/Admin/Validate/jquery.validate.min.js"></script>
+    <script src="~/Assets/Admin/Validate/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script src="~/ckfinder/ckfinder.js"></script>
     @RenderSection("scripts", required: false)
-<script>
-    $(document).ready(function() {
-        $('#menu_toggle').click();
-    })
-</script>
+    <script>
+        $(document).ready(function () {
+            $('#menu_toggle').click();
+        })
+    </script>
 </body>
 </html>

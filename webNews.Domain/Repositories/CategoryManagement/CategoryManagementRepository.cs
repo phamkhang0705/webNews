@@ -363,10 +363,23 @@ namespace webNews.Domain.Repositories.CategoryManagement
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var query = db.From<Vw_Category>().Where(x => x.Status == 1 && x.DisplayRental == 1);
+                    var query = db.From<Vw_Category>().Where(x => x.Status == 1);
+                    if (filter.IsRental == 1)
+                    {
+                        query.Where(x => x.DisplayRental == filter.IsRental);
+                    }
+                    if (filter.IsSale == 1)
+                    {
+                        query.Where(x => x.DisplaySale == filter.IsSale);
+                    }
                     if (!string.IsNullOrEmpty(filter.Name))
                     {
                         query.Where(_ => _.Name.Contains(filter.Name));
+                    }
+
+                    if (filter.Group != -1 && filter.Group != 0)
+                    {
+                        query.Where(_ => _.groupids.Contains(filter.Group.ToString()));
                     }
 
                     if (filter.AgeType == 1)
@@ -389,7 +402,14 @@ namespace webNews.Domain.Repositories.CategoryManagement
                             query.Where(_ => _.ToAge >= 3);
                         }
                     }
-
+                    if (filter.IsRental == 1)
+                    {
+                        query.Where(x => x.total_rental > 0);
+                    }
+                    if (filter.IsSale == 1)
+                    {
+                        query.Where(x => x.total_sale > 0);
+                    }
 
                     //More filter
                     //                    var total = (int)db.Count(query);

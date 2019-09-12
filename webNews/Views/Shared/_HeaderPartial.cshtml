@@ -133,11 +133,11 @@
                         </li>
 
                         <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Category" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
-                            <a href="@Url.Action("Index","Category")">Sản phẩm thuê</a>
+                            <a href="@Url.Action("Index", "Category")">Sản phẩm thuê</a>
                         </li>
 
-                        <li>
-                            <a href="cart.html">Sản phẩm bán</a>
+                        <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Category" && ViewContext.RouteData.Values["Action"].ToString() == "Sale" ? "sale-noti" : "")">
+                            <a href="@Url.Action("Sale","Category")">Sản phẩm bán</a>
                         </li>
 
                         <li>
@@ -169,7 +169,7 @@
     <!-- Header Mobile -->
     <div class="wrap_header_mobile">
         <!-- Logo moblie -->
-        <a href="index.html" class="logo-mobile">
+        <a href="@Url.Action("Index","Home")" class="logo-mobile">
             <img src="~/Theme/fashe-colorlib/images/icons/logo.png" alt="IMG-LOGO">
         </a>
 
@@ -304,25 +304,20 @@
                 </li>
 
                 <li class="item-menu-mobile">
-                    <a href="index.html">Trang chủ</a>
-                    @*                    <ul class="sub-menu">*@
-                    @*                        <li><a href="index.html">Homepage V1</a></li>*@
-                    @*                        <li><a href="home-02.html">Homepage V2</a></li>*@
-                    @*                        <li><a href="home-03.html">Homepage V3</a></li>*@
-                    @*                    </ul>*@
+                    <a href="@Url.Action("Index","Home")">Trang chủ</a>
                     <i class="arrow-main-menu fa fa-angle-right" aria-hidden="true"></i>
                 </li>
 
                 <li class="item-menu-mobile">
-                    <a href="product.html">Giới thiệu</a>
+                    <a href="@Url.Action("About","Home")">Giới thiệu</a>
                 </li>
 
                 <li class="item-menu-mobile">
-                    <a href="product.html">Sản phẩm thuê</a>
+                    <a href="@Url.Action("Index","Category")">Sản phẩm thuê</a>
                 </li>
 
                 <li class="item-menu-mobile">
-                    <a href="cart.html">Sản phẩm bán</a>
+                    <a href="@Url.Action("Sale","Category")">Sản phẩm bán</a>
                 </li>
 
                 <li class="item-menu-mobile">
@@ -330,7 +325,7 @@
                 </li>
 
                 <li class="item-menu-mobile">
-                    <a href="about.html">Dành cho khách hàng</a>
+                    <a href="@Url.Action("ForCustomer","Home")">Dành cho khách hàng</a>
                 </li>
 
                 <li class="item-menu-mobile">

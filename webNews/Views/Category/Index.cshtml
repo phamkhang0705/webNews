@@ -5,41 +5,16 @@
 @{
     var controller = ViewContext.RouteData.Values["Controller"].ToString();
     var action = ViewContext.RouteData.Values["Action"].ToString();
-    var type = ViewBag.Type ?? "";
-    var ageType = ViewBag.AgeType ?? "";
+    var type = Convert.ToInt32(ViewBag.CategoryType);
+    var group = Convert.ToInt32(ViewBag.Group);
+    var listGroups = ViewBag.ListGroups;
 }
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <link rel="icon" type="image/png" href="/Theme/fashe-colorlib/images/icons/favicon.png" />
-        <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/Theme/fashe-colorlib/vendor/bootstrap/css/bootstrap.min.css">
-        <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/Theme/fashe-colorlib/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-        <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/Theme/fashe-colorlib/fonts/themify/themify-icons.css">
-        <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/Theme/fashe-colorlib/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-        <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/Theme/fashe-colorlib/fonts/elegant-font/html-css/style.css">
-        <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/Theme/fashe-colorlib/vendor/animate/animate.css">
-        <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/Theme/fashe-colorlib/vendor/css-hamburgers/hamburgers.min.css">
-        <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/Theme/fashe-colorlib/vendor/animsition/css/animsition.min.css">
-        <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/Theme/fashe-colorlib/vendor/select2/select2.min.css">
-        <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/Theme/fashe-colorlib/vendor/slick/slick.css">
-        <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/Theme/fashe-colorlib/vendor/noui/nouislider.min.css">
-    <link rel="stylesheet" type="text/css" href="/Theme/fashe-colorlib/css/util.css">
-    <link rel="stylesheet" type="text/css" href="/Theme/fashe-colorlib/css/main.css">
-    <link href="~/Theme/fashe-colorlib/css/custom.css" rel="stylesheet" />
 }
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <!-- Title Page -->
 <section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url(/Theme/fashe-colorlib/images/heading-pages-02.jpg);">
     <h2 class="l-text2 t-center">
@@ -57,53 +32,48 @@
         <div class="row">
             <div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
                 <div class="leftbar p-r-20 p-r-0-sm">
-                    <!-- -->
-                    <h4 class="m-text14 p-b-7">
-                        Danh mục sản phẩm
-                    </h4>
+                    <form id='form-filter' action="@Url.Action("Index","Category")" method="get">
+                        <!-- -->
+                        <h4 class="m-text14 p-b-7">
+                            Nhóm sản phẩm
+                        </h4>
+                        @if (listGroups.Count > 0)
+                        {
+                            <select class="form-control" name="Group" id="Group" onchange=" $('#form-filter').submit(); ">
+                                <option value="-1">Tất cả</option>
+                                @foreach (var gr in listGroups)
+                                {
+                                    <option value="@gr.Id" @(gr.Id == group ? "selected" : "")>@gr.Name</option>
+                                }
+                            </select>
+                        }
 
-                    <ul class="p-b-54">
-                        <li class="p-t-4">
-                            <a href="@Url.Action("Index","Category")" class="s-text13 @(controller == "Category"
-        && action == "Index"&& type.ToString() == "" && ageType.ToString()==""? "active1" : "")">
-                                All
-                            </a>
-                        </li>
-                        <li class="p-t-4">
-                            <a href="@Url.Action("Index", "Category", new SearchCategoryModelFE() { AgeType = 1, Type = 1 })"
-                               class="s-text13 @(controller == "Category" && action == "Index"  && type.ToString() == "1" && ageType.ToString()=="1"? "active1" : "")">
-                                Từ 0-12 tháng
-                            </a>
-                        </li>
-
-                        <li class="p-t-4">
-                            <a href="@Url.Action("Index", "Category", new SearchCategoryModelFE() {AgeType = 2, Type = 1})" class="s-text13
-                               @(controller == "Category" && action == "Index"  && type.ToString() == "1" && ageType.ToString()=="2"? "active1" : "")">
-                                Từ 1-3 tuổi
-                            </a>
-                        </li>
-
-                        <li class="p-t-4">
-                            <a href="@Url.Action("Index", "Category", new SearchCategoryModelFE() {AgeType = 2, Type = 2})" class="s-text13
-                               @(controller == "Category" && action == "Index"  && type.ToString() == "2" && ageType.ToString()=="2"? "active1" : "")">
-                                Trên 3 tuổi
-                            </a>
-                        </li>
-                    </ul>
-
-                    <!-- -->
-                    <h4 class="m-text14 p-b-32">
-                        Lọc theo
-                    </h4>
+                        <!-- -->
+                        <div class="form-group">
+                            <h4 class="m-text14 p-b-7">
+                                Danh mục sản phẩm
+                            </h4>
+                            <select class="form-control" name="CategoryType" id="CategoryType" onchange="$('#form-filter').submit();">
+                                <option value="-1" @(type == -1 ? "selected" : "")>Tất cả</option>
+                                <option value="1" @(type == 1 ? "selected" : "")>Từ 0-12 tháng</option>
+                                <option value="2" @(type == 2 ? "selected" : "")>Từ 1-3 tuổi</option>
+                                <option value="3" @(type == 3 ? "selected" : "")>Trên 3 tuổi</option>
+                            </select>
+                        </div>
+                        <!-- -->
+                        <h4 class="m-text14 p-b-32">
+                            Lọc theo
+                        </h4>
 
 
-                    <div class="search-product pos-relative bo4 of-hidden">
-                        <input class="s-text7 size6 p-l-23 p-r-50" type="text" name="search-product" placeholder="Nhập tên sản phẩm...">
+                        <div class="search-product pos-relative bo4 of-hidden">
+                            <input class="s-text7 size6 p-l-23 p-r-50" type="text" name="Name" placeholder="Nhập tên sản phẩm..." onchange="$('#form-filter').submit();">
 
-                        <button class="flex-c-m size5 ab-r-m color2 color0-hov trans-0-4">
-                            <i class="fs-12 fa fa-search" aria-hidden="true"></i>
-                        </button>
-                    </div>
+                            <button class="flex-c-m size5 ab-r-m color2 color0-hov trans-0-4">
+                                <i class="fs-12 fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -189,7 +159,7 @@
 
                 <!-- Pagination -->
                 <div style="float: right">
-                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, Group = @group, CategoryType = @type }))
                 </div>
             </div>
         </div>
@@ -197,52 +167,7 @@
 </section>
 
 <!--===============================================================================================-->
-<script type="text/javascript" src="/Theme/fashe-colorlib/vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-<script type="text/javascript" src="/Theme/fashe-colorlib/vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
-<script type="text/javascript" src="/Theme/fashe-colorlib/vendor/bootstrap/js/popper.js"></script>
-<script type="text/javascript" src="/Theme/fashe-colorlib/vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-<script type="text/javascript" src="/Theme/fashe-colorlib/vendor/select2/select2.min.js"></script>
-<script type="text/javascript">
-    $(".selection-1").select2({
-        minimumResultsForSearch: 20,
-        dropdownParent: $('#dropDownSelect1')
-    });
-
-    $(".selection-2").select2({
-        minimumResultsForSearch: 20,
-        dropdownParent: $('#dropDownSelect2')
-    });
-</script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-<script type="text/javascript" src="/Theme/fashe-colorlib/vendor/daterangepicker/moment.min.js"></script>
-<script type="text/javascript" src="/Theme/fashe-colorlib/vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-<script type="text/javascript" src="/Theme/fashe-colorlib/vendor/slick/slick.min.js"></script>
-<script type="text/javascript" src="/Theme/fashe-colorlib/js/slick-custom.js"></script>
-<!--===============================================================================================-->
-<script type="text/javascript" src="/Theme/fashe-colorlib/vendor/sweetalert/sweetalert.min.js"></script>
-<script type="text/javascript">
-    $('.block2-btn-addcart').each(function () {
-        var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-        $(this).on('click', function () {
-            swal(nameProduct, "is added to cart !", "success");
-        });
-    });
-
-    $('.block2-btn-addwishlist').each(function () {
-        var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-        $(this).on('click', function () {
-            swal(nameProduct, "is added to wishlist !", "success");
-        });
-    });
-</script>
-
-<!--===============================================================================================-->
-<script type="text/javascript" src="/Theme/fashe-colorlib/vendor/noui/nouislider.min.js"></script>
+@*<script type="text/javascript" src="/Theme/fashe-colorlib/vendor/noui/nouislider.min.js"></script>*@
 <script type="text/javascript">
     /*[ No ui ]
     ===========================================================*/
@@ -266,5 +191,3 @@
         skipValues[handle].innerHTML = Math.round(values[handle]);
     });
 </script>
-<!--===============================================================================================-->
-<script src="/Theme/fashe-colorlib/js/main.js"></script>

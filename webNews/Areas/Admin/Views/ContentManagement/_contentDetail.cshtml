@@ -1,0 +1,125 @@
+﻿@using webNews.Language.Language
+@using webNews.HtmlHelpers
+@model webNews.Areas.Admin.Models.Content.ContentModel
+@{
+    var add = Model.Action == "Add";
+    var edit = Model.Action == "Edit";
+    var popupTitle = Model.Action == "Add" ? "Thêm mới" : "Cập nhật";
+    var disabled = edit ? "disabled" : "";
+}
+<script src="~/Assets/Admin/Validate/jquery.validate.min.js"></script>
+<script src="~/Assets/Admin/Validate/jquery.validate.unobtrusive.min.js"></script>
+<div class="modal fade" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="xModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@popupTitle</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <form id="formDetail" name="formDetail" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                    @Html.HiddenFor(x => x.Id,new {@id="txtId"})
+
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Type)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.ContentType, "", new { @class = "field-validation-valid" })
+                            @Html.DropDownListFor(x => x.Type, new SelectList(Model.ListTypes, "Id", "ContentName"), new { @class = "form-control input-sm", @id = "txtType" })
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Title)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Title, "", new { @class = "field-validation-valid" })
+                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control input-sm " + @disabled, @id = "txtTitle", @placeholder = "Nhập title" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Link)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Link, "", new { @class = "field-validation-valid" })
+                            @Html.TextBoxFor(x => x.Link, new { @class = "form-control input-sm", @id = "txtLink", @placeholder = "Nhập Link" })
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Status)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Status, "", new { @class = "field-validation-valid" })
+                            @Html.DropDownListFor(x => x.Status, new SelectList(Model.ListStatus, "Value", "Text"), new { @class = "form-control input-sm", @id = "txtStatus" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.ContentUrl)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.ContentUrl, "", new { @class = "field-validation-valid" })
+                            @Html.TextBoxFor(x => x.ContentUrl, new { @class = "form-control input-sm", @id = "txtContentUrl", @placeholder = "Nhập ContentUrl" })
+                        </div>
+                        <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Description)</label>
+                        <div class="col-xs-4">
+                            @Html.ValidationHtmlMessageFor(model => model.Description, "", new { @class = "field-validation-valid" })
+                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control input-sm", @id = "txtDescription", @placeholder = "Nhập mô tả" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-4 col-md-2 control-label">File</label>
+                        <div class="col-xs-12 col-md-12 no-padding div-file">
+                            <div class="col-md-8 no-padding"></div>
+                        </div>
+                    </div>
+                    @{
+                        if (edit && Model.ContentCode != "VIDEO")
+                        {
+                            <div class="form-group">
+                                <label class="col-xs-4 col-md-2 control-label"></label>
+                                <div class="col-xs-8 col-md-5 div-image">
+                                    <div class="col-xs-12 col-md-12 no-padding" index="1">
+                                        <div class="col-md-8 no-padding">
+                                            <img class="img-preview" src="@Url.Content("~/images/" + @Model.ContentFolder + "/" + Path.GetFileName(Model.Url))" id="@Model.Id" title="@Model.Title" alt="@Model.Title" width="150" height="150" style="margin-bottom: 10px" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button id="btnDeleteImg" class="btn btn-blue" type="button"><i class="fa fa-times"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label class="col-xs-4 col-md-2 control-label"></label>
+                                <div class="col-xs-8 col-md-5 div-image">
+                                    @Html.ValidationHtmlMessageFor(model => model.Url, "", new { @class = "field-validation-valid" })
+                                    @Html.TextBoxFor(x => x.Url, new { @class = "form-control input-sm", @id = "txtUrl", @placeholder = "Nhập Url" })
+                                </div>
+                            </div>
+                        }
+                    }
+                    @if (Model.ContentCode != "VIDEO")
+                    {
+                        <div class="form-group">
+                            <label class="col-xs-4 col-md-2 control-label"></label>
+                            <div class="col-xs-8 col-md-5 parent">
+                                <div class="col-xs-12 col-md-12 no-padding div-file" index="1" id="divFile-1">
+                                    <div class="col-md-8 no-padding">
+                                        <input id="txtUploadFile" type="file" class="form-control col-md-8" name="UploadFile" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button id="btnDelete" class="btn btn-blue hidden" type="button"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </form>
+            </div>
+            <div class="modal-footer">
+                @if (add)
+                {
+                    <button id="btnAdd" class="btn btn-primary" type="button"><i class="fa fa-check"></i> @(Resource.Btn_Save_Lang)</button>
+                }
+                else
+                    if (edit)
+                {
+                    <button id="btnEdit" class="btn btn-primary" type="button"><i class="fa fa-check"></i> @(Resource.Btn_Edit_Lang)</button>
+                }
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-reply"></i>@Resource.Btn_Close_Lang</button>
+            </div>
+        </div>
+    </div>
+</div>

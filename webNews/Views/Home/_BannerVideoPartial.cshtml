@@ -3,15 +3,15 @@
 }
 @if (video != null)
 {
-    <section class="parallax0 parallax100" style="background-image: url(@Url.Content("~/Content/Cate/" + Path.GetFileName(video.Content)));">
+    <section class="parallax0 parallax100" style="background-image: url(@Url.Content("~/images/banner-videos/" + Path.GetFileName(video.ContentUrl)));">
         <div class="overlay0 p-t-190 p-b-200">
             <div class="flex-col-c-m p-l-15 p-r-15">
                 <span class="m-text9 p-t-45 fs-20-sm">
-                    The Beauty
+                    @video.Title
                 </span>
 
                 <h3 class="l-text1 fs-35-sm">
-                    Lookbook
+                    @video.Description
                 </h3>
 
                 <span class="btn-play s-text4 hov5 cs-pointer p-t-25" data-toggle="modal" data-target="#modal-video-01">
@@ -28,7 +28,7 @@
 
             <div class="wrap-video-mo-01">
                 <div class="w-full wrap-pic-w op-0-0">
-                    <img src="@Url.Content("~/Content/Cate/" + Path.GetFileName(video.Content))" alt="IMG">
+                    <img src="@Url.Content("~/images/banner-videos/" + Path.GetFileName(video.ContentUrl))" alt="IMG">
                 </div>
                 <div class="video-mo-01">
                     @Html.Raw(video.Url)
