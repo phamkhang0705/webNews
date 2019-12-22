@@ -111,6 +111,9 @@
     <Compile Include="Content.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="ContentFavourite.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="ContentType.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
@@ -226,6 +229,8 @@
     <Compile Include="Repositories\CategoryDetailManagement\ICategoryDetailManagementRepository.cs" />
     <Compile Include="Repositories\BizAccountTypeManagement\BizAccountTypeRepository.cs" />
     <Compile Include="Repositories\BizAccountTypeManagement\IBizAccountTypeRepository.cs" />
+    <Compile Include="Repositories\ContentFavouriteManagement\ContentFavouriteManagementRepository.cs" />
+    <Compile Include="Repositories\ContentFavouriteManagement\IContentFavouriteManagementRepository.cs" />
     <Compile Include="Repositories\NewsManagement\NewsManagementRepository.cs" />
     <Compile Include="Repositories\NewsManagement\INewsManagementRepository.cs" />
     <Compile Include="Repositories\ContentManagement\ContentManagementRepository.cs" />
@@ -351,6 +356,7 @@
     <Compile Include="Services\SystemService.cs" />
     <Compile Include="Services\UserManagement\IUserManagementService.cs" />
     <Compile Include="Services\UserManagement\UserManagementService.cs" />
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="System_Menu.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>

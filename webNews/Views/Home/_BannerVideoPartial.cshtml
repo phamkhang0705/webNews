@@ -3,7 +3,7 @@
 }
 @if (video != null)
 {
-    <section class="parallax0 parallax100" style="background-image: url(@Url.Content("~/images/banner-videos/" + Path.GetFileName(video.ContentUrl)));">
+    <section class="parallax0 parallax100" style="background-image: url(@video.ContentUrl);">
         <div class="overlay0 p-t-190 p-b-200">
             <div class="flex-col-c-m p-l-15 p-r-15">
                 <span class="m-text9 p-t-45 fs-20-sm">
@@ -25,13 +25,12 @@
     <div class="modal fade" id="modal-video-01" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document" data-dismiss="modal">
             <div class="close-mo-video-01 trans-0-4" data-dismiss="modal" aria-label="Close">&times;</div>
-
             <div class="wrap-video-mo-01">
                 <div class="w-full wrap-pic-w op-0-0">
-                    <img src="@Url.Content("~/images/banner-videos/" + Path.GetFileName(video.ContentUrl))" alt="IMG">
+                    <img src="@video.ContentUrl" alt="@video.Title">
                 </div>
                 <div class="video-mo-01">
-                    @Html.Raw(video.Url)
+                    @Html.Raw(video.Link)
                 </div>
             </div>
         </div>

@@ -16,15 +16,16 @@ namespace webNews.Controllers
         private readonly ISystemService _service;
         private readonly ICustomerManagementService _customerManagementService;
         private readonly ICategoryManagementService _categoryService;
-        private readonly IFileAttachManagementService _fileService;
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
 
-        public HomeController(ISystemService service, ICustomerManagementService customerManagementService, ICategoryManagementService categoryService, IFileAttachManagementService fileService)
+        public HomeController(ISystemService service,
+            ICustomerManagementService customerManagementService,
+            ICategoryManagementService categoryService,
+            IFileAttachManagementService fileService)
         {
             _service = service;
             _customerManagementService = customerManagementService;
             _categoryService = categoryService;
-            _fileService = fileService;
         }
 
         public ActionResult Index(SearchCategoryModelFE search)
@@ -38,6 +39,10 @@ namespace webNews.Controllers
                 ViewBag.ListSlides = _service.GetBanners(1);
                 ViewBag.ListBanners = _service.GetBanners(2);
                 ViewBag.Video = _service.GetBanner(3);
+                ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
+                ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
+                ViewBag.Email = Convert.ToString(Session["FBEmail"]);
+                ViewBag.avatar = Convert.ToString(Session["avatar"]);
                 return View();
             }
             catch (Exception ex)
@@ -54,6 +59,10 @@ namespace webNews.Controllers
             {
                 ViewBag.Title = "Giới thiệu";
                 var about = _service.GetAbout();
+                ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
+                ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
+                ViewBag.Email = Convert.ToString(Session["FBEmail"]);
+                ViewBag.avatar = Convert.ToString(Session["avatar"]);
                 return View(about);
             }
             catch (Exception ex)
@@ -70,6 +79,10 @@ namespace webNews.Controllers
             {
                 ViewBag.Title = "Dành cho khách hàng";
                 var about = _service.GetForCustomer();
+                ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
+                ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
+                ViewBag.Email = Convert.ToString(Session["FBEmail"]);
+                ViewBag.avatar = Convert.ToString(Session["avatar"]);
                 return View(about);
             }
             catch (Exception ex)
@@ -85,6 +98,10 @@ namespace webNews.Controllers
             try
             {
                 var contact = _customerManagementService.GetCompanyInfo((int)CustomerType.Company);
+                ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
+                ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
+                ViewBag.Email = Convert.ToString(Session["FBEmail"]);
+                ViewBag.avatar = Convert.ToString(Session["avatar"]);
                 return PartialView("~/Views/Shared/_FooterPartial.cshtml", contact);
             }
             catch (Exception ex)
@@ -97,6 +114,23 @@ namespace webNews.Controllers
         public ActionResult KeepResult()
         {
             return null;
+        }
+
+        [HttpPost]
+        public JsonResult Login(string id, string name, string email, string picture)
+        {
+            Session["FBUserId"] = id;
+            Session["FBUserName"] = name;
+            Session["FBEmail"] = email;
+            Session["avatar"] = picture;
+            return Json(new { success = "True" });
+        }
+
+        [HttpPost]
+        public JsonResult LogOut()
+        {
+            Session.Abandon();
+            return Json(new { success = "True" });
         }
     }
 }

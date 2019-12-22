@@ -11,5 +11,7 @@ namespace webNews.Domain.Services.ContentManagement
         CoreMessageResponse CreateContent(Content content);
 
         CoreMessageResponse UpdateContent(Content content);
+
+        Vw_Content GetbyCode(string code);
     }
 }

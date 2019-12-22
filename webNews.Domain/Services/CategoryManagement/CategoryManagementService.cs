@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System;
 using System.Collections.Generic;
+using webNews.Common;
 using webNews.Domain.Entities;
 using webNews.Domain.Repositories;
 using webNews.Domain.Repositories.CategoryManagement;
@@ -52,6 +53,7 @@ namespace webNews.Domain.Services.CategoryManagement
             var cate = new Category()
             {
                 Name = category.Name,
+                ShortName = (category.Name + '_' + category.Code).ToUrlSegment(250).ToLower(),
                 Code = category.Code,
                 Status = category.Status,
                 FromAge = category.FromAge,
@@ -65,7 +67,7 @@ namespace webNews.Domain.Services.CategoryManagement
                 UpdatedDate = DateTime.Now
             };
 
-            var isInsert = _categoryRepository.CreateCategory(cate,groupCategories,productPrices,files);
+            var isInsert = _categoryRepository.CreateCategory(cate, groupCategories, productPrices, files);
 
             if (isInsert)
             {
@@ -93,8 +95,8 @@ namespace webNews.Domain.Services.CategoryManagement
                 response.ResponseMessage = "Danh mục không tồn tại!";
                 return response;
             }
-            
-            var update = _categoryRepository.UpdateCategory(category, groupCategories,productPrices,files, listFiles);
+
+            var update = _categoryRepository.UpdateCategory(category, groupCategories, productPrices, files, listFiles);
 
             if (update)
             {
@@ -146,6 +148,11 @@ namespace webNews.Domain.Services.CategoryManagement
         public Vw_Category GetCategoryDetail(int id)
         {
             return _categoryRepository.GetCategoryDetail(id);
+        }
+
+        public Vw_Category GetCategoryDetail(string shortName)
+        {
+            return _categoryRepository.GetCategoryDetail(shortName);
         }
     }
 }

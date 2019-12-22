@@ -19,6 +19,9 @@ namespace webNews.Areas.Admin.Models.Group
         [Required(ErrorMessage = "Vui lòng nhập tên nhóm")]
         public string Name { get; set; }
 
+        [Display(Name = "Tên nhóm SEO")]
+        public string ShortName { get; set; }
+
         [Display(Name = "Mô tả")]
         [StringLength(2000, ErrorMessage = "Mô tả tối đa 2000 ký tự")]
         public string Description { get; set; }

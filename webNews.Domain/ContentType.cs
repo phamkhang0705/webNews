@@ -21,8 +21,6 @@ namespace webNews.Domain.Entities
         [AutoIncrement]
         public int Id { get; set; }
         [Required]
-        public string ContentFolder { get; set; }
-        [Required]
         public string ContentCode { get; set; }
         public string ContentName { get; set; }
         public int? Status { get; set; }

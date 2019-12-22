@@ -136,31 +136,29 @@ namespace webNews
                         "~/Scripts/app.js"
                 ));
             bundles.Add(new StyleBundle("~/Theme/fashecolorlibcss").Include(
-               "~/Theme/fashe-colorlib/vendor/animate/animate.css",
-               "~/Theme/fashe-colorlib/vendor/daterangepicker/daterangepicker.css",
-               "~/Theme/fashe-colorlib/vendor/slick/slick.css",
-               "~/Theme/fashe-colorlib/css/custom.css"
+               "~/Theme/front-end/vendor/animate/animate.css",
+               "~/Theme/front-end/vendor/daterangepicker/daterangepicker.css",
+               "~/Theme/front-end/vendor/slick/slick.css",
+               "~/Theme/front-end/css/custom.css"
                 ));
 
             bundles.Add(new ScriptBundle("~/Theme/fashecolorlibjs").Include(
-                "~/Theme/fashe-colorlib/vendor/jquery/jquery-3.2.1.min.js",
-                "~/Theme/fashe-colorlib/vendor/animsition/js/animsition.min.js",
-                "~/Theme/fashe-colorlib/vendor/bootstrap/js/popper.js",
-                "~/Theme/fashe-colorlib/vendor/bootstrap/js/bootstrap.min.js",
-                "~/Theme/fashe-colorlib/vendor/select2/select2.min.js",
-                "~/Theme/fashe-colorlib/vendor/slick/slick.min.js",
-                "~/Theme/fashe-colorlib/js/slick-custom.min.js",
-                "~/Theme/fashe-colorlib/vendor/countdowntime/countdowntime.js",
-                "~/Theme/fashe-colorlib/vendor/lightbox2/js/lightbox.min.js",
-                "~/Theme/fashe-colorlib/vendor/sweetalert/sweetalert.min.js",
-                "~/Theme/fashe-colorlib/vendor/parallax100/parallax100.js",
-                "~/Theme/fashe-colorlib/vendor/noui/nouislider.min.js",
-                "~/Theme/fashe-colorlib/js/main.js",
-                "~/Theme/fashe-colorlib/js/keep_alive.js"
+                "~/Theme/front-end/vendor/jquery/jquery-3.2.1.min.js",
+                "~/Theme/front-end/vendor/animsition/js/animsition.min.js",
+                "~/Theme/front-end/vendor/bootstrap/js/popper.js",
+                "~/Theme/front-end/vendor/bootstrap/js/bootstrap.min.js",
+                "~/Theme/front-end/vendor/select2/select2.min.js",
+                "~/Theme/front-end/vendor/slick/slick.min.js",
+                "~/Theme/front-end/vendor/countdowntime/countdowntime.js",
+                "~/Theme/front-end/vendor/lightbox2/js/lightbox.min.js",
+                "~/Theme/front-end/vendor/sweetalert/sweetalert.min.js",
+                "~/Theme/front-end/vendor/parallax100/parallax100.js",
+                "~/Theme/front-end/vendor/noui/nouislider.min.js",
+                "~/Theme/front-end/js/keep_alive.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/Theme/facebookjs").Include(
-                "~/Theme/fashe-colorlib/js/facebook.js"
+                "~/Theme/front-end/js/facebook.js"
                 ));
             BundleTable.EnableOptimizations = true;
         }

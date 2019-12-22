@@ -1,22 +1,12 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
-using webNews.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Optimization;
-using System.Configuration;
-using ServiceStack.OrmLite.SqlServer;
-using ServiceStack.OrmLite;
-using webNews.Domain.Entities;
-using webNews.Shared;
+using webNews.Common;
 
 namespace webNews
 {
     public class RouteConfig
     {
-        public static IWebNewsDbConnectionFactory _connectionFactory;
+        // public static IWebNewsDbConnectionFactory _connectionFactory;
         //        public RouteConfig(IWebNewsDbConnectionFactory connectionFactory)
         //        {
         //            _connectionFactory = connectionFactory;
@@ -25,23 +15,50 @@ namespace webNews
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
+
+
+
             routes.MapRoute(
               name: "CategoryRental",
-              url: "danh-muc-san-pham-thue",
+              url: "san-pham-thue",
               defaults: new { controller = "Category", action = "Index", id = UrlParameter.Optional },
-              namespaces: new[] {"webNews.Controllers"}
+              namespaces: new[] { "webNews.Controllers" }
             );
+
+            routes.MapRoute(
+              name: "CategorySearch",
+              url: "san-pham",
+              defaults: new { controller = "Category", action = "Search", type = UrlParameter.Optional, agetype = UrlParameter.Optional },
+              namespaces: new[] { "webNews.Controllers" }
+            );
+
+            routes.MapRoute(
+              name: "CategoryRentalSearch",
+              url: "san-pham",
+              defaults: new { controller = "Category", action = "Search",
+                  group = UrlParameter.Optional,
+                  categorytype = UrlParameter.Optional,
+                  name = UrlParameter.Optional,
+                  page = UrlParameter.Optional },
+              namespaces: new[] { "webNews.Controllers" }
+            );
+
             routes.MapRoute(
               name: "CategorySale",
-              url: "danh-muc-san-pham-ban",
+              url: "san-pham-ban",
               defaults: new { controller = "Category", action = "Sale", id = UrlParameter.Optional },
               namespaces: new[] { "webNews.Controllers" }
             );
             routes.MapRoute(
-              name: "CategoryDetail",
-              url: "chi-tiet-san-pham/{id}",
-              defaults: new { controller = "Category", action = "Detail", id = UrlParameter.Optional },
+              name: "CategoryRentalDetail",
+              url: "{shortname}.html",
+              defaults: new { controller = "Category", action = "Detail", shortname = UrlParameter.Optional },
+              namespaces: new[] { "webNews.Controllers" }
+            );
+            routes.MapRoute(
+              name: "CategorySaleDetail",
+              url: "{shortname}.html",
+              defaults: new { controller = "Category", action = "Detail", shortname = UrlParameter.Optional },
               namespaces: new[] { "webNews.Controllers" }
             );
             routes.MapRoute(
@@ -62,26 +79,32 @@ namespace webNews
               defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
               namespaces: new[] { "webNews.Controllers" }
             );
+            routes.MapRoute(
+                "Default_Area",
+                "{controller}/{action}/{id}",
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            ).DataTokens.Add("area", "Admin");
         }
-        public static void RewirteUrl(RouteCollection routes)
-        {
-            _connectionFactory = new WebNewsDbConnectionFactory(ConfigurationManager.ConnectionStrings["WebNews"].ConnectionString, SqlServer2014OrmLiteDialectProvider.Instance);
 
-            using (var db = _connectionFactory.OpenDbConnection())
-            {
-                var menus = db.Select<System_Menu>();
-                foreach (var menu in menus)
-                {
-                    if (!string.IsNullOrEmpty(menu.AliasUrl))
-                    {
-                        routes.MapRoute(
-                          name: menu.Controller,
-                          url: (string.IsNullOrEmpty(menu.Area) ? "" : menu.Area + "/") + menu.AliasUrl,
-                          defaults: new { controller = menu.Controller, action = "Index", id = UrlParameter.Optional }
-                      ).DataTokens = new RouteValueDictionary(new { area = menu.Area });
-                    }
-                }
-            }
-        }
+        //        public static void RewirteUrl(RouteCollection routes)
+        //        {
+        //            _connectionFactory = new WebNewsDbConnectionFactory(ConfigurationManager.ConnectionStrings["WebNews"].ConnectionString, SqlServer2014OrmLiteDialectProvider.Instance);
+        //
+        //            using (var db = _connectionFactory.OpenDbConnection())
+        //            {
+        //                var menus = db.Select<System_Menu>();
+        //                foreach (var menu in menus)
+        //                {
+        //                    if (!string.IsNullOrEmpty(menu.AliasUrl))
+        //                    {
+        //                        routes.MapRoute(
+        //                          name: menu.Controller,
+        //                          url: (string.IsNullOrEmpty(menu.Area) ? "" : menu.Area + "/") + menu.AliasUrl,
+        //                          defaults: new { controller = menu.Controller, action = "Index", id = UrlParameter.Optional }
+        //                      ).DataTokens = new RouteValueDictionary(new { area = menu.Area });
+        //                    }
+        //                }
+        //            }
+        //        }
     }
 }

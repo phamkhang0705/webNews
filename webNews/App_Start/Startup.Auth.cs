@@ -54,9 +54,9 @@ namespace webNews
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "918076511906061",
+               appSecret: "72f9855f16a3604baa0a7c344f76ceeb");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{

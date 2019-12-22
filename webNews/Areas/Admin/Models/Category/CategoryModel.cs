@@ -20,6 +20,8 @@ namespace webNews.Areas.Admin.Models.Category
         [StringLength(200, ErrorMessage = "Tên danh mục tối đa 200 ký tự")]
         [Required(ErrorMessage = "Vui lòng nhập tên danh mục")]
         public string Name { get; set; }
+        [Display(Name="Tên danh mục SEO")]
+        public string ShortName { get; set; }
         [Display(Name = "Từ")]
         public int? FromAge { get; set; }
         [Display(Name = "Đến")]

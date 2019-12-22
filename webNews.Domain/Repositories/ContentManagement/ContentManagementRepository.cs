@@ -101,6 +101,7 @@ namespace webNews.Domain.Repositories.ContentManagement
                             cate.Status = content.Status;
                             cate.Url = content.Url;
                             cate.ContentType = content.ContentType;
+                            cate.ContentText = content.ContentText;
                             cate.ContentUrl = content.ContentUrl;
                             cate.Link = content.Link;
                             cate.Link = content.Link;
@@ -125,6 +126,22 @@ namespace webNews.Domain.Repositories.ContentManagement
             {
                 _logger.Error(e, "DB connection error");
                 return false;
+            }
+        }
+
+        public Vw_Content GetByCode(string code)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    return db.Single<Vw_Content>(x => x.ContentType == code);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new Vw_Content();
             }
         }
     }

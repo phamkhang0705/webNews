@@ -22,6 +22,7 @@ namespace webNews.Domain.Entities
         public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
+        public string ShortName { get; set; }
         public int? AgeType { get; set; }
         public int? FromAge { get; set; }
         public int? ToAge { get; set; }

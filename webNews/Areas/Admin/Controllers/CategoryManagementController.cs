@@ -106,6 +106,7 @@ namespace webNews.Areas.Admin.Controllers
                         model.Id = cate.Id;
                         model.Code = cate.Code;
                         model.Name = cate.Name;
+                        model.ShortName = cate.ShortName;
                         model.AgeType = cate.AgeType;
                         model.FromAge = cate.FromAge;
                         model.ToAge = cate.ToAge;
@@ -154,6 +155,7 @@ namespace webNews.Areas.Admin.Controllers
                     {
                         Code = fc["Code"],
                         Name = fc["Name"],
+                        ShortName = fc["ShortName"].ToUrlSegment(250).ToLower(),
                         AgeType = Convert.ToInt32(fc["AgeType"]),
                         FromAge = Convert.ToInt32(fc["FromAge"]),
                         ToAge = Convert.ToInt32(fc["ToAge"]),
@@ -188,31 +190,33 @@ namespace webNews.Areas.Admin.Controllers
                         foreach (string item in Request.Files)
                         {
                             var fileContent = Request.Files[item];
-                            if (Path.GetExtension(fileContent.FileName).ToLower() != ".pdf"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".png"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".jpg"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".gif"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".tiff"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".bmp")
+                            string extension = Path.GetExtension(fileContent.FileName).ToLower();
+                            string fileName = Path.GetFileNameWithoutExtension(fileContent.FileName).ToUrlSegment(250).ToLower();
+                            string fullFileName = string.Format("{0}{1}", fileName, extension);
+                            if (extension != ".pdf"
+                               && extension != ".png"
+                               && extension != ".jpg"
+                               && extension != ".gif"
+                               && extension != ".tiff"
+                               && extension != ".bmp")
                             {
-                                var error1 = new JsonRs { Status = "00", Message = "Loi dinh dang" };
+                                var error1 = new JsonRs { Status = "00", Message = "Lỗi định dạng" };
                                 return Json(error1, JsonRequestBehavior.AllowGet);
                             }
-                            string fileName = Path.GetFileName(fileContent.FileName);
-                            fileNameStr += !string.IsNullOrEmpty(fileName) ? fileName + "|" : "";
-                            pathStr += !string.IsNullOrEmpty(fileName) ? "/" + fileName + "|" : "";
+                            fileNameStr += !string.IsNullOrEmpty(fullFileName) ? fullFileName + "|" : "";
+                            pathStr += !string.IsNullOrEmpty(fullFileName) ? "/" + fullFileName + "|" : "";
                             if (fileContent.ContentLength > 0 && !string.IsNullOrEmpty(fileContent.FileName))
                             {
                                 bool folderExists = Directory.Exists(Server.MapPath(string.Format("{0}", "~/Content/Cate/")));
                                 if (!folderExists)
                                 {
-                                    path = Path.Combine(Server.MapPath(string.Format("{0}", "~/Content/Cate/")), fileName);
+                                    path = Path.Combine(Server.MapPath(string.Format("{0}", "~/Content/Cate/")), fullFileName);
                                     Directory.CreateDirectory(Server.MapPath(string.Format("{0}", "~/Content/Cate/")));
                                     fileContent.SaveAs(path);
                                 }
                                 else
                                 {
-                                    path = Path.Combine(Server.MapPath(string.Format("{0}", "~/Content/Cate/")), fileName);
+                                    path = Path.Combine(Server.MapPath(string.Format("{0}", "~/Content/Cate/")), fullFileName);
                                     fileContent.SaveAs(path);
                                 }
                                 lstFiles.Add(path);
@@ -275,6 +279,7 @@ namespace webNews.Areas.Admin.Controllers
                         Id = Convert.ToInt32(fc["Id"]),
                         Code = fc["Code"],
                         Name = fc["Name"],
+                        //                        ShortName = fc["Name"].ToUrlSegment(250).ToLower(),
                         AgeType = Convert.ToInt32(fc["AgeType"]),
                         FromAge = Convert.ToInt32(fc["FromAge"]),
                         ToAge = Convert.ToInt32(fc["ToAge"]),
@@ -314,31 +319,33 @@ namespace webNews.Areas.Admin.Controllers
                         foreach (string item in Request.Files)
                         {
                             var fileContent = Request.Files[item];
-                            if (Path.GetExtension(fileContent.FileName).ToLower() != ".pdf"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".png"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".jpg"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".gif"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".tiff"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".bmp")
+                            string extension = Path.GetExtension(fileContent.FileName).ToLower();
+                            string fileName = Path.GetFileNameWithoutExtension(fileContent.FileName).ToUrlSegment(250).ToLower();
+                            string fullFileName = string.Format("{0}{1}", fileName, extension);
+                            if (extension != ".pdf"
+                               && extension != ".png"
+                               && extension != ".jpg"
+                               && extension != ".gif"
+                               && extension != ".tiff"
+                               && extension != ".bmp")
                             {
-                                var error1 = new JsonRs { Status = "00", Message = "Loi dinh dang" };
+                                var error1 = new JsonRs { Status = "00", Message = "Lỗi định dạng" };
                                 return Json(error1, JsonRequestBehavior.AllowGet);
                             }
-                            string fileName = Path.GetFileName(fileContent.FileName);
-                            fileNameStr += !string.IsNullOrEmpty(fileName) ? fileName + "|" : "";
-                            pathStr += !string.IsNullOrEmpty(fileName) ? "/" + fileName + "|" : "";
+                            fileNameStr += !string.IsNullOrEmpty(fullFileName) ? fullFileName + "|" : "";
+                            pathStr += !string.IsNullOrEmpty(fullFileName) ? "/" + fullFileName + "|" : "";
                             if (fileContent.ContentLength > 0 && !string.IsNullOrEmpty(fileContent.FileName))
                             {
                                 bool folderExists = Directory.Exists(Server.MapPath(string.Format("{0}", "~/Content/Cate/")));
                                 if (!folderExists)
                                 {
-                                    path = Path.Combine(Server.MapPath(string.Format("{0}", "~/Content/Cate/")), fileName);
+                                    path = Path.Combine(Server.MapPath(string.Format("{0}", "~/Content/Cate/")), fullFileName);
                                     Directory.CreateDirectory(Server.MapPath(string.Format("{0}", "~/Content/Cate/")));
                                     fileContent.SaveAs(path);
                                 }
                                 else
                                 {
-                                    path = Path.Combine(Server.MapPath(string.Format("{0}", "~/Content/Cate/")), fileName);
+                                    path = Path.Combine(Server.MapPath(string.Format("{0}", "~/Content/Cate/")), fullFileName);
                                     fileContent.SaveAs(path);
                                 }
                                 lstFiles.Add(path);

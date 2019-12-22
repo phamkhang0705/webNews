@@ -54,7 +54,7 @@ namespace webNews.Areas.Admin.Controllers
             //    return Json(new { result = rs }, JsonRequestBehavior.AllowGet);
             //}
             System.Web.HttpContext.Current.Session.Abandon();
-            System.Web.HttpContext.Current.Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", ""));
+            System.Web.HttpContext.Current.Response.Cookies.Add(new HttpCookie("Administrator", ""));
             var manager = new SessionIDManager();
             manager.RemoveSessionID(System.Web.HttpContext.Current);
             var newId = manager.CreateSessionID(System.Web.HttpContext.Current);

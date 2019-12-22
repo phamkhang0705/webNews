@@ -27,5 +27,7 @@ namespace webNews.Domain.Services.CategoryManagement
         List<Vw_Category_Sale> GetCategorySale(string name);
         IEnumerable<Vw_Category> GetCategories(SearchCategoryModelFE search);
         Vw_Category GetCategoryDetail(int id);
+
+        Vw_Category GetCategoryDetail(string shortName);
     }
 }

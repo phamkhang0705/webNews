@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PagedList;
+using webNews.Common;
 using webNews.Domain.Entities;
 using webNews.Models;
 using webNews.Models.CategoryManagement;
@@ -161,6 +162,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
                             var cate = db.Single<Category>(x => x.Id == category.Id);
                             cate.Code = category.Code;
                             cate.Name = category.Name;
+                            cate.ShortName = (category.Name + '_' + category.Code).ToUrlSegment(250).ToLower();
                             cate.AgeType = category.AgeType;
                             cate.FromAge = category.FromAge;
                             cate.ToAge = category.ToAge;
@@ -372,44 +374,44 @@ namespace webNews.Domain.Repositories.CategoryManagement
                     {
                         query.Where(x => x.DisplaySale == filter.IsSale);
                     }
-                    if (!string.IsNullOrEmpty(filter.Name))
+                    if (!string.IsNullOrEmpty(filter.name))
                     {
-                        query.Where(_ => _.Name.Contains(filter.Name));
+                        query.Where(_ => _.Name.Contains(filter.name));
                     }
 
-                    if (filter.Group != -1 && filter.Group != 0)
+                    if (!string.IsNullOrEmpty(filter.group) && filter.group != "all")
                     {
-                        query.Where(_ => _.groupids.Contains(filter.Group.ToString()));
+                        query.Where(_ => _.groupshortnames.Contains(filter.group));
                     }
 
-                    if (filter.AgeType == 1)
+                    if (filter.agetype == 1)
                     {
-                        query.Where(_ => _.AgeType == filter.AgeType);
-                        if (filter.Type == 1)
+                        query.Where(_ => _.AgeType == filter.agetype);
+                        if (filter.type == 1)
                         {
                             query.Where(_ => _.FromAge >= 0 && _.ToAge <= 12);
                         }
                     }
-                    if (filter.AgeType == 2)
+                    if (filter.agetype == 2)
                     {
-                        query.Where(_ => _.AgeType == filter.AgeType);
-                        if (filter.Type == 1)
+                        query.Where(_ => _.AgeType == filter.agetype);
+                        if (filter.type == 1)
                         {
                             query.Where(_ => _.FromAge >= 1 || _.ToAge <= 3);
                         }
-                        if (filter.Type == 2)
+                        if (filter.type == 2)
                         {
                             query.Where(_ => _.ToAge >= 3);
                         }
                     }
-                    if (filter.IsRental == 1)
-                    {
-                        query.Where(x => x.total_rental > 0);
-                    }
-                    if (filter.IsSale == 1)
-                    {
-                        query.Where(x => x.total_sale > 0);
-                    }
+//                    if (filter.IsRental == 1)
+//                    {
+//                        query.Where(x => x.total_rental > 0);
+//                    }
+//                    if (filter.IsSale == 1)
+//                    {
+//                        query.Where(x => x.total_sale > 0);
+//                    }
 
                     //More filter
                     //                    var total = (int)db.Count(query);
@@ -422,7 +424,6 @@ namespace webNews.Domain.Repositories.CategoryManagement
             }
         }
 
-
         public Vw_Category GetCategoryDetail(int id)
         {
             try
@@ -430,6 +431,23 @@ namespace webNews.Domain.Repositories.CategoryManagement
                 using (var db = _connectionFactory.Open())
                 {
                     var check = db.Single<Vw_Category>(_ => _.Id == id);
+                    return check;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new Vw_Category();
+            }
+        }
+
+        public Vw_Category GetCategoryDetail(string shortName)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var check = db.Single<Vw_Category>(_ => _.ShortName == shortName);
                     return check;
                 }
             }

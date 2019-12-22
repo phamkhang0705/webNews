@@ -27,6 +27,7 @@ namespace webNews.Domain.Entities
         public string Url { get; set; }
         public int? Status { get; set; }
         public string Link { get; set; }
+        public string ContentText { get; set; }
         public string ContentUrl { get; set; }
         public string Description { get; set; }
         public int? CreatedBy { get; set; }

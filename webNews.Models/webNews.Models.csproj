@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentFavouriteManagement\SearchContentFavouriteModel.cs" />
     <Compile Include="Common\SearchModel.cs" />
     <Compile Include="ContentTypeManagement\SearchContentModel.cs" />
     <Compile Include="InvoiceRentalManagement\InvoiceRentalModel.cs" />

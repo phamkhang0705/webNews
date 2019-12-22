@@ -42,13 +42,12 @@ namespace webNews.Domain.Services.ContentManagement
                 Url = content.Url,
                 Link = content.Link,
                 ContentUrl = content.ContentUrl,
+                ContentText = content.ContentText,
                 ContentType = content.ContentType,
                 Status = content.Status,
                 Description = content.Description,
                 CreatedBy = content.CreatedBy,
-                CreatedDate = DateTime.Now,
-                UpdatedBy = content.UpdatedBy,
-                UpdatedDate = DateTime.Now
+                CreatedDate = DateTime.Now
             };
 
             var isInsert = _contentRepository.CreateContent(cate);
@@ -85,6 +84,11 @@ namespace webNews.Domain.Services.ContentManagement
                 response.ResponseMessage = "Cập nhật nội dung thất bại";
             }
             return response;
+        }
+
+        public Vw_Content GetbyCode(string code)
+        {
+            return _contentRepository.GetByCode(code);
         }
     }
 }

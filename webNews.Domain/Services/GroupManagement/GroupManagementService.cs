@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System;
 using System.Collections.Generic;
+using webNews.Common;
 using webNews.Domain.Entities;
 using webNews.Domain.Repositories;
 using webNews.Domain.Repositories.GroupManagement;
@@ -51,6 +52,7 @@ namespace webNews.Domain.Services.GroupManagement
             var user = new Group()
             {
                 Name = model.Name,
+                ShortName = (model.Name + '_' + model.Code).ToUrlSegment(250).ToLower(),
                 Code = model.Code,
                 Status = model.Status,
                 Description = model.Description,
@@ -91,6 +93,7 @@ namespace webNews.Domain.Services.GroupManagement
             group.UpdatedDate = DateTime.Now;
             group.UpdatedBy = model.UpdatedBy;
             group.Name = model.Name;
+            group.ShortName = (group.Name + '_' + group.Code).ToUrlSegment(250).ToLower();
             group.Status = model.Status;
             group.Description = model.Description;
 

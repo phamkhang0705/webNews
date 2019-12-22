@@ -21,20 +21,23 @@
                 }
             }),
             Sv.BootstrapTableColumn("string", {
-                title: 'Title',
+                title: 'Tên nội dung',
                 field: 'Title',
                 align: "left"
             }), Sv.BootstrapTableColumn("string", {
                 title: 'Loại nội dung',
                 field: 'ContentName',
                 align: "left"
-            }), Sv.BootstrapTableColumn("NumberNull", {
-                title: 'Link',
+            }), Sv.BootstrapTableColumn("string", {
+                title: 'Đường dẫn liên kết',
                 field: 'Link'
-            }), Sv.BootstrapTableColumn("NumberNull", {
-                title: 'ContentUrl',
+            }), Sv.BootstrapTableColumn("string", {
+                title: 'Text hiển thị',
+                field: 'ContentText'
+            }), Sv.BootstrapTableColumn("string", {
+                title: 'Nội dung đường dẫn',
                 field: 'ContentUrl'
-            }), Sv.BootstrapTableColumn("NumberNull", {
+            }), Sv.BootstrapTableColumn("string", {
                 title: 'Mô tả',
                 field: 'Description'
             }),
@@ -123,24 +126,17 @@
     base.GetFormData = function () {
         var form = $('#formDetail').on();
         var obj = {};
+        var description = CKEDITOR.instances['txtDescription'].getData();
         obj.Id = form.find('#txtId').val();
         obj.Title = form.find('#txtTitle').val();
         obj.Link = form.find('#txtLink').val();
         obj.Type = form.find('#txtType').val();
         obj.ContentUrl = form.find('#txtContentUrl').val();
-        obj.Description = form.find('#txtDescription').val();
+        obj.ContentText = form.find('#txtContentText').val();
+        obj.Description = description;
 
         obj.Status = form.find('#txtStatus').val();
-        
-        var images = $('#formDetail').find('.div-image .img-preview');
-        var lstImages = [];
-        for (var i = 0; i < images.length; i++) {
-            var image = {};
-            image.Id = images.eq(i).attr('id');
-            lstImages.push(image);
-        }
-
-        obj.ListFiles = lstImages.length > 0 ? JSON.stringify(lstImages) : [];
+        obj.Url = form.find('#txtUrl').val();
         return obj;
     }
     //-- them sua xoa
@@ -148,46 +144,14 @@
     this.SubmitServer = function (action, id) {
         var $form = $("#formDetail").on();
         if ($form.valid()) {
-            var formData = new FormData();
             var dataForm = base.GetFormData();
-            if (action != "add") {
-                formData.append("Id", dataForm.Id);
-            }
-
-            formData.append("Title", dataForm.Title);
-            formData.append("Link", dataForm.Link);
-            formData.append("ContentUrl", dataForm.ContentUrl);
-            formData.append("Description", dataForm.Description);
-            formData.append("Type", dataForm.Type);
-            formData.append("Status", dataForm.Status);
-            
-            formData.append("ListFiles", dataForm.ListFiles);
-            var length = $form.find("input[name='UploadFile']").length;
-            var files;
-            for (var i = 0; i < length; i++) {
-                files = $form.find("input[name='UploadFile']")[i].files;
-                if (action === "add") {
-                    if (files.length === 0) {
-                        Dialog.Alert("Vui lòng chọn ảnh", Dialog.Error);
-                        return;
-                    }
-                } else {
-                    if (dataForm.ListFiles.length === 0) {
-                        if (files.length === 0) {
-                            Dialog.Alert("Vui lòng chọn ảnh", Dialog.Error);
-                            return;
-                        }
-                    }
-                }
-                formData.append("lstfiles" + i, files[0]);
-            }
             var url = "/ContentManagement/Create";
             if (action === "Edit") {
                 url = "/ContentManagement/Update";
             }
-            Sv.AjaxPostFile({
+            Sv.AjaxPost({
                 Url: url,
-                Data: formData
+                Data: dataForm
             }, function (rs) {
                 if (rs.Status === "01") {
                     Dialog.Alert(rs.Message, Dialog.Success);
@@ -217,6 +181,11 @@
             $(this).attr('id', id.split('-')[0] + "-" + (i + 1));
         });
     };
+
+    this.SetFileField = function (fileUrl) {
+        document.getElementById('txtUrl').value = fileUrl;
+        document.getElementById('url').src = fileUrl;
+    }
 }
 $(document).ready(function () {
     var unit = new Unit();
@@ -289,5 +258,13 @@ $(document).ready(function () {
         var $this = $(this);
         var divParent = $this.parent().parent();
         divParent.remove();
+    });
+
+    unit.$boxDetails.on('click', '#btn', function (e) {
+        e.preventDefault();
+        var finder = new CKFinder();
+        finder.basePath = '../';
+        finder.selectActionFunction = unit.SetFileField;
+        finder.popup();
     });
 });

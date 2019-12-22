@@ -1,10 +1,16 @@
-﻿@model webNews.Domain.Entities.Vw_Customer
-<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45" style="margin-top:20px">
-    <div class="flex-w p-b-90">
-        <div class="w-size6 p-t-30 p-l-15 p-r-15 respon4">
+﻿@using System.Web.Configuration
+@model webNews.Domain.Entities.Vw_Customer
+@{
+    string fb_link = WebConfigurationManager.AppSettings["fb_link"];
+    string instagram_link = WebConfigurationManager.AppSettings["instagram_link"];
+    string youtube_link = WebConfigurationManager.AppSettings["youtube_link"];
+}
+<footer class="bg6 p-t-10 p-b-43 p-l-45 p-r-45">
+    <div class="flex-w p-b-50">
+        <div class="w-size8 p-l-15 p-r-15 respon4">
             <div>
                 <a href="#" class="logo_footer">
-                    <img src="~/images/logo.png" alt="IMG-LOGO">
+                    <img src="~/Theme/front-end/images/icons/logo.png" alt="IMG-LOGO">
                 </a>
             </div>
             <div>
@@ -19,11 +25,9 @@
                 </p>
 
                 <div class="flex-m p-t-30">
-                    <a href="@Model.Facebook" target="_blank" class="fs-18 color1 p-r-20 fa fa-facebook"></a>
-                    <a href="#" class="fs-18 color1 p-r-20 fa fa-instagram"></a>
-                    <a href="#" class="fs-18 color1 p-r-20 fa fa-pinterest-p"></a>
-                    <a href="#" class="fs-18 color1 p-r-20 fa fa-snapchat-ghost"></a>
-                    <a href="#" class="fs-18 color1 p-r-20 fa fa-youtube-play"></a>
+                    <a href="@fb_link" target="_blank" class="fs-18 color1 p-r-20 fa fa-facebook"></a>
+                    <a href="@instagram_link" class="fs-18 color1 p-r-20 fa fa-instagram"></a>
+                    <a href="@youtube_link" class="fs-18 color1 p-r-20 fa fa-youtube-play"></a>
                 </div>
             </div>
         </div>

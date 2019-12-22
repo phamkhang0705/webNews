@@ -28,5 +28,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
         IEnumerable<Vw_Category> GetCategories(SearchCategoryModelFE search);
 
         Vw_Category GetCategoryDetail(int id);
+
+        Vw_Category GetCategoryDetail(string shortName);
     }
 }

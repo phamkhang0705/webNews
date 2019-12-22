@@ -11,5 +11,7 @@ namespace webNews.Domain.Repositories.ContentManagement
         bool CreateContent(Content content);
 
         bool UpdateContent(Content content);
+
+        Vw_Content GetByCode(string code);
     }
 }

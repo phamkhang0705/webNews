@@ -81,6 +81,7 @@ namespace webNews.Areas.Admin.Controllers
                         model.Id = group.Id;
                         model.Code = group.Code;
                         model.Name = group.Name;
+                        model.ShortName = group.ShortName;
                         model.Description = group.Description;
                         model.Status = group.Status;
                     }

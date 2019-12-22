@@ -1,58 +1,80 @@
-﻿@using webNews.Domain.Services.CustomerManagement
-@using webNews.Models.Common
-<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
+    <meta name="google" content="notranslate">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <meta name="keywords" content="Hệ thống thuê đồ tốt uy tín" />
     <meta name="description" content="Hệ thống thuê đồ tốt uy tín" />
     <meta name="author" content="http://thuedotot.vn/" />
+
+    <meta property="fb:app_id" content="1399090223473000">
+    <meta property="og:url" name="og:url" content="@Request.Url.ToString()">
     <meta property="og:title" content="Hệ thống thuê đồ tốt uy tín" />
     <meta property="og:description" content="Hệ thống thuê đồ tốt uy tín" />
     <meta property="og:site_name" content="Hệ thống thuê đồ tốt uy tín" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/images/logo.png" data-react-helmet="true" />
+    <meta property="og:image" content="~/Theme/front-end/images/icons/favicon.png" data-react-helmet="true" />
     <title>@ViewBag.Title</title>
-
-    <link rel="icon" type="image/png" href="~/Theme/fashe-colorlib/images/icons/favicon.png" />
+    <link rel="icon" type="image/png" href="~/Theme/front-end/images/icons/favicon.png" />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="preload" href="~/Theme/front-end/vendor/bootstrap/css/bootstrap.min.css" as="style">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="preload" href="~/Theme/front-end/fonts/font-awesome-4.7.0/css/font-awesome.min.css" as="style">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/fonts/themify/themify-icons.css">
+    <link rel="preload" href="~/Theme/front-end/fonts/themify/themify-icons.css" as="style">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <link rel="preload" href="~/Theme/front-end/fonts/Linearicons-Free-v1.0.0/icon-font.min.css" as="style">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/fonts/elegant-font/html-css/style.css">
+    <link rel="preload" href="~/Theme/front-end/fonts/elegant-font/html-css/style.css" as="style">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="preload" href="~/Theme/front-end/vendor/css-hamburgers/hamburgers.min.css" as="style">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/vendor/animsition/css/animsition.min.css">
+    <link rel="preload" href="~/Theme/front-end/vendor/animsition/css/animsition.min.css" as="style">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/vendor/select2/select2.min.css">
+    <link rel="preload" href="~/Theme/front-end/vendor/select2/select2.min.css" as="style">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/vendor/lightbox2/css/lightbox.min.css">
+    <link rel="preload" href="~/Theme/front-end/vendor/lightbox2/css/lightbox.min.css" as="style">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/css/util.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Theme/fashe-colorlib/css/main.min.css">
+    <link rel="preload" href="~/Theme/front-end/css/util.min.css" as="style">
+    <link rel="preload" href="~/Theme/front-end/css/main.min.css" as="style">
+    <link rel="icon" type="image/png" href="~/Theme/front-end/images/icons/favicon.png" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="~/Theme/front-end/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="~/Theme/front-end/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="~/Theme/front-end/fonts/themify/themify-icons.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="~/Theme/front-end/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="~/Theme/front-end/fonts/elegant-font/html-css/style.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="~/Theme/front-end/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="~/Theme/front-end/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="~/Theme/front-end/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="~/Theme/front-end/vendor/lightbox2/css/lightbox.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="~/Theme/front-end/css/util.min.css">
+    <link rel="stylesheet" href="~/Theme/front-end/css/main.min.css">
     <!--===============================================================================================-->
     @Styles.Render("~/Theme/fashecolorlibcss")
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146572388-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'UA-146572388-1');</script>
+    @*    <!-- Global site tag (gtag.js) - Google Analytics -->*@
+    @*    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146572388-1"></script>*@
+    @*    <script>*@
+    @*        window.dataLayer = window.dataLayer || [];*@
+    @*        function gtag() { dataLayer.push(arguments); }*@
+    @*        gtag('js', new Date());*@
+    @*        gtag('config', 'UA-146572388-1');</script>*@
 
 </head>
 <body class="animsition">
-    <!-- Load Facebook SDK for JavaScript -->
     <!-- header fixed -->
     @RenderPage("_TopMenuPartial.cshtml")
 
@@ -79,5 +101,16 @@
     <!--===============================================================================================-->
     @Scripts.Render("~/Theme/facebookjs")
     @Scripts.Render("~/Theme/fashecolorlibjs")
+    @*    <script src="~/Scripts/FacebookLogin.js"></script>*@
+    <script src="~/Theme/front-end/js/main.js"></script>
+    <script src="~/Scripts/lazyload.min.js"></script>
+    <script src="~/Theme/front-end/js/slick-custom.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("img.lazy-loading").lazyload({
+                effect: "fadeIn"
+            });
+        });
+    </script>
 </body>
 </html>

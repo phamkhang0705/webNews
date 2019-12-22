@@ -93,9 +93,9 @@ namespace webNews.Areas.Admin.Controllers
                         model.Type = cate.Type;
                         model.Link = cate.Link;
                         model.ContentUrl = cate.ContentUrl;
+                        model.ContentText = cate.ContentText;
                         model.Description = cate.Description;
                         model.Status = cate.Status;
-                        model.ContentFolder = cate.ContentFolder;
                         model.ContentCode = cate.ContentCode;
                     }
                 }
@@ -119,7 +119,7 @@ namespace webNews.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create(FormCollection fc)
+        public ActionResult Create(Vw_Content model)
         {
             if (!CheckAuthorizer.Authorize(Permission.EDIT)) return RedirectToAction("Index", "Login");
             try
@@ -129,73 +129,19 @@ namespace webNews.Areas.Admin.Controllers
                     string path = "";
                     var cate = new Content()
                     {
-                        Title = fc["Title"],
-                        Url = fc["Url"],
-                        ContentType = fc["ContentType"],
-                        Link = fc["Link"],
-                        ContentUrl = fc["ContentUrl"],
-                        Description = fc["Description"],
-                        Status = Convert.ToInt32(fc["Status"]),
-                        Type = Convert.ToInt32(fc["Type"]),
+                        Title = model.Title,
+                        Url = model.Url,
+                        ContentType = model.ContentType,
+                        Link = model.Link,
+                        ContentUrl = model.ContentUrl,
+                        ContentText = model.ContentText,
+                        Description = model.Description,
+                        Status = Convert.ToInt32(model.Status),
+                        Type = Convert.ToInt32(model.Type),
                         CreatedDate = DateTime.Now,
                         CreatedBy = Authentication.GetCurrentUser().Id,
                     };
 
-                    var type = _contentTypeManagement.GetById(Convert.ToInt32(cate.Type));
-                    var folder = type.ContentFolder;
-                    var contentType = type.ContentCode;
-                    cate.ContentType = contentType;
-                    foreach (string file in Request.Files)
-                    {
-                        var fileContent = Request.Files[file];
-                        string outErr = "";
-
-                        if (!ValidateFile(fileContent, ref outErr))
-                        {
-                            var err = new JsonRs() { Status = "00", Message = outErr };
-                            return Json(err, JsonRequestBehavior.AllowGet);
-                        }
-                    }
-                    var fileNameStr = "";
-                    var pathStr = "";
-
-                    if (Request.Files.Count > 0)
-                    {
-                        //Đọc file
-                        foreach (string item in Request.Files)
-                        {
-                            var fileContent = Request.Files[item];
-                            if (Path.GetExtension(fileContent.FileName).ToLower() != ".pdf"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".png"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".jpg"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".gif"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".tiff"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".bmp")
-                            {
-                                var error1 = new JsonRs { Status = "00", Message = "Lỗi định dạng" };
-                                return Json(error1, JsonRequestBehavior.AllowGet);
-                            }
-                            string fileName = Path.GetFileName(fileContent.FileName);
-                            fileNameStr += !string.IsNullOrEmpty(fileName) ? fileName + "|" : "";
-                            pathStr += !string.IsNullOrEmpty(fileName) ? "/" + fileName + "|" : "";
-                            if (fileContent.ContentLength > 0 && !string.IsNullOrEmpty(fileContent.FileName))
-                            {
-                                bool folderExists = Directory.Exists(Server.MapPath(string.Format("~/images/{0}", folder)));
-                                if (!folderExists)
-                                {
-                                    path = Path.Combine(Server.MapPath(Server.MapPath(string.Format("~/images/{0}", folder))), fileName);
-                                    Directory.CreateDirectory(Server.MapPath(string.Format("~/images/{0}", folder)));
-                                    fileContent.SaveAs(path);
-                                }
-                                else
-                                {
-                                    path = Path.Combine(Server.MapPath(string.Format("~/images/{0}", folder)), fileName);
-                                    cate.Url = path;
-                                    fileContent.SaveAs(path);
-                                }
-                            }
-                        }
-                    }
                     var rs = _contentManagement.CreateContent(cate);
                     if (rs.ResponseCode == "01")
                     {
@@ -239,7 +185,7 @@ namespace webNews.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Update(FormCollection fc)
+        public ActionResult Update(Vw_Content model)
         {
             if (!CheckAuthorizer.Authorize(Permission.EDIT)) return RedirectToAction("Index", "Login");
             try
@@ -249,74 +195,20 @@ namespace webNews.Areas.Admin.Controllers
                     string path = "";
                     var cate = new Content()
                     {
-                        Id = Convert.ToInt32(fc["Id"]),
-                        Title = fc["Title"],
-                        Url = fc["Url"],
-                        ContentType = fc["ContentType"],
-                        Link = fc["Link"],
-                        ContentUrl = fc["ContentUrl"],
-                        Description = fc["Description"],
-                        Status = Convert.ToInt32(fc["Status"]),
+                        Id = Convert.ToInt32(model.Id),
+                        Title = model.Title,
+                        Url = model.Url,
+                        ContentType = model.ContentType,
+                        Link = model.Link,
+                        ContentUrl = model.ContentUrl,
+                        ContentText = model.ContentText,
+                        Description = model.Description,
+                        Status = Convert.ToInt32(model.Status),
                         CreatedDate = DateTime.Now,
                         CreatedBy = Authentication.GetCurrentUser().Id,
-                        Type = Convert.ToInt32(fc["Type"]),
+                        Type = Convert.ToInt32(model.Type),
                     };
 
-                    foreach (string file in Request.Files)
-                    {
-                        var fileContent = Request.Files[file];
-                        string outErr = "";
-
-                        if (!ValidateFile(fileContent, ref outErr))
-                        {
-                            var err = new JsonRs() { Status = "00", Message = outErr };
-                            return Json(err, JsonRequestBehavior.AllowGet);
-                        }
-                    }
-                    var type = _contentTypeManagement.GetById(Convert.ToInt32(cate.Type));
-                    var folder = type.ContentFolder;
-                    var contentType = type.ContentCode;
-                    cate.ContentType = contentType;
-                    var fileNameStr = "";
-                    var pathStr = "";
-
-                    if (Request.Files.Count > 0)
-                    {
-                        //Đọc file
-                        foreach (string item in Request.Files)
-                        {
-                            var fileContent = Request.Files[item];
-                            if (Path.GetExtension(fileContent.FileName).ToLower() != ".pdf"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".png"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".jpg"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".gif"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".tiff"
-                               && Path.GetExtension(fileContent.FileName).ToLower() != ".bmp")
-                            {
-                                var error1 = new JsonRs { Status = "00", Message = "Lỗi định dạng" };
-                                return Json(error1, JsonRequestBehavior.AllowGet);
-                            }
-                            string fileName = Path.GetFileName(fileContent.FileName);
-                            fileNameStr += !string.IsNullOrEmpty(fileName) ? fileName + "|" : "";
-                            pathStr += !string.IsNullOrEmpty(fileName) ? "/" + fileName + "|" : "";
-                            if (fileContent.ContentLength > 0 && !string.IsNullOrEmpty(fileContent.FileName))
-                            {
-                                bool folderExists = Directory.Exists(Server.MapPath(string.Format("~/images/{0}", folder)));
-                                if (!folderExists)
-                                {
-                                    path = Path.Combine(Server.MapPath(Server.MapPath(string.Format("~/images/{0}", folder))), fileName);
-                                    Directory.CreateDirectory(Server.MapPath(string.Format("~/images/{0}", folder)));
-                                    fileContent.SaveAs(path);
-                                }
-                                else
-                                {
-                                    path = Path.Combine(Server.MapPath(string.Format("~/images/{0}", folder)), fileName);
-                                    cate.Url = path;
-                                    fileContent.SaveAs(path);
-                                }
-                            }
-                        }
-                    }
                     var rs = _contentManagement.UpdateContent(cate);
                     if (rs.ResponseCode == "01")
                     {

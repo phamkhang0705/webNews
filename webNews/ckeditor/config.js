@@ -17,4 +17,6 @@ CKEDITOR.editorConfig = function (config) {
     config.filebrowserFlashUploadUrl = '/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash';
     config.filebrowserWindowWidth = '1000';
     config.filebrowserWindowHeight = '1000';
+    config.defaultLanguage = 'vi';
+    config.language = 'vi';
 };

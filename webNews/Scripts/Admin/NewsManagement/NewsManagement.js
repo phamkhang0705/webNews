@@ -28,10 +28,10 @@
                 title: 'Loại nội dung',
                 field: 'CategoryTitle',
                 align: "left"
-            }), Sv.BootstrapTableColumn("NumberNull", {
+            }), Sv.BootstrapTableColumn("string", {
                 title: 'Image',
                 field: 'Image'
-            }), Sv.BootstrapTableColumn("NumberNull", {
+            }), Sv.BootstrapTableColumn("string", {
                 title: 'Mô tả',
                 field: 'Description'
             }),

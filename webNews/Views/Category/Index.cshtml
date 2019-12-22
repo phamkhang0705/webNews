@@ -1,73 +1,70 @@
 ﻿@using PagedList.Mvc
-@using webNews.Models.CategoryManagement
-@model PagedList.IPagedList<webNews.Domain.Entities.Vw_Category>
+@using webNews.Domain.Entities
+@model PagedList.IPagedList<Vw_Category>
 
 @{
-    var controller = ViewContext.RouteData.Values["Controller"].ToString();
-    var action = ViewContext.RouteData.Values["Action"].ToString();
-    var type = Convert.ToInt32(ViewBag.CategoryType);
-    var group = Convert.ToInt32(ViewBag.Group);
+    var type = ViewBag.CategoryType ?? "all";
+    var group = ViewBag.Group ?? "all";
+    var name = ViewBag.Name ?? "";
     var listGroups = ViewBag.ListGroups;
+    var content = ViewBag.Content as Vw_Content;
 }
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Sản phẩm thuê";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
 <!-- Title Page -->
-<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url(/Theme/fashe-colorlib/images/heading-pages-02.jpg);">
-    <h2 class="l-text2 t-center">
-        Women
-    </h2>
+<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url(@content.Url);">
+    <h2 class="l-text2 t-center"></h2>
     <p class="m-text13 t-center">
-        New Arrivals Women Collection 2018
+        @content.Title
     </p>
 </section>
-
-
+<!-- For pagination-->
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 <!-- Content page -->
 <section class="bgwhite p-t-55 p-b-65">
     <div class="container">
         <div class="row">
             <div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
                 <div class="leftbar p-r-20 p-r-0-sm">
-                    <form id='form-filter' action="@Url.Action("Index","Category")" method="get">
+                    <form id='form-filter' action="@Url.Action("Search","Category")" method="get">
                         <!-- -->
-                        <h4 class="m-text14 p-b-7">
+                        <h5 class="p-b-15 p-t-15">
                             Nhóm sản phẩm
-                        </h4>
+                        </h5>
                         @if (listGroups.Count > 0)
                         {
-                            <select class="form-control" name="Group" id="Group" onchange=" $('#form-filter').submit(); ">
-                                <option value="-1">Tất cả</option>
+                            <select class="selection-2" name="group" id="group" onchange="$('#form-filter').submit();">
+                                <option value="all" @(group == "all" ? "selected" : "")>Tất cả</option>
                                 @foreach (var gr in listGroups)
                                 {
-                                    <option value="@gr.Id" @(gr.Id == group ? "selected" : "")>@gr.Name</option>
+                                    <option value="@gr.ShortName" @(gr.ShortName == group ? "selected" : "")>@gr.Name</option>
                                 }
                             </select>
                         }
 
                         <!-- -->
                         <div class="form-group">
-                            <h4 class="m-text14 p-b-7">
+                            <h5 class="p-b-15 p-t-15">
                                 Danh mục sản phẩm
-                            </h4>
-                            <select class="form-control" name="CategoryType" id="CategoryType" onchange="$('#form-filter').submit();">
-                                <option value="-1" @(type == -1 ? "selected" : "")>Tất cả</option>
-                                <option value="1" @(type == 1 ? "selected" : "")>Từ 0-12 tháng</option>
-                                <option value="2" @(type == 2 ? "selected" : "")>Từ 1-3 tuổi</option>
-                                <option value="3" @(type == 3 ? "selected" : "")>Trên 3 tuổi</option>
+                            </h5>
+                            <select class="selection-2" name="categorytype" id="categorytype" onchange="$('#form-filter').submit();">
+                                <option value="all" @(type == "all" ? "selected" : "")>Tất cả</option>
+                                <option value="0-12-thang" @(type == "0-12-thang" ? "selected" : "")>Từ 0-12 tháng</option>
+                                <option value="1-3-tuoi" @(type == "1-3-tuoi" ? "selected" : "")>Từ 1-3 tuổi</option>
+                                <option value="tren-3-tuoi" @(type == "tren-3-tuoi" ? "selected" : "")>Trên 3 tuổi</option>
                             </select>
                         </div>
                         <!-- -->
-                        <h4 class="m-text14 p-b-32">
-                            Lọc theo
-                        </h4>
-
+                        <h5 class="p-b-15 p-t-15">
+                            Tên sản phẩm
+                        </h5>
 
                         <div class="search-product pos-relative bo4 of-hidden">
-                            <input class="s-text7 size6 p-l-23 p-r-50" type="text" name="Name" placeholder="Nhập tên sản phẩm..." onchange="$('#form-filter').submit();">
+                            <input class="s-text7 size1 p-l-23 p-r-50" type="text" name="name" placeholder="Nhập tên sản phẩm..." onchange="$('#form-filter').submit();" value="@name">
 
                             <button class="flex-c-m size5 ab-r-m color2 color0-hov trans-0-4">
                                 <i class="fs-12 fa fa-search" aria-hidden="true"></i>
@@ -118,8 +115,9 @@
                                 <!-- Block2 -->
                                 <div class="block2">
                                     <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew" data-id="@item.Id">
-                                        <img src="@Url.Content("~/Content/Cate/" + Path.GetFileName(item.Avatar))" alt="IMG-PRODUCT">
-
+                                        <a href="@Url.Action("Detail", "Category", new {@shortname=item.ShortName })" class="block2-name dis-block s-text3 p-b-5">
+                                            <img data-src="@Url.Content("~/Content/Cate/" + Path.GetFileName(item.Avatar))" alt="@item.ShortName"  class="lazy-loading">
+                                        </a>
                                         <div class="block2-overlay trans-0-4">
                                             <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
                                                 <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
@@ -136,13 +134,9 @@
                                     </div>
 
                                     <div class="block2-txt p-t-20">
-                                        <a href="@Url.Action("Detail", "Category", new { @id = item.Id })" class="block2-name dis-block s-text3 p-b-5">
+                                        <a href="@Url.Action("Detail", "Category", new {@shortname=item.ShortName })" class="block2-name dis-block s-text3 p-b-5">
                                             @item.Name
                                         </a>
-
-                                        @*                                        <span class="block2-price m-text6 p-r-5">*@
-                                        @*                                            $75.00*@
-                                        @*                                        </span>*@
                                     </div>
                                 </div>
                             </div>
@@ -159,7 +153,7 @@
 
                 <!-- Pagination -->
                 <div style="float: right">
-                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, Group = @group, CategoryType = @type }))
+                    @Html.PagedListPager(Model, page => Url.Action("Search", new { page, group = @group, categorytype = @type }))
                 </div>
             </div>
         </div>
@@ -167,7 +161,27 @@
 </section>
 
 <!--===============================================================================================-->
-@*<script type="text/javascript" src="/Theme/fashe-colorlib/vendor/noui/nouislider.min.js"></script>*@
+<script type="text/javascript" src="/Theme/front-end/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="/Theme/front-end/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="/Theme/front-end/vendor/bootstrap/js/popper.js"></script>
+<script type="text/javascript" src="/Theme/front-end/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="/Theme/front-end/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+
+<script type="text/javascript" src="/Theme/front-end/vendor/daterangepicker/moment.min.js"></script>
+<script type="text/javascript" src="/Theme/front-end/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="/Theme/front-end/vendor/slick/slick.min.js"></script>
+<script type="text/javascript" src="/Theme/front-end/js/slick-custom.js"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="/Theme/front-end/vendor/sweetalert/sweetalert.min.js"></script>
+
+<script type="text/javascript" src="/Theme/front-end/vendor/noui/nouislider.min.js"></script>
+
+
 <script type="text/javascript">
     /*[ No ui ]
     ===========================================================*/
@@ -183,11 +197,15 @@
     });
 
     var skipValues = [
-    document.getElementById('value-lower'),
-    document.getElementById('value-upper')
+        document.getElementById('value-lower'),
+        document.getElementById('value-upper')
     ];
 
     filterBar.noUiSlider.on('update', function (values, handle) {
         skipValues[handle].innerHTML = Math.round(values[handle]);
     });
+</script>
+
+<script type="text/javascript">
+    $(".selection-2").select2();
 </script>

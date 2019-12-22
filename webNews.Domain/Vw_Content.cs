@@ -19,7 +19,6 @@ namespace webNews.Domain.Entities
     {
         [Required]
         public long Id { get; set; }
-        [Required]
         public string ContentType { get; set; }
         [Required]
         public int Type { get; set; }
@@ -27,6 +26,7 @@ namespace webNews.Domain.Entities
         public string Url { get; set; }
         public string Link { get; set; }
         public string ContentUrl { get; set; }
+        public string ContentText { get; set; }
         public string Description { get; set; }
         public int? Status { get; set; }
         public int? CreatedBy { get; set; }
@@ -36,8 +36,6 @@ namespace webNews.Domain.Entities
         [Required]
         public string ContentCode { get; set; }
         public string ContentName { get; set; }
-        [Required]
-        public string ContentFolder { get; set; }
         public int? ContentTypeStatus { get; set; }
     }
 

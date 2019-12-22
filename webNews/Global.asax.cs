@@ -21,8 +21,8 @@ namespace webNews
         protected void Application_Start()
         {
 
-            //            RouteConfig.RewirteUrl(RouteTable.Routes);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+//            RouteConfig.RewirteUrl(RouteTable.Routes);
+
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
