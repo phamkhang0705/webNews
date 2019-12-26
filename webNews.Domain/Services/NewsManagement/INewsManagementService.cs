@@ -1,6 +1,8 @@
-﻿using webNews.Domain.Entities;
+﻿using System.Collections.Generic;
+using webNews.Domain.Entities;
 using webNews.Models;
 using webNews.Models.ContentTypeManagement;
+using webNews.Models.NewsManagement;
 
 namespace webNews.Domain.Services.NewsManagement
 {
@@ -11,5 +13,11 @@ namespace webNews.Domain.Services.NewsManagement
         CoreMessageResponse CreateNews(News content);
 
         CoreMessageResponse UpdateNews(News content);
+
+        IEnumerable<Vw_News> GetNews(SearchNewsModelFE search);
+
+        Vw_News GetNewsDetail(int id);
+
+        Vw_News GetNewsDetail(string shortName);
     }
 }

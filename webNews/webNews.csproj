@@ -20,8 +20,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44351</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -355,6 +354,7 @@
     <Compile Include="Common\NotEqual.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -4973,9 +4973,6 @@
     <Content Include="Theme\vendors\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Theme\vendors\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Theme\vendors\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Theme\vendors\font-awesome\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Theme\vendors\font-awesome\fonts\fontawesome-webfont.woff" />
-    <Content Include="Theme\vendors\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Theme\vendors\metisMenu\.bower.json" />
     <Content Include="Theme\vendors\metisMenu\bower.json" />
     <Content Include="Theme\vendors\metisMenu\LICENSE" />
@@ -5119,6 +5116,14 @@
     <Content Include="Views\Category\Sale.cshtml" />
     <Content Include="Views\Shared\_BackToTopPartial.cshtml" />
     <Content Include="Views\Shared\_FacebookPluginPartial.cshtml" />
+    <Content Include="Theme\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Theme\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Theme\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Theme\vendors\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Theme\vendors\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Theme\vendors\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\News\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

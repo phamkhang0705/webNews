@@ -129,16 +129,7 @@
         obj.Description = description;
         obj.Content = content;
         obj.Status = form.find('#txtStatus').val();
-
-        var images = $('#formDetail').find('.div-image .img-preview');
-        var lstImages = [];
-        for (var i = 0; i < images.length; i++) {
-            var image = {};
-            image.Id = images.eq(i).attr('id');
-            lstImages.push(image);
-        }
-
-        obj.ListFiles = lstImages.length > 0 ? JSON.stringify(lstImages) : [];
+        obj.Image = form.find('#txtImage').val();
         return obj;
     }
     //-- them sua xoa
@@ -146,45 +137,15 @@
     this.SubmitServer = function (action, id) {
         var $form = $("#formDetail").on();
         if ($form.valid()) {
-            var formData = new FormData();
             var dataForm = base.GetFormData();
-            if (action != "add") {
-                formData.append("Id", dataForm.Id);
-            }
 
-            formData.append("Title", dataForm.Title);
-            formData.append("CategoryId", dataForm.CategoryId);
-            formData.append("Content", dataForm.Content);
-            formData.append("Description", dataForm.Description);
-            formData.append("Status", dataForm.Status);
-
-            formData.append("ListFiles", dataForm.ListFiles);
-            var length = $form.find("input[name='UploadFile']").length;
-            var files;
-            for (var i = 0; i < length; i++) {
-                files = $form.find("input[name='UploadFile']")[i].files;
-                if (action === "add") {
-                    if (files.length === 0) {
-                        Dialog.Alert("Vui lòng chọn ảnh", Dialog.Error);
-                        return;
-                    }
-                } else {
-                    if (dataForm.ListFiles.length === 0) {
-                        if (files.length === 0) {
-                            Dialog.Alert("Vui lòng chọn ảnh", Dialog.Error);
-                            return;
-                        }
-                    }
-                }
-                formData.append("lstfiles" + i, files[0]);
-            }
             var url = "/NewsManagement/Create";
             if (action === "Edit") {
                 url = "/NewsManagement/Update";
             }
-            Sv.AjaxPostFile({
+            Sv.AjaxPost({
                 Url: url,
-                Data: formData
+                Data: dataForm
             }, function (rs) {
                 if (rs.Status === "01") {
                     Dialog.Alert(rs.Message, Dialog.Success);
@@ -214,6 +175,10 @@
             $(this).attr('id', id.split('-')[0] + "-" + (i + 1));
         });
     };
+    this.SetFileField = function (fileUrl) {
+        document.getElementById('txtImage').value = fileUrl;
+        document.getElementById('url').src = fileUrl;
+    }
 }
 $(document).ready(function () {
     var unit = new Unit();
@@ -286,5 +251,12 @@ $(document).ready(function () {
         var $this = $(this);
         var divParent = $this.parent().parent();
         divParent.remove();
+    });
+    unit.$boxDetails.on('click', '#btn', function (e) {
+        e.preventDefault();
+        var finder = new CKFinder();
+        finder.basePath = '../';
+        finder.selectActionFunction = unit.SetFileField;
+        finder.popup();
     });
 });

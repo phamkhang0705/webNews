@@ -16,7 +16,12 @@ namespace webNews
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-
+            routes.MapRoute(
+             name: "News",
+             url: "goi-su-kien",
+             defaults: new { controller = "News", action = "Index", id = UrlParameter.Optional },
+             namespaces: new[] { "webNews.Controllers" }
+           );
 
             routes.MapRoute(
               name: "CategoryRental",
@@ -35,11 +40,15 @@ namespace webNews
             routes.MapRoute(
               name: "CategoryRentalSearch",
               url: "san-pham",
-              defaults: new { controller = "Category", action = "Search",
+              defaults: new
+              {
+                  controller = "Category",
+                  action = "Search",
                   group = UrlParameter.Optional,
                   categorytype = UrlParameter.Optional,
                   name = UrlParameter.Optional,
-                  page = UrlParameter.Optional },
+                  page = UrlParameter.Optional
+              },
               namespaces: new[] { "webNews.Controllers" }
             );
 
@@ -49,18 +58,7 @@ namespace webNews
               defaults: new { controller = "Category", action = "Sale", id = UrlParameter.Optional },
               namespaces: new[] { "webNews.Controllers" }
             );
-            routes.MapRoute(
-              name: "CategoryRentalDetail",
-              url: "{shortname}.html",
-              defaults: new { controller = "Category", action = "Detail", shortname = UrlParameter.Optional },
-              namespaces: new[] { "webNews.Controllers" }
-            );
-            routes.MapRoute(
-              name: "CategorySaleDetail",
-              url: "{shortname}.html",
-              defaults: new { controller = "Category", action = "Detail", shortname = UrlParameter.Optional },
-              namespaces: new[] { "webNews.Controllers" }
-            );
+
             routes.MapRoute(
               name: "About",
               url: "gioi-thieu",
@@ -73,6 +71,21 @@ namespace webNews
               defaults: new { controller = "Home", action = "ForCustomer", id = UrlParameter.Optional },
               namespaces: new[] { "webNews.Controllers" }
             );
+
+            routes.MapRoute(
+              name: "CategoryRentalDetail",
+              url: "san-pham-thue/{rental_short_name}",
+              defaults: new { controller = "Category", action = "Detail", rental_short_name = UrlParameter.Optional },
+              namespaces: new[] { "webNews.Controllers" }
+            );
+
+            routes.MapRoute(
+              name: "NewsDetail",
+              url: "goi-su-kien/{news_short_name}",
+              defaults: new { controller = "News", action = "Detail", news_short_name = UrlParameter.Optional },
+              namespaces: new[] { "webNews.Controllers" }
+            );
+
             routes.MapRoute(
               name: "Default",
               url: "{controller}/{action}/{id}",

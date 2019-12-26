@@ -91,7 +91,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 body, html {
     height: 100%;
-    font-family: Montserrat-Regular, sans-serif;
+    font-family: Montserrat-Regular, sans-serif !important;
     font-weight: 400;
 }
 
@@ -107,6 +107,7 @@ a {
     -webkit-transition: all 0.4s;
     -o-transition: all 0.4s;
     -moz-transition: all 0.4s;
+    text-decoration: none !important;
 }
 
     a:focus {
@@ -114,10 +115,19 @@ a {
     }
 
     a:hover {
-        text-decoration: none;
+        text-decoration: none !important;
         color: #e65540;
     }
 
+    a.a-custom {
+        background-color: #e65540;
+        color: #ffffff;
+    }
+
+        a.a-custom:hover {
+            background-color: #ffffff;
+            color: #e65540;
+        }
 /* ------------------------------------ */
 h1, h2, h3, h4, h5, h6 {
     margin: 0px;

@@ -1,0 +1,14 @@
+﻿@using webNews.Domain.Entities
+@model webNews.Domain.Entities.Vw_News
+@{
+    ViewBag.Title = "Chi tiết sự kiện: " + @Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var url = Request.Url.ToString();
+}
+
+<!-- News Detail -->
+<div class="container bgwhite p-t-35 p-b-80">
+    <div class="flex-w flex-sb">
+    </div>
+</div>
+<div class="fb-comments" data-href="@url" data-width="100%" data-numposts="5"></div>

@@ -5,27 +5,33 @@ using webNews.Domain.Services;
 using webNews.Domain.Services.CategoryManagement;
 using webNews.Domain.Services.CustomerManagement;
 using webNews.Domain.Services.FileAttachManagement;
+using webNews.Domain.Services.NewsManagement;
 using webNews.Models.CategoryManagement;
 using webNews.Models.Common;
+using webNews.Models.ContentTypeManagement;
+using webNews.Models.NewsManagement;
 
 namespace webNews.Controllers
 {
     //    [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ISystemService _service;
         private readonly ICustomerManagementService _customerManagementService;
         private readonly ICategoryManagementService _categoryService;
+        private readonly INewsManagementService _newsManagementService;
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         public HomeController(ISystemService service,
             ICustomerManagementService customerManagementService,
             ICategoryManagementService categoryService,
-            IFileAttachManagementService fileService)
+            INewsManagementService newsManagementService,
+        IFileAttachManagementService fileService)
         {
             _service = service;
             _customerManagementService = customerManagementService;
             _categoryService = categoryService;
+            _newsManagementService = newsManagementService;
         }
 
         public ActionResult Index(SearchCategoryModelFE search)
@@ -39,6 +45,7 @@ namespace webNews.Controllers
                 ViewBag.ListSlides = _service.GetBanners(1);
                 ViewBag.ListBanners = _service.GetBanners(2);
                 ViewBag.Video = _service.GetBanner(3);
+                ViewBag.ListEvents = _newsManagementService.GetNews(new SearchNewsModelFE() { Page = 1, PageSize = 8, group = "goi-su-kien" });
                 ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
                 ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
                 ViewBag.Email = Convert.ToString(Session["FBEmail"]);

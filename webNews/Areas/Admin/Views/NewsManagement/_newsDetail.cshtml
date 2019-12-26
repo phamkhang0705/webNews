@@ -40,7 +40,7 @@
                         <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Content)</label>
                         <div class="col-xs-10">
                             @Html.ValidationHtmlMessageFor(model => model.Content, "", new { @class = "field-validation-valid" })
-                            @Html.TextBoxFor(x => x.Content, new { @class = "form-control input-sm " + @disabled, @id = "txtContent", @placeholder = "Nhập nội dung" })
+                            @Html.TextAreaFor(x => x.Content, new { @class = "form-control input-sm " + @disabled, @id = "txtContent", @placeholder = "Nhập nội dung" })
                             <script>
                                 CKEDITOR.replace("txtContent");
                                 CKFinder.setupCKEditor(null, '/ckfinder');
@@ -62,7 +62,7 @@
                             <div class="col-md-8 no-padding"></div>
                         </div>
                     </div>
-                    @{
+                    @*@{
                         if (edit && !String.IsNullOrEmpty(Model.Image))
                         {
                             <div class="form-group">
@@ -91,6 +91,16 @@
                                     <button id="btnDelete" class="btn btn-blue hidden" type="button"><i class="fa fa-times"></i></button>
                                 </div>
                             </div>
+                        </div>
+                    </div>*@
+                    <div class="form-group">
+                        <label class="col-xs-4 col-md-2 control-label"></label>
+                        <div class="col-xs-8 col-md-10 no-padding">
+                            <div class="col-xs-8">
+                                @Html.HiddenFor(x => x.Image, new { @id = "txtImage" })
+                                <img src="@Model.Image" id="url" width="100%" height="100%" />
+                            </div>
+                            <div class="col-xs-4"><button id="btn" class="btn btn-blue" type="button"><i class="fa fa-plus"></i>Chọn ảnh từ server</button></div>
                         </div>
                     </div>
                 </form>

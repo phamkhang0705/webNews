@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Web.Mvc;
 using webNews.Domain.Services;
 using webNews.Domain.Services.CategoryManagement;
@@ -9,7 +10,7 @@ using webNews.Models.CategoryManagement;
 
 namespace webNews.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
         private readonly ICategoryManagementService _categoryService;
         private readonly IGroupManagementService _groupService;
@@ -35,13 +36,13 @@ namespace webNews.Controllers
         {
             SearchCategoryModelFE search = new SearchCategoryModelFE();
             search.Page = 1;
-            search.PageSize = 9;
+            search.PageSize = Int32.Parse(ConfigurationManager.AppSettings["PageSize"]);
             search.IsRental = 1;
             search.categorytype = "all";
             search.group = "all";
             search.name = "";
             search.IsRental = 1;
-
+            ViewBag.Title = "Sản phẩm thuê";
             ViewBag.HeadingPage = _service.GetBanner(4);
             ViewBag.ListGroups = _groupService.GetAllGroups();
             ViewBag.Content = _contentService.GetbyCode("CATEGORY_RENTAL");
@@ -58,7 +59,7 @@ namespace webNews.Controllers
         {
             SearchCategoryModelFE search = new SearchCategoryModelFE();
             search.Page = page;
-            search.PageSize = 9;
+            search.PageSize = Int32.Parse(ConfigurationManager.AppSettings["PageSize"]);
             search.IsRental = 1;
             search.group = group;
             search.name = name;
@@ -97,9 +98,10 @@ namespace webNews.Controllers
             return View("Index", model);
         }
 
-        public ActionResult Detail(string shortname)
+        public ActionResult Detail(string rental_short_name)
         {
-            var model = _categoryService.GetCategoryDetail(shortname);
+            var model = _categoryService.GetCategoryDetail(rental_short_name);
+            ViewBag.Title = "Chi tiết sản phẩm";
             ViewBag.ListFiles = _fileService.GetFileAttach(model.Id);
             ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
             ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
@@ -111,6 +113,7 @@ namespace webNews.Controllers
         // GET: Sale
         public ActionResult Sale(SearchCategoryModelFE search, int page = 1, int pageSize = 9)
         {
+            ViewBag.Title = "Sản phẩm bán";
             search.Page = page;
             search.PageSize = pageSize;
             search.IsSale = 1;

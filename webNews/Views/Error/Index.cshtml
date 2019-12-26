@@ -1,27 +1,41 @@
 ﻿@{ 
     ViewBag.Title = "Lỗi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @using webNews.Language.Language
-<div class="row">
-    <!-----start-logo--------->
-    <div class="logo">
-        <div class="error-page-wrap">
-            <article class="error-page gradient">
-                <hgroup>
-                    <h1>@ViewBag.errorCode</h1>
-                </hgroup>
-            </article>
+
+<!-- Title Page -->
+<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url();">
+    <h2 class="l-text2 t-center"></h2>
+    <p class="m-text13 t-center">
+        @*        @content.Title*@
+    </p>
+</section>
+<!-- Content page -->
+<section class="bgwhite p-t-55 p-b-65">
+    <div class="container">
+        <div class="row">
+            <!-----start-logo--------->
+            <div class="logo">
+                <div class="error-page-wrap">
+                    <article class="error-page gradient">
+                        <hgroup>
+                            <h1>@ViewBag.errorCode</h1>
+                        </hgroup>
+                    </article>
+                </div>
+                <span><img src="/Assets/Admin/images/signalError.png" />@ViewBag.ErrorMsg</span>
+            </div>
+            <!-----end-logo--------->
+            <!-----start-search-bar-section--------->
+            <div class="buttom">
+                <div class="seach_bar">
+                    <p>@Resource.Youcangoto_Lang <span><a href="/">home</a></span></p>
+                    <!-----start-sear-box--------->
+                </div>
+            </div>
+            <!-----end-sear-bar--------->
         </div>
-        <span><img src="/Assets/Admin/images/signalError.png" />@ViewBag.ErrorMsg</span>
     </div>
-    <!-----end-logo--------->
-    <!-----start-search-bar-section--------->
-    <div class="buttom">
-        <div class="seach_bar">
-            <p>@Resource.Youcangoto_Lang <span><a href="/">home</a></span></p>
-            <!-----start-sear-box--------->
-        </div>
-    </div>
-    <!-----end-sear-bar--------->
-</div>
+</section>

@@ -12,5 +12,8 @@ CKFinder.customConfig = function (config) {
     config.uiColor = '#BDE31E';
     config.language = 'vi';
     config.removePlugins = 'basket';
-
+    config.extraPlugins = 'uploadfile';
+    config.extraPlugins = 'uploadwidget';
+    config.extraPlugins = 'widget';
+    config.extraPlugins = 'lineutils';
 };

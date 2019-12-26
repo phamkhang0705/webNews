@@ -1,11 +1,14 @@
 ﻿using NLog;
+using PagedList;
 using ServiceStack.OrmLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using webNews.Common;
 using webNews.Domain.Entities;
 using webNews.Models;
 using webNews.Models.ContentTypeManagement;
+using webNews.Models.NewsManagement;
 
 namespace webNews.Domain.Repositories.NewsManagement
 {
@@ -91,12 +94,12 @@ namespace webNews.Domain.Repositories.NewsManagement
             {
                 using (var db = _connectionFactory.Open())
                 {
-
                     try
                     {
                         var cate = db.Single<News>(x => x.Id == content.Id);
 
                         cate.Description = content.Description;
+                        cate.CategoryId = content.CategoryId;
                         cate.Content = content.Content;
                         cate.Status = content.Status;
                         cate.Title = content.Title;
@@ -105,6 +108,7 @@ namespace webNews.Domain.Repositories.NewsManagement
                         cate.UpdatedBy = content.UpdatedBy;
                         cate.UpdatedDate = content.UpdatedDate;
                         cate.Image = content.Image;
+                        cate.ShortName = (content.Title).ToUrlSegment(250).ToLower();
                         db.Update(cate);
                         return true;
                     }
@@ -112,13 +116,66 @@ namespace webNews.Domain.Repositories.NewsManagement
                     {
                         return false;
                     }
-
                 }
             }
             catch (Exception e)
             {
                 _logger.Error(e, "DB connection error");
                 return false;
+            }
+        }
+
+        public IEnumerable<Vw_News> GetNews(SearchNewsModelFE filter)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<Vw_News>().Where(x => x.Status == 1);
+                    if (!string.IsNullOrEmpty(filter.group))
+                    {
+                        query.Where(x => x.CategoryShortName.ToLower() == filter.group.ToLower());
+                    }
+                    return db.Select(query).ToPagedList(Convert.ToInt32(filter.Page), Convert.ToInt32(filter.PageSize));
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<Vw_News>();
+            }
+        }
+
+        public Vw_News GetNewsDetail(int id)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var check = db.Single<Vw_News>(_ => _.Id == id);
+                    return check;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new Vw_News();
+            }
+        }
+
+        public Vw_News GetNewsDetail(string shortName)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var check = db.Single<Vw_News>(_ => _.ShortName == shortName);
+                    return check;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new Vw_News();
             }
         }
     }

@@ -33,7 +33,9 @@ namespace webNews.Domain.Entities
         public DateTime? UpdatedDate { get; set; }
         public string Image { get; set; }
         public string Description { get; set; }
+        public string ShortName { get; set; }
         public string CategoryTitle { get; set; }
+        public string CategoryShortName { get; set; }
     }
 
 }

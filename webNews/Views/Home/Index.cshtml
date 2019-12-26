@@ -2,6 +2,7 @@
     var listBestSeller = ViewBag.ListBestSeller;
     var listSales = ViewBag.ListSales;
     var listTopRate = ViewBag.ListTopRate;
+    var listEvents = ViewBag.ListEvents;
 }
 
 <!-- Slide1 -->
@@ -177,7 +178,7 @@
 <!-- Banner video -->
 @RenderPage("_BannerVideoPartial.cshtml")
 <!-- Blog -->
-@RenderPage("_BlogPartial.cshtml",new {Model=listBestSeller})
+@RenderPage("_BlogPartial.cshtml", new { Model = listEvents })
 <!-- Instagram -->
 @*@RenderPage("_InstagramPartial.cshtml")*@
 <!-- Shipping -->

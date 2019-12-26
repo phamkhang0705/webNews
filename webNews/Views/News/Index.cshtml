@@ -1,0 +1,60 @@
+﻿@using PagedList.Mvc
+@using webNews.Domain.Entities
+@model PagedList.IPagedList<Vw_News>
+@{
+    ViewBag.Title = "Gói sự kiện";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var content = ViewBag.Content as Vw_Content;
+}
+
+<!-- Title Page -->
+<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url(@content.Url);">
+    <h2 class="l-text2 t-center"></h2>
+    <p class="m-text13 t-center">
+        @content.Title
+    </p>
+</section>
+<!-- For pagination-->
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<!-- Content page -->
+<section class="bgwhite p-t-55 p-b-65">
+    <div class="container">
+        <!-- Product -->
+        <div class="row">
+            @if (Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
+                        <!-- Block2 -->
+                        <div class="block2">
+                            <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew" data-id="@item.Id">
+                                <a href="@Url.Action("Detail", "News", new {@news_short_name=item.ShortName })" class="block2-name dis-block s-text3 p-b-5">
+                                    <img data-src="@item.Image" alt="@item.ShortName" class="lazy-loading">
+                                </a>
+                            </div>
+
+                            <div class="block2-txt p-t-20">
+                                <a href="@Url.Action("Detail", "News", new {@news_short_name=item.ShortName })" class="block2-name dis-block s-text3 p-b-5">
+                                    @item.Title
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <h5>Không có sản phẩm nào</h5>
+                </div>
+            }
+
+        </div>
+
+        <!-- Pagination -->
+        <div style="float: right">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+        </div>
+    </div>
+</section>

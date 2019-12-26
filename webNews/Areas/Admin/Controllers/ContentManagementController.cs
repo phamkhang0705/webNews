@@ -126,7 +126,6 @@ namespace webNews.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string path = "";
                     var cate = new Content()
                     {
                         Title = model.Title,

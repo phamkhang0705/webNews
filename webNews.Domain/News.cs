@@ -23,6 +23,7 @@ namespace webNews.Domain.Entities
         public int? CategoryId { get; set; }
         public int? Type { get; set; }
         public string Title { get; set; }
+        public string ShortName { get; set; }
         public string Author { get; set; }
         public string Source { get; set; }
         public string ContentDetail { get; set; }

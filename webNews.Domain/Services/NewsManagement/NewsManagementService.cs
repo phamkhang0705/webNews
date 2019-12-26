@@ -1,11 +1,13 @@
 ﻿using NLog;
 using System;
+using System.Collections.Generic;
+using webNews.Common;
 using webNews.Domain.Entities;
 using webNews.Domain.Repositories;
-using webNews.Domain.Repositories.ContentManagement;
 using webNews.Domain.Repositories.NewsManagement;
 using webNews.Models;
 using webNews.Models.ContentTypeManagement;
+using webNews.Models.NewsManagement;
 
 namespace webNews.Domain.Services.NewsManagement
 {
@@ -38,14 +40,17 @@ namespace webNews.Domain.Services.NewsManagement
 
             var cate = new News()
             {
+                CategoryId = content.CategoryId,
                 Type = content.Type,
                 Title = content.Title,
                 Status = content.Status,
                 Description = content.Description,
+                Image = content.Image,
                 CreatedBy = content.CreatedBy,
                 CreatedDate = DateTime.Now,
                 UpdatedBy = content.UpdatedBy,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = DateTime.Now,
+                ShortName = (content.Title).ToUrlSegment(250).ToLower()
             };
 
             var isInsert = _contentRepository.CreateNews(cate);
@@ -82,6 +87,21 @@ namespace webNews.Domain.Services.NewsManagement
                 response.ResponseMessage = "Cập nhật nội dung thất bại";
             }
             return response;
+        }
+
+        public IEnumerable<Vw_News> GetNews(SearchNewsModelFE search)
+        {
+            return _contentRepository.GetNews(search);
+        }
+
+        public Vw_News GetNewsDetail(int id)
+        {
+            return _contentRepository.GetNewsDetail(id);
+        }
+
+        public Vw_News GetNewsDetail(string shortName)
+        {
+            return _contentRepository.GetNewsDetail(shortName);
         }
     }
 }

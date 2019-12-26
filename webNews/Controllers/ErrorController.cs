@@ -2,18 +2,12 @@
 using System.Net;
 using System.Web.Mvc;
 using NLog;
-
 using webNews.Language.Language;
-using static webNews.FilterConfig;
 
 namespace webNews.Controllers
 {
-    [Language]
-    public class ErrorController : BaseController
+    public class ErrorController : Controller
     {
-        //
-        private readonly Logger _log = LogManager.GetLogger("ErrorController");
-
         public ActionResult Index(int? errorCode = null, string errorMsg = default(string))
         {
             try
@@ -55,7 +49,6 @@ namespace webNews.Controllers
             {
                 var errorMessage = string.Format("Error is ErrorController {0}", errorCode);
                 ViewBag.ErrorTitle = Resource.Error_Lang; // "Error!";
-                _log.ErrorException(errorMessage, ex);
                 return View();
             }
         }

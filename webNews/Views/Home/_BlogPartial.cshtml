@@ -1,5 +1,6 @@
-﻿@{
-    var listBestSeller = Page.Model;
+﻿@using webNews.Domain.Entities
+@{
+    var listEvents = Page.Model;
 }
 <!-- Gói sự kiện -->
 <section class="newproduct bgwhite p-t-45 p-b-105">
@@ -13,37 +14,27 @@
         <!-- Slide2 -->
         <div class="wrap-slick2">
             <div class="slick2">
-                @foreach (var best in listBestSeller)
+                @if (listEvents.Count > 0)
                 {
-                    <div class="item-slick2 p-l-15 p-r-15">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                <img data-src="@Url.Content("~/Content/Cate/" + Path.GetFileName(best.Avatar))" alt="@best.ShortName" class="lazy-loading">
+                    foreach (var best in listEvents)
+                    {
+                        <div class="item-slick2 p-l-15 p-r-15">
+                            <!-- Block2 -->
+                            <div class="block2">
+                                <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
+                                    <img data-src="@best.Image" alt="@best.ShortName" class="lazy-loading">
+                                </div>
 
-                                <div class="block2-overlay trans-0-4">
-                                    <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                        <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                        <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+                                <div class="block2-txt p-t-20">
+                                    <a href="@Url.Action("Detail", "News", new {@id = best.Id})" data-id="@best.Id" data-name="@best.Title" class="block2-name dis-block s-text3 p-b-5">
+                                        @best.Title
                                     </a>
-
-                                    <div class="block2-btn-addcart w-size1 trans-0-4">
-                                        <!-- Button -->
-                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                            Thêm vào giỏ hàng
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
-
-                            <div class="block2-txt p-t-20">
-                                <a href="@Url.Action("Detail", "Category", new {@id = best.Id})" data-id="@best.Id" data-name="@best.Name" class="block2-name dis-block s-text3 p-b-5">
-                                    @best.Name
-                                </a>
-                            </div>
                         </div>
-                    </div>
+                    }
                 }
+
             </div>
         </div>
 

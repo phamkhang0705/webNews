@@ -61,20 +61,17 @@ namespace webNews.Domain.Repositories.ContentManagement
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    using (var trans = db.OpenTransaction())
+                    try
                     {
-                        try
-                        {
-                            var cateId = (int)db.Insert(content, true);
-                            trans.Commit();
-                            return true;
-                        }
-                        catch (Exception e)
-                        {
-                            _logger.Error(e, "DB connection error" + e.Message);
-                            trans.Rollback();
-                            return false;
-                        }
+                        var type = db.Single<ContentType>(x => x.Id == content.Type);
+                        content.ContentType = type.ContentCode;
+                        var cateId = (int)db.Insert(content, true);
+                        return true;
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error(e, "DB connection error" + e.Message);
+                        return false;
                     }
                 }
             }
@@ -91,34 +88,30 @@ namespace webNews.Domain.Repositories.ContentManagement
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    using (var trans = db.OpenTransaction())
+                    try
                     {
-                        try
-                        {
-                            var cate = db.Single<Content>(x => x.Id == content.Id);
-
-                            cate.Description = content.Description;
-                            cate.Status = content.Status;
-                            cate.Url = content.Url;
-                            cate.ContentType = content.ContentType;
-                            cate.ContentText = content.ContentText;
-                            cate.ContentUrl = content.ContentUrl;
-                            cate.Link = content.Link;
-                            cate.Link = content.Link;
-                            cate.Title = content.Title;
-                            cate.Status = content.Status;
-                            cate.Type = content.Type;
-                            cate.UpdatedBy = content.UpdatedBy;
-                            cate.UpdatedDate = content.UpdatedDate;
-                            db.Update(cate);
-                            trans.Commit();
-                            return true;
-                        }
-                        catch (Exception e)
-                        {
-                            trans.Rollback();
-                            return false;
-                        }
+                        var obj = db.Single<Content>(x => x.Id == content.Id);
+                        var type = db.Single<ContentType>(x => x.Id == content.Type);
+                        obj.Description = content.Description;
+                        obj.Status = content.Status;
+                        obj.Url = content.Url;
+                        obj.ContentType = type.ContentCode;
+                        obj.ContentText = content.ContentText;
+                        obj.ContentUrl = content.ContentUrl;
+                        obj.Link = content.Link;
+                        obj.Link = content.Link;
+                        obj.Title = content.Title;
+                        obj.Status = content.Status;
+                        obj.Type = content.Type;
+                        obj.UpdatedBy = content.UpdatedBy;
+                        obj.UpdatedDate = content.UpdatedDate;
+                        db.Update(obj);
+                        return true;
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error(e, "Update content error");
+                        return false;
                     }
                 }
             }
