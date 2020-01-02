@@ -5124,6 +5124,8 @@
     <Content Include="Theme\vendors\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\News\Detail.cshtml" />
+    <Content Include="Views\News\News.cshtml" />
+    <Content Include="Views\News\NewsDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

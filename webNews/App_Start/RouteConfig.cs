@@ -16,12 +16,7 @@ namespace webNews
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-             name: "News",
-             url: "goi-su-kien",
-             defaults: new { controller = "News", action = "Index", id = UrlParameter.Optional },
-             namespaces: new[] { "webNews.Controllers" }
-           );
+
 
             routes.MapRoute(
               name: "CategoryRental",
@@ -80,9 +75,30 @@ namespace webNews
             );
 
             routes.MapRoute(
+             name: "Event",
+             url: "goi-su-kien",
+             defaults: new { controller = "News", action = "Index", id = UrlParameter.Optional },
+             namespaces: new[] { "webNews.Controllers" }
+           );
+
+            routes.MapRoute(
+             name: "News",
+             url: "tin-tuc",
+             defaults: new { controller = "News", action = "News", id = UrlParameter.Optional },
+             namespaces: new[] { "webNews.Controllers" }
+           );
+
+            routes.MapRoute(
+              name: "EventDetail",
+              url: "goi-su-kien/{event_short_name}",
+              defaults: new { controller = "News", action = "Detail", event_short_name = UrlParameter.Optional },
+              namespaces: new[] { "webNews.Controllers" }
+            );
+
+            routes.MapRoute(
               name: "NewsDetail",
-              url: "goi-su-kien/{news_short_name}",
-              defaults: new { controller = "News", action = "Detail", news_short_name = UrlParameter.Optional },
+              url: "tin-tuc/{news_short_name}",
+              defaults: new { controller = "News", action = "NewsDetail", news_short_name = UrlParameter.Optional },
               namespaces: new[] { "webNews.Controllers" }
             );
 

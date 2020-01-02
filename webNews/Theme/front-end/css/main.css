@@ -713,6 +713,14 @@ li.sale-noti > a {
     color: #e65540;
 }
 
+li.item-menu-mobile.sale-noti {
+    background-color: #ffffff;
+}
+
+    li.item-menu-mobile.sale-noti > a {
+        color: #e65540 !important;
+    }
+
 .main_menu > li:hover > a {
     text-decoration: none;
     border-bottom: 1px solid #333333;

@@ -7,43 +7,44 @@
     <div class="wrap_menu_2">
         <nav class="menu">
             <ul class="main_menu">
-                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
-                    <a href="@Url.Action("Index","Home")">Trang chủ</a>
+                @{
+                    var route = ViewContext.RouteData;
+                }
+                <li class="@(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
+                    <a href="@Url.Action("Index", "Home")">Trang chủ</a>
                 </li>
 
-                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "About" ? "sale-noti" : "")">
-                    <a href="@Url.Action("About","Home")">Giới thiệu</a>
+                <li class="@(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "About" ? "sale-noti" : "")">
+                    <a href="@Url.Action("About", "Home")">Giới thiệu</a>
                 </li>
 
-                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Category" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
+                <li class="@(route.Values["Controller"].ToString() == "Category" && (route.Values["Action"].ToString() == "Index"
+                                                                                     || route.Values["Action"].ToString() == "Search" || route.Values["Action"].ToString() == "Detail") ? "sale-noti" : "")">
                     <a href="@Url.Action("Index", "Category")">Sản phẩm thuê</a>
                 </li>
 
-                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Category" && ViewContext.RouteData.Values["Action"].ToString() == "Sale" ? "sale-noti" : "")">
+                <li class="@(route.Values["Controller"].ToString() == "Category" && route.Values["Action"].ToString() == "Sale" ? "sale-noti" : "")">
                     <a href="@Url.Action("Sale", "Category")">Sản phẩm bán</a>
                 </li>
 
-                <li>
-                    <a href="blog.html">Gói sự kiện</a>
+                <li class="@(route.Values["Controller"].ToString() == "News" && (route.Values["Action"].ToString() == "Index"
+                                                                                 || route.Values["Action"].ToString() == "Detail") ? "sale-noti" : "")">
+                    <a href="@Url.Action("Index", "News")">Gói sự kiện</a>
                 </li>
 
-                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "ForCustomer" ? "sale-noti" : "")">
-                    <a href="@Url.Action("ForCustomer","Home")">Dành cho khách hàng</a>
+                <li class="@(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "ForCustomer" ? "sale-noti" : "")">
+                    <a href="@Url.Action("ForCustomer", "Home")">Dành cho khách hàng</a>
                 </li>
 
-                <li>
-                    <a href="contact.html">Giỏ hàng</a>
-                </li>
-
-                <li>
-                    <a href="contact.html">Tin tức</a>
+                <li class="@(route.Values["Controller"].ToString() == "News" && route.Values["Action"].ToString() == "News" ? "sale-noti" : "")">
+                    <a href="@Url.Action("News", "News")">Tin tức</a>
                 </li>
             </ul>
         </nav>
     </div>
 
     <!-- Header Icon -->
-    <div class="header-icons">
+    @*<div class="header-icons">
         <a href="#" class="header-wrapicon1 dis-block">
             <img src="~/Theme/front-end/images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
         </a>
@@ -127,5 +128,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 </div>

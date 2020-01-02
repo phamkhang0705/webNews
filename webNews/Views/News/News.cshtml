@@ -2,7 +2,7 @@
 @using webNews.Domain.Entities
 @model PagedList.IPagedList<Vw_News>
 @{
-    ViewBag.Title = "Gói sự kiện";
+    ViewBag.Title = "Tin tức";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var content = ViewBag.Content as Vw_Content;
 }
@@ -29,13 +29,13 @@
                         <!-- Block2 -->
                         <div class="block2">
                             <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew" data-id="@item.Id">
-                                <a href="@Url.Action("Detail", "News", new {@event_short_name=item.ShortName })" class="block2-name dis-block s-text3 p-b-5">
+                                <a href="@Url.Action("NewsDetail", "News", new {@news_short_name=item.ShortName })" class="block2-name dis-block s-text3 p-b-5">
                                     <img data-src="@item.Image" alt="@item.ShortName" class="lazy-loading">
                                 </a>
                             </div>
 
                             <div class="block2-txt p-t-20">
-                                <a href="@Url.Action("Detail", "News", new {@event_short_name=item.ShortName })" class="block2-name dis-block s-text3 p-b-5">
+                                <a href="@Url.Action("NewsDetail", "News", new {@news_short_name=item.ShortName })" class="block2-name dis-block s-text3 p-b-5">
                                     @item.Title
                                 </a>
                             </div>
@@ -46,7 +46,7 @@
             else
             {
                 <div class="col-sm-12 col-md-6 col-lg-4">
-                    <h5>Không có sự kiện nào</h5>
+                    <h5>Không có tin tức nào</h5>
                 </div>
             }
 

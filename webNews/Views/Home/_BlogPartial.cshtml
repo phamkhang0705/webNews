@@ -22,11 +22,12 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                    <img data-src="@best.Image" alt="@best.ShortName" class="lazy-loading">
+                                    <a href="@Url.Action("Detail", "News", new {@event_short_name = best.ShortName})" data-id="@best.Id" data-name="@best.Title" class="block2-name dis-block s-text3 p-b-5">
+                                        <img data-src="@best.Image" class="lazy-loading" alt="@best.Title">
+                                    </a>
                                 </div>
-
                                 <div class="block2-txt p-t-20">
-                                    <a href="@Url.Action("Detail", "News", new {@id = best.Id})" data-id="@best.Id" data-name="@best.Title" class="block2-name dis-block s-text3 p-b-5">
+                                    <a href="@Url.Action("Detail", "News", new {@event_short_name = best.ShortName})" data-id="@best.Id" data-name="@best.Title" class="block2-name dis-block s-text3 p-b-5">
                                         @best.Title
                                     </a>
                                 </div>
@@ -34,7 +35,6 @@
                         </div>
                     }
                 }
-
             </div>
         </div>
 

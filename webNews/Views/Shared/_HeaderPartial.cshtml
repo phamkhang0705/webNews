@@ -149,7 +149,7 @@
 
                         <li class="@(route.Values["Controller"].ToString() == "News" && (route.Values["Action"].ToString() == "Index"
                                 || route.Values["Action"].ToString() == "Detail") ? "sale-noti" : "")">
-                        <a href="@Url.Action("Index", "News")">Gói sự kiện</a>
+                            <a href="@Url.Action("Index", "News")">Gói sự kiện</a>
                         </li>
 
                         <li class="@(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "ForCustomer" ? "sale-noti" : "")">
@@ -187,7 +187,7 @@
 
                 <span class="linedivide2"></span>
 
-                <div class="header-wrapicon2">
+                @*<div class="header-wrapicon2">
                     <img src="~/Theme/front-end/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="@ViewBag.Title">
                     <span class="header-icons-noti">0</span>
 
@@ -263,7 +263,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
 
             <div class="btn-show-menu-mobile hamburger hamburger--squeeze">
@@ -278,27 +278,6 @@
     <div class="wrap-side-menu">
         <nav class="side-menu">
             <ul class="main-menu">
-                @*<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
-                        <span class="topbar-child1">
-                            Free shipping for standard order over $100
-                        </span>
-                    </li>*@
-
-                @*<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
-                        <div class="topbar-child2-mobile">
-                            <span class="topbar-email">
-                                fashe@example.com
-                            </span>
-
-                            <div class="topbar-language rs1-select2">
-                                <select class="selection-1" name="time">
-                                    <option>USD</option>
-                                    <option>EUR</option>
-                                </select>
-                            </div>
-                        </div>
-                    </li>*@
-
                 <li class="item-topbar-mobile p-l-10">
                     <div class="topbar-social-mobile">
                         <a href="@fb_link" class="topbar-social-item fa fa-facebook"></a>
@@ -306,38 +285,34 @@
                         <a href="@youtube_link" class="topbar-social-item fa fa-youtube-play"></a>
                     </div>
                 </li>
-
                 <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
-                    <a href="@Url.Action("Index","Home")">Trang chủ</a>
-                    <i class="arrow-main-menu fa fa-angle-right" aria-hidden="true"></i>
+                    <a href="@Url.Action("Index", "Home")">Trang chủ</a>
                 </li>
 
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
-                    <a href="@Url.Action("About","Home")">Giới thiệu</a>
+                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "About" ? "sale-noti" : "")">
+                    <a href="@Url.Action("About", "Home")">Giới thiệu</a>
                 </li>
 
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Category" && (route.Values["Action"].ToString() == "Index" || route.Values["Action"].ToString() == "Search") ? "sale-noti" : "")">
-                    <a href="@Url.Action("Index","Category")">Sản phẩm thuê</a>
+                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Category" && (route.Values["Action"].ToString() == "Index"
+                                || route.Values["Action"].ToString() == "Search" || route.Values["Action"].ToString() == "Detail") ? "sale-noti" : "")">
+                    <a href="@Url.Action("Index", "Category")">Sản phẩm thuê</a>
                 </li>
 
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
-                    <a href="@Url.Action("Sale","Category")">Sản phẩm bán</a>
+                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Category" && route.Values["Action"].ToString() == "Sale" ? "sale-noti" : "")">
+                    <a href="@Url.Action("Sale", "Category")">Sản phẩm bán</a>
                 </li>
 
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
-                    <a href="blog.html">Gói sự kiện</a>
+                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "News" && (route.Values["Action"].ToString() == "Index"
+                                || route.Values["Action"].ToString() == "Detail") ? "sale-noti" : "")">
+                    <a href="@Url.Action("Index", "News")">Gói sự kiện</a>
                 </li>
 
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
-                    <a href="@Url.Action("ForCustomer","Home")">Dành cho khách hàng</a>
+                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "ForCustomer" ? "sale-noti" : "")">
+                    <a href="@Url.Action("ForCustomer", "Home")">Dành cho khách hàng</a>
                 </li>
 
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
-                    <a href="contact.html">Giỏ hàng</a>
-                </li>
-
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
-                    <a href="contact.html">Tin tức</a>
+                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "News" && route.Values["Action"].ToString() == "News" ? "sale-noti" : "")">
+                    <a href="@Url.Action("News","News")">Tin tức</a>
                 </li>
             </ul>
         </nav>
