@@ -156,7 +156,8 @@
                             <a href="@Url.Action("ForCustomer", "Home")">Dành cho khách hàng</a>
                         </li>
 
-                        <li class="@(route.Values["Controller"].ToString() == "News" && route.Values["Action"].ToString() == "News" ? "sale-noti" : "")">
+                        <li class="@(route.Values["Controller"].ToString() == "News" && (route.Values["Action"].ToString() == "News"
+                                || route.Values["Action"].ToString() == "NewsDetail") ? "sale-noti" : "")">
                             <a href="@Url.Action("News","News")">Tin tức</a>
                         </li>
                     </ul>
@@ -311,7 +312,8 @@
                     <a href="@Url.Action("ForCustomer", "Home")">Dành cho khách hàng</a>
                 </li>
 
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "News" && route.Values["Action"].ToString() == "News" ? "sale-noti" : "")">
+                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "News" && (route.Values["Action"].ToString() == "News"
+                                || route.Values["Action"].ToString() == "NewsDetail") ? "sale-noti" : "")">
                     <a href="@Url.Action("News","News")">Tin tức</a>
                 </li>
             </ul>

@@ -339,14 +339,16 @@ namespace webNews.Areas.Admin.Controllers
                                 bool folderExists = Directory.Exists(Server.MapPath(string.Format("{0}", "~/Content/Cate/")));
                                 if (!folderExists)
                                 {
-                                    path = Path.Combine(Server.MapPath(string.Format("{0}", "~/Content/Cate/")), fullFileName);
+                                    var pathFull = Path.Combine(Server.MapPath(string.Format("{0}", "~/Content/Cate/")), fullFileName);
+                                    path = string.Format("{0}{1}", "~/Content/Cate/", fullFileName);
                                     Directory.CreateDirectory(Server.MapPath(string.Format("{0}", "~/Content/Cate/")));
-                                    fileContent.SaveAs(path);
+                                    fileContent.SaveAs(pathFull);
                                 }
                                 else
                                 {
-                                    path = Path.Combine(Server.MapPath(string.Format("{0}", "~/Content/Cate/")), fullFileName);
-                                    fileContent.SaveAs(path);
+                                    var pathFull = Path.Combine(Server.MapPath(string.Format("{0}", "~/Content/Cate/")), fullFileName);
+                                    path = string.Format("{0}{1}", "/Content/Cate/", fullFileName);
+                                    fileContent.SaveAs(pathFull);
                                 }
                                 lstFiles.Add(path);
                             }

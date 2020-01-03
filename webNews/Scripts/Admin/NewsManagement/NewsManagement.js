@@ -30,53 +30,64 @@
                 align: "left"
             }), Sv.BootstrapTableColumn("string", {
                 title: 'Image',
-                field: 'Image'
-            }), Sv.BootstrapTableColumn("string", {
-                title: 'Mô tả',
-                field: 'Description'
-            }),
-              Sv.BootstrapTableColumn("string", {
-                  filed: 'Status',
-                  align: "left",
-                  width: '150px',
-                  title: 'Trạng thái',
-                  formatter: function (value, row, index) {
-                      if (row.Status === 1) {
-                          return 'Hoạt động';
-                      }
-                      else {
-                          return 'Ngừng hoạt động';
-                      }
-                  }
-              }),
-            Sv.BootstrapTableColumn("String", {
-                title: "Thao tác",
-                align: "Center",
-                width: '80px',
-                formatter: function (value, data, index) {
-                    var str = "";
-                    if (base.$perEdit === "1") {
-                        str += "<button data-code='%s' class='OpenEditItem btn btn-primary btn-in-table' title='Sửa'><i class='fa fa-pencil-square-o'></i></button>";
+                field: 'Image',
+                formatter: function (value, row, index) {
+                    var str = '';
+                    if (value.length > 0) {
+                        str = '<img class="img-preview" src="' + value + '" title="" alt="" width="100%" height="100" style="margin-bottom: 10px" />';
                     }
                     return str;
-                },
-                events: {
-                    'click .OpenEditItem': function (e, value, row, index) {
-                        Sv.ChecPermission("View", function () {
-                            var url = "/Admin/NewsManagement/ShowModal";
-                            var model = {
-                                id: row.Id,
-                                action: "Edit"
-                            };
-                            Sv.BindPopup(url, model, function (rs) {
-                                base.$boxDetails.html(rs);
-                                base.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
-                                base.OpentDisable();
-                            });
-                        });
-                    }
                 }
-            })];
+            }),
+                // Sv.BootstrapTableColumn("string", {
+                    //                title: 'Nội dung',
+                    //                field: 'Content'
+                    //            }), Sv.BootstrapTableColumn("string", {
+                    //                title: 'Mô tả',
+                    //                field: 'Description'
+                    //            })
+                    Sv.BootstrapTableColumn("string", {
+                        filed: 'Status',
+                        align: "left",
+                        width: '150px',
+                        title: 'Trạng thái',
+                        formatter: function (value, row, index) {
+                            if (row.Status === 1) {
+                                return 'Hoạt động';
+                            }
+                            else {
+                                return 'Ngừng hoạt động';
+                            }
+                        }
+                    }),
+                    Sv.BootstrapTableColumn("String", {
+                        title: "Thao tác",
+                        align: "Center",
+                        width: '80px',
+                        formatter: function (value, data, index) {
+                            var str = "";
+                            if (base.$perEdit === "1") {
+                                str += "<button data-code='%s' class='OpenEditItem btn btn-primary btn-in-table' title='Sửa'><i class='fa fa-pencil-square-o'></i></button>";
+                            }
+                            return str;
+                        },
+                        events: {
+                            'click .OpenEditItem': function (e, value, row, index) {
+                                Sv.ChecPermission("View", function () {
+                                    var url = "/Admin/NewsManagement/ShowModal";
+                                    var model = {
+                                        id: row.Id,
+                                        action: "Edit"
+                                    };
+                                    Sv.BindPopup(url, model, function (rs) {
+                                        base.$boxDetails.html(rs);
+                                        base.$boxDetails.find("#modalDetails").modal({ backdrop: "static" });
+                                        base.OpentDisable();
+                                    });
+                                });
+                            }
+                        }
+                    })];
         return obj;
     }
 

@@ -38,6 +38,7 @@ namespace webNews.Domain.Repositories.NewsManagement
                     {
                         query.Where(x => x.CategoryId == filter.Type);
                     }
+                    query.OrderByDescending(x => x.Id);
                     //More filter
                     var total = (int)db.Count(query);
                     query.Skip(pageIndex * pageSize).Take(pageSize);
