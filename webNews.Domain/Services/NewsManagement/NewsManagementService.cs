@@ -46,6 +46,8 @@ namespace webNews.Domain.Services.NewsManagement
                 Status = content.Status,
                 Description = content.Description,
                 Image = content.Image,
+                ImageComment = content.ImageComment,
+                Tags = content.Tags,
                 CreatedBy = content.CreatedBy,
                 CreatedDate = DateTime.Now,
                 UpdatedBy = content.UpdatedBy,

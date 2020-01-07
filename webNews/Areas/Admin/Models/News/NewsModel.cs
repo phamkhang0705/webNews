@@ -20,6 +20,10 @@ namespace webNews.Areas.Admin.Models.News
         [Display(Name = "Trạng thái")]
         public int? Status { get; set; }
         public string Image { get; set; }
+        [Display(Name = "Chú thích ảnh")]
+        public string ImageComment { get; set; }
+        [Display(Name = "Tags(Cách nhau bởi dấu phẩy)")]
+        public string Tags { get; set; }
         public string Action { get; set; }
         public List<SelectListItem> ListStatus { get; set; }
         public List<Domain.Entities.NewsCategory> ListTypes { get; set; }

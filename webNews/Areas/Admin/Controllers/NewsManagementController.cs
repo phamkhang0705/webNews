@@ -96,6 +96,8 @@ namespace webNews.Areas.Admin.Controllers
                         model.Content = cate.Content;
                         model.Image = cate.Image;
                         model.Description = cate.Description;
+                        model.ImageComment = cate.ImageComment;
+                        model.Tags = cate.Tags;
                     }
                 }
                 return PartialView("_newsDetail", model);
@@ -131,6 +133,8 @@ namespace webNews.Areas.Admin.Controllers
                         Content = news.Content,
                         Description = news.Description,
                         Image = news.Image,
+                        ImageComment = news.ImageComment,
+                        Tags = news.Tags,
                         Status = Convert.ToInt32(news.Status),
                         CategoryId = Convert.ToInt32(news.CategoryId),
                         CreatedDate = DateTime.Now,
@@ -197,6 +201,8 @@ namespace webNews.Areas.Admin.Controllers
                         Content = news.Content,
                         Description = news.Description,
                         Image = news.Image,
+                        ImageComment = news.ImageComment,
+                        Tags = news.Tags,
                         Status = Convert.ToInt32(news.Status),
                         CategoryId = Convert.ToInt32(news.CategoryId),
                         UpdatedDate = DateTime.Now,

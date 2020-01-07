@@ -109,6 +109,8 @@ namespace webNews.Domain.Repositories.NewsManagement
                         cate.UpdatedBy = content.UpdatedBy;
                         cate.UpdatedDate = content.UpdatedDate;
                         cate.Image = content.Image;
+                        cate.ImageComment = content.ImageComment;
+                        cate.Tags = content.Tags;
                         cate.ShortName = (content.Title).ToUrlSegment(250).ToLower();
                         db.Update(cate);
                         return true;

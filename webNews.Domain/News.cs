@@ -34,6 +34,7 @@ namespace webNews.Domain.Entities
         public string Action { get; set; }
         public string Tags { get; set; }
         public string Image { get; set; }
+        public string ImageComment { get; set; }
         public int? ParentId { get; set; }
         public int? Status { get; set; }
         public DateTime? CreatedDate { get; set; }

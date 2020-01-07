@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using webNews.Domain.Services.NewsManagement;
 using webNews.Models.NewsManagement;
 using System.Configuration;
+using System.Linq;
 using webNews.Domain.Services;
 using webNews.Domain.Services.ContentManagement;
 using webNews.Domain.Services.FileAttachManagement;
@@ -47,7 +48,7 @@ namespace webNews.Controllers
 
         public ActionResult News()
         {
-            ViewBag.Title = "Gói sự kiện";
+            ViewBag.Title = "Tin tức";
             ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
             ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
             ViewBag.Email = Convert.ToString(Session["FBEmail"]);
@@ -82,6 +83,11 @@ namespace webNews.Controllers
             ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
             ViewBag.Email = Convert.ToString(Session["FBEmail"]);
             ViewBag.avatar = Convert.ToString(Session["avatar"]);
+            SearchNewsModelFE search = new SearchNewsModelFE();
+            search.Page = 1;
+            search.PageSize = Int32.Parse(ConfigurationManager.AppSettings["PageSize"]);
+            search.group = "tin-tuc";
+            ViewBag.RelatedNews = _newsManagement.GetNews(search).Where(x => x.Id != model.Id).ToList();
             return View(model);
         }
     }

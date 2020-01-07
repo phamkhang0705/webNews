@@ -33,7 +33,7 @@
                 field: 'Image',
                 formatter: function (value, row, index) {
                     var str = '';
-                    if (value.length > 0) {
+                    if (value != "") {
                         str = '<img class="img-preview" src="' + value + '" title="" alt="" width="100%" height="100" style="margin-bottom: 10px" />';
                     }
                     return str;
@@ -141,6 +141,8 @@
         obj.Content = content;
         obj.Status = form.find('#txtStatus').val();
         obj.Image = form.find('#txtImage').val();
+        obj.ImageComment = form.find('#txtImageComment').val();
+        obj.Tags = form.find('#txtTags').val();
         return obj;
     }
     //-- them sua xoa
