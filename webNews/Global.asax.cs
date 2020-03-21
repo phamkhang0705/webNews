@@ -85,7 +85,7 @@ namespace webNews
         {
             //  Code that runs on application shutdown
 
-            Session.Clear();
+//            Session.Clear();
         }
     }
 
