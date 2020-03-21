@@ -2440,3 +2440,12 @@ input.num-product {
     margin-top: -15px;
     font-size: 14px !important;
 }
+
+.blog-detail-txt {
+    width: 100%;
+}
+
+    .blog-detail-txt img {
+        max-width: 100%;
+        height: auto !important;
+    }
