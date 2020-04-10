@@ -108,6 +108,7 @@
     <script src="~/Theme/front-end/js/main.js"></script>
     <script src="~/Scripts/lazyload.min.js"></script>
     <script src="~/Theme/front-end/js/slick-custom.js"></script>
+    @RenderSection("scripts", required: false)
     <script type="text/javascript">
         $(function () {
             $("img.lazy-loading").lazyload({

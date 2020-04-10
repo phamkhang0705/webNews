@@ -153,8 +153,8 @@ namespace webNews
                 "~/Theme/front-end/vendor/lightbox2/js/lightbox.min.js",
                 "~/Theme/front-end/vendor/sweetalert/sweetalert.min.js",
                 "~/Theme/front-end/vendor/parallax100/parallax100.js",
-                "~/Theme/front-end/vendor/noui/nouislider.min.js",
-                "~/Theme/front-end/js/keep_alive.js"
+                "~/Theme/front-end/vendor/noui/nouislider.min.js"
+//                ,"~/Theme/front-end/js/keep_alive.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/Theme/facebookjs").Include(

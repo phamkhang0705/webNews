@@ -151,11 +151,38 @@
 
     /*[ Block2 button wishlist ]
     ===========================================================*/
+    var favourite = function ($this) {
+        var nameProduct = $this.parent().parent().parent().find('.block2-name').data('name');
+        var productId = $this.parent().parent().parent().find('.block2-name').data('id');
+        var contentType = $this.parent().parent().parent().find('.block2-name').data('type');
+        var userId = 0;
+        var favouriteType = 'Like';
+        var status = 'Like';
+
+        $.ajax({
+            url: '/ContentFavourite/Favourite',
+            type: "Post",
+            data: {
+                ContentId: productId,
+                ContentType: contentType,
+                FavouriteType: favouriteType,
+                Status: status,
+                UserId: userId
+            },
+            success: function (rs) {
+                swal(nameProduct, "Thêm vào danh sách yêu thích thành công", "success");
+                $this.addClass('block2-btn-towishlist');
+                $this.removeClass('block2-btn-addwishlist');
+                $this.off('click');
+            },
+            error: function (e) {
+                swal(nameProduct, "Thêm vào danh sách yêu thích không thành công", "error");
+            }
+        });
+    };
     $('.block2-btn-addwishlist').on('click', function (e) {
         e.preventDefault();
-        $(this).addClass('block2-btn-towishlist');
-        $(this).removeClass('block2-btn-addwishlist');
-        $(this).off('click');
+        favourite($(this));
     });
 
     /*[ +/- num product ]
@@ -211,26 +238,6 @@
             swal(nameProduct, "Thêm vào giỏ hàng thành công", "success");
         });
     });
-    $('.block2-btn-addwishlist').each(function () {
-        var nameProduct = $(this).parent().parent().parent().find('.block2-name').data('name');
-        var productId = $(this).parent().parent().parent().find('.block2-name').data('id');
-        var userId = $(this).parent().parent().parent().find('.block2-name').data('id');
-        $(this).on('click', function () {
-            $.ajax({
-                url: '/ContentFavourite/Like',
-                type: "Post",
-                data: {
-                    Id: productId,
-                    UserId: userId
-                },
-                success: function (rs) {
-                    swal(nameProduct, "Thêm vào danh sách yêu thích thành công", "success");
-                },
-                error: function (e) {
-                    swal(nameProduct, "Thêm vào danh sách yêu thích không thành công", "error");
-                }
-            });
-        });
-    });
+
     $('.parallax100').parallax100();
 })(jQuery);

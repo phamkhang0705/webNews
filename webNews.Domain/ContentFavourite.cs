@@ -20,11 +20,17 @@ namespace webNews.Domain.Entities
         [Alias("Id")]
         [AutoIncrement]
         public int Id { get; set; }
-        public int? ContentId { get; set; }
+        [Required]
+        public int ContentId { get; set; }
+        [Required]
         public string ContentType { get; set; }
-        public int? Status { get; set; }
-        public DateTime? UpdatedTime { get; set; }
-        public int? UserId { get; set; }
+        [Required]
+        public string Status { get; set; }
+        [Required]
+        public DateTime UpdatedTime { get; set; }
+        [Required]
+        public int UserId { get; set; }
+        [Required]
         public string FavouriteType { get; set; }
     }
 

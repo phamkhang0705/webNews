@@ -8,6 +8,7 @@ using webNews.Domain.Repositories.BizAccountManagement;
 using webNews.Domain.Repositories.BizAccountTypeManagement;
 using webNews.Domain.Repositories.CategoryDetailManagement;
 using webNews.Domain.Repositories.CategoryManagement;
+using webNews.Domain.Repositories.ContentFavouriteManagement;
 using webNews.Domain.Repositories.ContentManagement;
 using webNews.Domain.Repositories.ContentTypeManagement;
 using webNews.Domain.Repositories.CustomerManagement;
@@ -51,6 +52,7 @@ using webNews.Domain.Services.UserManagement;
 using webNews.Domain.Repositories.NewsManagement;
 using webNews.Domain.Services.NewsCategoryManagement;
 using webNews.Domain.Repositories.NewsCategoryManagement;
+using webNews.Domain.Services.ContentFavouriteManagement;
 using webNews.Domain.Services.NewsManagement;
 
 namespace webNews.Domain
@@ -141,6 +143,9 @@ namespace webNews.Domain
 
             builder.RegisterType<NewsManagementRepository>().As<INewsManagementRepository>();
             builder.RegisterType<NewsManagementService>().As<INewsManagementService>();
+
+            builder.RegisterType<ContentFavouriteManagementRepository>().As<IContentFavouriteManagementRepository>();
+            builder.RegisterType<ContentFavouriteManagementService>().As<IContentFavouriteManagementService>();
 
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerDependency();
             builder.RegisterGeneric(typeof(Service<>)).As(typeof(IService<>)).InstancePerDependency();

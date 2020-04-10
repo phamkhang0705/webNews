@@ -314,6 +314,8 @@
     <Compile Include="Services\BizAccountGroupManagement\IBizAccountGroupService.cs" />
     <Compile Include="Services\BizAccountManagement\BizAccountService.cs" />
     <Compile Include="Services\BizAccountManagement\IBizAccountService.cs" />
+    <Compile Include="Services\ContentFavouriteManagement\ContentFavouriteManagementService.cs" />
+    <Compile Include="Services\ContentFavouriteManagement\IContentFavouriteManagementService.cs" />
     <Compile Include="Services\NewsManagement\NewsManagementService.cs" />
     <Compile Include="Services\NewsManagement\INewsManagementService.cs" />
     <Compile Include="Services\ContentManagement\ContentManagementService.cs" />

@@ -8,7 +8,6 @@ using webNews.Domain.Services.FileAttachManagement;
 using webNews.Domain.Services.NewsManagement;
 using webNews.Models.CategoryManagement;
 using webNews.Models.Common;
-using webNews.Models.ContentTypeManagement;
 using webNews.Models.NewsManagement;
 
 namespace webNews.Controllers
@@ -51,6 +50,33 @@ namespace webNews.Controllers
                 ViewBag.Email = Convert.ToString(Session["FBEmail"]);
                 ViewBag.avatar = Convert.ToString(Session["avatar"]);
                 return View();
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Index error : " + ex);
+                return null;
+            }
+        }
+
+        public ActionResult ListSlides(int type = 1)
+        {
+            try
+            {
+                var listSlides = _service.GetBanners(type);
+                if (type == 1)
+                {
+                    return PartialView("_SlidePartial_ajax", listSlides);
+                }
+                if (type == 2)
+                {
+                    return PartialView("_BannerPartial_ajax", listSlides);
+                }
+                if (type == 3)
+                {
+                    return PartialView("_BannerPartial_ajax", listSlides);
+                }
+
+                return null;
             }
             catch (Exception ex)
             {

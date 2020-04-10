@@ -354,6 +354,7 @@
     <Compile Include="Common\NotEqual.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ContentFavouriteController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -5126,6 +5127,8 @@
     <Content Include="Views\News\Detail.cshtml" />
     <Content Include="Views\News\News.cshtml" />
     <Content Include="Views\News\NewsDetail.cshtml" />
+    <Content Include="Views\Home\_SlidePartial_ajax.cshtml" />
+    <Content Include="Views\Home\_BannerPartial_ajax.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

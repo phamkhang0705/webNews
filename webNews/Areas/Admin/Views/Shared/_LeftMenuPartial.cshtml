@@ -16,7 +16,7 @@
                 {
                     var ran = new Random();
                     var index = ran.Next(2, 14);
-                    string avatar = "Content/avatar/a" + index + ".png";
+                    string avatar = "../Content/avatar/a" + index + ".png";
                     <img src="@avatar" alt="@Authentication.GetUserName()" class="img-circle profile_img">
                 }
             }

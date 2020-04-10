@@ -20,8 +20,8 @@ namespace webNews
     {
         protected void Application_Start()
         {
-
-//            RouteConfig.RewirteUrl(RouteTable.Routes);
+            _log.Error("Start app: " + DateTime.Now);
+            //            RouteConfig.RewirteUrl(RouteTable.Routes);
 
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -84,8 +84,12 @@ namespace webNews
         protected void Session_End(object sender, EventArgs e)
         {
             //  Code that runs on application shutdown
+            //            Session.Clear();
+        }
 
-//            Session.Clear();
+        protected void Application_End(object sender, EventArgs e)
+        {
+            _log.Error("End app cmnr: " + DateTime.Now);
         }
     }
 
