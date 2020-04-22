@@ -15,11 +15,14 @@ namespace webNews.Areas.Admin.Models.Login
         public string GetCaptchaImage()
         {
             #region GetRandom
+
             const string chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789abcdefghijklmnpqrstuvwxyz";
             var random = new Random();
             var checkCode = new string(Enumerable.Repeat(chars, 5).Select(s => s[random.Next(s.Length)]).ToArray());
             Authentication.MarkCaptchar(checkCode);
-            #endregion
+
+            #endregion GetRandom
+
             var image = new Bitmap(Convert.ToInt32(Math.Ceiling((decimal)(checkCode.Length * 23))), 40);
             Graphics g = Graphics.FromImage(image);
             try
@@ -49,6 +52,7 @@ namespace webNews.Areas.Admin.Models.Login
                 image.Dispose();
             }
         }
+
         public string GetCaptcha()
         {
             string[] fonts = { "Arial", "Verdana", "Times New Roman", "Tahoma" };
@@ -56,10 +60,8 @@ namespace webNews.Areas.Admin.Models.Login
             const string chars = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
             using (var memoryStream = new MemoryStream())
             {
-
                 using (Bitmap bmp = new Bitmap(220, 38))
                 {
-
                     using (Graphics g = Graphics.FromImage(bmp))
                     {
                         // Tạo nền cho ảnh dạng sóng
@@ -76,13 +78,13 @@ namespace webNews.Areas.Admin.Models.Login
                             // Lấy kích thước của kí tự
                             var size = g.MeasureString(str, font);
                             f = f + size.Width;
-                            // Vẽ kí tự đó ra ảnh tại vị trí tăng dần theo i, vị trí top ngẫu nhiên                            
+                            // Vẽ kí tự đó ra ảnh tại vị trí tăng dần theo i, vị trí top ngẫu nhiên
                             g.DrawString(str, font,
                             Brushes.Blue, f + i * 3, rand.Next(2, 10), StringFormat.GenericDefault);
                             font.Dispose();
                         }
                         // Lưu captcha vào session
-                        //Authentication.MarkCaptchar(strCaptcha.ToString());                     
+                        //Authentication.MarkCaptchar(strCaptcha.ToString());
                         bmp.Save(memoryStream, ImageFormat.Gif);
                         bmp.Save(memoryStream, ImageFormat.Gif);
                         var byteImage = memoryStream.ToArray();
@@ -95,13 +97,12 @@ namespace webNews.Areas.Admin.Models.Login
         public ForgotPasswordModel ForgotPassword { get; set; }
         public CaptchModel CapchaModel { get; set; }
     }
+
     public class ForgotPasswordModel
     {
         public string Account { get; set; }
         public string Email { get; set; }
     }
-
-
 
     public class CaptchModel
     {

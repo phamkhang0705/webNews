@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace webNews
 {
@@ -154,7 +153,7 @@ namespace webNews
                 "~/Theme/front-end/vendor/sweetalert/sweetalert.min.js",
                 "~/Theme/front-end/vendor/parallax100/parallax100.js",
                 "~/Theme/front-end/vendor/noui/nouislider.min.js"
-                ,"~/Theme/front-end/js/keep_alive.js"
+                , "~/Theme/front-end/js/keep_alive.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/Theme/facebookjs").Include(

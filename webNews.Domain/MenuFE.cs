@@ -26,6 +26,9 @@ namespace webNews.Domain.Entities
         public bool? Show { get; set; }
         public int? MenuLevel { get; set; }
         public int? Order { get; set; }
+        public string Route { get; set; }
+        public string Controller { get; set; }
+        public string Action { get; set; }
     }
 
 }

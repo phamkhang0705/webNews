@@ -1,7 +1,6 @@
 ﻿using NLog;
 using System;
 using System.Dynamic;
-using System.IO;
 using System.Web.Mvc;
 using webNews.Areas.Admin.Models.Content;
 using webNews.Common;
@@ -9,7 +8,6 @@ using webNews.Domain.Entities;
 using webNews.Domain.Services.ContentManagement;
 using webNews.Domain.Services.ContentTypeManagement;
 using webNews.Language.Language;
-using webNews.Models;
 using webNews.Models.ContentTypeManagement;
 using webNews.Security;
 

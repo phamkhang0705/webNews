@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.Web.Mvc;
 using webNews.Areas.Admin.Models.Payment;
 using webNews.Areas.Admin.Models.Receiver;
+using webNews.Common;
 using webNews.Domain.Entities;
 using webNews.Domain.Services;
 using webNews.Domain.Services.BizAccountManagement;
@@ -13,7 +14,6 @@ using webNews.Language.Language;
 using webNews.Models.Common;
 using webNews.Models.ReceiverVoucherManagement;
 using webNews.Security;
-using webNews.Common;
 
 namespace webNews.Areas.Admin.Controllers
 {

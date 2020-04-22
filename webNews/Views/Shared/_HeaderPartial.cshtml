@@ -1,8 +1,14 @@
 ﻿@using System.Web.Configuration
+@using webNews.Domain
+@using webNews.Domain.Repositories
 @{
     string fb_link = WebConfigurationManager.AppSettings["fb_link"];
     string instagram_link = WebConfigurationManager.AppSettings["instagram_link"];
     string youtube_link = WebConfigurationManager.AppSettings["youtube_link"];
+    var listMenu = ServiceFactory.SystemRepository.GetMenuFE();
+    var route = ViewContext.RouteData;
+    var controller = route.Values["Controller"].ToString();
+    var action = route.Values["Action"].ToString();
 }
 
 <header class="header2">
@@ -21,28 +27,146 @@
             </a>
 
             <div class="topbar-child2 hidden">
-                @*@if (string.IsNullOrEmpty(ViewBag.FBUserName))
-                    {
-                        <a href="#" class="topbar-social-item fa fa-facebook lbtSignInFacebook">
-                            Đăng nhập Facebook
-                        </a>
-                    }
-                    else
-                    {
-                        <img style="border-radius:50%" src="@ViewBag.avatar" alt="@ViewBag.FBUserName" />
-                        <span class="topbar-social-item">
-                            @ViewBag.FBUserName
-                        </span>
-                        <a href="#" class="topbar-social-item fa fa-log lbtLogOutFacebook">
-                            Đăng xuất
-                        </a>
-                    }*@
+                @if (string.IsNullOrEmpty(ViewBag.FBUserName))
+                {
+                    <a href="#" class="lbtSignInFacebook">
+                        <i class="fa fa-facebook"></i> Đăng nhập bằng Facebook
+                    </a>
+                }
+                else
+                {
+                    <a alt="@ViewBag.FBUserName" href="https://www.facebook.com/@ViewBag.FBUserId"><img style="border-radius: 50%;margin-top: 10px" src="@ViewBag.avatar" alt="@ViewBag.FBUserName" /></a>
+                    <span class="topbar-social-item">
+                        @*@ViewBag.FBUserName*@
+                    </span>
+                    <a href="#" class="topbar-social-item fa fa-log lbtLogOutFacebook">
+                        Đăng xuất
+                    </a>
+                }
 
 
-                @*<span class="linedivide1"></span>
+                <span class="linedivide1"></span>
 
-                    <div class="header-wrapicon2 m-r-13">
-                        <img src="~/Theme/front-end/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+                <div class="header-wrapicon2 m-r-13">
+                    <img src="~/Theme/front-end/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+                    <span class="header-icons-noti">0</span>
+
+                    <!-- Header cart noti -->
+                    <div class="header-cart header-dropdown">
+                        <ul class="header-cart-wrapitem">
+                            <li class="header-cart-item">
+                                <div class="header-cart-item-img">
+                                    <img src="~/Theme/front-end/images/item-cart-01.jpg" alt="IMG">
+                                </div>
+
+                                <div class="header-cart-item-txt">
+                                    <a href="#" class="header-cart-item-name">
+                                        White Shirt With Pleat Detail Back
+                                    </a>
+
+                                    <span class="header-cart-item-info">
+                                        1 x $19.00
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="header-cart-item">
+                                <div class="header-cart-item-img">
+                                    <img src="~/Theme/front-end/images/item-cart-02.jpg" alt="IMG">
+                                </div>
+
+                                <div class="header-cart-item-txt">
+                                    <a href="#" class="header-cart-item-name">
+                                        Converse All Star Hi Black Canvas
+                                    </a>
+
+                                    <span class="header-cart-item-info">
+                                        1 x $39.00
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="header-cart-item">
+                                <div class="header-cart-item-img">
+                                    <img src="~/Theme/front-end/images/item-cart-03.jpg" alt="IMG">
+                                </div>
+
+                                <div class="header-cart-item-txt">
+                                    <a href="#" class="header-cart-item-name">
+                                        Nixon Porter Leather Watch In Tan
+                                    </a>
+
+                                    <span class="header-cart-item-info">
+                                        1 x $17.00
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="header-cart-total">
+                            Total: $75.00
+                        </div>
+
+                        <div class="header-cart-buttons">
+                            <div class="header-cart-wrapbtn">
+                                <!-- Button -->
+                                <a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                                    View Cart
+                                </a>
+                            </div>
+
+                            <div class="header-cart-wrapbtn">
+                                <!-- Button -->
+                                <a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                                    Check Out
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wrap_header">
+            <!-- Menu -->
+            <div class="wrap_menu">
+                <nav class="menu">
+                    <ul class="main_menu">
+                        @foreach (var item in listMenu)
+                        {
+                            <li class="@(controller == item.Controller && action == item.Action ? "sale-noti" : "")">
+                                <a href="@Url.Action(item.Action,item.Controller)">@item.Name</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Header Icon -->
+            <div class="header-icons">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Mobile -->
+    <div class="wrap_header_mobile">
+        <!-- Logo moblie -->
+        <a href="@Url.Action("Index","Home")" class="logo-mobile">
+            <img src="~/Theme/front-end/images/icons/logo.png" alt="@ViewBag.Title">
+        </a>
+
+        <!-- Button show menu -->
+        <div class="btn-show-menu">
+            <!-- Header Icon mobile -->
+            <div class="header-icons-mobile">
+                @*<a href="#" class="header-wrapicon1 dis-block">
+                        <img src="~/Theme/front-end/images/icons/icon-header-01.png" class="header-icon1" alt="@ViewBag.Title">
+                    </a>*@
+
+                <span class="linedivide2"></span>
+
+                @*<div class="header-wrapicon2">
+                        <img src="~/Theme/front-end/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="@ViewBag.Title">
                         <span class="header-icons-noti">0</span>
 
                         <!-- Header cart noti -->
@@ -119,153 +243,6 @@
                         </div>
                     </div>*@
             </div>
-        </div>
-
-        <div class="wrap_header">
-
-            <!-- Menu -->
-            <div class="wrap_menu">
-                <nav class="menu">
-                    <ul class="main_menu">
-                        @{
-                            var route = ViewContext.RouteData;
-                        }
-                        <li class="@(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
-                            <a href="@Url.Action("Index", "Home")">Trang chủ</a>
-                        </li>
-
-                        <li class="@(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "About" ? "sale-noti" : "")">
-                            <a href="@Url.Action("About", "Home")">Giới thiệu</a>
-                        </li>
-
-                        <li class="@(route.Values["Controller"].ToString() == "Category" && (route.Values["Action"].ToString() == "Index"
-                                || route.Values["Action"].ToString() == "Search" || route.Values["Action"].ToString() == "Detail") ? "sale-noti" : "")">
-                            <a href="@Url.Action("Index", "Category")">Sản phẩm thuê</a>
-                        </li>
-
-                        <li class="@(route.Values["Controller"].ToString() == "Category" && route.Values["Action"].ToString() == "Sale" ? "sale-noti" : "")">
-                            <a href="@Url.Action("Sale", "Category")">Sản phẩm bán</a>
-                        </li>
-
-                        <li class="@(route.Values["Controller"].ToString() == "News" && (route.Values["Action"].ToString() == "Index"
-                                || route.Values["Action"].ToString() == "Detail") ? "sale-noti" : "")">
-                            <a href="@Url.Action("Index", "News")">Gói sự kiện</a>
-                        </li>
-
-                        <li class="@(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "ForCustomer" ? "sale-noti" : "")">
-                            <a href="@Url.Action("ForCustomer", "Home")">Dành cho khách hàng</a>
-                        </li>
-
-                        <li class="@(route.Values["Controller"].ToString() == "News" && (route.Values["Action"].ToString() == "News"
-                                || route.Values["Action"].ToString() == "NewsDetail") ? "sale-noti" : "")">
-                            <a href="@Url.Action("News","News")">Tin tức</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-
-            <!-- Header Icon -->
-            <div class="header-icons">
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Header Mobile -->
-    <div class="wrap_header_mobile">
-        <!-- Logo moblie -->
-        <a href="@Url.Action("Index","Home")" class="logo-mobile">
-            <img src="~/Theme/front-end/images/icons/logo.png" alt="@ViewBag.Title">
-        </a>
-
-        <!-- Button show menu -->
-        <div class="btn-show-menu">
-            <!-- Header Icon mobile -->
-            <div class="header-icons-mobile">
-                @*<a href="#" class="header-wrapicon1 dis-block">
-                        <img src="~/Theme/front-end/images/icons/icon-header-01.png" class="header-icon1" alt="@ViewBag.Title">
-                    </a>*@
-
-                <span class="linedivide2"></span>
-
-                @*<div class="header-wrapicon2">
-                    <img src="~/Theme/front-end/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="@ViewBag.Title">
-                    <span class="header-icons-noti">0</span>
-
-                    <!-- Header cart noti -->
-                    <div class="header-cart header-dropdown">
-                        <ul class="header-cart-wrapitem">
-                            <li class="header-cart-item">
-                                <div class="header-cart-item-img">
-                                    <img src="~/Theme/front-end/images/item-cart-01.jpg" alt="IMG">
-                                </div>
-
-                                <div class="header-cart-item-txt">
-                                    <a href="#" class="header-cart-item-name">
-                                        White Shirt With Pleat Detail Back
-                                    </a>
-
-                                    <span class="header-cart-item-info">
-                                        1 x $19.00
-                                    </span>
-                                </div>
-                            </li>
-
-                            <li class="header-cart-item">
-                                <div class="header-cart-item-img">
-                                    <img src="~/Theme/front-end/images/item-cart-02.jpg" alt="IMG">
-                                </div>
-
-                                <div class="header-cart-item-txt">
-                                    <a href="#" class="header-cart-item-name">
-                                        Converse All Star Hi Black Canvas
-                                    </a>
-
-                                    <span class="header-cart-item-info">
-                                        1 x $39.00
-                                    </span>
-                                </div>
-                            </li>
-
-                            <li class="header-cart-item">
-                                <div class="header-cart-item-img">
-                                    <img src="~/Theme/front-end/images/item-cart-03.jpg" alt="IMG">
-                                </div>
-
-                                <div class="header-cart-item-txt">
-                                    <a href="#" class="header-cart-item-name">
-                                        Nixon Porter Leather Watch In Tan
-                                    </a>
-
-                                    <span class="header-cart-item-info">
-                                        1 x $17.00
-                                    </span>
-                                </div>
-                            </li>
-                        </ul>
-
-                        <div class="header-cart-total">
-                            Total: $75.00
-                        </div>
-
-                        <div class="header-cart-buttons">
-                            <div class="header-cart-wrapbtn">
-                                <!-- Button -->
-                                <a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-                                    View Cart
-                                </a>
-                            </div>
-
-                            <div class="header-cart-wrapbtn">
-                                <!-- Button -->
-                                <a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-                                    Check Out
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
-            </div>
 
             <div class="btn-show-menu-mobile hamburger hamburger--squeeze">
                 <span class="hamburger-box">
@@ -286,37 +263,32 @@
                         <a href="@youtube_link" class="topbar-social-item fa fa-youtube-play"></a>
                     </div>
                 </li>
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "Index" ? "sale-noti" : "")">
-                    <a href="@Url.Action("Index", "Home")">Trang chủ</a>
-                </li>
-
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "About" ? "sale-noti" : "")">
-                    <a href="@Url.Action("About", "Home")">Giới thiệu</a>
-                </li>
-
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Category" && (route.Values["Action"].ToString() == "Index"
-                                || route.Values["Action"].ToString() == "Search" || route.Values["Action"].ToString() == "Detail") ? "sale-noti" : "")">
-                    <a href="@Url.Action("Index", "Category")">Sản phẩm thuê</a>
-                </li>
-
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Category" && route.Values["Action"].ToString() == "Sale" ? "sale-noti" : "")">
-                    <a href="@Url.Action("Sale", "Category")">Sản phẩm bán</a>
-                </li>
-
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "News" && (route.Values["Action"].ToString() == "Index"
-                                || route.Values["Action"].ToString() == "Detail") ? "sale-noti" : "")">
-                    <a href="@Url.Action("Index", "News")">Gói sự kiện</a>
-                </li>
-
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "Home" && route.Values["Action"].ToString() == "ForCustomer" ? "sale-noti" : "")">
-                    <a href="@Url.Action("ForCustomer", "Home")">Dành cho khách hàng</a>
-                </li>
-
-                <li class="item-menu-mobile @(route.Values["Controller"].ToString() == "News" && (route.Values["Action"].ToString() == "News"
-                                || route.Values["Action"].ToString() == "NewsDetail") ? "sale-noti" : "")">
-                    <a href="@Url.Action("News","News")">Tin tức</a>
-                </li>
+                @foreach (var item in listMenu)
+                {
+                    <li class="item-menu-mobile @(controller == item.Controller && action == item.Action ? "sale-noti" : "")">
+                        <a href="@Url.Action(item.Action,item.Controller)">@item.Name</a>
+                    </li>
+                }
             </ul>
         </nav>
     </div>
 </header>
+<div class="wrap_header fixed-header2 trans-0-4">
+    <!-- Logo -->
+    <a href="#" class="logo">
+        <img src="~/Theme/front-end/images/icons/logo.png" alt="@ViewBag.Title">
+    </a>
+    <!-- Menu -->
+    <div class="wrap_menu_2">
+        <nav class="menu">
+            <ul class="main_menu">
+                @foreach (var item in listMenu)
+                {
+                    <li class="@(controller == item.Controller && action == item.Action ? "sale-noti" : "")">
+                        <a href="@Url.Action(item.Action,item.Controller)">@item.Name</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>

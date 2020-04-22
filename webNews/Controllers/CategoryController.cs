@@ -10,6 +10,7 @@ using webNews.Models.CategoryManagement;
 
 namespace webNews.Controllers
 {
+    // [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
     public class CategoryController : BaseController
     {
         private readonly ICategoryManagementService _categoryService;

@@ -1,6 +1,5 @@
 ﻿using NLog;
 using System;
-using System.Collections.Generic;
 using System.Dynamic;
 using System.Web.Mvc;
 using webNews.Areas.Admin.Models.Promotion;
@@ -9,7 +8,6 @@ using webNews.Domain.Entities;
 using webNews.Domain.Services;
 using webNews.Domain.Services.PromotionManagement;
 using webNews.Language.Language;
-using webNews.Models.Common;
 using webNews.Models.PromotionManagement;
 using webNews.Security;
 
@@ -104,7 +102,6 @@ namespace webNews.Areas.Admin.Controllers
                 });
             }
         }
-
 
         #endregion [ShowData]
 

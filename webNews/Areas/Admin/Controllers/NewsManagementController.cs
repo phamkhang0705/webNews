@@ -1,18 +1,13 @@
 ﻿using NLog;
 using System;
 using System.Dynamic;
-using System.IO;
 using System.Web.Mvc;
-using webNews.Areas.Admin.Models.Content;
 using webNews.Areas.Admin.Models.News;
 using webNews.Common;
 using webNews.Domain.Entities;
-using webNews.Domain.Services.ContentManagement;
-using webNews.Domain.Services.ContentTypeManagement;
 using webNews.Domain.Services.NewsCategoryManagement;
 using webNews.Domain.Services.NewsManagement;
 using webNews.Language.Language;
-using webNews.Models;
 using webNews.Models.ContentTypeManagement;
 using webNews.Security;
 

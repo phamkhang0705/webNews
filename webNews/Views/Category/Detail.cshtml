@@ -1,5 +1,4 @@
-﻿@using webNews.Domain.Entities
-@model webNews.Domain.Entities.Vw_Category
+﻿@model webNews.Domain.Entities.Vw_Category
 @{
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -36,7 +35,6 @@
         <div class="w-size13 p-t-30 respon5">
             <div class="wrap-slick3 flex-sb flex-w">
                 <div class="wrap-slick3-dots"></div>
-
                 <div class="slick3">
                     @if (listFiles.Count > 0)
                     {
@@ -65,9 +63,9 @@
                 </h5>
 
                 <div class="dropdown-content dis-none p-t-15 p-b-23">
-                    <p class="s-text8">
-                        @Html.Raw(Model.Description)
-                    </p>
+                    @* <p class="s-text8"> *@
+                    @Html.Raw(Model.Description)
+                    @* </p> *@
                 </div>
             </div>
         </div>
@@ -81,12 +79,12 @@
                 </h5>
 
                 <div class="dropdown-content dis-none p-t-15 p-b-23">
-                    <p class="s-text8">
-                        @Html.Raw(Model.MoreInformation)
-                    </p>
+                    @* <p class="s-text8"> *@
+                    @Html.Raw(Model.MoreInformation)
+                    @* </p> *@
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="fb-comments" data-href="@url" data-width="100%" data-numposts="5"></div>
+@*<div class="fb-comments" data-href="@url" data-width="100%" data-numposts="5"></div>*@

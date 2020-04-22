@@ -1,6 +1,5 @@
 ﻿using NLog;
 using System;
-using System.Collections.Generic;
 using System.Dynamic;
 using System.Web.Mvc;
 using webNews.Common;

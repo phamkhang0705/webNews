@@ -186,7 +186,7 @@
     <Compile Include="OrderType.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
-    <Compile Include="OrmLite.Poco1.cs">
+    <Compile Include="OrmLite.Poco.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
@@ -306,6 +306,7 @@
     <Compile Include="Service.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="ServiceFactory.cs" />
     <Compile Include="Services\BizAccountTypeManagement\BizAccountTypeService.cs" />
     <Compile Include="Services\BizAccountTypeManagement\IBizAccountTypeService.cs" />
     <Compile Include="Services\CategoryDetailManagement\CategoryDetailManagementService.cs" />
@@ -446,6 +447,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\PagedList.css" />
+    <Content Include="OrmLite.Poco.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OrmLite.Poco.cs</LastGenOutput>
+    </Content>
     <Content Include="OrmLite.SP.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OrmLite.SP.cs</LastGenOutput>
@@ -461,12 +466,6 @@
     </None>
     <None Include="OrmLite.Core.ttinclude" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="OrmLite.Poco.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OrmLite.Poco1.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

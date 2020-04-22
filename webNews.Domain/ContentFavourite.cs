@@ -18,19 +18,13 @@ namespace webNews.Domain.Entities
     public partial class ContentFavourite : IHasId<int> 
     {
         [Alias("Id")]
-        [AutoIncrement]
+        [Required]
         public int Id { get; set; }
-        [Required]
-        public int ContentId { get; set; }
-        [Required]
+        public int? ContentId { get; set; }
         public string ContentType { get; set; }
-        [Required]
         public string Status { get; set; }
-        [Required]
-        public DateTime UpdatedTime { get; set; }
-        [Required]
-        public int UserId { get; set; }
-        [Required]
+        public DateTime? UpdatedTime { get; set; }
+        public int? UserId { get; set; }
         public string FavouriteType { get; set; }
     }
 

@@ -32,7 +32,6 @@
                             @Html.ValidationHtmlMessageFor(model => model.Status, "", new { @class = "field-validation-valid" })
                             @Html.DropDownListFor(x => x.Status, new SelectList(Model.ListStatus, "Value", "Text"), new { @class = "form-control input-sm", @id = "txtStatus" })
                         </div>
-
                     </div><div class="form-group">
                         <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Title)</label>
                         <div class="col-xs-10">

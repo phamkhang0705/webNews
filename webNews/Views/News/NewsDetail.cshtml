@@ -3,98 +3,106 @@
 @{
     ViewBag.Title = Model.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var url = Request.Url.ToString();
+    // var url = Request.Url.ToString();
     string[] list_tags = new string[100];
     List<Vw_News> relatedsList = ViewBag.RelatedNews;
 }
 <!-- News Detail -->
-<div class="container">
-    <!-- content page -->
-    <section class="bgwhite p-b-25">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-lg-9 p-b-80">
-                    <div class="p-r-50 p-r-0-lg">
-                        <div class="p-b-40">
-                            @if (!string.IsNullOrEmpty(@Model.Image))
-                            {
-                                <div class="blog-detail-img wrap-pic-w">
-                                    <img data-src="@Model.Image" alt="@Model.ShortName" class="lazy-loading">
-                                    <p class="image-comment">@Model.ImageComment</p>
-                                </div>
-                            }
-                            <div class="blog-detail-txt p-t-33">
-                                <h4 class="p-b-11 m-text24">
-                                    @Model.Title
-                                </h4>
-
-                                <div class="s-text8 flex-w flex-m p-b-21">
-                                    <span>
-                                        @Model.CreatedDate
-                                    </span>
-                                </div>
-
-                                <p class="p-b-25">
-                                    @Html.Raw(Model.Content)
-                                </p>
-                            </div>
-                            @if (!string.IsNullOrEmpty(Model.Tags))
-                            {
-                                <div class="flex-m flex-w p-t-20">
-                                    <span class="s-text20 p-r-20">
-                                        Tags
-                                    </span>
-                                    @{
-                                        list_tags = Model.Tags.Split(',');
-                                    }
-                                    @if (list_tags.Count() > 0)
-                                    {
-                                        foreach (var tag in list_tags)
-                                        {
-                                            <div class="wrap-tags flex-w">
-                                                <a href="#" class="tag-item">
-                                                    @tag
-                                                </a>
-                                            </div>
-                                        }
-
-                                    }
-                                </div>
-                                        }
+@* <div class="container"> *@
+<!-- content page -->
+<section class="bgwhite p-b-25">
+    @* <div class="container"> *@
+    <div class="row">
+        <div class="col-md-8 col-lg-9 p-b-0 p-r-5 b-r-3">
+            <div class="p-r-10 p-r-0-lg">
+                <div class="p-b-40">
+                    @if (!string.IsNullOrEmpty(@Model.Image))
+                    {
+                        <div class="blog-detail-img wrap-pic-w">
+                            <img data-src="@Model.Image" alt="@Model.ShortName" class="lazy-loading">
+                            <p class="image-comment">@Model.ImageComment</p>
                         </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-lg-3 p-b-80">
-                    <div class="rightbar">
-                        <!-- Related news -->
-                        <h4 class="m-text23 p-b-34">
-                            Bài viết liên quan
+                    }
+                    <div class="blog-detail-txt p-t-33">
+                        <h4 class="p-b-11 m-text24">
+                            @Model.Title
                         </h4>
 
-                        <ul class="bgwhite">
-                            @if (relatedsList.Count > 0)
-                            {
-                                foreach (var item in relatedsList)
-                                {
-                                    <li class="flex-w p-b-20">
-                                        <a href="@Url.Action("NewsDetail", "News", new {@news_short_name=item.ShortName })" class="dis-block wrap-pic-w w-size22 m-r-20 trans-0-4 hov4">
-                                            <img data-src="@item.Image" alt="@item.ShortName" class="lazy-loading">
-                                        </a>
+                        <div class="s-text8 flex-w flex-m p-b-21">
+                            <span>
+                                @Model.CreatedDate
+                            </span>
+                        </div>
 
-                                        <div class="w-size23 p-t-5">
-                                            <a href="@Url.Action("NewsDetail", "News", new {@news_short_name=item.ShortName })" class="s-text20">
-                                                @item.Title
-                                            </a>
-                                        </div>
-                                    </li>
-                                }
-                            }
-                        </ul>
+                        @* <p class="p-b-25"> *@
+                        @Html.Raw(Model.Content)
+                        @* </p> *@
                     </div>
+                    @if (!string.IsNullOrEmpty(Model.Tags))
+                    {
+                        <div class="flex-m flex-w p-t-20">
+                            <span class="s-text20 p-r-20">
+                                Tags
+                            </span>
+                            @{
+                                list_tags = Model.Tags.Split(',');
+                            }
+                            @if (list_tags.Count() > 0)
+                            {
+                                foreach (var tag in list_tags)
+                                {
+                                    <div class="wrap-tags flex-w">
+                                        <a href="#" class="tag-item">
+                                            @tag
+                                        </a>
+                                    </div>
+                                }
+
+                            }
+                        </div>
+                    }
                 </div>
             </div>
         </div>
-    </section>
-</div>
-<div class="fb-comments" data-href="@url" data-width="100%" data-numposts="5"></div>
+
+        <div class="col-md-4 col-lg-3 p-b-80 p-l-15 p-r-0">
+            <div class="rightbar">
+                <!-- Related news -->
+                <h4 class="m-text23 p-b-0 text-uppercase font-inherit">
+                    Bài viết liên quan
+                </h4>
+                <hr class="hr" />
+                <ul class="bgwhite">
+                    @if (relatedsList.Count > 0)
+                    {
+                        foreach (var item in relatedsList)
+                        {
+                            <li class="flex-w p-b-10">
+                                <a href="@Url.Action("NewsDetail", "News", new {@news_short_name=item.ShortName })" class="dis-block wrap-pic-w w-size22 m-r-8 m-t-5 trans-0-4 hov4">
+                                    <img data-src="@item.Image" alt="@item.ShortName" class="lazy-loading">
+                                </a>
+
+                                <div class="w-size23">
+                                    <a href="@Url.Action("NewsDetail", "News", new {@news_short_name=item.ShortName })" class="s-text19">
+                                        @item.Title
+                                    </a>
+                                </div>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="flex-w p-b-10">
+                            <div class="w-size23 p-t-5">
+                                Không có bài viết nào
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    @* </div> *@
+</section>
+@* </div> *@
+@* <div class="fb-comments" data-href="@url" data-width="100%" data-numposts="5"></div> *@

@@ -12,7 +12,6 @@ using webNews.Models.NewsManagement;
 
 namespace webNews.Controllers
 {
-    //    [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
     public class HomeController : BaseController
     {
         private readonly ISystemService _service;
@@ -57,7 +56,7 @@ namespace webNews.Controllers
                 return null;
             }
         }
-
+        [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
         public ActionResult ListSlides(int type = 1)
         {
             try

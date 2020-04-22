@@ -213,6 +213,7 @@ namespace webNews.Areas.Admin.Controllers
         #endregion Create
 
         #region [Update]
+
         [ValidateInput(false)]
         public ActionResult Update(Vw_Customer customer)
         {
@@ -261,6 +262,7 @@ namespace webNews.Areas.Admin.Controllers
         }
 
         #endregion [Update]
+
         #region [Delete]
 
         public ActionResult Delete(int customerId)
@@ -295,6 +297,7 @@ namespace webNews.Areas.Admin.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
-        #endregion
+
+        #endregion [Delete]
     }
 }

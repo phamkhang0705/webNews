@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Globalization;
-using System.IO.Compression;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
-using webNews.Shared;
 
 namespace webNews
 {
@@ -14,6 +11,7 @@ namespace webNews
         {
             filters.Add(new HandleErrorAttribute());
         }
+
         public class LanguageAttribute : ActionFilterAttribute
         {
             public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -23,6 +21,7 @@ namespace webNews
                     controller.ViewBag.Language = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
             }
         }
+
         public class NoCache : ActionFilterAttribute
         {
             public override void OnResultExecuting(ResultExecutingContext filterContext)

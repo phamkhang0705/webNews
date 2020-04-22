@@ -1,5 +1,5 @@
-﻿using System.Web.Mvc;
-using NLog;
+﻿using NLog;
+using System.Web.Mvc;
 using webNews.Security;
 
 namespace webNews.Areas.Admin.Controllers
@@ -12,7 +12,6 @@ namespace webNews.Areas.Admin.Controllers
         public IndexController()
         {
             _log = LogManager.GetLogger("IndexController");
-
         }
 
         public ActionResult Index()
@@ -23,6 +22,7 @@ namespace webNews.Areas.Admin.Controllers
             //    return RedirectToAction("Permission", "Error");
             return View();
         }
+
         public ActionResult Create()
         {
             return View();
@@ -32,11 +32,14 @@ namespace webNews.Areas.Admin.Controllers
         {
             return Json(new { IsAuthen = CheckAuthorizer.IsAuthenticated() }, JsonRequestBehavior.AllowGet);
         }
+
         public ActionResult Edit()
         {
             return View();
         }
+
         #region ChangeLang
+
         public ActionResult ChangeLanguage(string culture, string returnUrl)
         {
             if (!string.IsNullOrEmpty(culture))
@@ -56,6 +59,7 @@ namespace webNews.Areas.Admin.Controllers
             }
             return RedirectToAction("Index", "Index");
         }
-        #endregion
+
+        #endregion ChangeLang
     }
 }

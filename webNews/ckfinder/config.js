@@ -9,9 +9,9 @@ CKFinder.customConfig = function (config) {
     // http://docs.cksource.com/ckfinder_2.x_api/symbols/CKFinder.config.html
 
     // Sample configuration options:
-    config.uiColor = '#BDE31E';
-    config.language = 'vi';
-    config.extraPlugins = 'uploadfile';
-    config.extraPlugins = 'uploadwidget';
-    config.extraPlugins = 'widget';
+    //    config.uiColor = '#BDE31E';
+    //    config.language = 'vi';
+    //    config.extraPlugins = 'uploadfile';
+    //    config.extraPlugins = 'uploadwidget';
+    //    config.extraPlugins = 'widget';
 };

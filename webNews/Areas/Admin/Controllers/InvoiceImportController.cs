@@ -165,7 +165,6 @@ namespace webNews.Areas.Admin.Controllers
             }
         }
 
-
         public ActionResult GetInvoice(string code)
         {
             try
@@ -207,7 +206,6 @@ namespace webNews.Areas.Admin.Controllers
                 });
             }
         }
-
 
         #endregion GetData
 
@@ -303,7 +301,6 @@ namespace webNews.Areas.Admin.Controllers
         }
 
         #endregion Create
-
 
         #region [Update]
 

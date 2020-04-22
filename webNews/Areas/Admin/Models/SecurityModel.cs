@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using webNews.Domain;
 using webNews.Domain.Entities;
 using webNews.Language.Language;
 
@@ -14,11 +13,13 @@ namespace webNews.Areas.Admin.Models
     public class PermissionCreateModel
     {
         public int Id { get; set; }
+
         [DisplayName("Tên quyền")]
         [RegularExpression("[a-zA-Z0-9]*", ErrorMessageResourceType = typeof(Resource),
             ErrorMessageResourceName = "Validate_UserName_Invalid_Lang")]
         [Required(ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "Require_Message_Lang")]
         public string PermissionName { get; set; }
+
         [DisplayName("Mô tả")]
         public string Description { get; set; }
     }

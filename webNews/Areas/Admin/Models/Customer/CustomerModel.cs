@@ -33,11 +33,11 @@ namespace webNews.Areas.Admin.Models.Customer
         public string Phone { get; set; }
 
         [Display(Name = "Email")]
-//        [Required(ErrorMessage = "Vui lòng nhập email")]
+        //        [Required(ErrorMessage = "Vui lòng nhập email")]
         public string Email { get; set; }
 
         [Display(Name = "Facebook")]
-//        [Required(ErrorMessage = "Vui lòng nhập Facebook")]
+        //        [Required(ErrorMessage = "Vui lòng nhập Facebook")]
         public string Facebook { get; set; }
 
         [Display(Name = "Tỉnh")]

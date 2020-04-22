@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using webNews.Domain.Entities;
 
 namespace webNews.Areas.Admin.Models.Promotion
 {
@@ -26,16 +25,19 @@ namespace webNews.Areas.Admin.Models.Promotion
         [Display(Name = "Mô tả")]
         [StringLength(2000, ErrorMessage = "Mô tả tối đa 2000 ký tự")]
         public string Description { get; set; }
+
         [Display(Name = "Từ ngày")]
         public DateTime? FromDate { get; set; }
+
         [Display(Name = "Đến ngày")]
         public DateTime? ToDate { get; set; }
+
         public DateTime? UpdatedDate { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? UpdatedBy { get; set; }
         public string Action { get; set; }
-        
+
         public List<SelectListItem> ListStatus { get; set; }
     }
 }

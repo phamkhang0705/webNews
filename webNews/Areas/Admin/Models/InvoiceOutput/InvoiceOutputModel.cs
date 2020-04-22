@@ -64,18 +64,23 @@ namespace webNews.Areas.Admin.Models.InvoiceOutport
 
         public int? Type { get; set; }
         public int CreatedBy { get; set; }
+
         [Display(Name = "Tổng tiền cọc")]
         public double? TotalDeposit { get; set; }
+
         [Display(Name = "Tổng tiền vận chuyển")]
         public double? TotalTransport { get; set; }
 
         public string InvoiceType { get; set; }
         public double? TotalDepositDiscount { get; set; }
         public double? TotalTransportDiscount { get; set; }
+
         [Display(Name = "Địa chỉ giao hàng")]
         public string DeliveryAddress { get; set; }
+
         [Display(Name = "Ngày giao hàng")]
         public DateTime? DeliveryDate { get; set; }
+
         [Display(Name = "Số điện thoại liên hệ")]
         public string DeliveryPhone { get; set; }
 

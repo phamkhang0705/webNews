@@ -28,7 +28,7 @@
 <section class="bgwhite p-t-55 p-b-65">
     <div class="container">
         <div class="row">
-            <div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
+            <div class="col-sm-6 col-md-4 col-lg-3 p-b-50" style="border-right: 1px solid #c7c7c7">
                 <div class="leftbar p-r-20 p-r-0-sm">
                     <form id='form-filter' action="@Url.Action("Search","Category")" method="get">
                         <!-- -->
@@ -115,8 +115,8 @@
                                 <!-- Block2 -->
                                 <div class="block2">
                                     <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew" data-id="@item.Id">
-                                        <a href="@Url.Action("Detail", "Category", new {@shortname=item.ShortName })" class="block2-name dis-block s-text3 p-b-5">
-                                            <img data-src="@Url.Content("~/Content/Cate/" + Path.GetFileName(item.Avatar))" alt="@item.ShortName"  class="lazy-loading">
+                                        <a href="@Url.Action("Detail", "Category", new {@rental_short_name=item.ShortName })" class="block2-name dis-block s-text3 p-b-5">
+                                            <img data-src="@Url.Content("~/Content/Cate/" + Path.GetFileName(item.Avatar))" alt="@item.ShortName" class="lazy-loading">
                                         </a>
                                         <div class="block2-overlay trans-0-4">
                                             <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -160,25 +160,16 @@
     </div>
 </section>
 
-<!--===============================================================================================-->
 <script type="text/javascript" src="/Theme/front-end/vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
 <script type="text/javascript" src="/Theme/front-end/vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
 <script type="text/javascript" src="/Theme/front-end/vendor/bootstrap/js/popper.js"></script>
 <script type="text/javascript" src="/Theme/front-end/vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
 <script type="text/javascript" src="/Theme/front-end/vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-
 <script type="text/javascript" src="/Theme/front-end/vendor/daterangepicker/moment.min.js"></script>
 <script type="text/javascript" src="/Theme/front-end/vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
 <script type="text/javascript" src="/Theme/front-end/vendor/slick/slick.min.js"></script>
 <script type="text/javascript" src="/Theme/front-end/js/slick-custom.js"></script>
-<!--===============================================================================================-->
 <script type="text/javascript" src="/Theme/front-end/vendor/sweetalert/sweetalert.min.js"></script>
-
 <script type="text/javascript" src="/Theme/front-end/vendor/noui/nouislider.min.js"></script>
 
 

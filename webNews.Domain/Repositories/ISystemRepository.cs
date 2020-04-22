@@ -43,11 +43,13 @@ namespace webNews.Domain.Repositories
 
         //get about information
 
-        About GetAbout(int status=1);
-        About GetForCustomer(int status=1);
+        About GetAbout(int status = 1);
+        About GetForCustomer(int status = 1);
 
-        List<Content> GetBanners(int type=0,int status=1);
+        List<Content> GetBanners(int type = 0, int status = 1);
         Content GetBanner(int type = 0, int status = 1);
+
+        List<MenuFE> GetMenuFE();
     }
 
 }

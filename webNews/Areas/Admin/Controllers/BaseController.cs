@@ -29,7 +29,6 @@ namespace webNews.Areas.Admin.Controllers
         {
             get { return int.Parse(ConfigurationManager.AppSettings["pageLength"] ?? "5"); }
         }
-        
 
         public string UserName
         {

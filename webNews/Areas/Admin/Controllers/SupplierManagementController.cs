@@ -213,6 +213,7 @@ namespace webNews.Areas.Admin.Controllers
         #endregion Create
 
         #region [Update]
+
         [ValidateInput(false)]
         public ActionResult Update(Vw_Customer customer)
         {

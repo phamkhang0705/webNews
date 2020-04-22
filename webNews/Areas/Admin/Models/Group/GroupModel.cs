@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using webNews.Domain.Entities;
 using System.Web.Mvc;
+
 namespace webNews.Areas.Admin.Models.Group
 {
     public class GroupModel
@@ -28,6 +28,7 @@ namespace webNews.Areas.Admin.Models.Group
 
         [Display(Name = "Trạng thái")]
         public int? Status { get; set; }
+
         public int? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? UpdatedBy { get; set; }

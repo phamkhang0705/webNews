@@ -23,7 +23,6 @@ namespace webNews.Domain.Entities
         public int? CategoryId { get; set; }
         public int? Type { get; set; }
         public string Title { get; set; }
-        public string ShortName { get; set; }
         public string Author { get; set; }
         public string Source { get; set; }
         public string ContentDetail { get; set; }
@@ -31,6 +30,7 @@ namespace webNews.Domain.Entities
         public string Description { get; set; }
         public int? Order { get; set; }
         public string Slug { get; set; }
+        public string ShortName { get; set; }
         public string Action { get; set; }
         public string Tags { get; set; }
         public string Image { get; set; }

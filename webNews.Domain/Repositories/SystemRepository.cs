@@ -488,7 +488,7 @@ namespace webNews.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Info("Get medias error", ex, ex.Message, ex.StackTrace);
+                _logger.Info("Get medias error" + ex.Message, ex, ex.Message, ex.StackTrace);
 
                 return null;
             }
@@ -522,7 +522,7 @@ namespace webNews.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Info("Get medias error", ex, ex.Message, ex.StackTrace);
+                _logger.Info("Get medias error" + ex.Message, ex, ex.Message, ex.StackTrace);
 
                 return null;
             }
@@ -541,7 +541,7 @@ namespace webNews.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Info("Get Province error", ex, ex.Message, ex.StackTrace);
+                _logger.Info("Get Province error" + ex.Message, ex, ex.Message, ex.StackTrace);
 
                 return null;
             }
@@ -560,7 +560,7 @@ namespace webNews.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Info("Get Districts error", ex, ex.Message, ex.StackTrace);
+                _logger.Info("Get Districts error" + ex.Message, ex, ex.Message, ex.StackTrace);
                 return null;
             }
         }
@@ -579,7 +579,7 @@ namespace webNews.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Info("Get Wards error", ex, ex.Message, ex.StackTrace);
+                _logger.Info("Get Wards error" + ex.Message, ex, ex.Message, ex.StackTrace);
 
                 return null;
             }
@@ -597,7 +597,7 @@ namespace webNews.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Info("Get Banks error", ex, ex.Message, ex.StackTrace);
+                _logger.Info("Get Banks error" + ex.Message, ex, ex.Message, ex.StackTrace);
 
                 return new List<Bank>();
             }
@@ -615,7 +615,7 @@ namespace webNews.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Info("Get InvoiceType error", ex, ex.Message, ex.StackTrace);
+                _logger.Info("Get InvoiceType error" + ex.Message, ex, ex.Message, ex.StackTrace);
 
                 return new List<InvoiceType>();
             }
@@ -634,7 +634,7 @@ namespace webNews.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Info("Get InvoiceType error", ex, ex.Message, ex.StackTrace);
+                _logger.Info("Get InvoiceType error" + ex.Message, ex, ex.Message, ex.StackTrace);
 
                 return new About();
             }
@@ -652,7 +652,7 @@ namespace webNews.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Info("Get InvoiceType error", ex, ex.Message, ex.StackTrace);
+                _logger.Info("Get InvoiceType error" + ex.Message, ex, ex.Message, ex.StackTrace);
 
                 return new About();
             }
@@ -670,7 +670,7 @@ namespace webNews.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Info("Get GetBanners error", ex, ex.Message, ex.StackTrace);
+                _logger.Info("Get GetBanners error" + ex.Message, ex, ex.Message, ex.StackTrace);
 
                 return new List<Content>();
             }
@@ -688,11 +688,19 @@ namespace webNews.Domain.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Info("Get GetBanners error", ex, ex.Message, ex.StackTrace);
+                _logger.Info("Get GetBanner error" + ex.Message, ex, ex.Message, ex.StackTrace);
 
                 return new Content();
             }
         }
-
+        public List<MenuFE> GetMenuFE()
+        {
+            using (var db = _connectionFactory.Open())
+            {
+                var query = db.From<MenuFE>();
+                query = query.Where(x => x.Show == true).OrderBy(x => x.Order);
+                return db.Select(query);
+            }
+        }
     }
 }

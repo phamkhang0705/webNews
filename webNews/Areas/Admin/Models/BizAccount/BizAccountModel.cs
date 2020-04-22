@@ -31,6 +31,7 @@ namespace webNews.Areas.Admin.Models.BizAccount
 
         [Display(Name = "Trạng thái")]
         public int? Status { get; set; }
+
         [Display(Name = "Tài khoản thu/chi")]
         public int? Type { get; set; }
 

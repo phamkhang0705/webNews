@@ -12,17 +12,18 @@
 
     window.fbAsyncInit = function () {
         FB.init({
-            appId: '569529357184239', // App ID
+            appId: '259898955411570', // App ID
             status: true, // check login status
             cookie: true, // enable cookies to allow the server to access the session
             xfbml: true,  // parse XFBML
-            version: 'v2.11'
+            version: 'v6.0'
         });
         FB.AppEvents.logPageView();
     };
 
     function Login() {
         FB.login(function (response) {
+            console.log(response);
             if (response.authResponse) {
                 getFacebookUserInfo();
             } else {

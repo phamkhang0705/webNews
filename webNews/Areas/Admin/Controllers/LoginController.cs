@@ -1,15 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using NLog;
+using ServiceStack.Caching;
+using System;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using webNews.Models;
 using webNews.Areas.Admin.Models.Login;
-using NLog;
-using ServiceStack.Caching;
-using webNews.Models.Common;
-using System.Threading.Tasks;
 using webNews.Domain.Entities;
+using webNews.Models;
 using webNews.Security;
 using webNews.Services.SecurityService;
 
@@ -20,6 +18,7 @@ namespace webNews.Areas.Admin.Controllers
         private readonly Logger _log = LogManager.GetLogger("LoginController");
         private static readonly MemoryCacheClient Cache = new MemoryCacheClient();
         private readonly IUserService _userService;
+
         public LoginController(IUserService userService)
         {
             _userService = userService;
@@ -73,8 +72,8 @@ namespace webNews.Areas.Admin.Controllers
             Cache.Add(username + newId, login, DateTime.Now.AddMinutes(1));
 
             return RedirectToAction("Authenticate", "Login", new { username });
-
         }
+
         public async Task<ActionResult> Authenticate(string username)
         {
             var rs = new JsonRs
@@ -107,7 +106,6 @@ namespace webNews.Areas.Admin.Controllers
                         };
                         return Json(new { result = rs }, JsonRequestBehavior.AllowGet);
                     }
-
                 }
                 return Json(new { result = rs }, JsonRequestBehavior.AllowGet);
             }
@@ -122,23 +120,24 @@ namespace webNews.Areas.Admin.Controllers
         {
             return View();
         }
+
         public ActionResult Logout()
         {
-
             bool isOk = Authentication.Logout();
             return Json(new { result = isOk ? 1 : 0 }, JsonRequestBehavior.AllowGet);
             /**/
         }
+
         [HttpPost]
         public ActionResult ResetCapchar()
         {
-
             var obj = GetCapcharImg();
             return Json(obj, JsonRequestBehavior.AllowGet);
             /**/
         }
 
         #region GetCapchar
+
         private CaptchModel GetCapcharImg()
         {
             var loginModel = new LoginModel();
@@ -149,14 +148,14 @@ namespace webNews.Areas.Admin.Controllers
             };
             return obj;
         }
-        #endregion
+
+        #endregion GetCapchar
 
         [HttpPost]
         public ActionResult ForgotPassword(string userName, string email, string capchar)
         {
             if (capchar.ToLower() == ((string)Session["Captcha"]).ToLower())
             {
-
                 var isSuccess = false;
                 var msg = "";
                 isSuccess = _userService.VerifyUserAndEmail(userName, email);
@@ -213,11 +212,13 @@ namespace webNews.Areas.Admin.Controllers
             var loginModel = new LoginModel();
             return "data:image/png;base64," + loginModel.GetCaptchaImage();
         }
+
         public string GetCapChaQMK()
         {
             var loginModel = new LoginModel();
             return "data:image/png;base64," + loginModel.GetCaptchaImage();
         }
+
         public class UserModel
         {
             public string UserName { get; set; }
@@ -226,6 +227,7 @@ namespace webNews.Areas.Admin.Controllers
         }
 
         #region Update Password
+
         //[HttpPost]
         //public ActionResult ShowChangePass()
         //{
@@ -279,6 +281,7 @@ namespace webNews.Areas.Admin.Controllers
         //    var rsError = new JsonRs { Status = "00", Message = Lang.Resource.InvalidInfomation_Lang };
         //    return Json(rsError, JsonRequestBehavior.AllowGet);
         //}
-        #endregion
+
+        #endregion Update Password
     }
 }

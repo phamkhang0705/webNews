@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
-using webNews.Common;
 
 namespace webNews
 {
@@ -15,8 +14,6 @@ namespace webNews
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
-
 
             routes.MapRoute(
               name: "CategoryRental",

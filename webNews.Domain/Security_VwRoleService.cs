@@ -18,7 +18,7 @@ namespace webNews.Domain.Entities
     public partial class Security_VwRoleService 
     {
         [Required]
-        public long RoleID { get; set; }
+        public int RoleID { get; set; }
         public string RoleName { get; set; }
         public string FunctionName { get; set; }
         public int? FunctionID { get; set; }

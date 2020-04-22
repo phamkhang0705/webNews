@@ -87,3 +87,74 @@ select.form-control:not([size]):not([multiple]) {
 .btn-back-to-top {
     bottom: 160px;
 }
+
+.blog-detail-txt p {
+    color: initial !important;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    color: inherit !important;
+}
+
+li.flex-w {
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+.hr {
+    border-top: 4px solid rgba(0,0,0,.1);
+    color: #c7c7c7;
+}
+
+.wrap-pic-w img {
+    width: 100%;
+    height: 100%;
+}
+
+.s-text19 {
+    text-transform: inherit;
+}
+
+.b-r-3 {
+    border-right: 3px solid #c7c7c7;
+}
+
+.font-inherit {
+    font-family: inherit;
+}
+
+.text-color-inherit {
+    color: inherit;
+}
+
+header#header .header-link .item .ico, header#header .header-link .item .icon-style-1 {
+    font-size: 22px;
+    float: left;
+    position: absolute;
+    left: 0;
+    top: 9px;
+}
+i.ico {
+    font-family: icomoon !important;
+}
+
+i.ico, i.ico-v2 {
+    speak: none;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    font-style: normal;
+}
+
+header#header .header-link .user-profile .box ul.user-ajax-guest li#login_fb_link a span.icon, header#header .header-link .user-profile .box ul.user-ajax-guest li#login_google_link a span.icon {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 22px;
+    height: 40px;
+    left: 0;
+    color: #fff;
+    border-right: 1px solid #45479d;
+    margin-right: 10px;
+}

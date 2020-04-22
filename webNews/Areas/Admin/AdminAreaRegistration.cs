@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace webNews.Areas.Admin
 {
@@ -26,6 +25,5 @@ namespace webNews.Areas.Admin
                new { controller = "Login", action = "Index", id = UrlParameter.Optional }
            );
         }
-
     }
 }

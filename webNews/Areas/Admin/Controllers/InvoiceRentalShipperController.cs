@@ -333,7 +333,6 @@ namespace webNews.Areas.Admin.Controllers
 
         #region [Update]
 
-
         public ActionResult Update(string invoiceCode, int status, DateTime? date, string note)
         {
             if (!CheckAuthorizer.Authorize(Permission.EDIT)) return RedirectToAction("Index", "Login");
