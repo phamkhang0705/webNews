@@ -98,7 +98,30 @@ namespace webNews
               defaults: new { controller = "News", action = "NewsDetail", news_short_name = UrlParameter.Optional },
               namespaces: new[] { "webNews.Controllers" }
             );
+            routes.MapRoute(
+                name: "Login",
+                url: "dang-nhap",
+                defaults: new { controller = "User", action = "Login", id = UrlParameter.Optional },
+                namespaces: new[] { "webNews.Controllers" }
+            );
 
+            routes.MapRoute(
+                name: "Home",
+                url: "trang-chu",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "webNews.Controllers" }
+            );
+            routes.MapRoute(
+                 name: "Cart",
+                 url: "gio-hang",
+                 defaults: new { controller = "Cart", action = "Index", id = UrlParameter.Optional },
+                 namespaces: new[] { "webNews.Controllers" }
+             ); routes.MapRoute(
+                  name: "Order",
+                  url: "dat-hang",
+                  defaults: new { controller = "Cart", action = "CheckOut", id = UrlParameter.Optional },
+                  namespaces: new[] { "webNews.Controllers" }
+              );
             routes.MapRoute(
               name: "Default",
               url: "{controller}/{action}/{id}",

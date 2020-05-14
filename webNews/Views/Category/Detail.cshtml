@@ -1,36 +1,33 @@
-﻿@model webNews.Domain.Entities.Vw_Category
+﻿@using webNews.Domain.Entities
+@model webNews.Domain.Entities.Vw_Category
 @{
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var listFiles = ViewBag.ListFiles;
+    var listRelated = ViewBag.ListRelated as List<Vw_Category>;
     var url = Request.Url.ToString();
 }
 
-<!-- breadcrumb -->
-@*<div class="bread-crumb bgwhite flex-w p-l-52 p-r-15 p-t-30 p-l-15-sm">
-        <a href="index.html" class="s-text16">
-            Home
-            <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
-        </a>
 
-        <a href="product.html" class="s-text16">
-            Women
-            <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
-        </a>
-
-        <a href="#" class="s-text16">
-            T-Shirt
-            <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
-        </a>
-
-        <span class="s-text17">
-            Boxy T-Shirt with Roll Sleeve Detail
-        </span>
-    </div>*@
 
 <!-- Product Detail -->
-<div class="container bgwhite p-t-35 p-b-80">
+<div class="container bgwhite p-b-80">
+    <!-- breadcrumb -->
+    <div class="bread-crumb bgwhite flex-w p-r-15 p-b-30 p-l-15-sm">
+        <a href="@Url.Action("Index", "Home")" clas class="s-text13">
+            Trang chủ
+            <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+        </a>
+        <a href="@Url.Action("Index", "Category")" clas class="s-text13">
+            Sản phẩm thuê
+            <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+        </a>
+
+        <span class="s-text13">
+            @Model.Name
+        </span>
+    </div>
     <div class="flex-w flex-sb">
         <div class="w-size13 p-t-30 respon5">
             <div class="wrap-slick3 flex-sb flex-w">
@@ -42,7 +39,7 @@
                         {
                             <div class="item-slick3" data-thumb="@Url.Content("~/Content/Cate/" + Path.GetFileName(file.Url))">
                                 <div class="wrap-pic-w">
-                                    <img data-src="@Url.Content("~/Content/Cate/" + Path.GetFileName(file.Url))" alt="@Model.ShortName" class="lazy-loading" />
+                                    <img data-src="@Url.Content("~/Content/Cate/" + Path.GetFileName(file.Url))" alt="@Model.ShortName" class="lazy-loading"/>
                                 </div>
                             </div>
                         }
@@ -63,28 +60,56 @@
                 </h5>
 
                 <div class="dropdown-content dis-none p-t-15 p-b-23">
-                    @* <p class="s-text8"> *@
                     @Html.Raw(Model.Description)
-                    @* </p> *@
+                    <div class="btn-addcart w-size1 trans-0-4" data-id="@Model.Id" data-name="@Model.Name">
+                        <!-- Button -->
+                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
         <div style="width: 10%"></div>
-        <div style="width:90%">
-            <div class="wrap-dropdown-content bo7 p-t-15 p-b-14 active-dropdown-content">
+        <div style="width: 90%">
+            <div class="wrap-dropdown-content bo7 p-t-15 p-b-14 active-dropdown-content content-detail">
                 <h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
                     Thông tin chi tiết
                     <i class="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
                     <i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
                 </h5>
 
-                <div class="dropdown-content dis-none p-t-15 p-b-23">
-                    @* <p class="s-text8"> *@
+                <div class="dropdown-content dis-none p-t-15 p-b-23 width-100">
                     @Html.Raw(Model.MoreInformation)
-                    @* </p> *@
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Relate Product -->
+<section class="relateproduct bgwhite p-t-45 p-b-138">
+    <div class="container">
+        <div class="sec-title p-b-60">
+            <h3 class="m-text5 t-center">
+                Sản phẩm tương tự
+            </h3>
+        </div>
+        @if (listRelated.Count > 0)
+        {
+            <!-- Slide2 -->
+            <div class="wrap-slick2">
+                <div class="slick2">
+                    @foreach (Vw_Category cate in listRelated)
+                    {
+                        <div class="item-slick2 p-l-15 p-r-15">
+                            @Html.Action("CategoryItem", "Category", new { model = cate })
+                        </div>
+                    }
+                </div>
+
+            </div>
+        }
+    </div>
+</section>
 @*<div class="fb-comments" data-href="@url" data-width="100%" data-numposts="5"></div>*@

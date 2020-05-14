@@ -7,11 +7,30 @@
     string[] list_tags = new string[100];
     List<Vw_News> relatedsList = ViewBag.RelatedNews;
 }
-<!-- News Detail -->
-@* <div class="container"> *@
+
+<style>
+    .bread-crumb a {
+        color: #333333 !important;
+    }
+</style>
+
 <!-- content page -->
-<section class="bgwhite p-b-25">
-    @* <div class="container"> *@
+<section class="container bgwhite p-b-25">
+    <!-- breadcrumb -->
+    <div class="bread-crumb bgwhite flex-w p-r-15 p-b-30 p-l-15-sm">
+        <a href="@Url.Action("Index", "Home")" clas class="s-text13">
+            Trang chủ
+            <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+        </a>
+        <a href="@Url.Action("News", "News")" clas class="s-text13">
+            Tin tức
+            <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+        </a>
+
+        <span class="s-text13">
+            @Model.Title
+        </span>
+    </div>
     <div class="row">
         <div class="col-md-8 col-lg-9 p-b-0 p-r-5 b-r-3">
             <div class="p-r-10 p-r-0-lg">
@@ -23,8 +42,8 @@
                             <p class="image-comment">@Model.ImageComment</p>
                         </div>
                     }
-                    <div class="blog-detail-txt p-t-33">
-                        <h4 class="p-b-11 m-text24">
+                    <div class="blog-detail-txt p-t-33 width-100">
+                        <h4 class="blog-detail-txt p-t-33">
                             @Model.Title
                         </h4>
 
@@ -33,10 +52,7 @@
                                 @Model.CreatedDate
                             </span>
                         </div>
-
-                        @* <p class="p-b-25"> *@
-                        @Html.Raw(Model.Content)
-                        @* </p> *@
+                        <div class="blog-detail-txt">@Html.Raw(Model.Content)</div>
                     </div>
                     @if (!string.IsNullOrEmpty(Model.Tags))
                     {
@@ -60,7 +76,7 @@
 
                             }
                         </div>
-                    }
+                                }
                 </div>
             </div>
         </div>

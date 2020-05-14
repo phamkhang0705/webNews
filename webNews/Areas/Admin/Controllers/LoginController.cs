@@ -1,12 +1,12 @@
 ﻿using NLog;
 using ServiceStack.Caching;
 using System;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using webNews.Areas.Admin.Models.Login;
 using webNews.Domain.Entities;
+using webNews.Language.Language;
 using webNews.Models;
 using webNews.Security;
 using webNews.Services.SecurityService;
@@ -42,16 +42,16 @@ namespace webNews.Areas.Admin.Controllers
         {
             username = username.Trim();
             password = password.Trim();
-            //var captchar = Session["Captcha"].ToString();
-            //if (string.IsNullOrWhiteSpace(captchar) || captchar.ToLower().Trim() != capchar.ToLower().Trim())
-            //{
-            //    var rs = new
-            //    {
-            //        Status = "00",
-            //        Message = Resource.Captcharinvalid_Lang
-            //    };
-            //    return Json(new { result = rs }, JsonRequestBehavior.AllowGet);
-            //}
+            var captchar = Session["Captcha"].ToString();
+            if (string.IsNullOrWhiteSpace(captchar) || captchar.ToLower().Trim() != capchar.ToLower().Trim())
+            {
+                var rs = new
+                {
+                    Status = "00",
+                    Message = Resource.Captcharinvalid_Lang
+                };
+                return Json(new { result = rs }, JsonRequestBehavior.AllowGet);
+            }
             System.Web.HttpContext.Current.Session.Abandon();
             System.Web.HttpContext.Current.Response.Cookies.Add(new HttpCookie("Administrator", ""));
             var manager = new SessionIDManager();
@@ -70,11 +70,11 @@ namespace webNews.Areas.Admin.Controllers
                 TypeLogin = 1
             };
             Cache.Add(username + newId, login, DateTime.Now.AddMinutes(1));
-
+            var a = System.Web.HttpContext.Current.Session.SessionID;
             return RedirectToAction("Authenticate", "Login", new { username });
         }
 
-        public async Task<ActionResult> Authenticate(string username)
+        public ActionResult Authenticate(string username)
         {
             var rs = new JsonRs
             {

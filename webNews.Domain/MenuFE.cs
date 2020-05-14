@@ -29,6 +29,7 @@ namespace webNews.Domain.Entities
         public string Route { get; set; }
         public string Controller { get; set; }
         public string Action { get; set; }
+        public string ChildAction { get; set; }
     }
 
 }

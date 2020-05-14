@@ -15,22 +15,33 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Title Page -->
-<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url(@content.Url);">
-    <h2 class="l-text2 t-center"></h2>
-    <p class="m-text13 t-center">
-        @content.Title
-    </p>
-</section>
+
+
 <!-- For pagination-->
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 <!-- Content page -->
-<section class="bgwhite p-t-55 p-b-65">
+<section class="bgwhite p-b-65">
     <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-md-4 col-lg-3 p-b-50" style="border-right: 1px solid #c7c7c7">
+        <div class="bread-crumb bgwhite flex-w p-r-15 p-b-15 p-l-15-sm">
+            <a href="@Url.Action("Index", "Home")" clas class="s-text13">
+                Trang chủ
+                <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+            </a>
+            <a href="@Url.Action("Index", "Category")" clas class="s-text13">
+                Sản phẩm thuê
+            </a>
+        </div>
+        <!-- Title Page -->
+        <section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url(@content.Url);">
+            <h2 class="l-text2 t-center"></h2>
+            <p class="m-text13 t-center">
+                @content.Title
+            </p>
+        </section>
+        <div class="row m-t-20">
+            <div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
                 <div class="leftbar p-r-20 p-r-0-sm">
-                    <form id='form-filter' action="@Url.Action("Search","Category")" method="get">
+                    <form id='form-filter' action="@Url.Action("Search", "Category")" method="get">
                         <!-- -->
                         <h5 class="p-b-15 p-t-15">
                             Nhóm sản phẩm
@@ -65,7 +76,6 @@
 
                         <div class="search-product pos-relative bo4 of-hidden">
                             <input class="s-text7 size1 p-l-23 p-r-50" type="text" name="name" placeholder="Nhập tên sản phẩm..." onchange="$('#form-filter').submit();" value="@name">
-
                             <button class="flex-c-m size5 ab-r-m color2 color0-hov trans-0-4">
                                 <i class="fs-12 fa fa-search" aria-hidden="true"></i>
                             </button>
@@ -112,33 +122,7 @@
                         foreach (var item in Model)
                         {
                             <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-                                <!-- Block2 -->
-                                <div class="block2">
-                                    <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew" data-id="@item.Id">
-                                        <a href="@Url.Action("Detail", "Category", new {@rental_short_name=item.ShortName })" class="block2-name dis-block s-text3 p-b-5">
-                                            <img data-src="@Url.Content("~/Content/Cate/" + Path.GetFileName(item.Avatar))" alt="@item.ShortName" class="lazy-loading">
-                                        </a>
-                                        <div class="block2-overlay trans-0-4">
-                                            <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                                <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                                <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                            </a>
-
-                                            <div class="block2-btn-addcart w-size1 trans-0-4">
-                                                <!-- Button -->
-                                                <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                                    Thêm vào giỏ hàng
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="block2-txt p-t-20">
-                                        <a href="@Url.Action("Detail", "Category", new {@rental_short_name=item.ShortName })" class="block2-name dis-block s-text3 p-b-5">
-                                            @item.Name
-                                        </a>
-                                    </div>
-                                </div>
+                                @Html.Action("CategoryItem", "Category", new {model = item})
                             </div>
                         }
                     }
@@ -148,55 +132,19 @@
                             <h5>Không có sản phẩm nào</h5>
                         </div>
                     }
-
                 </div>
-
                 <!-- Pagination -->
                 <div style="float: right">
-                    @Html.PagedListPager(Model, page => Url.Action("Search", new { page, group = @group, categorytype = @type }))
+                    @Html.PagedListPager(Model, page => Url.Action("Search", new {page, group = @group, categorytype = @type}))
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<script type="text/javascript" src="/Theme/front-end/vendor/jquery/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="/Theme/front-end/vendor/animsition/js/animsition.min.js"></script>
-<script type="text/javascript" src="/Theme/front-end/vendor/bootstrap/js/popper.js"></script>
-<script type="text/javascript" src="/Theme/front-end/vendor/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/Theme/front-end/vendor/select2/select2.min.js"></script>
-<script type="text/javascript" src="/Theme/front-end/vendor/daterangepicker/moment.min.js"></script>
-<script type="text/javascript" src="/Theme/front-end/vendor/daterangepicker/daterangepicker.js"></script>
-<script type="text/javascript" src="/Theme/front-end/vendor/slick/slick.min.js"></script>
-<script type="text/javascript" src="/Theme/front-end/js/slick-custom.js"></script>
-<script type="text/javascript" src="/Theme/front-end/vendor/sweetalert/sweetalert.min.js"></script>
-<script type="text/javascript" src="/Theme/front-end/vendor/noui/nouislider.min.js"></script>
-
-
-<script type="text/javascript">
-    /*[ No ui ]
-    ===========================================================*/
-    var filterBar = document.getElementById('filter-bar');
-
-    noUiSlider.create(filterBar, {
-        start: [50, 200],
-        connect: true,
-        range: {
-            'min': 50,
-            'max': 200
-        }
-    });
-
-    var skipValues = [
-        document.getElementById('value-lower'),
-        document.getElementById('value-upper')
-    ];
-
-    filterBar.noUiSlider.on('update', function (values, handle) {
-        skipValues[handle].innerHTML = Math.round(values[handle]);
-    });
-</script>
-
-<script type="text/javascript">
-    $(".selection-2").select2();
-</script>
+@section scripts
+{
+    <script>
+        $(".selection-2").select2();
+    </script>
+}

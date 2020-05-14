@@ -215,6 +215,38 @@ namespace webNews.Domain.Repositories.CustomerManagement
                 return new Vw_Customer();
             }
         }
+        public Vw_Customer GetByEmail(string email)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var check = db.Single<Vw_Customer>(_ => _.Email == email);
+                    return check;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new Vw_Customer();
+            }
+        }
+        public Vw_Customer GetByPhone(string phone)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var check = db.Single<Vw_Customer>(_ => _.Phone == phone);
+                    return check;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new Vw_Customer();
+            }
+        }
 
         public List<Vw_Customer> GetByName(string name, int customerType = 1)
         {

@@ -20,6 +20,8 @@ namespace webNews.Domain.Repositories.CustomerManagement
         Vw_Customer GetCustomerById(int id);
 
         Vw_Customer GetByCode(string code);
+        Vw_Customer GetByEmail(string email);
+        Vw_Customer GetByPhone(string phone);
 
         List<Vw_Customer> GetByName(string name, int customerType = 1);
 

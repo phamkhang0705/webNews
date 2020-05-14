@@ -154,5 +154,10 @@ namespace webNews.Domain.Services.CategoryManagement
         {
             return _categoryRepository.GetCategoryDetail(shortName);
         }
+
+        public List<Vw_Category> GetListRelated(int id)
+        {
+            return _categoryRepository.GetListRelated(id);
+        }
     }
 }

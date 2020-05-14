@@ -25,12 +25,13 @@
                 align: "center",
                 formatter: function (value, row, index) {
                     if (value == null) {
+                        //"~/Content/Cate/"
                         return '<img class="img-preview" src="/Content/images/no_image.png" title="e" alt="" width="100" height="100" style="margin-bottom: 10px" />';
                     } else {
                         var url = row.Avatar != null ? row.Avatar.split("\\").pop(-1) : '';
                         var str = '';
                         if (url.length > 0) {
-                            str = '<img class="img-preview" src="' + url + '" title="e" alt="" width="100" height="100" style="margin-bottom: 10px" />';
+                            str = '<img class="img-preview" src="/Content/Cate/' + url + '" title="e" alt="" width="100" height="100" style="margin-bottom: 10px" />';
                         }
                         return str;
                     }

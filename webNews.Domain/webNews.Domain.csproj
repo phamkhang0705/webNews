@@ -33,6 +33,9 @@
     <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=2020.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2020.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.5.8\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -181,6 +184,12 @@
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="NewsCategory.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Order.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderDetail.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="OrderType.cs">

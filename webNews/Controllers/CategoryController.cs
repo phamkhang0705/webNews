@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Web.Mvc;
+using webNews.Domain.Entities;
 using webNews.Domain.Services;
 using webNews.Domain.Services.CategoryManagement;
 using webNews.Domain.Services.ContentManagement;
@@ -103,11 +104,13 @@ namespace webNews.Controllers
         {
             var model = _categoryService.GetCategoryDetail(rental_short_name);
             ViewBag.Title = "Chi tiết sản phẩm";
+            ViewBag.CategoryType = "Sản phẩm thuê";
             ViewBag.ListFiles = _fileService.GetFileAttach(model.Id);
             ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
             ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
             ViewBag.Email = Convert.ToString(Session["FBEmail"]);
             ViewBag.avatar = Convert.ToString(Session["avatar"]);
+            ViewBag.ListRelated = _categoryService.GetListRelated(model.Id);
             return View(model);
         }
 
@@ -146,6 +149,11 @@ namespace webNews.Controllers
             ViewBag.Email = Convert.ToString(Session["FBEmail"]);
             ViewBag.avatar = Convert.ToString(Session["avatar"]);
             return View(model);
+        }
+
+        public ActionResult CategoryItem(Vw_Category model)
+        {
+            return PartialView("_CategoryItemPartial", model);
         }
     }
 }

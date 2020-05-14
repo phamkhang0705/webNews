@@ -20,7 +20,7 @@ namespace webNews.Areas.Admin.Models.News
 
         [Display(Name = "Nội dung chi tiết")]
         public string ContentDetail { get; set; }
-
+        [Display(Name = "Mô tả ngắn")]
         public string Description { get; set; }
 
         [Display(Name = "Trạng thái")]

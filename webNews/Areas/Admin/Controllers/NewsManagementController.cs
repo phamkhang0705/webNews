@@ -117,7 +117,7 @@ namespace webNews.Areas.Admin.Controllers
         [ValidateInput(false)]
         public ActionResult Create(Vw_News news)
         {
-            if (!CheckAuthorizer.Authorize(Permission.EDIT)) return RedirectToAction("Index", "Login");
+            if (!CheckAuthorizer.Authorize(Permission.ADD)) return RedirectToAction("Index", "Login");
             try
             {
                 if (ModelState.IsValid)

@@ -29,5 +29,7 @@ namespace webNews.Domain.Services.CategoryManagement
         Vw_Category GetCategoryDetail(int id);
 
         Vw_Category GetCategoryDetail(string shortName);
+
+        List<Vw_Category> GetListRelated(int id);
     }
 }

@@ -45,37 +45,7 @@
                             foreach (var best in listBestSeller)
                             {
                                 <div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
-                                    <!-- Block2 -->
-                                    <div class="block2">
-                                        <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                            <img data-src="@Url.Content("~/Content/Cate/" + Path.GetFileName(best.Avatar))" alt="@best.ShortName" class="lazy-loading">
-
-                                            <div class="block2-overlay trans-0-4">
-                                                <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                                    <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                                    <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                                </a>
-
-                                                <div class="block2-btn-addcart w-size1 trans-0-4">
-                                                    <!-- Button -->
-                                                    <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                                        Thêm vào giỏ hàng
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="block2-txt p-t-20">
-                                            <a href="@Url.Action("Detail", "Category", new {@rental_short_name = best.ShortName})"
-                                               data-type="Category" data-id="@best.Id" data-name="@best.Name" class="block2-name dis-block s-text3 p-b-5">
-                                                @best.Name
-                                            </a>
-
-                                            @*<span class="block2-price m-text6 p-r-5">
-                                                    $75.00
-                                                </span>*@
-                                        </div>
-                                    </div>
+                                    @Html.Action("CategoryItem", "Category", new { model = best })
                                 </div>
                             }
                         }
@@ -90,36 +60,7 @@
                             foreach (var best in listSales)
                             {
                                 <div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
-                                    <!-- Block2 -->
-                                    <div class="block2">
-                                        <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                            <img data-src="@Url.Content("~/Content/Cate/" + Path.GetFileName(best.Avatar))" alt="@best.ShortName" class="lazy-loading">
-
-                                            <div class="block2-overlay trans-0-4">
-                                                <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                                    <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                                    <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                                </a>
-
-                                                <div class="block2-btn-addcart w-size1 trans-0-4">
-                                                    <!-- Button -->
-                                                    <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                                        Thêm vào giỏ hàng
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="block2-txt p-t-20">
-                                            <a href="@Url.Action("Detail", "Category", new {@id = best.Id})" data-id="@best.Id" data-name="@best.Name" class="block2-name dis-block s-text3 p-b-5">
-                                                @best.Name
-                                            </a>
-
-                                            @*<span class="block2-price m-text6 p-r-5">
-                                                    $75.00
-                                                </span>*@
-                                        </div>
-                                    </div>
+                                    @Html.Action("CategoryItem", "Category", new { model = best })
                                 </div>
                             }
                         }
@@ -134,36 +75,7 @@
                             foreach (var best in listTopRate)
                             {
                                 <div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
-                                    <!-- Block2 -->
-                                    <div class="block2">
-                                        <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                            <img data-src="@Url.Content("~/Content/Cate/" + Path.GetFileName(best.Avatar))" alt="@best.ShortName" class="lazy-loading">
-
-                                            <div class="block2-overlay trans-0-4">
-                                                <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-                                                    <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-                                                    <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-                                                </a>
-
-                                                <div class="block2-btn-addcart w-size1 trans-0-4">
-                                                    <!-- Button -->
-                                                    <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                                                        Thêm vào giỏ hàng
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="block2-txt p-t-20">
-                                            <a href="@Url.Action("Detail", "Category", new {@id = best.Id})" data-id="@best.Id" data-name="@best.Name" class="block2-name dis-block s-text3 p-b-5">
-                                                @best.Name
-                                            </a>
-
-                                            @*                                            <span class="block2-price m-text6 p-r-5">*@
-                                            @*                                                $75.00*@
-                                            @*                                            </span>*@
-                                        </div>
-                                    </div>
+                                    @Html.Action("CategoryItem", "Category", new { model = best })
                                 </div>
                             }
                         }
@@ -185,46 +97,3 @@
 @*@RenderPage("_InstagramPartial.cshtml")*@
 <!-- Shipping -->
 @*@RenderPage("_ShippingPartial.cshtml")*@
-
-
-@section Scripts
-{
-    <script src="~/Scripts/lazyload.min.js"></script>
-    <script src="~/Theme/front-end/js/slick-custom.js"></script>
-    @*<script>
-        $(document).ready(function () {
-            $.ajax({
-                url: '/Home/ListSlides',
-                type: "Post",
-                data: {
-                    type: 1
-                },
-                async: true,
-                success: function (rs) {
-                    $('#list_slides').html(rs);
-                    $("img.lazy-loading").lazyload({
-                        effect: "fadeIn"
-                    });
-                },
-                error: function (e) {
-                }
-            });
-            $.ajax({
-                url: '/Home/ListSlides',
-                type: "Post",
-                data: {
-                    type: 2
-                },
-                async: true,
-                success: function (rs) {
-                    $('#list_banners').html(rs);
-                    $("img.lazy-loading").lazyload({
-                        effect: "fadeIn"
-                    });
-                },
-                error: function (e) {
-                }
-            });
-        });
-    </script>*@
-}

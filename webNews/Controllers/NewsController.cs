@@ -26,7 +26,7 @@ namespace webNews.Controllers
             _fileService = fileService;
             _service = service;
         }
-        [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
+        // [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
         // GET: News
         public ActionResult Index()
         {
@@ -45,7 +45,7 @@ namespace webNews.Controllers
             var model = _newsManagement.GetNews(search);
             return View(model);
         }
-        [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
+        // [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
         public ActionResult News()
         {
             ViewBag.Title = "Tin tức";
@@ -63,7 +63,7 @@ namespace webNews.Controllers
             var model = _newsManagement.GetNews(search);
             return View(model);
         }
-        [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
+        // [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
         public ActionResult Detail(string event_short_name)
         {
             var model = _newsManagement.GetNewsDetail(event_short_name);
@@ -74,7 +74,7 @@ namespace webNews.Controllers
             ViewBag.avatar = Convert.ToString(Session["avatar"]);
             return View(model);
         }
-        [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
+        // [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
         public ActionResult NewsDetail(string news_short_name)
         {
             var model = _newsManagement.GetNewsDetail(news_short_name);

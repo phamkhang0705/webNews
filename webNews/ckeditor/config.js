@@ -1,14 +1,12 @@
 /**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see https://ckeditor.com/legal/ckeditor-oss-license
  */
 
-CKEDITOR.editorConfig = function (config) {
-    // Define changes to default configuration here. For example:
-    // config.language = 'fr';
+CKEDITOR.editorConfig = function( config ) {
+	// Define changes to default configuration here. For example:
+	// config.language = 'fr';
     // config.uiColor = '#AADC6E';
-    config.enterMode = CKEDITOR.ENTER_BR;
-    config.toolbar = 'Full';
     config.filebrowserBrowseUrl = '/ckfinder/ckfinder.html';
     config.filebrowserImageBrowseUrl = '/ckfinder/ckfinder.html?type=Images';
     config.filebrowserFlashBrowseUrl = '/ckfinder/ckfinder.html?type=Flash';
@@ -17,6 +15,4 @@ CKEDITOR.editorConfig = function (config) {
     config.filebrowserFlashUploadUrl = '/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash';
     config.filebrowserWindowWidth = '1000';
     config.filebrowserWindowHeight = '1000';
-    config.defaultLanguage = 'vi';
-    config.language = 'vi';
 };

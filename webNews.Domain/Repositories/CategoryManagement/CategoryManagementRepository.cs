@@ -457,5 +457,28 @@ namespace webNews.Domain.Repositories.CategoryManagement
                 return new Vw_Category();
             }
         }
+        
+        public List<Vw_Category> GetListRelated(int id)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var group = db.Select<GroupCategory>(x => x.CategoryId == id);
+                    var listCate = new List<Vw_Category>();
+                    foreach (var item in group)
+                    {
+                        var cate = db.Select<Vw_Category>().Where(x => x.groupids.Contains(item.GroupId.ToString()));
+                        listCate.AddRange(cate);
+                    }
+                    return listCate;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new List<Vw_Category>();
+            }
+        }
     }
 }

@@ -83,8 +83,8 @@ namespace webNews
 
         protected void Session_End(object sender, EventArgs e)
         {
-            //  Code that runs on application shutdown
-            //            Session.Clear();
+            //Code that runs on application shutdown
+            Session.Clear();
         }
 
         protected void Application_End(object sender, EventArgs e)

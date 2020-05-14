@@ -232,12 +232,6 @@
         minimumResultsForSearch: 20,
         dropdownParent: $('#dropDownSelect1')
     });
-    $('.block2-btn-addcart').each(function () {
-        var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-        $(this).on('click', function () {
-            swal(nameProduct, "Thêm vào giỏ hàng thành công", "success");
-        });
-    });
 
     $('.parallax100').parallax100();
 })(jQuery);

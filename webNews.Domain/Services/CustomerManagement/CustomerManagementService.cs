@@ -38,6 +38,13 @@ namespace webNews.Domain.Services.CustomerManagement
             return _customerRepository.CheckExist(userName);
         }
 
+        public Vw_Customer GetByEmail(string email)
+        {
+            return _customerRepository.GetByEmail(email);
+        }public Vw_Customer GetByPhone(string phone)
+        {
+            return _customerRepository.GetByPhone(phone);
+        }
         public CoreMessageResponse CreateCustomer(Vw_Customer customer)
         {
             var response = new CoreMessageResponse
@@ -49,6 +56,14 @@ namespace webNews.Domain.Services.CustomerManagement
             if (check != null)
             {
                 response.ResponseMessage = "Mã khách hàng đã tồn tại!";
+                return response;
+            }
+
+            var checkEmail = _customerRepository.GetByEmail(customer.Email);
+
+            if (checkEmail != null)
+            {
+                response.ResponseMessage = "Email khách hàng đã tồn tại!";
                 return response;
             }
 
