@@ -174,3 +174,18 @@ p {
     line-height: 1.8 !important;
     color: inherit !important;
 }
+
+
+.content-detail a,
+.content-detail p,
+.content-detail span {
+    line-height: 2.0 !important;
+}
+
+.bread-crumb a, .s-text13, .s-text3, .block2-txt {
+    color: #212529 !important;
+}
+
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    color: #fff !important;
+}

@@ -125,7 +125,7 @@ namespace webNews.Controllers
         }
 
         [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
-        [ChildActionOnly]
+        // [ChildActionOnly]
         public ActionResult Contact()
         {
             try

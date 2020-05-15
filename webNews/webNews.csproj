@@ -388,8 +388,6 @@
     <Compile Include="Util\SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Admin\autoNumeric-min.js" />
-    <Content Include="Assets\Admin\bootstrap-typeahead.min.js" />
     <Content Include="Assets\Admin\common.js" />
     <Content Include="Assets\Admin\ie\console.min.js" />
     <Content Include="Assets\Admin\ie\default.css" />
