@@ -7,8 +7,7 @@
     var content = ViewBag.Content as Vw_Content;
 }
 
-<!-- For pagination-->
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
 <!-- Content page -->
 <section class="content-detail bgwhite p-b-65">
     <div class="container">
@@ -44,15 +43,20 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-6 col-lg-8 p-b-20">
+                            <div class="col-sm-12 col-md-6 col-lg-8 p-b-20" style="min-height: 100px">
                                 <div class="block2-txt p-t-0">
-                                    <a href="@Url.Action("NewsDetail", "News", new {@news_short_name = item.ShortName})" class="block2-name dis-block p-b-5 font-weight-bold">
+                                    <a href="@Url.Action("NewsDetail", "News", new {@news_short_name = item.ShortName})" class="block2-name dis-block p-b-5 font-weight-bold new-title">
                                         @item.Title
                                     </a>
                                     @if (!string.IsNullOrEmpty(item.Description))
                                     {
                                         @Html.Raw(item.Description)
                                     }
+                                </div>
+                                <div class="s-text8 flex-w flex-m p-b-21">
+                                    <span style="position: absolute; left: 0;bottom: 0">
+                                        @item.CreatedDate
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +74,7 @@
 
         <!-- Pagination -->
         <div style="float: right">
-            @Html.PagedListPager(Model, page => Url.Action("Index", new {page}))
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
         </div>
     </div>
 </section>

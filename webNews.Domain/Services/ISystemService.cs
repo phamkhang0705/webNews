@@ -32,8 +32,8 @@ namespace webNews.Domain.Services
         List<Bank> GetBanks(int status = 1);
         List<InvoiceType> GetTypes(int status = 1);
 
-        About GetAbout(int status=1);
-        About GetForCustomer(int status=1);
+        Vw_News GetAbout(int status=1);
+        Vw_News GetForCustomer(int status=1);
 
         List<Content> GetBanners(int type = 0, int status = 1);
         Content GetBanner(int type = 0, int status = 1);

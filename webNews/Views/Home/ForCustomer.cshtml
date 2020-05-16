@@ -1,17 +1,23 @@
-﻿@model webNews.Domain.Entities.About
+﻿@model webNews.Domain.Entities.Vw_News
 
 @{
     ViewBag.Title = "Dành cho khách hàng";
 }
 
-<!-- Title Page -->
-@*<section class="bg-title-page p-t-40 p-b-50 flex-col-c-m" style="background-image: url(~/images/heading-pages-06.jpg);">*@
-<h3 class="">
-    DÀNH CHO KHÁCH HÀNG THUÊ ĐỒ CHƠI
-</h3>
-@*</section>*@
-
-<!-- Content-->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    @Html.Raw(Model.Content)
-</div>
+<section class="bgwhite p-b-65">
+    <div class="container">
+        <div class="bread-crumb bgwhite flex-w p-r-15 p-b-15 p-l-15-sm">
+            <a href="@Url.Action("Index", "Home")" clas class="s-text13">
+                Trang chủ
+                <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+            </a>
+            <a href="@Url.Action("ForCustomer", "Home")" clas class="s-text13">
+                Dành cho khách hàng
+            </a>
+        </div>
+        <!-- Content-->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            @Html.Raw(Model.Content)
+        </div>
+    </div>
+</section>

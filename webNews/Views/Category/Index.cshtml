@@ -16,9 +16,6 @@
 }
 
 
-
-<!-- For pagination-->
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 <!-- Content page -->
 <section class="bgwhite p-b-65">
     <div class="container">
@@ -122,7 +119,7 @@
                         foreach (var item in Model)
                         {
                             <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-                                @Html.Action("CategoryItem", "Category", new {model = item})
+                                @Html.Action("CategoryItem", "Category", new { model = item })
                             </div>
                         }
                     }
@@ -135,7 +132,7 @@
                 </div>
                 <!-- Pagination -->
                 <div style="float: right">
-                    @Html.PagedListPager(Model, page => Url.Action("Search", new {page, group = @group, categorytype = @type}))
+                    @Html.PagedListPager(Model, page => Url.Action("Search", new { page, group = @group, categorytype = @type }))
                 </div>
             </div>
         </div>

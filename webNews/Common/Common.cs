@@ -77,6 +77,7 @@ namespace webNews.Common
             public string WardId { get; set; }
 
             [Display(Name = "Địa chỉ")]
+            [Required(ErrorMessage = "Vui lòng nhập địa chỉ")]
             public string Address { get; set; }
             public List<Province> ListProvinces { get; set; }
             public List<District> ListDistricts { get; set; }

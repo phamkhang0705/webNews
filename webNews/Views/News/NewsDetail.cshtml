@@ -15,7 +15,7 @@
 </style>
 
 <!-- content page -->
-<section class="container content-detail bgwhite p-b-25">
+<section class="container news-container content-detail bgwhite p-b-25">
     <!-- breadcrumb -->
     <div class="bread-crumb bgwhite flex-w p-r-15 p-b-30 p-l-15-sm">
         <a href="@Url.Action("Index", "Home")" clas class="s-text13">
@@ -32,56 +32,56 @@
         </span>
     </div>
     <div class="row">
-        <div class="col-md-8 col-lg-9 p-b-0 p-r-5 b-r-3">
+        <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12 p-b-0 p-r-5 b-r-3">
             <div class="p-r-10 p-r-0-lg">
                 <div class="p-b-40">
                     @if (!string.IsNullOrEmpty(@Model.Image))
                     {
-                        <div class="blog-detail-img wrap-pic-w">
-                            <img data-src="@Model.Image" alt="@Model.ShortName" class="lazy-loading">
-                            <p class="image-comment">@Model.ImageComment</p>
-                        </div>
+                    <div class="blog-detail-img wrap-pic-w">
+                        <img data-src="@Model.Image" alt="@Model.ShortName" class="lazy-loading">
+                        <p class="image-comment">@Model.ImageComment</p>
+                    </div>
                     }
                     <div class="blog-detail-txt p-t-33 width-100">
                         <h4 class="blog-detail-txt p-t-33">
                             @Model.Title
                         </h4>
 
-                        <div class="s-text8 flex-w flex-m p-b-21">
+                        <div class="s-text8 flex-w flex-m p-b-21 p-t-5">
                             <span>
                                 @Model.CreatedDate
                             </span>
                         </div>
-                        <div class="blog-detail-txt">@Html.Raw(Model.Content)</div>
+                        <div class="blog-detail-txt newscontent">@Html.Raw(Model.Content)</div>
                     </div>
                     @if (!string.IsNullOrEmpty(Model.Tags))
                     {
-                        <div class="flex-m flex-w p-t-20">
-                            <span class="s-text20 p-r-20">
-                                Tags
-                            </span>
-                            @{
+                    <div class="flex-m flex-w p-t-20">
+                        <span class="s-text20 p-r-20">
+                            Tags
+                        </span>
+                        @{
                                 list_tags = Model.Tags.Split(',');
-                            }
-                            @if (list_tags.Count() > 0)
+                        }
+                        @if (list_tags.Count() > 0)
                             {
                                 foreach (var tag in list_tags)
                                 {
-                                    <div class="wrap-tags flex-w">
-                                        <a href="#" class="tag-item">
-                                            @tag
-                                        </a>
-                                    </div>
+                        <div class="wrap-tags flex-w">
+                            <a href="#" class="tag-item">
+                                @tag
+                            </a>
+                        </div>
                                 }
 
                             }
-                        </div>
+                    </div>
                                 }
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4 col-lg-3 p-b-80 p-l-15 p-r-0">
+        <div class="col-md-4 col-lg-4  col-sm-12 col-xs-12 p-b-80 p-l-15 p-r-0">
             <div class="rightbar">
                 <!-- Related news -->
                 <h4 class="m-text23 p-b-0 text-uppercase font-inherit">
@@ -94,12 +94,13 @@
                         foreach (var item in relatedsList)
                         {
                             <li class="flex-w p-b-10">
-                                <a href="@Url.Action("NewsDetail", "News", new {@news_short_name=item.ShortName })" class="dis-block wrap-pic-w w-size22 m-r-8 m-t-5 trans-0-4 hov4">
-                                    <img data-src="@item.Image" alt="@item.ShortName" class="lazy-loading">
-                                </a>
-
-                                <div class="w-size23">
-                                    <a href="@Url.Action("NewsDetail", "News", new {@news_short_name=item.ShortName })" class="s-text19">
+                                <div class="w-size19">
+                                    <a href="@Url.Action("NewsDetail", "News", new {@news_short_name = item.ShortName})" class="dis-block wrap-pic-w m-r-8 m-t-5 trans-0-4 hov4">
+                                        <img data-src="@item.Image" alt="@item.ShortName" class="lazy-loading">
+                                    </a>
+                                </div>
+                                <div class="w-size20">
+                                    <a href="@Url.Action("NewsDetail", "News", new {@news_short_name = item.ShortName})" class="s-text19">
                                         @item.Title
                                     </a>
                                 </div>

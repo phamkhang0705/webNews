@@ -127,11 +127,11 @@ namespace webNews.Domain.Services
             return _systemRepository.GetTypes(status);
         }
 
-        public About GetAbout(int status = 1)
+        public Vw_News GetAbout(int status = 1)
         {
             return _systemRepository.GetAbout(status);
         }
-        public About GetForCustomer(int status = 1)
+        public Vw_News GetForCustomer(int status = 1)
         {
             return _systemRepository.GetForCustomer(status);
         }

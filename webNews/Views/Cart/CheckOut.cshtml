@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Address)</label>
+                    <label class="col-xs-2 control-label">@Html.LabelFor(x => x.Address)<span class="required">*</span></label>
                     <div class="col-xs-4">
                         @Html.ValidationHtmlMessageFor(model => model.Address, "", new { @class = "field-validation-valid" })
                         @Html.TextBoxFor(x => x.Address, new { @class = "form-control input-sm", @id = "txtAddress", @placeholder = "Nhập địa chỉ" })

@@ -36,7 +36,7 @@ namespace webNews.Controllers
         {
             try
             {
-                ViewBag.Title = "Trang chủ - Thuedotot.vn";
+                ViewBag.Title = "Hệ thống thuê đồ tốt uy tín - Thuedotot.vn";
                 ViewBag.ListBestSeller = _categoryService.GetCategories(new SearchCategoryModelFE() { Page = 1, PageSize = 8 });
                 ViewBag.ListSales = _categoryService.GetCategories(new SearchCategoryModelFE() { Page = 1, PageSize = 8 });
                 ViewBag.ListTopRate = _categoryService.GetCategories(new SearchCategoryModelFE() { Page = 1, PageSize = 8 });
@@ -56,7 +56,7 @@ namespace webNews.Controllers
                 return null;
             }
         }
-        [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
+        // [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
         public ActionResult ListSlides(int type = 1)
         {
             try
@@ -84,7 +84,7 @@ namespace webNews.Controllers
             }
         }
 
-        [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
+        // [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
         public ActionResult About()
         {
             try
@@ -104,7 +104,7 @@ namespace webNews.Controllers
             }
         }
 
-        [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
+        // [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
         public ActionResult ForCustomer()
         {
             try
@@ -124,7 +124,7 @@ namespace webNews.Controllers
             }
         }
 
-        [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
+        // [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
         // [ChildActionOnly]
         public ActionResult Contact()
         {

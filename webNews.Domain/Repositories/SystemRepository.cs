@@ -622,13 +622,13 @@ namespace webNews.Domain.Repositories
         }
 
 
-        public About GetAbout(int status = 1)
+        public Vw_News GetAbout(int status = 1)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var query = db.Single<About>(x => x.Status == status && x.Type == "ABOUT");
+                    var query = db.Single<Vw_News>(x => x.Status == status && x.CategoryId == 7);
                     return query;
                 }
             }
@@ -636,17 +636,17 @@ namespace webNews.Domain.Repositories
             {
                 _logger.Info("Get InvoiceType error" + ex.Message, ex, ex.Message, ex.StackTrace);
 
-                return new About();
+                return new Vw_News();
             }
         }
 
-        public About GetForCustomer(int status = 1)
+        public Vw_News GetForCustomer(int status = 1)
         {
             try
             {
                 using (var db = _connectionFactory.Open())
                 {
-                    var query = db.Single<About>(x => x.Status == status && x.Type == "CUSTOMER");
+                    var query = db.Single<Vw_News>(x => x.Status == status && x.CategoryId == 8);
                     return query;
                 }
             }
@@ -654,7 +654,7 @@ namespace webNews.Domain.Repositories
             {
                 _logger.Info("Get InvoiceType error" + ex.Message, ex, ex.Message, ex.StackTrace);
 
-                return new About();
+                return new Vw_News();
             }
         }
 
