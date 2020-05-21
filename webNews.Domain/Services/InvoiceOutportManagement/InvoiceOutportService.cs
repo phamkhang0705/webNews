@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using webNews.Domain.Entities;
 using webNews.Domain.Repositories;
 using webNews.Domain.Repositories.InvoiceOutportManagement;
+using webNews.Domain.Repositories.ProductManagement;
 using webNews.Models;
 using webNews.Models.Common;
 using webNews.Models.InvoiceOutportManagement;
@@ -15,12 +16,14 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
     {
         private readonly ISystemRepository _systemRepository;
         private readonly IInvoiceOutportRepository _importRepository;
+        private readonly IProductManagementRepository _productManagement;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public InvoiceOutportService(IInvoiceOutportRepository importRepository, ISystemRepository systemRepository, IRepository<InvoiceOutport> repository) : base(repository)
+        public InvoiceOutportService(IInvoiceOutportRepository importRepository, ISystemRepository systemRepository, IProductManagementRepository productManagement, IRepository<InvoiceOutport> repository) : base(repository)
         {
             _importRepository = importRepository;
             _systemRepository = systemRepository;
+            _productManagement = productManagement;
         }
 
         public CoreMessageResponse CancelInvoice(string invoiceCode)
@@ -320,7 +323,7 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
             try
             {
                 var code = "";
-                if (model.Type == 1)
+                if (model.Type == 2)
                 {
                     code = string.IsNullOrEmpty(model.Code)
                         ? _systemRepository.CodeGen(ObjectType.InvoiceRental, PrefixType.InvoiceRental)
@@ -484,6 +487,113 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
                 else
                 {
                     invoice.Payment = payment;
+                }
+                var res = _importRepository.CreateInvoice(invoice);
+                if (res > 0)
+                {
+                    if (res == 3)
+                    {
+                        return new CoreMessageResponse
+                        {
+                            ResponseCode = "00",
+                            ResponseMessage = "Không đủ số lượng trong kho!"
+                        };
+                    }
+                    return new CoreMessageResponse
+                    {
+                        ResponseCode = "01",
+                        ResponseMessage = "Thêm phiếu xuất thành công!"
+                    };
+                }
+                else
+                {
+                    return new CoreMessageResponse
+                    {
+                        ResponseCode = "00",
+                        ResponseMessage = "Có lỗi xayr ra!"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Insert invoice import error: " + ex.Message);
+                return new CoreMessageResponse
+                {
+                    ResponseCode = "00",
+                    ResponseMessage = "Có lỗi hệ thống!"
+                };
+            }
+        }
+
+        public CoreMessageResponse CustomCreateFE(InvoiceOutportModel model)
+        {
+            try
+            {
+                var code = "";
+                if (model.Type == 2)
+                {
+                    code = string.IsNullOrEmpty(model.Code)
+                        ? _systemRepository.CodeGen(ObjectType.InvoiceRental, PrefixType.InvoiceRental)
+                        : model.Code;
+                }
+                else
+                {
+                    code = string.IsNullOrEmpty(model.Code) ?
+                        _systemRepository.CodeGen(ObjectType.InvoiceOutport, PrefixType.InvoiceOutport)
+                        : model.Code;
+                }
+
+                //Insert InvoiceOutport
+                var invoice = new InvoiceOutport
+                {
+                    Code = code,
+                    CustomerCode = model.CustomerCode,
+                    TotalQuantity = model.TotalQuantity,
+                    TotalMoney = model.TotalMoney,
+                    DiscountType = model.DiscountType,
+                    Discount = model.Discount,
+                    VAT = model.VAT,
+                    SumMoney = model.SumMoney,
+                    PaidMoney = 0,
+                    RemainMoney = model.SumMoney,
+                    PayMethod = model.PayMethod,
+                    BankCode = model.BankCode,
+                    UserName = model.UserName,
+                    CreatedDate = DateTime.Now,
+                    CreatedBy = model.CreatedBy,
+                    Date = model.CreatedDate,
+                    Active = model.Active,
+                    Note = model.Note,
+                    Type = model.Type,
+                    InvoiceOutportDetails = new List<InvoiceOutportDetail>(),
+                    TotalDeposit = model.TotalDeposit,
+                    TotalTransport = model.TotalTransport,
+                    TotalDepositDiscount = model.TotalDepositDiscount,
+                    DeliveryAddress = model.DeliveryAddress,
+                    DeliveryDate = model.DeliveryDate,
+                    DeliveryPhone = model.DeliveryPhone,
+                    InvoiceType = model.InvoiceType,
+                };
+                invoice.Date = invoice.Date == DateTime.MinValue ? DateTime.Now : invoice.Date;
+                if (model.CategoryItems != null)
+                {
+                    //Insert InvoiceOutportDetail
+                    foreach (var item in model.CategoryItems)
+                    {
+                        var product = _productManagement.GetProductByCateId(item.Id);
+                        var invoiceDetail = new InvoiceOutportDetail()
+                        {
+                            ProductId = product[0].Id,
+                            CategoryCode = product[0].CategoryCode,
+                            ProductCode = product[0].ProductCode,
+                            Quantity = item.Quantity,
+                            Price = item.Price,
+                            TotalMoney = item.TotalMoney,
+                            Deposits_Money = item.Deposits_Money,
+                            Transport_Money = item.Transport_Money
+                        };
+                        invoice.InvoiceOutportDetails.Add(invoiceDetail);
+                    }
                 }
                 var res = _importRepository.CreateInvoice(invoice);
                 if (res > 0)

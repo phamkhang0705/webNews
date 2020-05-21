@@ -221,6 +221,23 @@ namespace webNews.Domain.Repositories.ProductManagement
             }
         }
 
+        public List<Vw_Product> GetProductByCateId(int id)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var check = db.Select<Vw_Product>(_ => _.CategoryId == id && _.Quantity > 0);
+                    return check;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "DB connection error");
+                return new List<Vw_Product>();
+            }
+        }
+
         public Vw_Product GetByCode(string code)
         {
             try
@@ -284,12 +301,12 @@ namespace webNews.Domain.Repositories.ProductManagement
                         query.Where(_ => _.ProductName.Contains(filter.Name));
                     }
 
-                    if (filter.AgeType==1)
+                    if (filter.AgeType == 1)
                     {
-                        query.Where(_ => _.AgeType==filter.AgeType);
+                        query.Where(_ => _.AgeType == filter.AgeType);
                         if (filter.Type == 1)
                         {
-                            query.Where(_ => _.FromAge >= 0 && _.ToAge<=12);
+                            query.Where(_ => _.FromAge >= 0 && _.ToAge <= 12);
                         }
                     }
                     if (filter.AgeType == 2)
@@ -307,7 +324,7 @@ namespace webNews.Domain.Repositories.ProductManagement
 
 
                     //More filter
-//                    var total = (int)db.Count(query);
+                    //                    var total = (int)db.Count(query);
                     return db.Select(query);
                 }
             }

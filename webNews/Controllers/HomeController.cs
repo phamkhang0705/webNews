@@ -37,9 +37,9 @@ namespace webNews.Controllers
             try
             {
                 ViewBag.Title = "Hệ thống thuê đồ tốt uy tín - Thuedotot.vn";
-                ViewBag.ListBestSeller = _categoryService.GetCategories(new SearchCategoryModelFE() { Page = 1, PageSize = 8 });
-                ViewBag.ListSales = _categoryService.GetCategories(new SearchCategoryModelFE() { Page = 1, PageSize = 8 });
-                ViewBag.ListTopRate = _categoryService.GetCategories(new SearchCategoryModelFE() { Page = 1, PageSize = 8 });
+                ViewBag.ListBestSeller = _categoryService.GetCategories(new SearchCategoryModelFE() { Page = 1, PageSize = 8,IsRental = 1});
+                ViewBag.ListSales = _categoryService.GetCategories(new SearchCategoryModelFE() { Page = 1, PageSize = 8, IsRental = 1 });
+                ViewBag.ListTopRate = _categoryService.GetCategories(new SearchCategoryModelFE() { Page = 1, PageSize = 8, IsRental = 1 });
                 ViewBag.ListSlides = _service.GetBanners(1);
                 ViewBag.ListBanners = _service.GetBanners(2);
                 ViewBag.Video = _service.GetBanner(3);

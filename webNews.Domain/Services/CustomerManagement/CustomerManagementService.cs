@@ -59,13 +59,13 @@ namespace webNews.Domain.Services.CustomerManagement
                 return response;
             }
 
-            var checkEmail = _customerRepository.GetByEmail(customer.Email);
+            //var checkEmail = _customerRepository.GetByEmail(customer.Email);
 
-            if (checkEmail != null)
-            {
-                response.ResponseMessage = "Email khách hàng đã tồn tại!";
-                return response;
-            }
+            //if (checkEmail != null)
+            //{
+            //    response.ResponseMessage = "Email khách hàng đã tồn tại!";
+            //    return response;
+            //}
 
             var cus = new Customer()
             {

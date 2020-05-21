@@ -460,6 +460,37 @@ namespace webNews.Domain.Repositories.InvoiceOutportManagement
             }
         }
 
+        public long CreateInvoiceFE(InvoiceOutport model)
+        {
+            using (var db = _connectionFactory.Open())
+            {
+                using (var trans = db.OpenTransaction())
+                {
+                    try
+                    {
+                        var id = (int)db.Insert(model, true);
+
+                        if (model.InvoiceOutportDetails != null)
+                        {
+                            foreach (var item in model.InvoiceOutportDetails)
+                            {
+                                item.InvoiceOutportId = id;
+                                db.Insert(item);
+                            }
+                        }
+                        trans.Commit();
+                        return 1;
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        _logger.Error(ex, "Insert invoice import error: " + ex.Message);
+                        return -1;
+                    }
+                }
+            }
+        }
+
         public long Import(InvoiceOutport model)
         {
             using (var db = _connectionFactory.Open())

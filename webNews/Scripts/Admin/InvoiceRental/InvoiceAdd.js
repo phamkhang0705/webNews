@@ -231,29 +231,29 @@ var Unit = function () {
                     return html;
                 }
             }),
-                Sv.BootstrapTableColumn("string", {
-                    title: 'Thao tác',
-                    align: "center",
-                    valign: "middle",
-                    width: "50px",
-                    formatter: function (value, item) {
-                        var html = "<button data-code='%s' class='delete btn btn-primary btn-in-table' title='Xóa sản phẩm'><i class='fa fa-remove'></i></button>";
-                        return html;
-                    }, events: {
-                        'click .delete': function (e, value, row) {
-                            for (var i = 0; i < categorySelect.length; i++) {
-                                if (categorySelect[i].Id === row.Id) {
-                                    categorySelect.splice(i, 1);
-                                    break;
-                                }
+            Sv.BootstrapTableColumn("string", {
+                title: 'Thao tác',
+                align: "center",
+                valign: "middle",
+                width: "50px",
+                formatter: function (value, item) {
+                    var html = "<button data-code='%s' class='delete btn btn-primary btn-in-table' title='Xóa sản phẩm'><i class='fa fa-remove'></i></button>";
+                    return html;
+                }, events: {
+                    'click .delete': function (e, value, row) {
+                        for (var i = 0; i < categorySelect.length; i++) {
+                            if (categorySelect[i].Id === row.Id) {
+                                categorySelect.splice(i, 1);
+                                break;
                             }
-                            recaculateInvoice();
-                            unit.$table.bootstrapTable('load', categorySelect);
-                            $(".inputQuantity").number(true, 0);
-                            $(".inputPrice").number(true, 0);
                         }
+                        recaculateInvoice();
+                        unit.$table.bootstrapTable('load', categorySelect);
+                        $(".inputQuantity").number(true, 0);
+                        $(".inputPrice").number(true, 0);
                     }
-                })];
+                }
+            })];
         return obj;
     }
 
@@ -303,22 +303,22 @@ var Unit = function () {
     //-- them sua xoa
     this.SubmitServer = function (action, id) {
         var $form = $("#formDetail").on();
-        var url = "/InvoiceRental/Create";
+        var url = "/Admin/InvoiceRental/Create";
         if (action == "Edit") {
-            url = "/InvoiceRental/Update";
+            url = "/Admin/InvoiceRental/Update";
         }
 
         if (action == "Complete" && !isReopen) {
-            url = "/InvoiceRental/Create";
+            url = "/Admin/InvoiceRental/Create";
             active = 1;
         }
         if (action == "Complete" && isReopen) {
-            url = "/InvoiceRental/Open";
+            url = "/Admin/InvoiceRental/Open";
             active = 1;
         }
 
         if (action == "SaveTemp") {
-            url = "/InvoiceRental/Create";
+            url = "/Admin/InvoiceRental/Create";
             active = 0;
         }
         if (categorySelect.length < 1) {
@@ -336,7 +336,7 @@ var Unit = function () {
             function (rs) {
                 if (rs.Status === "01") {
                     Dialog.Alert(rs.Message, Dialog.Success, "", function () {
-                        window.location.href = "/InvoiceRental/Index";
+                        window.location.href = "/Admin/InvoiceRental/Index";
                     });
                 } else {
                     Dialog.Alert(rs.Message, Dialog.Error);
@@ -408,78 +408,78 @@ $(document).ready(function () {
     if (params.code != null && params.code != undefined) {
         $("#txtImportCode").attr("disabled", "disabled");
         Sv.AjaxPost({
-            Url: "/InvoiceRental/GetInvoice",
+            Url: "/Admin/InvoiceRental/GetInvoice",
             Data: { code: params.code }
         },
-        function (data) {
-            if (data != null) {
-                isReopen = true;
-                if (data.Active == 1) {
-                    $(".btnComplete").prop("disabled", true);
-                }
-                console.log(data);
-                $(".btnTempSave").attr("disabled", "disabled");
-                $("#selectedCustomer").show();
-                //Set data form
-                $("#txtCustomerCode").val(data.CustomerCode);
-                $("#txtCustomerName").html(data.CustomerName);
-
-                $("#txtImportCode").val(data.Code);
-                $("#txtTotalQuantity").val(data.TotalQuantity);
-                $("#txtTotalMoney").val(data.TotalMoney);
-                $("#txtDiscounType").val(data.DiscountType);
-                if (data.DiscountType === 0) {
-                    $("#typeMoney").show();
-                    $("#typePercent").hide();
-                    $("#txtDiscount0").val(data.Discount);
-                } else {
-                    $("#typeMoney").hide();
-                    $("#typePercent").show();
-                    $("#txtDiscount1").val(data.Discount);
-                }
-                $("#txtVAT").val(data.VAT);
-                $("#txtSalePrice").val(data.SumMoney);
-                $("#txtPayMoney").val(data.PaidMoney);
-                $("#txtRemainMoney").val(data.RemainMoney);
-                $("#txtMethodPayment").val(data.PayMethod);
-                $("#txtBankAccount").val(data.BankAccount);
-                Sv.SetupDateAndSetDefault($('#divCreatedDate'), data.CreatedDate);
-                $("#txtNote").val(data.Note);
-                $("#txtTotalDeposit").val(data.TotalDeposit);
-                $("#txtTotalTransport").val(data.TotalTransport);
-                $("#txtDeliveryDate").val(data.DeliveryDate);
-                $("#txtDeliveryPhone").val(data.DeliveryPhone);
-                $("#txtDeliveryAddress").val(data.DeliveryAddress);
-                if (data.InvoiceRentalDetails != null && data.InvoiceRentalDetails != undefined) {
-                    for (var i = 0; i < data.InvoiceRentalDetails.length; i++) {
-                        var pro = {};
-                        pro.Id = data.InvoiceRentalDetails[i].ProductId;
-                        pro.ProductId = data.InvoiceRentalDetails[i].ProductId;
-                        pro.ProductCode = data.InvoiceRentalDetails[i].ProductCode;
-                        pro.ProductName = data.InvoiceRentalDetails[i].ProductName;
-                        pro.Price = data.InvoiceRentalDetails[i].Price;
-                        pro.Quantity = data.InvoiceRentalDetails[i].Quantity;
-                        pro.TotalMoney = data.InvoiceRentalDetails[i].TotalMoney;
-                        pro.Deposits_Money = data.InvoiceRentalDetails[i].Deposits_Money;
-                        pro.Transport_Money = data.InvoiceRentalDetails[i].Transport_Money;
-                        categorySelect.push(pro);
+            function (data) {
+                if (data != null) {
+                    isReopen = true;
+                    if (data.Active == 1) {
+                        $(".btnComplete").prop("disabled", true);
                     }
-                }
-                totalSalePrice = data.SumMoney;
-                totalQuantity = data.TotalQuantity;
-                totalMoney = data.TotalMoney;
-                totalDeposit = data.TotalDeposit;
-                totalTransport = data.TotalTransport;
+                    console.log(data);
+                    $(".btnTempSave").attr("disabled", "disabled");
+                    $("#selectedCustomer").show();
+                    //Set data form
+                    $("#txtCustomerCode").val(data.CustomerCode);
+                    $("#txtCustomerName").html(data.CustomerName);
 
-                $("#txtSalePrice").attr("disabled", true);
-                $("#txtRemainMoney").attr("disabled", true);
-                $("#txtType").val(data.InvoiceType).trigger('change');;
-                loadTableSearch();
-            }
-        },
-        function () {
-            Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
-        });
+                    $("#txtImportCode").val(data.Code);
+                    $("#txtTotalQuantity").val(data.TotalQuantity);
+                    $("#txtTotalMoney").val(data.TotalMoney);
+                    $("#txtDiscounType").val(data.DiscountType);
+                    if (data.DiscountType === 0) {
+                        $("#typeMoney").show();
+                        $("#typePercent").hide();
+                        $("#txtDiscount0").val(data.Discount);
+                    } else {
+                        $("#typeMoney").hide();
+                        $("#typePercent").show();
+                        $("#txtDiscount1").val(data.Discount);
+                    }
+                    $("#txtVAT").val(data.VAT);
+                    $("#txtSalePrice").val(data.SumMoney);
+                    $("#txtPayMoney").val(data.PaidMoney);
+                    $("#txtRemainMoney").val(data.RemainMoney);
+                    $("#txtMethodPayment").val(data.PayMethod);
+                    $("#txtBankAccount").val(data.BankAccount);
+                    Sv.SetupDateAndSetDefault($('#divCreatedDate'), data.CreatedDate);
+                    $("#txtNote").val(data.Note);
+                    $("#txtTotalDeposit").val(data.TotalDeposit);
+                    $("#txtTotalTransport").val(data.TotalTransport);
+                    $("#txtDeliveryDate").val(data.DeliveryDate);
+                    $("#txtDeliveryPhone").val(data.DeliveryPhone);
+                    $("#txtDeliveryAddress").val(data.DeliveryAddress);
+                    if (data.InvoiceRentalDetails != null && data.InvoiceRentalDetails != undefined) {
+                        for (var i = 0; i < data.InvoiceRentalDetails.length; i++) {
+                            var pro = {};
+                            pro.Id = data.InvoiceRentalDetails[i].ProductId;
+                            pro.ProductId = data.InvoiceRentalDetails[i].ProductId;
+                            pro.ProductCode = data.InvoiceRentalDetails[i].ProductCode;
+                            pro.ProductName = data.InvoiceRentalDetails[i].ProductName;
+                            pro.Price = data.InvoiceRentalDetails[i].Price;
+                            pro.Quantity = data.InvoiceRentalDetails[i].Quantity;
+                            pro.TotalMoney = data.InvoiceRentalDetails[i].TotalMoney;
+                            pro.Deposits_Money = data.InvoiceRentalDetails[i].Deposits_Money;
+                            pro.Transport_Money = data.InvoiceRentalDetails[i].Transport_Money;
+                            categorySelect.push(pro);
+                        }
+                    }
+                    totalSalePrice = data.SumMoney;
+                    totalQuantity = data.TotalQuantity;
+                    totalMoney = data.TotalMoney;
+                    totalDeposit = data.TotalDeposit;
+                    totalTransport = data.TotalTransport;
+
+                    $("#txtSalePrice").attr("disabled", true);
+                    $("#txtRemainMoney").attr("disabled", true);
+                    $("#txtType").val(data.InvoiceType).trigger('change');;
+                    loadTableSearch();
+                }
+            },
+            function () {
+                Dialog.Alert(Lang.ServerError_Lang, Dialog.Error);
+            });
     }
 
     //Auto complete input
@@ -487,7 +487,7 @@ $(document).ready(function () {
         minLength: 0,
         source: function (request, response) {
             $.ajax({
-                url: "/InvoiceRental/GetProductData",
+                url: "/Admin/InvoiceRental/GetProductData",
                 type: "POST",
                 dataType: "json",
                 data: { productName: $("#txtSearchCategory").val(), type: $('#txtType').val() },
@@ -551,7 +551,7 @@ $(document).ready(function () {
         minLength: 0,
         source: function (request, response) {
             $.ajax({
-                url: "/InvoiceRental/GetCustomerData",
+                url: "/Admin/InvoiceRental/GetCustomerData",
                 type: "POST",
                 dataType: "json",
                 data: { customerName: $("#customerSelect").val() },
@@ -730,7 +730,7 @@ $(document).ready(function () {
 
             if ($form.valid(true)) {
                 Sv.AjaxPost({
-                    Url: "/CustomerManagement/Create",
+                    Url: "/Admin/CustomerManagement/Create",
                     Data: this.GetFormData()
                 },
                     function (rs) {
@@ -749,7 +749,7 @@ $(document).ready(function () {
         }
         this.GetDistrictByProvinceId = function (provinceId, districtId, controlSelect, optionAll) {
             Sv.AjaxPost({
-                Url: '/CustomerManagement/GetDistrictByProvinceId',
+                Url: '/Admin/CustomerManagement/GetDistrictByProvinceId',
                 Data: {
                     provinceId: provinceId
                 }
@@ -765,14 +765,14 @@ $(document).ready(function () {
                         $(controlSelect).append('<option value="' + value.Id + '"' + selected + '>' + value.name + '</option>');
                     });
             },
-            function (error) {
-                Dialog.Alert('Tải quận huyện thất bại', Dialog.Error);
-            });
+                function (error) {
+                    Dialog.Alert('Tải quận huyện thất bại', Dialog.Error);
+                });
         }
 
         this.GetWardByDistrictId = function (districtId, wardId, controlSelect, optionAll) {
             Sv.AjaxPost({
-                Url: '/CustomerManagement/GetWardByDistrictId',
+                Url: '/Adminf/CustomerManagement/GetWardByDistrictId',
                 Data: {
                     districtId: districtId
                 }
@@ -788,9 +788,9 @@ $(document).ready(function () {
                         $(controlSelect).append('<option value="' + value.Id + '"' + selected + '>' + value.name + '</option>');
                     });
             },
-            function (error) {
-                Dialog.Alert('Tải phường/xã thất bại', Dialog.Error);
-            });
+                function (error) {
+                    Dialog.Alert('Tải phường/xã thất bại', Dialog.Error);
+                });
         }
     }
 

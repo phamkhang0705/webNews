@@ -43,15 +43,15 @@ namespace webNews.Areas.Admin.Controllers
             username = username.Trim();
             password = password.Trim();
             var captchar = Session["Captcha"].ToString();
-            if (string.IsNullOrWhiteSpace(captchar) || captchar.ToLower().Trim() != capchar.ToLower().Trim())
-            {
-                var rs = new
-                {
-                    Status = "00",
-                    Message = Resource.Captcharinvalid_Lang
-                };
-                return Json(new { result = rs }, JsonRequestBehavior.AllowGet);
-            }
+            //if (string.IsNullOrWhiteSpace(captchar) || captchar.ToLower().Trim() != capchar.ToLower().Trim())
+            //{
+            //    var rs = new
+            //    {
+            //        Status = "00",
+            //        Message = Resource.Captcharinvalid_Lang
+            //    };
+            //    return Json(new { result = rs }, JsonRequestBehavior.AllowGet);
+            //}
             System.Web.HttpContext.Current.Session.Abandon();
             System.Web.HttpContext.Current.Response.Cookies.Add(new HttpCookie("Administrator", ""));
             var manager = new SessionIDManager();

@@ -702,5 +702,60 @@ namespace webNews.Domain.Repositories
                 return db.Select(query);
             }
         }
+
+        public Province GetProvince(string id)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<Province>().Where(x => x.Id == id);
+                    return db.Single(query);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info("Get Province error" + ex.Message, ex, ex.Message, ex.StackTrace);
+
+                return new Province();
+            }
+        }
+
+        public District GetDistrict(string id)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<District>().Where(x => x.Id == id);
+                    return db.Single(query);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info("Get Districts error" + ex.Message, ex, ex.Message, ex.StackTrace);
+                return new District();
+            }
+        }
+
+        public Ward GetWard(string id)
+        {
+            try
+            {
+                using (var db = _connectionFactory.Open())
+                {
+                    var query = db.From<Ward>().Where(x => x.Id == id);
+                    return db.Single(query);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info("Get Wards error" + ex.Message, ex, ex.Message, ex.StackTrace);
+
+                return new Ward();
+            }
+        }
     }
 }

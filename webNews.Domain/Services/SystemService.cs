@@ -144,5 +144,20 @@ namespace webNews.Domain.Services
         {
             return _systemRepository.GetBanner(type,status);
         }
+
+        public Province GetProvince(string id)
+        {
+            return _systemRepository.GetProvince(id);
+        }
+
+        public District GetDistrict(string id)
+        {
+            return _systemRepository.GetDistrict(id);
+        }
+
+        public Ward GetWard(string id)
+        {
+            return _systemRepository.GetWard(id);
+        }
     }
 }

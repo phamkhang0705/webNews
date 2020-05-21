@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using webNews.Common;
 using webNews.Domain.Entities;
 using webNews.Domain.Services;
 using webNews.Domain.Services.CategoryManagement;
@@ -177,10 +179,17 @@ namespace webNews.Controllers
                     DistrictId = model.DistrictId,
                     WardId = model.WardId
                 };
+                _customerService.CreateCustomer(cus);
             }
             else
             {
                 cus = check;
+                cus.CustomerName = model.CustomerName;
+                cus.Phone = model.Phone;
+                cus.Address = model.Address;
+                cus.ProvinceId = model.ProvinceId;
+                cus.DistrictId = model.DistrictId;
+                cus.WardId = model.WardId;
             }
 
             InvoiceOutportModel outport = new InvoiceOutportModel();
@@ -189,6 +198,17 @@ namespace webNews.Controllers
             outport.CategoryItems = new List<CategoryItem>();
             outport.Active = (int)InvoiceStatus.Draff;
             outport.Type = 2;
+            if (listCartItem == null)
+            {
+                return Json(new
+                {
+                    Status = "00",
+                    Message = "Chưa có sản phẩm nào trong giỏ hàng. Vui lòng kiểm tra lại!",
+                    JsonRequestBehavior.AllowGet
+                });
+            }
+
+            var cart_html = "<table><thead><tr><th>STT</th><th>Mã sản phẩm</th><th>Tên sản phẩm</th><th>Số lượng</th></tr></thead><tbody>";
             foreach (var item in listCartItem)
             {
                 var cateItem = new CategoryItem();
@@ -197,12 +217,31 @@ namespace webNews.Controllers
                 cateItem.Name = item.Category.Name;
                 cateItem.Quantity = item.Quantity;
                 outport.CategoryItems.Add(cateItem);
+                cart_html += "<tr><td>" + (listCartItem.IndexOf(item) + 1) + "</td>";
+                cart_html += "<td>" + item.Category.Code + "</td>";
+                cart_html += "<td>" + item.Category.Name + "</td>";
+                cart_html += "<td>" + item.Quantity + "</td>";
+                cart_html += "</tr>";
             }
-            var rs = _invoiceOutportService.CustomCreate(outport);
+            cart_html += "</tbody></table>";
+            var rs = _invoiceOutportService.CustomCreateFE(outport);
             if (rs.ResponseCode == "01")
             {
-                var sessionCart = (List<Common.Common.CartItem>)Session[CartSession];
+                string content = System.IO.File.ReadAllText(Server.MapPath("~/template/neworder.html"));
 
+                content = content.Replace("{{CustomerCode}}", cus.CustomerCode);
+                content = content.Replace("{{CustomerName}}", cus.CustomerName);
+                content = content.Replace("{{Phone}}", cus.Phone);
+                content = content.Replace("{{Province}}", _systemService.GetProvince(cus.ProvinceId).name);
+                content = content.Replace("{{District}}", _systemService.GetDistrict(cus.DistrictId).name);
+                content = content.Replace("{{Ward}}", _systemService.GetWard(cus.WardId).name);
+                content = content.Replace("{{Address}}", cus.Address);
+                content = content.Replace("{{Product}}", cart_html);
+
+                var toEmail = ConfigurationManager.AppSettings["ToEmailAddress"].ToString();
+                new Common.Common().SendMail(toEmail, "Đơn hàng mới", content);
+                new Common.Common().SendMail("phamkhang0705@gmail.com", "Đơn hàng mới", content);
+                var sessionCart = (List<Common.Common.CartItem>)Session[CartSession];
                 Session[CartSession] = new List<Common.Common.CartItem>();
                 Session[QuantitySession] = 0;
             }

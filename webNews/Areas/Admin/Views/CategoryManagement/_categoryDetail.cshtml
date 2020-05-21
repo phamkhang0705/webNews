@@ -7,7 +7,7 @@
     var edit = Model.Action == "Edit";
     var popupTitle = Model.Action == "Add" ? "Thêm mới" : "Cập nhật";
 }
-
+<script src="~/Theme/vendors/Jquery/jquery-1.11.3.min.js"></script>
 <script src="~/Assets/Admin/Validate/jquery.validate.min.js"></script>
 <script src="~/Assets/Admin/Validate/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/ckeditor/ckeditor.js"></script>
@@ -166,14 +166,14 @@
                                 <div class="col-xs-8 col-md-5 div-image">
                                     @foreach (var file in Model.ListFiles)
                                     {
-                                    <div class="col-xs-12 col-md-12 no-padding" index="1">
-                                        <div class="col-md-8 no-padding">
-                                            <img class="img-preview" src="@Url.Content("~/Content/Cate/" + Path.GetFileName(file.Url))" id="@file.Id" title="@Model.Name" alt="@Model.Name" width="100" height="100" style="margin-bottom: 10px" />
+                                        <div class="col-xs-12 col-md-12 no-padding" index="1">
+                                            <div class="col-md-8 no-padding">
+                                                <img class="img-preview" src="@Url.Content("~/Content/Cate/" + Path.GetFileName(file.Url))" id="@file.Id" title="@Model.Name" alt="@Model.Name" width="100" height="100" style="margin-bottom: 10px" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button id="btnDeleteImg" class="btn btn-blue" type="button"><i class="fa fa-times"></i></button>
+                                            </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <button id="btnDeleteImg" class="btn btn-blue" type="button"><i class="fa fa-times"></i></button>
-                                        </div>
-                                    </div>
                                     }
                                 </div>
                             </div>

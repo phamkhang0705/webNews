@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     $(function () {
-        mobileCheck();
         $("img.lazy-loading").lazyload({
             effect: "fadeIn"
         });

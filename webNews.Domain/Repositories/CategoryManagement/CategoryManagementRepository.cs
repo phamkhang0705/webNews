@@ -369,10 +369,12 @@ namespace webNews.Domain.Repositories.CategoryManagement
                     if (filter.IsRental == 1)
                     {
                         query.Where(x => x.DisplayRental == filter.IsRental);
+                        query.Where(x => x.total_rental > 0);
                     }
                     if (filter.IsSale == 1)
                     {
                         query.Where(x => x.DisplaySale == filter.IsSale);
+                        query.Where(x => x.total_sale>0);
                     }
                     if (!string.IsNullOrEmpty(filter.name))
                     {
@@ -404,14 +406,14 @@ namespace webNews.Domain.Repositories.CategoryManagement
                             query.Where(_ => _.ToAge >= 3);
                         }
                     }
-//                    if (filter.IsRental == 1)
-//                    {
-//                        query.Where(x => x.total_rental > 0);
-//                    }
-//                    if (filter.IsSale == 1)
-//                    {
-//                        query.Where(x => x.total_sale > 0);
-//                    }
+                    //                    if (filter.IsRental == 1)
+                    //                    {
+                    //                        query.Where(x => x.total_rental > 0);
+                    //                    }
+                    //                    if (filter.IsSale == 1)
+                    //                    {
+                    //                        query.Where(x => x.total_sale > 0);
+                    //                    }
 
                     //More filter
                     //                    var total = (int)db.Count(query);
@@ -457,7 +459,7 @@ namespace webNews.Domain.Repositories.CategoryManagement
                 return new Vw_Category();
             }
         }
-        
+
         public List<Vw_Category> GetListRelated(int id)
         {
             try

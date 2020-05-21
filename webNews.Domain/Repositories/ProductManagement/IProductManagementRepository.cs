@@ -18,6 +18,7 @@ namespace webNews.Domain.Repositories.ProductManagement
         bool Delete(int id);
 
         Vw_Product GetProductById(int id);
+        List<Vw_Product> GetProductByCateId(int id);
 
         Vw_Product GetByCode(string code);
 

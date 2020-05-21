@@ -50,6 +50,9 @@ namespace webNews.Domain.Repositories
         Content GetBanner(int type = 0, int status = 1);
 
         List<MenuFE> GetMenuFE();
+        Province GetProvince(string id);
+        District GetDistrict(string id);
+        Ward GetWard(string id);
     }
 
 }

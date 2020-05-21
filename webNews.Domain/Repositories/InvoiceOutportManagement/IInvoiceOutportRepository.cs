@@ -23,6 +23,7 @@ namespace webNews.Domain.Repositories.InvoiceOutportManagement
         long UpdateInvoice(InvoiceOutport model);
 
         long CreateInvoice(InvoiceOutport model);
+        long CreateInvoiceFE(InvoiceOutport model);
 
         long Import(InvoiceOutport model);
 

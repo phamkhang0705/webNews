@@ -148,7 +148,7 @@ var Unit = function () {
                     },
                     'click .OpenEditItem': function (e, value, row, index) {
                         Sv.ChecPermission("Edit", function () {
-                            window.location = "/InvoiceRental/Add?code=" + row.Code;
+                            window.location = "/Admin/InvoiceRental/Add?code=" + row.Code;
                         });
                     },
                     'click .OpenHistoryItem': function (e, value, row, index) {

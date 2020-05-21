@@ -1671,6 +1671,7 @@
     <Content Include="Scripts\Admin\UserManagement\UserManager.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\bootstrap-switch.min.js" />
+    <Content Include="Scripts\checkout.js" />
     <Content Include="Scripts\cart.js" />
     <Content Include="Scripts\Common\language-vi.js" />
     <Content Include="Scripts\Common\Service.js" />
@@ -1686,6 +1687,7 @@
     <Content Include="Scripts\Login\Ctrl.js" />
     <Content Include="Scripts\select2.full.min.js" />
     <Content Include="Scripts\shortcut.js" />
+    <Content Include="template\neworder.html" />
     <Content Include="Theme\css\animate.css" />
     <Content Include="Theme\css\colors\blue-dark.css" />
     <Content Include="Theme\css\colors\blue.css" />
@@ -4296,6 +4298,7 @@
     <Content Include="Theme\front-end\images\Untitled-5.jpg" />
     <Content Include="Theme\front-end\js\ctrl.js" />
     <Content Include="Theme\front-end\js\facebook.js" />
+    <Content Include="Theme\front-end\js\jquery.validate.min.js" />
     <Content Include="Theme\front-end\js\keep_alive.js" />
     <Content Include="Theme\front-end\js\main.js" />
     <Content Include="Theme\front-end\js\main.min.js" />

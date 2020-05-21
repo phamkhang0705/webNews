@@ -37,5 +37,9 @@ namespace webNews.Domain.Services
 
         List<Content> GetBanners(int type = 0, int status = 1);
         Content GetBanner(int type = 0, int status = 1);
+
+        Province GetProvince(string id);
+        District GetDistrict(string id);
+        Ward GetWard(string id);
     }
 }

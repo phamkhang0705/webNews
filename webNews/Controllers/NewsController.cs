@@ -72,6 +72,11 @@ namespace webNews.Controllers
             ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
             ViewBag.Email = Convert.ToString(Session["FBEmail"]);
             ViewBag.avatar = Convert.ToString(Session["avatar"]);
+            SearchNewsModelFE search = new SearchNewsModelFE();
+            search.Page = 1;
+            search.PageSize = Int32.Parse(ConfigurationManager.AppSettings["PageSize"]);
+            search.group = "goi-su-kien";
+            ViewBag.RelatedNews = _newsManagement.GetNews(search).Where(x => x.Id != model.Id).ToList();
             return View(model);
         }
         // [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]

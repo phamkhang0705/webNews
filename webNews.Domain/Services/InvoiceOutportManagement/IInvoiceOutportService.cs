@@ -16,6 +16,7 @@ namespace webNews.Domain.Services.InvoiceOutportManagement
         CoreMessageResponse UpdateInvoice(string invoiceCode, int? status, DateTime? createDate, string note = null);
 
         CoreMessageResponse CustomCreate(InvoiceOutportModel model);
+        CoreMessageResponse CustomCreateFE(InvoiceOutportModel model);
 
         bool Import(List<InvoiceOutportModel> model);
 

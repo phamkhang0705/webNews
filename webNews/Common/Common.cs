@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Configuration;
+using System.Net;
+using System.Net.Mail;
 using System.Web.Mvc;
 using webNews.Domain.Entities;
 
@@ -67,13 +71,16 @@ namespace webNews.Common
             // [Required(ErrorMessage = "Vui lòng nhập email")]
             public string Email { get; set; }
 
-            [Display(Name = "Tỉnh")]
+            [Display(Name = "Tỉnh/Thành phố")]
+            [Required(ErrorMessage = "Vui lòng chọn tỉnh/thành phố")]
             public string ProvinceId { get; set; }
 
             [Display(Name = "Quận/Huyện")]
+            [Required(ErrorMessage = "Vui lòng chọn quận/huyện")]
             public string DistrictId { get; set; }
 
-            [Display(Name = "Xã")]
+            [Display(Name = "Phường/Xã")]
+            [Required(ErrorMessage = "Vui lòng chọn phường/xã")]
             public string WardId { get; set; }
 
             [Display(Name = "Địa chỉ")]
@@ -92,6 +99,32 @@ namespace webNews.Common
             public static string QuantitySession = "QuantitySession";
 
             public static string CurrentCulture { set; get; }
+        }
+
+        public void SendMail(string toEmailAddress, string subject, string content)
+        {
+            var fromEmailAddress = ConfigurationManager.AppSettings["FromEmailAddress"].ToString();
+            var fromEmailDisplayName = ConfigurationManager.AppSettings["FromEmailDisplayName"].ToString();
+            var fromEmailPassword = ConfigurationManager.AppSettings["FromEmailPassword"].ToString();
+            var smtpHost = ConfigurationManager.AppSettings["SMTPHost"].ToString();
+            var smtpPort = ConfigurationManager.AppSettings["SMTPPort"].ToString();
+
+            bool enabledSsl = bool.Parse(ConfigurationManager.AppSettings["EnabledSSL"].ToString());
+
+            string body = content;
+            MailMessage message = new MailMessage(new MailAddress(fromEmailAddress, fromEmailDisplayName), new MailAddress(toEmailAddress));
+            message.Subject = subject;
+            message.IsBodyHtml = true;
+            message.Body = body;
+
+            var client = new SmtpClient();
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential(fromEmailAddress, fromEmailPassword);
+            client.Host = smtpHost;
+            client.EnableSsl = enabledSsl;
+            client.Port = !string.IsNullOrEmpty(smtpPort) ? Convert.ToInt32(smtpPort) : 0;
+            
+            client.Send(message);
         }
     }
 }

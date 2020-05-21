@@ -3,16 +3,9 @@
 @{
     ViewBag.Title = Model.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    // var url = Request.Url.ToString();
     string[] list_tags = new string[100];
     List<Vw_News> relatedsList = ViewBag.RelatedNews;
 }
-
-<style>
-    .bread-crumb a {
-        color: #333333 !important;
-    }
-</style>
 
 <!-- content page -->
 <section class="container news-container content-detail bgwhite p-b-25">
