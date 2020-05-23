@@ -240,7 +240,6 @@ namespace webNews.Controllers
 
                 var toEmail = ConfigurationManager.AppSettings["ToEmailAddress"].ToString();
                 new Common.Common().SendMail(toEmail, "Đơn hàng mới", content);
-                new Common.Common().SendMail("phamkhang0705@gmail.com", "Đơn hàng mới", content);
                 var sessionCart = (List<Common.Common.CartItem>)Session[CartSession];
                 Session[CartSession] = new List<Common.Common.CartItem>();
                 Session[QuantitySession] = 0;

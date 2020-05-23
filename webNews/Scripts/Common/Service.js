@@ -1,11 +1,11 @@
-﻿var Service = function() {
+﻿var Service = function () {
     var base = this;
-    this.ChecPermission = function(permission, callback) {
+    this.ChecPermission = function (permission, callback) {
         //  callback();
         //return true;
         base.AuthenAjaxPost({
             Url: window.location.href + "/CheckPermission?permission=" + permission.toUpperCase()
-        }, function(rs) {
+        }, function (rs) {
 
             if (rs.code == "00") {
                 alert(rs.message);
@@ -17,25 +17,25 @@
         });
         return false;
     };
-    this.CheckAuthen = function(option, fnSuccess, fnError) {
+    this.CheckAuthen = function (option, fnSuccess, fnError) {
         $.ajax({
             url: option.Url,
             type: "Post",
             data: option.Data,
-            beforeSend: function() {
+            beforeSend: function () {
                 base.RequestStart();
             },
             async: (option.async == undefined ? true : option.async),
-            complete: function() {
+            complete: function () {
                 // base.RequestEnd();
             },
-            success: function(rs) {
+            success: function (rs) {
                 if (!rs.IsAuthen)
                     base.RequestEnd();
                 if (typeof fnSuccess === "function")
                     fnSuccess(rs);
             },
-            error: function(e) {
+            error: function (e) {
                 if (!fnError)
                     Dialog.Alert(ServerError_Lang, Dialog.Error);
                 if (typeof fnError === "function")
@@ -44,7 +44,7 @@
             }
         });
     };
-    this.AjaxPostDemo = function(option, fnSuccess, fnError) {
+    this.AjaxPostDemo = function (option, fnSuccess, fnError) {
         if (option.Data) {
             option.Data.append("__RequestVerificationToken", $("input[name=__RequestVerificationToken]").val());
         } else {
@@ -55,9 +55,9 @@
         if (option.CheckAuthen != false) {
             base.CheckAuthen({
                 Url: "/Admin/Index/CheckAuthen",
-            }, function(rs) {
+            }, function (rs) {
                 if (!rs.IsAuthen) {
-                    Dialog.Alert(language.SessionTimeout, Dialog.Error, "Session Timedout", function() {
+                    Dialog.Alert(language.SessionTimeout, Dialog.Error, "Session Timedout", function () {
                         window.location = "/Admin/login?ReturnUrl=" + window.location.href;
                     });
                 } else {
@@ -76,18 +76,18 @@
                         data: option.Data,
                         dataType: "json",
 
-                        beforeSend: function() {
+                        beforeSend: function () {
                             base.RequestStart();
                         },
                         async: (option.async == undefined ? true : option.async),
-                        complete: function() {
+                        complete: function () {
                             base.RequestEnd();
                         },
-                        success: function(rs) {
+                        success: function (rs) {
                             if (typeof fnSuccess === "function")
                                 fnSuccess(rs);
                         },
-                        error: function(e) {
+                        error: function (e) {
                             if (!fnError)
                                 Dialog.Alert(language.Message_Error, Dialog.Error);
                             if (typeof fnError === "function")
@@ -95,7 +95,7 @@
                         }
                     });
                 }
-            }, function(e) {
+            }, function (e) {
             });
         } else {
             $.ajax({
@@ -113,18 +113,18 @@
                 data: option.Data,
                 dataType: "json",
 
-                beforeSend: function() {
+                beforeSend: function () {
                     base.RequestStart();
                 },
                 async: (option.async == undefined ? true : option.async),
-                complete: function() {
+                complete: function () {
                     base.RequestEnd();
                 },
-                success: function(rs) {
+                success: function (rs) {
                     if (typeof fnSuccess === "function")
                         fnSuccess(rs);
                 },
-                error: function(e) {
+                error: function (e) {
                     if (!fnError)
                         Dialog.Alert(language.Message_Error, Dialog.Error);
                     if (typeof fnError === "function")
@@ -133,19 +133,19 @@
             });
         }
     };
-    this.RequestStart = function() {
-            if ($("body > div.ajaxInProgress").length <= 0) {
-                var str = "<div class=\"ajaxInProgress\"><div class=\"loading-ct\" >" +
-                    //'<i class="fa fa-spinner fa-pulse"></i>' +
-                    "<img src=\"/Assets/Admin/images/ajax-loader.gif\">" +
-                    "<div>" + language.LoadingText + "</div>" +
-                    " </div> </div>";
-                $("body").append(str);
-            }
-            //console.log($('body > div.ajaxInProgress'));
-            $("body > div.ajaxInProgress").show();
-        },
-        this.EncodeHtml = function(string) {
+    this.RequestStart = function () {
+        if ($("body > div.ajaxInProgress").length <= 0) {
+            var str = "<div class=\"ajaxInProgress\"><div class=\"loading-ct\" >" +
+                //'<i class="fa fa-spinner fa-pulse"></i>' +
+                "<img src=\"/Assets/Admin/images/ajax-loader.gif\">" +
+                "<div>" + language.LoadingText + "</div>" +
+                " </div> </div>";
+            $("body").append(str);
+        }
+        //console.log($('body > div.ajaxInProgress'));
+        $("body > div.ajaxInProgress").show();
+    },
+        this.EncodeHtml = function (string) {
             var entityMap = {
                 "&": "&amp;",
                 "<": "&lt;",
@@ -154,22 +154,22 @@
                 "'": "&#39;",
                 "/": "&#x2F;"
             };
-            return String(string).replace(/[&<>"'\/]/g, function(s) {
+            return String(string).replace(/[&<>"'\/]/g, function (s) {
                 return entityMap[s];
             });
 
         },
-        this.RequestEnd = function() {
+        this.RequestEnd = function () {
             if ($("body > div.ajaxInProgress").length > 0)
                 $("body > div.ajaxInProgress").hide();
         }; //nhannv Check authen before request
-    this.AuthenAjaxPost = function(option, fnSuccess, fnError) {
+    this.AuthenAjaxPost = function (option, fnSuccess, fnError) {
         base.AjaxPost({
             Url: "/Admin/Index/CheckAuthen",
-        }, function(rs) {
+        }, function (rs) {
 
             if (!rs.IsAuthen) {
-                Dialog.Alert(language.SessionTimeout, Dialog.Error, "Session Timedout", function() {
+                Dialog.Alert(language.SessionTimeout, Dialog.Error, "Session Timedout", function () {
                     window.location = "/Admin/login?ReturnUrl=" + window.location.href;
                 });
 
@@ -177,15 +177,15 @@
                 base.AjaxPost(option, fnSuccess, fnError);
             }
 
-        }, function(e) {
+        }, function (e) {
 
         });
 
     };
-    this.encodeHtml = function(r) {
-        return r.replace(/[\x26\x0A\<>'"]/g, function(r) { return "&#" + r.charCodeAt(0) + ";" });
+    this.encodeHtml = function (r) {
+        return r.replace(/[\x26\x0A\<>'"]/g, function (r) { return "&#" + r.charCodeAt(0) + ";" });
     }; //----hoanglt Ajaxt get file
-    this.AjaxPostFile = function(option, fnSuccess, fnError) {
+    this.AjaxPostFile = function (option, fnSuccess, fnError) {
         if (option.Data) {
             option.Data.__RequestVerificationToken = $("input[name=__RequestVerificationToken]").val();
         }
@@ -199,18 +199,18 @@
             data: option.Data,
             dataType: "json",
 
-            beforeSend: function() {
+            beforeSend: function () {
                 base.RequestStart();
             },
             async: (option.async == undefined ? true : option.async),
-            complete: function() {
+            complete: function () {
                 base.RequestEnd();
             },
-            success: function(rs) {
+            success: function (rs) {
                 if (typeof fnSuccess === "function")
                     fnSuccess(rs);
             },
-            error: function(e) {
+            error: function (e) {
                 if (!fnError)
                     Dialog.Alert(ServerError_Lang, Dialog.Error);
                 if (typeof fnError === "function")
@@ -218,7 +218,7 @@
             }
         });
     }; //--Posst FormCollection
-    this.AjaxPostFormCollection = function(option, fnSuccess, fnError) {
+    this.AjaxPostFormCollection = function (option, fnSuccess, fnError) {
         if (option.Data) {
             option.Data.append("__RequestVerificationToken", $("input[name=__RequestVerificationToken]").val());
         } else {
@@ -229,9 +229,9 @@
         if (option.CheckAuthen != false) {
             base.CheckAuthen({
                 Url: "/Admin/Index/CheckAuthen",
-            }, function(rs) {
+            }, function (rs) {
                 if (!rs.IsAuthen) {
-                    Dialog.Alert(language.SessionTimeout, Dialog.Error, "Session Timedout", function() {
+                    Dialog.Alert(language.SessionTimeout, Dialog.Error, "Session Timedout", function () {
                         window.location = "/Admin/login?ReturnUrl=" + window.location.href;
                     });
                 } else {
@@ -245,18 +245,18 @@
                         data: option.Data,
                         dataType: "json",
 
-                        beforeSend: function() {
+                        beforeSend: function () {
                             base.RequestStart();
                         },
                         async: (option.async == undefined ? true : option.async),
-                        complete: function() {
+                        complete: function () {
                             base.RequestEnd();
                         },
-                        success: function(rs) {
+                        success: function (rs) {
                             if (typeof fnSuccess === "function")
                                 fnSuccess(rs);
                         },
-                        error: function(e) {
+                        error: function (e) {
                             if (!fnError)
                                 Dialog.Alert(ServerError_Lang, Dialog.Error);
                             if (typeof fnError === "function")
@@ -264,7 +264,7 @@
                         }
                     });
                 }
-            }, function(e) {
+            }, function (e) {
             });
         } else {
             $.ajax({
@@ -277,18 +277,18 @@
                 data: option.Data,
                 dataType: "json",
 
-                beforeSend: function() {
+                beforeSend: function () {
                     base.RequestStart();
                 },
                 async: (option.async == undefined ? true : option.async),
-                complete: function() {
+                complete: function () {
                     base.RequestEnd();
                 },
-                success: function(rs) {
+                success: function (rs) {
                     if (typeof fnSuccess === "function")
                         fnSuccess(rs);
                 },
-                error: function(e) {
+                error: function (e) {
                     if (!fnError)
                         Dialog.Alert(ServerError_Lang, Dialog.Error);
                     if (typeof fnError === "function")
@@ -297,7 +297,7 @@
             });
         }
     };
-    this.AjaxPost = function(option, fnSuccess, fnError) {
+    this.AjaxPost = function (option, fnSuccess, fnError) {
         if (option.Data) {
             option.Data.__RequestVerificationToken = $("input[name=__RequestVerificationToken]").val();
         }
@@ -310,26 +310,26 @@
             //headers: {
             //    'X-Request-Verification-Token': verificationToken
             //},
-            beforeSend: function() {
+            beforeSend: function () {
                 base.RequestStart();
             },
             async: (option.async == undefined ? true : option.async),
-            complete: function() {
+            complete: function () {
                 base.RequestEnd();
             },
-            success: function(rs) {
+            success: function (rs) {
                 //EndLoading();
                 if (typeof fnSuccess === "function")
                     fnSuccess(rs);
             },
-            error: function(e) {
+            error: function (e) {
                 //EndLoading();
                 if (typeof fnError === "function")
                     fnError(e);
             }
         });
     };
-    this.AjaxPostSearch = function(option, fnSuccess, fnError) {
+    this.AjaxPostSearch = function (option, fnSuccess, fnError) {
         if (option.Data) {
             option.Data.__RequestVerificationToken = $("input[name=__RequestVerificationToken]").val();
         }
@@ -346,25 +346,25 @@
             //headers: {
             //    'X-Request-Verification-Token': verificationToken
             //},
-            beforeSend: function() {
+            beforeSend: function () {
                 base.RequestStart();
             },
             async: (option.async == undefined ? true : option.async),
-            complete: function() {
+            complete: function () {
                 me.data("requestRunning", false);
                 base.RequestEnd();
             },
-            success: function(rs) {
+            success: function (rs) {
                 if (typeof fnSuccess === "function")
                     fnSuccess(rs);
             },
-            error: function(e) {
+            error: function (e) {
                 if (typeof fnError === "function")
                     fnError(e);
             }
         });
     };
-    this.AjaxPostList = function(option, fnSuccess, fnError) {
+    this.AjaxPostList = function (option, fnSuccess, fnError) {
         if (option.Data) {
             option.Data.__RequestVerificationToken = $("input[name=__RequestVerificationToken]").val();
         }
@@ -374,23 +374,23 @@
             data: option.Data,
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            beforeSend: function() {
+            beforeSend: function () {
                 base.RequestStart();
             },
-            complete: function() {
+            complete: function () {
                 base.RequestEnd();
             },
-            success: function(rs) {
+            success: function (rs) {
                 if (typeof fnSuccess === "function")
                     fnSuccess(rs);
             },
-            error: function(e) {
+            error: function (e) {
                 if (typeof fnError === "function")
                     fnError(e);
             }
         });
     };
-    this.AjaxGet = function(option, fnSuccess, fnError) {
+    this.AjaxGet = function (option, fnSuccess, fnError) {
         if (option.Data) {
             option.Data.__RequestVerificationToken = $("input[name=__RequestVerificationToken]").val();
         }
@@ -398,23 +398,23 @@
             url: option.Url,
             type: "Get",
             data: option.Data,
-            beforeSend: function() {
+            beforeSend: function () {
                 base.RequestStart();
             },
-            complete: function() {
+            complete: function () {
                 base.RequestEnd();
             },
-            success: function(rs) {
+            success: function (rs) {
                 if (typeof fnSuccess === "function")
                     fnSuccess(rs);
             },
-            error: function(e) {
+            error: function (e) {
                 if (typeof fnError === "function")
                     fnError(e);
             }
         });
     };
-    this.JoinObject = function(oldObj, newObj) {
+    this.JoinObject = function (oldObj, newObj) {
         if (typeof oldObj === "object" && oldObj != null
             && typeof newObj === "object" && newObj != null) {
             for (var key in newObj) {
@@ -425,23 +425,23 @@
         }
         return oldObj;
     };
-    this.NumberToString = function(value) {
+    this.NumberToString = function (value) {
         return value != null ? value.toString().replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") : 0;
     };
 
-    this.DateToString = function(value, fomart) {
+    this.DateToString = function (value, fomart) {
         return moment(new Date(parseInt(value.slice(6, -2)))).format(fomart);
     };
 
-    this.round = function(value) {
+    this.round = function (value) {
         var val = isNaN(parseFloat(value)) ? 0 : parseFloat(value);
         return (val * 100) / 100;
     };
-    this.getFormData = function($form) {
+    this.getFormData = function ($form) {
         var unindexed_array = $form.serializeArray();
         var indexed_array = {};
 
-        $.map(unindexed_array, function(n, i) {
+        $.map(unindexed_array, function (n, i) {
             indexed_array[n["name"]] = n["value"];
         });
 
@@ -450,12 +450,12 @@
     //	Description:  Bootstrap Table					 Option, function
     //	Author: 
     //==================================================================
-    this.Sprintf = function(str) {
+    this.Sprintf = function (str) {
         var args = arguments,
             flag = true,
             i = 1;
 
-        str = str.replace(/%s/g, function() {
+        str = str.replace(/%s/g, function () {
             var arg = args[i++];
 
             if (typeof arg === "undefined") {
@@ -466,7 +466,7 @@
         });
         return flag ? str : "";
     };
-    this.BootstrapTableOption1 = function(option) {
+    this.BootstrapTableOption1 = function (option) {
 
         var obj = {
             locale: "vi",
@@ -482,28 +482,28 @@
             paginationNextText: "Sau",
             paginationLastText: "Trang cuối",
             showFooter: false,
-            formatShowingRows: function(pageFrom, pageTo, totalRows) {
+            formatShowingRows: function (pageFrom, pageTo, totalRows) {
                 return base.Sprintf("Tổng: %s", totalRows);
             },
-            formatRecordsPerPage: function(pageNumber) {
+            formatRecordsPerPage: function (pageNumber) {
                 return base.Sprintf("Hiển thị %s dòng trên trang", pageNumber);
             },
-            formatLoadingMessage: function() {
+            formatLoadingMessage: function () {
                 return "<div class=\"ajaxInProgress\"> <div class=\"loading-ct\" >" +
                     "<img src=\"/Assets/Admin/images/ajax-loader.gif\">" +
                     "<div>" + language.LoadingText + "</div>" +
                     "</div> </div>";
             },
-            formatNoMatches: function() {
+            formatNoMatches: function () {
                 return "Không tìm thấy dữ liệu theo điều kiện tìm kiếm. Vui lòng thử lại";
             },
 
             method: "post",
             sidePagination: "server",
-            queryParams: function(params) {
+            queryParams: function (params) {
                 return params;
             },
-            responseHandler: function(res) {
+            responseHandler: function (res) {
                 if (res.total == 0) {
                     Dialog.Alert("Không tìm thấy dữ liệu theo điều kiện tìm kiếm!", Dialog.Error);
                     return {
@@ -521,7 +521,7 @@
 
         return base.JoinObject(obj, option);
     };
-    this.BootstrapTableOption = function(option) {
+    this.BootstrapTableOption = function (option) {
 
         var obj = {
             locale: language.localeTable,
@@ -530,7 +530,7 @@
             pagination: true,
             pageSize: 10,
             pageList: [10, 15, 20, 30, 50, 100],
-            formatLoadingMessage: function() {
+            formatLoadingMessage: function () {
                 return "<div class=\"ajaxInProgress\"> <div class=\"loading-ct\" >" +
                     "<img src=\"/Assets/Admin/images/ajax-loader.gif\">" +
                     "<div>" + language.LoadingText + "</div>" +
@@ -539,19 +539,19 @@
 
             method: "post",
             sidePagination: "server",
-            formatShowingRows: function(pageFrom, pageTo, totalRows) {
+            formatShowingRows: function (pageFrom, pageTo, totalRows) {
                 return "Tổng: " + totalRows + " ";
             },
-            formatRecordsPerPage: function(pageNumber) {
+            formatRecordsPerPage: function (pageNumber) {
                 return "Hiển thị " + pageNumber + " bản ghi trên trang";
             },
-            formatNoMatches: function() {
+            formatNoMatches: function () {
                 return "Không tìm thấy dữ liệu theo điều kiện tìm kiếm. Vui lòng thử lại!";
             },
-            queryParams: function(params) {
+            queryParams: function (params) {
                 return params;
             },
-            responseHandler: function(res) {
+            responseHandler: function (res) {
                 return {
                     total: res.total,
                     rows: res.data
@@ -561,7 +561,7 @@
 
         return base.JoinObject(obj, option);
     };
-    this.BootstrapTableOptionClient = function(option) {
+    this.BootstrapTableOptionClient = function (option) {
 
         var obj = {
             locale: "vi",
@@ -572,87 +572,87 @@
             pageList: [10, 15, 20, 30, 50, 100],
             showHeader: true,
             sidePagination: "client",
-            formatLoadingMessage: function() {
+            formatLoadingMessage: function () {
                 return "<div class=\"ajaxInProgress\"> <div class=\"loading-ct\" >" +
                     "<img src=\"/Assets/Admin/images/ajax-loader.gif\">" +
                     "<div>" + language.LoadingText + "</div>" +
                     "</div> </div>";
             },
-            formatShowingRows: function(pageFrom, pageTo, totalRows) {
+            formatShowingRows: function (pageFrom, pageTo, totalRows) {
                 return "Tổng: " + totalRows + " ";
             },
-            formatRecordsPerPage: function(pageNumber) {
+            formatRecordsPerPage: function (pageNumber) {
                 return "Hiển thị " + pageNumber + " bản ghi trên trang";
             }
         };
 
         return base.JoinObject(obj, option);
     };
-    this.BootstrapTableColumn = function(type, option) {
+    this.BootstrapTableColumn = function (type, option) {
         var align = "";
         var formatFn;
         var className = "";
         if (typeof type === "function")
             type = type();
         switch (type) {
-        case "Number":
-            align = "right";
-            className = "row-number";
-            formatFn = function(value) {
-                return value ? value.toString().replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") : 0;
-            };
-            break;
-        case "Number2":
-            align = "right";
-            className = "row-number";
-            formatFn = function(value) {
-                return value ? value.toString().replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") : "";
-            };
-            break;
-        case "NumberNull":
-            align = "right";
-            className = "row-number";
-            formatFn = function(value) {
-                if (value == null) {
-                    return "";
-                } else
+            case "Number":
+                align = "right";
+                className = "row-number";
+                formatFn = function (value) {
                     return value ? value.toString().replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") : 0;
-            };
-            break;
-        /*  - phase 2 báo cáo cần view date ko */
-        case "Date0":
-            align = "center";
-            className = "row-date";
-            formatFn = function(value) {
-                return value ? moment(new Date(parseInt(value.slice(6, -2)))).format("DD/MM/YYYY") : "";
-            };
-            break;
-        //case "DateTime0":
-        //    align = "center";
-        //    className = "row-date";
-        //    formatFn = function (value) {
-        //        return value ? moment(new Date(parseInt(value.slice(6, -2)))).format('DD/MM/YYYY HH:mm') : "";
-        //    }
-        //    break;
-        /*  - Dự án này áp dụng luôn 1 kiêu date format */
-        case "DateTimeFull":
-        case "Date":
-        case "DateTime":
-            align = "center";
-            className = "row-date";
-            formatFn = function(value) {
-                return value ? moment(new Date(parseInt(value.slice(6, -2)))).format(language.DateTime_Format) : "";
-            };
-            break;
-        default:
-            align = "left";
-            className = "row-string";
-            formatFn = function(value) {
-                value = value != undefined ? value : "";
-//                return value.length >= 20 ? value.substring(0, 20) + "..." : value;
+                };
+                break;
+            case "Number2":
+                align = "right";
+                className = "row-number";
+                formatFn = function (value) {
+                    return value ? value.toString().replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") : "";
+                };
+                break;
+            case "NumberNull":
+                align = "right";
+                className = "row-number";
+                formatFn = function (value) {
+                    if (value == null) {
+                        return "";
+                    } else
+                        return value ? value.toString().replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") : 0;
+                };
+                break;
+            /*  - phase 2 báo cáo cần view date ko */
+            case "Date0":
+                align = "center";
+                className = "row-date";
+                formatFn = function (value) {
+                    return value ? moment(new Date(parseInt(value.slice(6, -2)))).format("DD/MM/YYYY") : "";
+                };
+                break;
+            //case "DateTime0":
+            //    align = "center";
+            //    className = "row-date";
+            //    formatFn = function (value) {
+            //        return value ? moment(new Date(parseInt(value.slice(6, -2)))).format('DD/MM/YYYY HH:mm') : "";
+            //    }
+            //    break;
+            /*  - Dự án này áp dụng luôn 1 kiêu date format */
+            case "DateTimeFull":
+            case "Date":
+            case "DateTime":
+                align = "center";
+                className = "row-date";
+                formatFn = function (value) {
+                    return value ? moment(new Date(parseInt(value.slice(6, -2)))).format(language.DateTime_Format) : "";
+                };
+                break;
+            default:
+                align = "left";
+                className = "row-string";
+                formatFn = function (value) {
+                    value = value != undefined ? value : "";
+                    //                return value.length >= 20 ? value.substring(0, 20) + "..." : value;
                     return value;
-            };
-            break;
+                };
+                break;
         }
         var obj = {
             align: align,
@@ -663,12 +663,12 @@
         };
         return base.JoinObject(obj, option);
     };
-    this.BootstrapTableSTT = function(table, index) {
+    this.BootstrapTableSTT = function (table, index) {
         var option = table.bootstrapTable("getOptions");
         var i = (option.pageNumber - 1) * option.pageSize;
         return i + index + 1;
     };
-    this.ResponseHandlerFooter = function(res) {
+    this.ResponseHandlerFooter = function (res) {
         var obj = {
             total: res.total,
             rows: res.data != null ? res.data : [],
@@ -676,39 +676,39 @@
         obj.rows.Footer = res.footer;
         return obj;
     };
-    this.Sum = function(items, prop) {
-        return items.reduce(function(a, b) {
+    this.Sum = function (items, prop) {
+        return items.reduce(function (a, b) {
             var num1 = isNaN(parseFloat(a)) ? 0 : parseFloat(a);
             var num2 = isNaN(parseFloat(b[prop])) ? 0 : parseFloat(b[prop]);
             return num1 + num2;
         }, 0);
     };
 
-    this.FormatMoney = function(val) {
+    this.FormatMoney = function (val) {
         val = isNaN(parseFloat(val)) ? 0 : parseFloat(val);
         return val.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
     };
 
-    this.ResponseHandlerSearch = function(res, $modalSearch, $table) {
-            $modalSearch.modal("hide");
-            if (res.total == 0) {
-                $("body").css("padding-right", 0);
-                $table.bootstrapTable("removeAll");
-                Dialog.Alert(Message_DataSearch_Null_Lang, Dialog.Error);
-            }
-            return {
-                total: res.total,
-                rows: res.data
-            };
-        },
+    this.ResponseHandlerSearch = function (res, $modalSearch, $table) {
+        $modalSearch.modal("hide");
+        if (res.total == 0) {
+            $("body").css("padding-right", 0);
+            $table.bootstrapTable("removeAll");
+            Dialog.Alert(Message_DataSearch_Null_Lang, Dialog.Error);
+        }
+        return {
+            total: res.total,
+            rows: res.data
+        };
+    },
 
         // - ResetView Table
-        this.ResetViewTable = function($table) {
+        this.ResetViewTable = function ($table) {
             $table.bootstrapTable("resetView");
         };
 
     // -  setup amount-mask
-    this.SetupAmountMask = function() {
+    this.SetupAmountMask = function () {
         //Mask_groupSeparator: '.',
         //Mask_radixPoint: ',',
         //Mask_integerDigits: 11,
@@ -744,7 +744,7 @@
             autoUnmask: true,
         });
     }; // -  set date
-    this.DefaultDate = function() {
+    this.DefaultDate = function () {
         var dfFormDate = new Date();
         var defaultDate = new Date();
         var dfToDate = new Date();
@@ -772,7 +772,7 @@
             StartOfMonth: moment().startOf('month')
         };
     };
-    this.SetMinDateMaxDate = function() {
+    this.SetMinDateMaxDate = function () {
         var date = new Date();
         var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
         var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -781,7 +781,7 @@
             LastDay: lastDay
         };
     };
-    this.SetupInputDate = function(input1) {
+    this.SetupInputDate = function (input1) {
         input1.datetimepicker({
             format: 'DD/MM/YYYY HH:mm',
             showTodayButton: true,
@@ -794,7 +794,7 @@
             placeholder: ""
         });
     };
-    this.SetupDateTimeNomal = function(input) {
+    this.SetupDateTimeNomal = function (input) {
         input.datetimepicker({
             format: language.DateTime_Format,
             showTodayButton: true,
@@ -806,7 +806,7 @@
             placeholder: ""
         });
     }; // -  set date
-    this.SetupDateTime = function(input1, input2) {
+    this.SetupDateTime = function (input1, input2) {
         input1.datetimepicker({
             format: language.DateTime_Format,
             showTodayButton: true,
@@ -824,7 +824,7 @@
             placeholder: ""
         });
     };
-    this.SetupDateTimeNon = function(input1, input2) {
+    this.SetupDateTimeNon = function (input1, input2) {
         input1.datetimepicker({
             format: language.DateTime_Format,
             showTodayButton: true,
@@ -844,7 +844,7 @@
             placeholder: ""
         });
     };
-    this.SetupDate_Not_Time = function(input1, input2) {
+    this.SetupDate_Not_Time = function (input1, input2) {
         input1.datetimepicker({
             format: language.Date_Format,
             showTodayButton: true,
@@ -864,7 +864,7 @@
             placeholder: ""
         });
     };
-    this.SetupDateTimeCurrentMoth = function(input1) {
+    this.SetupDateTimeCurrentMoth = function (input1) {
 
         var currentYear = (new Date).getFullYear();
         //var currentMonth = (new Date).getMonth() + 1;
@@ -885,7 +885,7 @@
             placeholder: ""
         });
     };
-    this.SetupOnlyDate = function(input1) {
+    this.SetupOnlyDate = function (input1) {
         input1.datetimepicker({
             format: language.Date_Format,
             showTodayButton: true,
@@ -893,7 +893,7 @@
             showClose: true
         });
     };
-    this.SetupOnlyYear = function(input1) {
+    this.SetupOnlyYear = function (input1) {
         input1.datetimepicker({
             format: "YYYY",
             showTodayButton: true,
@@ -901,7 +901,7 @@
             showClose: true
         });
     };
-    this.SetupOnlyMonth = function(input1) {
+    this.SetupOnlyMonth = function (input1) {
         input1.datetimepicker({
             format: "MM",
             showTodayButton: true,
@@ -909,7 +909,7 @@
             showClose: true
         });
     };
-    this.SetupDateAndSetDefault = function(input, defaultDate) {
+    this.SetupDateAndSetDefault = function (input, defaultDate) {
         input.datetimepicker({
             format: language.Date_Format,
             showTodayButton: true,
@@ -917,7 +917,7 @@
             defaultDate: defaultDate
         });
     };
-    this.SetupDateAndSetDefaultNotMaxDate = function(input, defaultDate) {
+    this.SetupDateAndSetDefaultNotMaxDate = function (input, defaultDate) {
         input.datetimepicker({
             format: "DD-MM-YYYY HH:mm:ss",
             showTodayButton: true,
@@ -925,7 +925,7 @@
             defaultDate: defaultDate
         });
     };
-    this.SetupDate = function() {
+    this.SetupDate = function () {
         for (i = 0; i < arguments.length; i++) {
             var input = arguments[i];
             input.datetimepicker({
@@ -945,24 +945,24 @@
             placeholder: ""
         });
     };
-    this.BindPopup = function(url, model, callback) {
+    this.BindPopup = function (url, model, callback) {
         base.AjaxPost({
             Url: url,
             Data: model
-        }, function(rs) {
+        }, function (rs) {
             if (rs.Status === "00") {
                 Dialog.Alert(rs.Message, Dialog.Error);
             } else {
                 if (typeof callback == "function")
                     callback(rs);
             }
-        }, function() {
+        }, function () {
             Dialog.Alert(ServerError_Lang, Dialog.Error);
         });
     };
-    this.ConfigAutocomplete = function(idControl, url, displayField, valueField, triggerLength, fnSelect, fnQuery, fnProcess, option) {
+    this.ConfigAutocomplete = function (idControl, url, displayField, valueField, triggerLength, fnSelect, fnQuery, fnProcess, option) {
         var optionDefault = {
-            onSelect: function(item) {
+            onSelect: function (item) {
                 $(idControl).data("seletectedValue", item.value);
                 $(idControl).data("seletectedText", item.text);
                 //$(idControl).valid();
@@ -978,12 +978,12 @@
                 cache: false,
                 triggerLength: triggerLength,
                 loadingClass: "ax",
-                preDispatch: (fnQuery == undefined ? function(query) {
+                preDispatch: (fnQuery == undefined ? function (query) {
                     return {
                         search: query
                     };
                 } : fnQuery),
-                preProcess: (fnProcess == undefined ? function(data) {
+                preProcess: (fnProcess == undefined ? function (data) {
                     if (data.success === false) {
                         return false;
                     }
@@ -997,9 +997,9 @@
     //	Description:  config 	Typeahead				
     //	Author:  dirUpload DirViewFile DefaultUrl
     //==================================================================
-    this.ConfigTypeahead = function($e, option) {
+    this.ConfigTypeahead = function ($e, option) {
         var optionDefault = {
-            onSelect: function(item) {
+            onSelect: function (item) {
                 $e.data("object", JSON.parse(item.object));
                 $e.data("seletectedValue", item.value);
                 $e.data("seletectedText", item.text);
@@ -1016,7 +1016,7 @@
                 cache: false,
                 triggerLength: option.triggerLength ? option.triggerLength : 2,
                 loadingClass: option.loadingClass ? option.loadingClass : "",
-                preDispatch: function(query) {
+                preDispatch: function (query) {
                     if (option.preDispatch == undefined)
                         return {
                             search: query
@@ -1024,7 +1024,7 @@
                     else
                         return option.preDispatch(query);
                 },
-                preProcess: function(data) {
+                preProcess: function (data) {
                     if (option.preProcess == undefined) {
                         if (data.success === false) {
                             return false;
@@ -1034,7 +1034,7 @@
                         return option.preProcess(data);
                     }
                 },
-                loading: function(check) {
+                loading: function (check) {
                     check ? base.RequestStart() : base.RequestEnd();
                 },
             }
@@ -1042,7 +1042,7 @@
         $.extend(optionDefault, option);
         $e.typeahead(optionDefault);
     };
-    this.FormReset = function() {
+    this.FormReset = function () {
         var optiondefault = {
             Type: "",
             Value: "",
@@ -1069,41 +1069,41 @@
             if (options.Element.length == 0) continue;
             // check type(date, datetime, datetimefull,number,text, hoặc để tự nó làm (custom))
             switch (options.Type) {
-            case "Date":
-                if (options.Value)
-                    options.Element.data("DateTimePicker").date(options.Value);
-                else
-                    options.Element.data("DateTimePicker").date(new Date(moment().format("YYYY-MM-DD HH:MM:SS")));
-                break;
-            case "Typeahead":
-                options.Element.data("seletectedValue", "");
-                options.Element.data("seletectedText", "");
-                options.Element.data("seletectedObject", {});
-                options.Element.val("");
-                break;
-            case "Number":
-                options.Element.val(0);
-                break;
-            default:
-                if (options.Value)
-                    options.Element.val(options.Value);
-                else
+                case "Date":
+                    if (options.Value)
+                        options.Element.data("DateTimePicker").date(options.Value);
+                    else
+                        options.Element.data("DateTimePicker").date(new Date(moment().format("YYYY-MM-DD HH:MM:SS")));
+                    break;
+                case "Typeahead":
+                    options.Element.data("seletectedValue", "");
+                    options.Element.data("seletectedText", "");
+                    options.Element.data("seletectedObject", {});
                     options.Element.val("");
-                break;
+                    break;
+                case "Number":
+                    options.Element.val(0);
+                    break;
+                default:
+                    if (options.Value)
+                        options.Element.val(options.Value);
+                    else
+                        options.Element.val("");
+                    break;
             }
         }
     };
-    this.DocSo = function($e, val) {
+    this.DocSo = function ($e, val) {
         if (val > 0) {
             $e.html(language.MoneyToString(val));
         } else {
             $e.html("");
         }
     };
-    this.LoadTableSearch = function($table, url, showDialog) {
+    this.LoadTableSearch = function ($table, url, showDialog) {
         $table.bootstrapTable("refreshOptions", {
             url: url,
-            responseHandler: function(res) {
+            responseHandler: function (res) {
                 if (res.Status) {
                     if (res.Status == "URL") {
                         window.location.assign(res.Message);
@@ -1121,14 +1121,14 @@
             sidePagination: "server",
         });
     };
-    this.GetUrlFileUpload = function() {
+    this.GetUrlFileUpload = function () {
         var appSetting = "@(System.Configuration.ConfigurationManager.AppSettings[\"DirViewFile\"].ToString())";
         return appSetting;
     }; //--ResetForm
-    this.ResetForm = function($form, $fdate, $todate) {
+    this.ResetForm = function ($form, $fdate, $todate) {
         var validator = $form.validate();
         validator.resetForm();
-        $form.each(function() {
+        $form.each(function () {
             this.reset();
         });
         if ($form.find($fdate).length > 0) {
@@ -1138,15 +1138,15 @@
             $form.find($todate).data("DateTimePicker").date(Sv.DefaultDate().MomentToDate);
         }
     };
-    this.ResetFormOnly = function($form) {
+    this.ResetFormOnly = function ($form) {
         var validator = $form.validate();
         validator.resetForm();
-        $form.each(function() {
+        $form.each(function () {
             this.reset();
         });
     }; //HoangLT customize pagging
-    this.PaggingService = function(option, fnSuccess, fnError) {
-        $(".pagination li a").click(function(e) {
+    this.PaggingService = function (option, fnSuccess, fnError) {
+        $(".pagination li a").click(function (e) {
             var link = $(this).attr("data-value");
             var page = parseInt($(this).html());
             var className = $(this).parent().attr("class").trim();
@@ -1166,27 +1166,27 @@
                 url: link,
                 type: "Post",
                 data: { search: option.Data, page: page },
-                beforeSend: function() {
+                beforeSend: function () {
                     base.RequestStart();
                 },
                 async: (option.async == undefined ? true : option.async),
-                complete: function() {
+                complete: function () {
                     me.data("requestRunning", false);
                     base.RequestEnd();
                 },
-                success: function(rs) {
+                success: function (rs) {
                     if (typeof fnSuccess === "function")
                         fnSuccess(rs);
                 },
-                error: function(e) {
+                error: function (e) {
                     if (typeof fnError === "function")
                         fnError(e);
                 }
             });
         });
     };
-    this.ChangePageNumber = function(option, fnSuccess, fnError) {
-        $("#dropPagging li a").on("click", function() {
+    this.ChangePageNumber = function (option, fnSuccess, fnError) {
+        $("#dropPagging li a").on("click", function () {
             var numpage = parseInt($(this).html());
             if (option.Data) {
                 option.Data.__RequestVerificationToken = $("input[name=__RequestVerificationToken]").val();
@@ -1205,19 +1205,19 @@
                 url: option.Url,
                 type: "Post",
                 data: { search: option.Data, page: option.Page },
-                beforeSend: function() {
+                beforeSend: function () {
                     base.RequestStart();
                 },
                 async: (option.async == undefined ? true : option.async),
-                complete: function() {
+                complete: function () {
                     me.data("requestRunning", false);
                     base.RequestEnd();
                 },
-                success: function(rs) {
+                success: function (rs) {
                     if (typeof fnSuccess === "function")
                         fnSuccess(rs);
                 },
-                error: function(e) {
+                error: function (e) {
                     if (typeof fnError === "function")
                         fnError(e);
                 }
@@ -1225,17 +1225,17 @@
         });
     }; //Bind Footer
 
-    this.totalTextFormatter = function(data) {
+    this.totalTextFormatter = function (data) {
         return language.TextTotal;
     };
-    this.sumFormatter = function(data) {
+    this.sumFormatter = function (data) {
         var field = this.field;
-        var totalSum = data.reduce(function(sum, row) {
+        var totalSum = data.reduce(function (sum, row) {
             return (sum) + (row[field] || 0);
         }, 0);
         return totalSum ? totalSum.toString().replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") : 0;
     };
-    this.getAllUrlParams = function(url) {
+    this.getAllUrlParams = function (url) {
 
         // get query string from url (optional) or window
         var queryString = url ? url.split("?")[1] : window.location.search.slice(1);
@@ -1258,7 +1258,7 @@
 
                 // in case params look like: list[]=thing1&list[]=thing2
                 var paramNum = undefined;
-                var paramName = a[0].replace(/\[\d*\]/, function(v) {
+                var paramName = a[0].replace(/\[\d*\]/, function (v) {
                     paramNum = v.slice(1, -1);
                     return "";
                 });
@@ -1296,54 +1296,64 @@
 
         return obj;
     };
-    this.Loading = function() {
+    this.Loading = function () {
         var str =
             "<div id=\"modal-loading-parent\"  class=\"modal fade\" role=\"dialog\" style=\"opacity: 0.6;background: #000;display: block;\">" +
-                " </div>" +
-                "<div id=\"modal-loading\"  class=\"modal fade\" style=\"margin-top: 14%;\">" +
-                "<div class=\"modal-dialog\">" +
-                "  <div class=\"modal-content\">" +
-                "  <div class=\"modal-body text-center\">" +
-                "   <br />" +
-                " <i class=\"fa fa-spinner fa-4x fa-spin\" style=\"margin-bottom: 20px;\"></i>" +
-                " <h4>Đang xử lý dữ liệu, vui lòng đợi trong giây lát...</h4>" +
-                " <br />" +
-                "<br />" +
-                " </div>" +
-                " </div>" +
-                " </div>" +
-                " </div>" +
-                "<input type=\"button\" data-toggle=\"modal\" data-target=\"#modal-loading\" id=\"popdialogloading\" style=\"display:none\" />";
+            " </div>" +
+            "<div id=\"modal-loading\"  class=\"modal fade\" style=\"margin-top: 14%;\">" +
+            "<div class=\"modal-dialog\">" +
+            "  <div class=\"modal-content\">" +
+            "  <div class=\"modal-body text-center\">" +
+            "   <br />" +
+            " <i class=\"fa fa-spinner fa-4x fa-spin\" style=\"margin-bottom: 20px;\"></i>" +
+            " <h4>Đang xử lý dữ liệu, vui lòng đợi trong giây lát...</h4>" +
+            " <br />" +
+            "<br />" +
+            " </div>" +
+            " </div>" +
+            " </div>" +
+            " </div>" +
+            "<input type=\"button\" data-toggle=\"modal\" data-target=\"#modal-loading\" id=\"popdialogloading\" style=\"display:none\" />";
         $("body").append(str);
         $("#popdialogloading").click();
     };
-    this.EndLoading = function() {
-        setTimeout(function() {
-                $("body").find("div#modal-loading").remove();
-                $("body").find("div#modal-loading-parent").remove();
-                $(".modal-backdrop").remove();
-                $("#popdialogloading").remove();
-                $("body").removeClass("modal-open");
-                $("body").removeAttr("style");
-            },
+    this.EndLoading = function () {
+        setTimeout(function () {
+            $("body").find("div#modal-loading").remove();
+            $("body").find("div#modal-loading-parent").remove();
+            $(".modal-backdrop").remove();
+            $("#popdialogloading").remove();
+            $("body").removeClass("modal-open");
+            $("body").removeAttr("style");
+        },
             500);
     };
 
-    this.GetImageBase64 = function(file, $image) {
+    this.GetImageBase64 = function (file, $image) {
         var reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = function() {
+        reader.onload = function () {
             $image.attr("src", reader.result);
             return reader.result;
         };
-        reader.onerror = function(error) {
+        reader.onerror = function (error) {
             console.log("Error: ", error);
         };
+    };
+
+    this.mask = function (show) {
+        show = show || false;
+
+        if (show == true) {
+            $('#mask').addClass('in');
+        } else {
+            $('#mask').removeClass('in');
+        }
     };
 };
 var Sv = new Service();
 
-$(document).ready(function() {
+$(document).ready(function () {
     /*  Description: Cấu hình datetimepicker
                 Author: PMNinh  */
     $(".input-date").datetimepicker({
@@ -1408,10 +1418,10 @@ $(document).ready(function() {
     });
 
     /*  Description: Cấu hình Validation các control  */
-    $("form.formValid").each(function() {
+    $("form.formValid").each(function () {
         $(this).validate({
             ignore: "",
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 var tagParent = element.parent();
                 /* PMNinh: Đoạn kiểm tra nếu như thẻ div bọc chưa butt;on và input 
                             thì add class lỗi lên thẻ div cha cao hơn */
@@ -1423,7 +1433,7 @@ $(document).ready(function() {
                 error.addClass("css-error");
             },
             onfocusout: false,
-            invalidHandler: function(form, validator) {
+            invalidHandler: function (form, validator) {
                 var errors = validator.numberOfInvalids();
                 if (errors) {
                     validator.errorList[0].element.focus();
@@ -1433,8 +1443,8 @@ $(document).ready(function() {
     });
 
     /*  Description: Cấu hình Validation định dạng ngày tháng  */
-    $.validator.addMethod("dateFormat", function(value, element, params) {
-        var isDate = function(valueDate) {
+    $.validator.addMethod("dateFormat", function (value, element, params) {
+        var isDate = function (valueDate) {
             var currVal = valueDate;
             if (currVal === "") return false;
             var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;
@@ -1461,17 +1471,17 @@ $(document).ready(function() {
 
     /*  Description: Cấu hình Validation báo lỗi khi mật khấu chứa các ký tự unicode như â, ă...
         Author: PMNinh  */
-    $.validator.addMethod("password-regex", function(value, element) {
+    $.validator.addMethod("password-regex", function (value, element) {
         return this.optional(element) || /^[A-Za-z0-9\s`~!@#$%^&*()+={}|;:'",.<>\/?\\-]+$/.test(value);
     }, "Message Null"); // - Mật khẩu chứa ký tự không hợp lệ (ă, â, đ, ...), vui lòng kiểm tra lại
 
     /*  Description: Cấu hình Validation báo lỗi khi chứa ký tự khoảng trắng.  */
-    $.validator.addMethod("nospace", function(value, element) {
+    $.validator.addMethod("nospace", function (value, element) {
         return value.indexOf(" ") < 0 && value != "";
     }, "Message Null"); // Không chưa ký tự khoảng trắng
 
     /*  Description: Cấu hình Validation chỉ nhập chữ và báo lỗi khi nhập số hoặc ký tự đặc biệt như !@#$%^&*()_+-=...  */
-    $.validator.addMethod("spacecharacters", function(value, element) {
+    $.validator.addMethod("spacecharacters", function (value, element) {
         return this.optional(element) || !/[~`!@#$%\^&*()_+=\-\[\]\\';,./{}|\\":<>\?0-9]/g.test(value);
     }, "Message Null"); // -Không chứa ký tự đặc biệt, vui lòng kiểm tra lại
 
@@ -1494,11 +1504,11 @@ $(document).ready(function() {
     $(".datetime-mask").inputmask("datetime", { "placeholder": "" });
 
     // config modal close
-    $(".modal, .bootbox.modal").on("hidden.bs.modal", function() {
+    $(".modal, .bootbox.modal").on("hidden.bs.modal", function () {
         //var p = $("body").css('padding-right');
         //console.log(p);
     });
-    $("body").on("hidden.bs.modal", function() {
+    $("body").on("hidden.bs.modal", function () {
         if ($(".modal.in").length > 0) {
             $("body").addClass("modal-open");
         }
@@ -1514,7 +1524,7 @@ var Dialog = {
                      - message: Thông tin thông báo cần hiển thị.
                      - status: Trạng thái dialog (Success: Thành công, Warning: Cảnh báo, Error: Thất bại).
                      - callbackFuntion: Function Callback thực hiện sau khi ấn nút xác nhận form thông báo.  */
-    Alert: function(message, status, dialogtitle, callbackFuntion, hideModalFuntion) {
+    Alert: function (message, status, dialogtitle, callbackFuntion, hideModalFuntion) {
         var typeDialog = this._getTypeDialog(status);
         bootbox.dialog({
             message: message,
@@ -1528,20 +1538,20 @@ var Dialog = {
                     callback: callbackFuntion
                 }
             }
-        }).on("shown.bs.modal", function() {
+        }).on("shown.bs.modal", function () {
             $(".bootbox").find("button:first").focus();
-        }).on("hidden.bs.modal", function() {
+        }).on("hidden.bs.modal", function () {
             var p = $("body").css("padding-right");
             var p1 = parseInt(p) - 17;
             if (p1 >= 0)
                 $("body").css("padding-right", p1);
-            hideModalFuntion == undefined ? function() {} : hideModalFuntion();
+            hideModalFuntion == undefined ? function () { } : hideModalFuntion();
         });
     },
     /*  Description: Dialog Config custom
                     - message: Thông tin thông báo cần hiển thị.
                     - callbackFuntion: Function Callback thực hiện sau khi ấn nút xác nhận form thông báo.  */
-    ConfirmCustom: function(title, message, callbackFuntion, showModalFuntion) {
+    ConfirmCustom: function (title, message, callbackFuntion, showModalFuntion) {
         var typeDialog = this._getTypeDialog(this.CONFIRM);
         bootbox.dialog({
             message: message,
@@ -1559,45 +1569,45 @@ var Dialog = {
                     className: "btn btn-df"
                 }
             }
-        }).on("shown.bs.modal", showModalFuntion == undefined ? function() {
+        }).on("shown.bs.modal", showModalFuntion == undefined ? function () {
             //$('.bootbox').find('button:first').focus();
         } : showModalFuntion);
     },
 
     /*  Description: Hàm xác định kiểu của Dialog
         Author: PMNinh  */
-    _getTypeDialog: function(status) {
+    _getTypeDialog: function (status) {
         var type = {};
         switch (status) {
-        case "success":
-            type = {
-                title: language.TitlePopupSuccess,
-                className: "my-modal-success",
-                buttonClass: "btn-sm btn-lue"
-            };
-            break;
-        case "warning":
-            type = {
-                title: Status_Confirm,
-                className: "my-modal-warning",
-                buttonClass: "btn-sm btn-blue"
-            };
-            break;
-        case "error":
-            type = {
-                title: language.TitlePopupError,
-                className: "my-modal-error",
-                buttonClass: "btn-sm btn-blue"
-            };
-            break;
-        case "primary":
-            type = {
-                title: language.TitlePopupPrimary,
-                className: "my-modal-primary",
-                buttonClass: "btn-sm btn-blue"
-            };
+            case "success":
+                type = {
+                    title: language.TitlePopupSuccess,
+                    className: "my-modal-success",
+                    buttonClass: "btn-sm btn-lue"
+                };
+                break;
+            case "warning":
+                type = {
+                    title: Status_Confirm,
+                    className: "my-modal-warning",
+                    buttonClass: "btn-sm btn-blue"
+                };
+                break;
+            case "error":
+                type = {
+                    title: language.TitlePopupError,
+                    className: "my-modal-error",
+                    buttonClass: "btn-sm btn-blue"
+                };
+                break;
+            case "primary":
+                type = {
+                    title: language.TitlePopupPrimary,
+                    className: "my-modal-primary",
+                    buttonClass: "btn-sm btn-blue"
+                };
 
-            break;
+                break;
         }
         return type;
     }

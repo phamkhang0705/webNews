@@ -1,13 +1,12 @@
 ﻿var i = 0;
-function keepsession() {
+function keepSession() {
     setInterval(function () {
         $.get("/Home/KeepResult", function (data) {
             i++;
-            //            console.log("KeepAlive_" + i);
         });
-    }, 3000); // 30s gửi request một lần
+    }, 10000); // 30s gửi request một lần
 }
 
 $(document).ready(function () {
-    keepsession();
+    keepSession();
 });

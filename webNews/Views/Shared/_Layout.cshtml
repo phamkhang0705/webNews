@@ -102,6 +102,9 @@
 
     <!-- Container Selection1 -->
     <div id="dropDownSelect1"></div>
+    <div id="loading" style="display:none">
+        <img src="/Assets/Admin/images/ajax-loader.gif" alt="Loading..." />
+    </div>
     <!--===============================================================================================-->
     @Scripts.Render("~/Theme/facebookjs")
     @Scripts.Render("~/Theme/fashecolorlibjs")
@@ -114,12 +117,11 @@
 
     @RenderSection("scripts", required: false)
     <script>
-        if (window.mobileCheck) {
-            setTimeout(function () {
-                $('.float-social').hide();
-            },
-                20000);
-        }
+        $(function () {
+            $("img.lazy-loading").lazyload({
+                effect: "fadeIn"
+            });
+        });
     </script>
 </body>
 </html>

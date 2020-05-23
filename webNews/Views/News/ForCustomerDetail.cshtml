@@ -15,8 +15,8 @@
             Trang chủ
             <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
         </a>
-        <a href="@Url.Action("News", "News")" clas class="s-text13">
-            Tin tức
+        <a href="@Url.Action("ForCustomer", "News")" clas class="s-text13">
+            Dành cho khách hàng
             <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
         </a>
 
@@ -90,12 +90,12 @@
                         {
                             <li class="flex-w p-b-10">
                                 <div class="w-size19">
-                                    <a href="@Url.Action("NewsDetail", "News", new {@news_short_name = item.ShortName})" class="dis-block wrap-pic-w m-r-8 m-t-5 trans-0-4 hov4">
+                                    <a href="@Url.Action("ForCustomerDetail", "News", new {@news_short_name = item.ShortName})" class="dis-block wrap-pic-w m-r-8 m-t-5 trans-0-4 hov4">
                                         <img data-src="@item.Image" alt="@item.ShortName" class="lazy-loading">
                                     </a>
                                 </div>
                                 <div class="w-size20">
-                                    <a href="@Url.Action("NewsDetail", "News", new {@news_short_name = item.ShortName})" class="s-text19">
+                                    <a href="@Url.Action("ForCustomerDetail", "News", new {@news_short_name = item.ShortName})" class="s-text19">
                                         @item.Title
                                     </a>
                                 </div>

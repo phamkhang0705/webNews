@@ -31,11 +31,6 @@ namespace webNews.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Gói sự kiện";
-            ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
-            ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
-            ViewBag.Email = Convert.ToString(Session["FBEmail"]);
-            ViewBag.avatar = Convert.ToString(Session["avatar"]);
-
             SearchNewsModelFE search = new SearchNewsModelFE();
             search.Page = 1;
             search.PageSize = Int32.Parse(ConfigurationManager.AppSettings["PageSize"]);
@@ -49,11 +44,6 @@ namespace webNews.Controllers
         public ActionResult News()
         {
             ViewBag.Title = "Tin tức";
-            ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
-            ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
-            ViewBag.Email = Convert.ToString(Session["FBEmail"]);
-            ViewBag.avatar = Convert.ToString(Session["avatar"]);
-
             SearchNewsModelFE search = new SearchNewsModelFE();
             search.Page = 1;
             search.PageSize = Int32.Parse(ConfigurationManager.AppSettings["PageSize"]);
@@ -68,10 +58,6 @@ namespace webNews.Controllers
         {
             var model = _newsManagement.GetNewsDetail(event_short_name);
             ViewBag.Title = "Chi tiết sự kiện";
-            ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
-            ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
-            ViewBag.Email = Convert.ToString(Session["FBEmail"]);
-            ViewBag.avatar = Convert.ToString(Session["avatar"]);
             SearchNewsModelFE search = new SearchNewsModelFE();
             search.Page = 1;
             search.PageSize = Int32.Parse(ConfigurationManager.AppSettings["PageSize"]);
@@ -84,14 +70,35 @@ namespace webNews.Controllers
         {
             var model = _newsManagement.GetNewsDetail(news_short_name);
             ViewBag.Title = "Chi tiết tin tức";
-            ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
-            ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
-            ViewBag.Email = Convert.ToString(Session["FBEmail"]);
-            ViewBag.avatar = Convert.ToString(Session["avatar"]);
             SearchNewsModelFE search = new SearchNewsModelFE();
             search.Page = 1;
             search.PageSize = Int32.Parse(ConfigurationManager.AppSettings["PageSize"]);
             search.group = "tin-tuc";
+            ViewBag.RelatedNews = _newsManagement.GetNews(search).Where(x => x.Id != model.Id).ToList();
+            return View(model);
+        }
+
+        public ActionResult ForCustomer()
+        {
+            ViewBag.Title = "Dành cho khách hàng";
+            SearchNewsModelFE search = new SearchNewsModelFE();
+            search.Page = 1;
+            search.PageSize = Int32.Parse(ConfigurationManager.AppSettings["PageSize"]);
+            search.group = "danh-cho-khach-hang";
+            // var content = _contentService.GetbyCode("NEWS");
+            // ViewBag.Content = content;
+            var model = _newsManagement.GetNews(search);
+            return View(model);
+        }
+        // [OutputCache(Duration = 60 * 60 * 24, VaryByParam = "*")]
+        public ActionResult ForCustomerDetail(string short_name)
+        {
+            var model = _newsManagement.GetNewsDetail(short_name);
+            ViewBag.Title = "Chi tiết bài viết";
+            SearchNewsModelFE search = new SearchNewsModelFE();
+            search.Page = 1;
+            search.PageSize = Int32.Parse(ConfigurationManager.AppSettings["PageSize"]);
+            search.group = "danh-cho-khach-hang";
             ViewBag.RelatedNews = _newsManagement.GetNews(search).Where(x => x.Id != model.Id).ToList();
             return View(model);
         }

@@ -237,12 +237,6 @@ p {
     font-size: 1.5rem !important;
 }
 
-@media (min-width: 1500px) {
-    .container {
-        max-width: 1440px !important;
-    }
-}
-
 .new-title {
     font-size: 20px !important;
 }
@@ -295,9 +289,9 @@ ol, ul {
     border-left: 1px dotted #CCC;
 }
 
-.account_desc li:first-child {
-    border: none;
-}
+    .account_desc li:first-child {
+        border: none;
+    }
 
 .account_desc li {
     display: inline;
@@ -306,4 +300,26 @@ ol, ul {
 
 .btn-facebook {
     font-size: 1em;
+}
+
+#loading {
+    background-color: white;
+    position: fixed;
+    display: block;
+    top: 0;
+    bottom: 0;
+    z-index: 1000000;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+#loading img {
+    margin: auto;
+    display: block;
+    top: calc(50% - 100px);
+    left: calc(50% - 10px);
+    position: absolute;
+    z-index: 999999;
 }

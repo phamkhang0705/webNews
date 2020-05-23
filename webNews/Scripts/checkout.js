@@ -60,7 +60,17 @@
             }
         })
     },
+    mask: function (show) {
+        show = show || false;
+
+        if (show == true) {
+            $('#mask').addClass('in');
+        } else {
+            $('#mask').removeClass('in');
+        }
+    },
     regEvents: function () {
+
         $('#check_out_form').on('change',
             '#txtProvinceId',
             function (e) {
@@ -96,17 +106,9 @@
                         data: data,
                         async: true,
                         beforeSend: function () {
-                            if ($("body > div.ajaxInProgress").length <= 0) {
-                                var str = "<div class=\"ajaxInProgress\"><div class=\"loading-ct\" >" +
-                                    "<img src=\"/Assets/Admin/images/ajax-loader.gif\">" +
-                                    "<div>Loading...</div>" +
-                                    " </div> </div>";
-                                $("body").append(str);
-                            }
-                            $("body > div.ajaxInProgress").show();
+                            $("#loading").show();
                         }, complete: function () {
-                            if ($("body > div.ajaxInProgress").length > 0)
-                                $("body > div.ajaxInProgress").hide();
+                            $("#loading").hide();
                         },
                         success: function (response) {
                             if (response.Status == "01") {

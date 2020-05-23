@@ -110,7 +110,7 @@ namespace webNews.Controllers
             try
             {
                 ViewBag.Title = "Dành cho khách hàng";
-                var about = _service.GetForCustomer();
+                var about = _service.GetForCustomers(1);
                 ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
                 ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
                 ViewBag.Email = Convert.ToString(Session["FBEmail"]);

@@ -131,7 +131,7 @@ namespace webNews.Domain.Services
         {
             return _systemRepository.GetAbout(status);
         }
-        public Vw_News GetForCustomer(int status = 1)
+        public List<Vw_News> GetForCustomers(int status = 1)
         {
             return _systemRepository.GetForCustomer(status);
         }

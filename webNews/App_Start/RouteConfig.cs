@@ -57,12 +57,7 @@ namespace webNews
               defaults: new { controller = "Home", action = "About", id = UrlParameter.Optional },
               namespaces: new[] { "webNews.Controllers" }
             );
-            routes.MapRoute(
-              name: "ForCustomer",
-              url: "danh-cho-khach-hang",
-              defaults: new { controller = "Home", action = "ForCustomer", id = UrlParameter.Optional },
-              namespaces: new[] { "webNews.Controllers" }
-            );
+            
 
             routes.MapRoute(
               name: "CategoryRentalDetail",
@@ -98,6 +93,21 @@ namespace webNews
               defaults: new { controller = "News", action = "NewsDetail", news_short_name = UrlParameter.Optional },
               namespaces: new[] { "webNews.Controllers" }
             );
+
+            routes.MapRoute(
+                name: "ForCustomer",
+                url: "danh-cho-khach-hang",
+                defaults: new { controller = "News", action = "ForCustomer", id = UrlParameter.Optional },
+                namespaces: new[] { "webNews.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "ForCustomerDetail",
+                url: "danh-cho-khach-hang/{short_name}",
+                defaults: new { controller = "News", action = "ForCustomerDetail", short_name = UrlParameter.Optional },
+                namespaces: new[] { "webNews.Controllers" }
+            );
+
             routes.MapRoute(
                 name: "Login",
                 url: "dang-nhap",

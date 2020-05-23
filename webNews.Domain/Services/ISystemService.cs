@@ -33,7 +33,7 @@ namespace webNews.Domain.Services
         List<InvoiceType> GetTypes(int status = 1);
 
         Vw_News GetAbout(int status=1);
-        Vw_News GetForCustomer(int status=1);
+        List<Vw_News> GetForCustomers(int status=1);
 
         List<Content> GetBanners(int type = 0, int status = 1);
         Content GetBanner(int type = 0, int status = 1);

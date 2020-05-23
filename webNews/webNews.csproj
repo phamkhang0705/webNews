@@ -5259,6 +5259,8 @@
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\Category\_CategoryItemPartial.cshtml" />
     <Content Include="Views\Cart\CheckOut.cshtml" />
+    <Content Include="Views\News\ForCustomer.cshtml" />
+    <Content Include="Views\News\ForCustomerDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -108,15 +108,19 @@ namespace webNews.Common
             var fromEmailPassword = ConfigurationManager.AppSettings["FromEmailPassword"].ToString();
             var smtpHost = ConfigurationManager.AppSettings["SMTPHost"].ToString();
             var smtpPort = ConfigurationManager.AppSettings["SMTPPort"].ToString();
+            var cc = ConfigurationManager.AppSettings["CCAddress"].ToString();
 
             bool enabledSsl = bool.Parse(ConfigurationManager.AppSettings["EnabledSSL"].ToString());
 
             string body = content;
             MailMessage message = new MailMessage(new MailAddress(fromEmailAddress, fromEmailDisplayName), new MailAddress(toEmailAddress));
+            MailAddress copy = new MailAddress(cc);
+            
             message.Subject = subject;
+            message.CC.Add(copy);
             message.IsBodyHtml = true;
             message.Body = body;
-
+            
             var client = new SmtpClient();
             client.UseDefaultCredentials = false;
             client.Credentials = new NetworkCredential(fromEmailAddress, fromEmailPassword);

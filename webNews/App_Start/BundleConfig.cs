@@ -154,7 +154,6 @@ namespace webNews
                 "~/Theme/front-end/vendor/sweetalert/sweetalert.min.js",
                 "~/Theme/front-end/vendor/parallax100/parallax100.js",
                 "~/Theme/front-end/vendor/noui/nouislider.min.js"
-                , "~/Theme/front-end/js/keep_alive.js"
                 , "~/Theme/front-end/vendor/daterangepicker/moment.min.js"
                 , "~/Theme/front-end/vendor/daterangepicker/daterangepicker.js"
                 ));

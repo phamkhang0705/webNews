@@ -44,7 +44,7 @@ namespace webNews.Domain.Repositories
         //get about information
 
         Vw_News GetAbout(int status = 1);
-        Vw_News GetForCustomer(int status = 1);
+        List<Vw_News> GetForCustomer(int status = 1);
 
         List<Content> GetBanners(int type = 0, int status = 1);
         Content GetBanner(int type = 0, int status = 1);
