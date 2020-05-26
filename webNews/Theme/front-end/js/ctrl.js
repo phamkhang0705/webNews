@@ -21,12 +21,10 @@ var mobileCheck = function () {
 
 $(document).ready(function () {
     keepSession();
-    mobileCheck();
     if (window.mobileCheck) {
         setTimeout(function () {
             $('.float-social').hide();
-        },
-            20000);
+        }, 20000);
     }
 
     $(".selection-2").select2();

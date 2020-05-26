@@ -369,12 +369,12 @@ namespace webNews.Domain.Repositories.CategoryManagement
                     if (filter.IsRental == 1)
                     {
                         query.Where(x => x.DisplayRental == filter.IsRental);
-                        query.Where(x => x.total_rental > 0);
+                        // query.Where(x => x.total_rental > 0);
                     }
                     if (filter.IsSale == 1)
                     {
                         query.Where(x => x.DisplaySale == filter.IsSale);
-                        query.Where(x => x.total_sale>0);
+                        // query.Where(x => x.total_sale>0);
                     }
                     if (!string.IsNullOrEmpty(filter.name))
                     {

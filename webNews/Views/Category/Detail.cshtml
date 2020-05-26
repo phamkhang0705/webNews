@@ -39,7 +39,7 @@
                         {
                             <div class="item-slick3" data-thumb="@Url.Content("~/Content/Cate/" + Path.GetFileName(file.Url))">
                                 <div class="wrap-pic-w">
-                                    <img data-src="@Url.Content("~/Content/Cate/" + Path.GetFileName(file.Url))" alt="@Model.ShortName" class="lazy-loading"/>
+                                    <img data-src="@Url.Content("~/Content/Cate/" + Path.GetFileName(file.Url))" alt="@Model.ShortName" class="lazy-loading" />
                                 </div>
                             </div>
                         }
@@ -61,12 +61,24 @@
 
                 <div class="dropdown-content dis-none p-t-15 p-b-23">
                     @Html.Raw(Model.Description)
-                    <div class="btn-addcart w-size1 trans-0-4" data-id="@Model.Id" data-name="@Model.Name">
-                        <!-- Button -->
-                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-                            Thêm vào giỏ hàng
-                        </button>
-                    </div>
+                    @if (@Model.total_rental > 0)
+                    {
+                        <div class="btn-addcart w-size1 trans-0-4" data-id="@Model.Id" data-name="@Model.Name">
+                            <!-- Button -->
+                            <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                                Thêm vào giỏ hàng
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="w-size1 trans-0-4" data-id="@Model.Id" data-name="@Model.Name">
+                            <!-- Button -->
+                            <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                                Sản phẩm tạm hết hàng
+                            </button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

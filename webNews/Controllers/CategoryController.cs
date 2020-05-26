@@ -48,10 +48,6 @@ namespace webNews.Controllers
             ViewBag.HeadingPage = _service.GetBanner(4);
             ViewBag.ListGroups = _groupService.GetAllGroups();
             ViewBag.Content = _contentService.GetbyCode("CATEGORY_RENTAL");
-            ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
-            ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
-            ViewBag.Email = Convert.ToString(Session["FBEmail"]);
-            ViewBag.avatar = Convert.ToString(Session["avatar"]);
 
             var model = _categoryService.GetCategories(search);
             return View(model);
@@ -93,10 +89,6 @@ namespace webNews.Controllers
             ViewBag.HeadingPage = _service.GetBanner(4);
             ViewBag.ListGroups = _groupService.GetAllGroups();
             ViewBag.Search = search;
-            ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
-            ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
-            ViewBag.Email = Convert.ToString(Session["FBEmail"]);
-            ViewBag.avatar = Convert.ToString(Session["avatar"]);
             return View("Index", model);
         }
 
@@ -106,10 +98,6 @@ namespace webNews.Controllers
             ViewBag.Title = "Chi tiết sản phẩm";
             ViewBag.CategoryType = "Sản phẩm thuê";
             ViewBag.ListFiles = _fileService.GetFileAttach(model.Id);
-            ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
-            ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
-            ViewBag.Email = Convert.ToString(Session["FBEmail"]);
-            ViewBag.avatar = Convert.ToString(Session["avatar"]);
             ViewBag.ListRelated = _categoryService.GetListRelated(model.Id);
             return View(model);
         }
@@ -144,10 +132,6 @@ namespace webNews.Controllers
             ViewBag.Group = search.group;
             ViewBag.HeadingPage = _service.GetBanner(4);
             ViewBag.ListGroups = _groupService.GetAllGroups();
-            ViewBag.FBUserId = Convert.ToString(Session["FBUserId"]);
-            ViewBag.FBUserName = Convert.ToString(Session["FBUserName"]);
-            ViewBag.Email = Convert.ToString(Session["FBEmail"]);
-            ViewBag.avatar = Convert.ToString(Session["avatar"]);
             return View(model);
         }
 
